@@ -197,7 +197,7 @@ export default function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="lg:hidden bg-white/98 backdrop-blur-xl border-b border-gray-100 shadow-xl"
+            className="lg:hidden bg-white backdrop-blur-xl border-b border-gray-200 shadow-2xl"
           >
             <div className="container py-5 flex flex-col gap-1">
               {/* By Persona accordion */}
