@@ -1,7 +1,5 @@
 [build]
-  command = "npm ci --no-audit --no-fund && npm run build"
+  command = "yarn install --frozen-lockfile --non-interactive && yarn build"
 
 [build.environment]
   NODE_VERSION = "20.19.0"
-  NPM_VERSION = "10.8.2"
-  NPM_FLAGS = "--no-audit --no-fund"

@@ -3,7 +3,6 @@ node_modules/
 /.pnp
 .pnp.js
 pnpm-lock.yaml
-yarn.lock
 
 # Testing
 /coverage
