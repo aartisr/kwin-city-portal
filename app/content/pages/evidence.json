@@ -1,0 +1,21 @@
+{
+  "id": "evidence-page",
+  "title": "Evidence",
+  "slug": "evidence",
+  "description": "Evidence and verified facts",
+  "blocks": [
+    {
+      "id": "hero-evidence",
+      "type": "hero",
+      "title": "Evidence",
+      "subtitle": "Verified Facts and Sources",
+      "content": "Transparent sourcing and fact verification"
+    }
+  ],
+  "metadata": {
+    "created": "2024-04-01",
+    "updated": "2025-03-25",
+    "author": "Editorial Team",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "id": "sectors-page",
+  "title": "Industry Sectors",
+  "slug": "sectors",
+  "description": "Primary industry sectors and economic drivers",
+  "blocks": [
+    {
+      "id": "hero-sectors",
+      "type": "hero",
+      "title": "Industry Sectors",
+      "subtitle": "Five pillars of economic development",
+      "content": "Specialized industrial clusters designed to attract global investment"
+    },
+    {
+      "id": "sectors-intro",
+      "type": "text",
+      "title": "Economic Diversification",
+      "content": "KWIN City targets five high-growth sectors with significant employment and investment potential. Each sector is supported by dedicated infrastructure, workforce development, and innovation support."
+    },
+    {
+      "id": "sectors-grid",
+      "type": "sectors",
+      "layout": "grid",
+      "metadata": {
+        "columns": 3,
+        "animated": true,
+        "showStats": true
+      }
+    },
+    {
+      "id": "investment-text",
+      "type": "text",
+      "title": "Investment Opportunity",
+      "content": "With a combined target of ₹40,000 crore investment and 100,000+ jobs, KWIN City offers significant opportunities for private sector participation and industrial growth."
+    }
+  ],
+  "metadata": {
+    "created": "2024-02-01",
+    "updated": "2025-03-25",
+    "author": "Editorial Team",
+    "version": "1.0"
+  }
+}

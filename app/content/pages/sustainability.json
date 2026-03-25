@@ -1,0 +1,30 @@
+{
+  "id": "sustainability-page",
+  "title": "Sustainability Initiatives",
+  "slug": "sustainability",
+  "description": "Environmental and social sustainability commitments",
+  "blocks": [
+    {
+      "id": "hero-sustainability",
+      "type": "hero",
+      "title": "Sustainability",
+      "subtitle": "Building for the Future",
+      "content": "KWIN City is committed to net-zero carbon operations and environmental stewardship"
+    },
+    {
+      "id": "sustainability-component",
+      "type": "sustainability",
+      "layout": "grid",
+      "metadata": {
+        "showMetrics": true,
+        "animated": true
+      }
+    }
+  ],
+  "metadata": {
+    "created": "2024-03-01",
+    "updated": "2025-03-25",
+    "author": "Editorial Team",
+    "version": "1.0"
+  }
+}

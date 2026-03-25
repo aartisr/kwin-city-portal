@@ -1,0 +1,72 @@
+{
+  "id": "about-page",
+  "title": "About KWIN City",
+  "slug": "about",
+  "description": "Learn about the KWIN City vision and mission",
+  "blocks": [
+    {
+      "id": "hero-about",
+      "type": "hero",
+      "title": "About KWIN City",
+      "subtitle": "Knowledge, Wellbeing, Innovation",
+      "content": "A vision for sustainable urban development",
+      "image": {
+        "src": "/images/hero-about.jpg",
+        "alt": "KWIN City Overview",
+        "size": "full"
+      }
+    },
+    {
+      "id": "pillars-section",
+      "type": "section",
+      "title": "Our Three Pillars",
+      "subtitle": "The foundation of KWIN City"
+    },
+    {
+      "id": "pillars-component",
+      "type": "pillars",
+      "layout": "three-col",
+      "metadata": {
+        "animated": true
+      }
+    },
+    {
+      "id": "vision-text",
+      "type": "text",
+      "title": "Our Vision",
+      "content": "KWIN City represents a paradigm shift in urban development, combining three interconnected pillars: Knowledge generation through research and education, Wellbeing through sustainable living and healthcare, and Innovation through cutting-edge industrial clusters."
+    },
+    {
+      "id": "mission-items",
+      "type": "grid",
+      "title": "Our Mission",
+      "layout": "three-col",
+      "items": [
+        {
+          "id": "mission-1",
+          "title": "Research & Development",
+          "description": "Foster innovation through world-class R&D institutions",
+          "icon": "🔬"
+        },
+        {
+          "id": "mission-2",
+          "title": "Sustainable Growth",
+          "description": "Develop 465+ acres with net-zero environmental impact",
+          "icon": "🌱"
+        },
+        {
+          "id": "mission-3",
+          "title": "Employment",
+          "description": "Create 100,000+ direct jobs across multiple sectors",
+          "icon": "💼"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "created": "2024-01-15",
+    "updated": "2025-03-25",
+    "author": "Editorial Team",
+    "version": "1.0"
+  }
+}

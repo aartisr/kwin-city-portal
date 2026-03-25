@@ -1,0 +1,36 @@
+{
+  "id": "region-page",
+  "title": "Why North Bengaluru",
+  "slug": "region",
+  "description": "Strategic importance and advantages of North Bengaluru location",
+  "blocks": [
+    {
+      "id": "hero-region",
+      "type": "hero",
+      "title": "Why North Bengaluru",
+      "subtitle": "Strategic Location, Global Connectivity",
+      "content": "Discover why North Bengaluru is emerging as India's next innovation hub"
+    },
+    {
+      "id": "region-map",
+      "type": "map",
+      "layout": "full",
+      "metadata": {
+        "interactive": true,
+        "showConnectivity": true
+      }
+    },
+    {
+      "id": "region-text",
+      "type": "text",
+      "title": "Regional Advantages",
+      "content": "North Bengaluru offers strategic proximity to Kempegowda International Airport, the International Tech Park, and major transportation corridors, making it an ideal location for a knowledge-driven, high-growth township."
+    }
+  ],
+  "metadata": {
+    "created": "2024-02-15",
+    "updated": "2025-03-25",
+    "author": "Editorial Team",
+    "version": "1.0"
+  }
+}
