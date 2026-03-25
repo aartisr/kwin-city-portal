@@ -3,6 +3,14 @@ const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 /** @type {import('next').NextConfig} */
 const baseConfig = {
   reactStrictMode: true,
+  
+  // ============= PERFORMANCE OPTIMIZATIONS =============
+  
+  // Optimize bundle
+  productionBrowserSourceMaps: false, // Disable source maps in prod (smaller bundles)
+  compress: true,
+  
+  // Image optimization - critical for performance
   images: {
     remotePatterns: [
       {
@@ -23,23 +31,97 @@ const baseConfig = {
       },
     ],
     formats: ['image/avif', 'image/webp'],
+    // Responsive images
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    // Cache images for 90 days in production
+    minimumCacheTTL: 60 * 60 * 24 * 90,
   },
+  
+  // Security headers
   headers: async () => {
     return [
       {
         source: '/:path*',
         headers: [
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'Permissions-Policy', value: 'geolocation=(), microphone=(), camera=()' },
         ],
       },
+      // Cache static assets (JS, CSS) for 1 year (they have hash in filename)
+      {
+        source: '/(.*)\\.(js|css|woff|woff2|ttf|eot)$',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+      // Cache images for 30 days
+      {
+        source: '/images/(.*)\\.(jpg|jpeg|png|gif|webp|avif)$',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=2592000, must-revalidate' }],
+      },
+      // No cache for dynamic content
+      {
+        source: '/api/:path*',
+        headers: [{ key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' }],
+      },
     ];
+  },
+  
+  // Redirects for old URLs (if needed)
+  redirects: async () => {
+    return [];
+  },
+  
+  // Rewrites for API routes
+  rewrites: async () => {
+    return {
+      beforeFiles: [],
+      afterFiles: [],
+      fallback: [],
+    };
+  },
+  
+  // ============= WEBPACK OPTIMIZATIONS =============
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            // Separate vendor code
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              priority: 10,
+              reuseExistingChunk: true,
+            },
+            // Framer Motion in its own chunk
+            frameMotion: {
+              test: /[\\/]node_modules[\\/](framer-motion)[\\/]/,
+              name: 'framer-motion',
+              priority: 20,
+              reuseExistingChunk: true,
+            },
+            // Mapbox in its own chunk
+            mapbox: {
+              test: /[\\/]node_modules[\\/](mapbox-gl)[\\/]/,
+              name: 'mapbox',
+              priority: 20,
+              reuseExistingChunk: true,
+            },
+            // Common chunks between pages
+            common: {
+              minChunks: 2,
+              priority: 5,
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      };
+    }
+    return config;
   },
 };
 
@@ -47,4 +129,12 @@ module.exports = (phase) => ({
   ...baseConfig,
   // Keep dev and prod artifacts isolated to avoid cache/runtime manifest corruption.
   distDir: phase === PHASE_DEVELOPMENT_SERVER ? '.next-dev' : '.next',
+  
+  // Development-specific optimizations
+  ...(phase === PHASE_DEVELOPMENT_SERVER && {
+    onDemandEntries: {
+      maxInactiveAge: 25 * 1000,
+      pagesBufferLength: 5,
+    },
+  }),
 });

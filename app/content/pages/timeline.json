@@ -1,0 +1,36 @@
+{
+  "id": "timeline-page",
+  "title": "Development Timeline",
+  "slug": "timeline",
+  "description": "KWIN City development phases and milestones",
+  "blocks": [
+    {
+      "id": "hero-timeline",
+      "type": "hero",
+      "title": "Development Timeline",
+      "subtitle": "5 Phases of Growth (2024-2030)",
+      "content": "Track KWIN City's transformation from concept to operational township"
+    },
+    {
+      "id": "timeline-intro",
+      "type": "text",
+      "title": "Project Roadmap",
+      "content": "KWIN City follows a phased development approach, with each phase building upon the previous to create a complete, integrated township ecosystem."
+    },
+    {
+      "id": "timeline-viz",
+      "type": "timeline",
+      "layout": "single",
+      "metadata": {
+        "animated": true,
+        "interactive": true
+      }
+    }
+  ],
+  "metadata": {
+    "created": "2024-01-15",
+    "updated": "2025-03-25",
+    "author": "Editorial Team",
+    "version": "1.0"
+  }
+}

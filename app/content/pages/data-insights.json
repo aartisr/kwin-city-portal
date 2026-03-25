@@ -1,0 +1,21 @@
+{
+  "id": "data-insights-page",
+  "title": "Data Insights",
+  "slug": "data-insights",
+  "description": "Data visualizations and key statistics",
+  "blocks": [
+    {
+      "id": "hero-data",
+      "type": "hero",
+      "title": "Data Insights",
+      "subtitle": "Facts and Figures",
+      "content": "Comprehensive data on KWIN City's scope, impact, and potential"
+    }
+  ],
+  "metadata": {
+    "created": "2024-03-15",
+    "updated": "2025-03-25",
+    "author": "Editorial Team",
+    "version": "1.0"
+  }
+}

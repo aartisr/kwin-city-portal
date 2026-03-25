@@ -1,0 +1,21 @@
+{
+  "id": "sources-page",
+  "title": "Sources",
+  "slug": "sources",
+  "description": "Bibliography and source references",
+  "blocks": [
+    {
+      "id": "hero-sources",
+      "type": "hero",
+      "title": "Sources",
+      "subtitle": "Bibliography and References",
+      "content": "Complete list of sources and references"
+    }
+  ],
+  "metadata": {
+    "created": "2024-04-15",
+    "updated": "2025-03-25",
+    "author": "Editorial Team",
+    "version": "1.0"
+  }
+}
