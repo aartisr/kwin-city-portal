@@ -91,3 +91,13 @@ export interface ClaimMapping {
   sourceIds: string[];
   status: 'verified' | 'pending-verification' | 'contextual';
 }
+
+export interface GeographicLocation {
+  id: string;
+  name: string;
+  coordinates: [number, number]; // [longitude, latitude]
+  type: 'kwin-site' | 'airport' | 'landmark' | 'connectivity';
+  description: string;
+  distance?: string; // Distance from KWIN City
+  sourceId?: string; // Reference to evidence source
+}
