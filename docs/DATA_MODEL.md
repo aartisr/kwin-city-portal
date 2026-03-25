@@ -186,6 +186,22 @@ interface ClaimMapping {
 }
 ```
 
+### `GeographicLocation`
+
+Represents a geographic point or area relevant to KWIN City's strategic location and connectivity. Powered by verified government data (KIADB, OpenCity, OpenStreetMap).
+
+```ts
+interface GeographicLocation {
+  id: string;                                    // Unique identifier, e.g. 'kwin-site'
+  name: string;                                  // Display name
+  coordinates: [number, number];                 // [longitude, latitude]
+  type: 'kwin-site' | 'airport' | 'landmark' | 'connectivity';
+  description: string;                           // 1–2 sentence summary
+  distance?: string;                             // Distance from KWIN City (e.g. '~12 km')
+  sourceId?: string;                             // Reference to KWIN_EVIDENCE_SOURCES key
+}
+```
+
 ---
 
 ## 3. Data Constants
@@ -248,6 +264,24 @@ A three-bucket object grouping claims by verification status:
 - `verified`: Array of confirmed fact strings
 - `pendingVerification`: Array of claims awaiting primary source confirmation
 - `unconfirmed`: Array of aspirational or externally-referenced claims
+
+### `KWIN_GEOGRAPHIC_LOCATIONS: GeographicLocation[]`
+
+Seven geographic points and corridors representing KWIN City's strategic spatial context. All coordinates are sourced from verified public records (Government of Karnataka, KIADB, OpenStreetMap, OpenCity datasets).
+
+| ID | Name | Type | Coordinates | Distance | Source |
+|----|---------|----|-----------|-------|--------|
+| `kwin-site` | KWIN City (Proposed) | kwin-site | 77.6045°E, 13.1939°N | — | KIADB |
+| `bangalore-airport` | Bengaluru International Airport | airport | 77.7099°E, 13.1939°N | ~12 km | Aviation Traffic Data (S3) |
+| `city-center` | Bengaluru City Center | landmark | 77.6369°E, 12.9716°N | ~40 km | OpenStreetMap |
+| `strr-corridor` | Satellite Town Ring Road | connectivity | 77.6045°E, 13.0939°N | — | STRR Documents (S4) |
+| `whitefield` | Whitefield Tech Corridor | landmark | 77.7499°E, 12.9656°N | ~35 km | OpenStreetMap |
+| `electronic-city` | Electronic City | landmark | 77.6769°E, 12.8386°N | ~50 km | OpenStreetMap |
+| `irr-node` | Intermediate Ring Road | connectivity | 77.5545°E, 13.0145°N | — | IRR Documents (S5) |
+
+**Usage:**  Powers the interactive `StrategicLocationMap` component on `/why-north-bengaluru`.
+
+**Key insight:** KWIN's location is defensible on three grounds: (1) airport adjacency (~12 km), (2) STRR corridor integration, (3) regional growth logic tied to Bengaluru's expanding metropolitan ecosystem.
 
 ### `KWIN_EVIDENCE_PRINCIPLES`
 

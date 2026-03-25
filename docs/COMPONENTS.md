@@ -29,6 +29,7 @@ Every UI component in the KWIN City Portal is documented here: its purpose, prop
   - [Sectors](#sectors)
   - [Sustainability](#sustainability)
   - [WhyNorthBengaluru](#whynorthbengaluru)
+  - [StrategicLocationMap](#strategiclocationmap)
   - [DataInsightsHub](#datainsightshub)
   - [EvidenceVault](#evidencevault)
 - [Evidence & Source Components](#evidence--source-components)
@@ -323,6 +324,40 @@ interface PersonaPageProps {
 **File:** `app/components/WhyNorthBengaluru.tsx`  
 **Renders on:** Server  
 **Purpose:** Four evidence-article sections explaining the regional case for North Bengaluru (airport proximity, corridor access, economic context, historical precedent). An amber warning box reminds readers of the "important boundary" between regional context and project-specific proof.
+
+---
+
+### StrategicLocationMap
+
+**File:** `app/components/StrategicLocationMap.tsx`  
+**Renders on:** Client  
+**Purpose:** Interactive geographic map visualization showing KWIN City's strategic position relative to key infrastructure and landmarks. This is the most important spatial visualization for all users, providing geographic context for why North Bengaluru is positioned as the optimal location for the township.
+
+**Features:**
+- **Interactive Mapbox GL JS map** centered on Doddaballapura, North Bengaluru (13.1939°N, 77.6045°E)
+- **Location markers** for:
+  - KWIN City (465-acre proposed site)
+  - Bengaluru International Airport (~12 km adjacent)
+  - City center landmark (~40 km south)
+  - Satellite Town Ring Road (STRR) connectivity corridor
+  - Whitefield Tech Corridor (~35 km south)
+  - Electronic City (~50 km south)
+  - Intermediate Ring Road (IRR) node
+- **Site boundary visualization** showing approximate 465-acre KWIN footprint
+- **Authenticated data sources** with clickable references to OpenCity datasets
+- **Graceful fallback** if Mapbox token is not configured (static information card)
+
+**Data sources:** 
+- `KWIN_GEOGRAPHIC_LOCATIONS` from `app/data/constants.ts`
+- `KWIN_EVIDENCE_SOURCES` (for source attribution)
+- OpenStreetMap, Government of Karnataka (KIADB), OpenCity datasets
+
+**Integration note:** Used on `/why-north-bengaluru` page to provide visual clarity on regional strategic positioning.
+
+**Environment requirement:**
+```
+NEXT_PUBLIC_MAPBOX_TOKEN=<your_mapbox_public_token>
+```
 
 ---
 
