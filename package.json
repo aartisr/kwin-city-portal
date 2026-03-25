@@ -5,6 +5,7 @@
   "author": "Aarti Sri Ravikumar (aartisr)",
   "license": "Private",
   "private": true,
+  "packageManager": "yarn@1.22.22",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
