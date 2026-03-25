@@ -1,0 +1,279 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === KWIN CITY DESIGN SYSTEM === */
+:root {
+  /* Brand palette */
+  --kwin-deep:        #040714;
+  --kwin-navy:        #0D1333;
+  --kwin-mid:         #13204A;
+  --kwin-gold:        #E8A020;
+  --kwin-gold-light:  #F5C050;
+  --kwin-teal:        #06B6D4;
+  --kwin-emerald:     #10B981;
+
+  /* Semantic */
+  --color-primary:        #0F172A;
+  --color-primary-light:  #64748B;
+  --color-accent:         #E8A020;
+  --color-accent-blue:    #3B82F6;
+  --color-success:        #10B981;
+  --color-background:     #ffffff;
+  --color-surface:        #F8FAFC;
+  --color-border:         #E2E8F0;
+
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-card: 0 1px 4px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.04);
+  --shadow-card-hover: 0 4px 16px rgba(0,0,0,0.08), 0 20px 48px rgba(0,0,0,0.06);
+  --shadow-gold: 0 8px 32px rgba(232,160,32,0.28);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--color-primary);
+  background: var(--color-background);
+}
+
+/* === TYPOGRAPHY === */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+h1 { font-size: clamp(2.25rem, 5vw, 4rem); }
+h2 { font-size: clamp(1.75rem, 4vw, 2.75rem); }
+h3 { font-size: clamp(1.25rem, 3vw, 2rem); }
+
+p {
+  line-height: 1.8;
+  color: var(--color-primary);
+}
+
+a {
+  color: var(--color-accent-blue);
+  text-decoration: none;
+  transition: var(--transition-smooth);
+}
+
+a:hover { color: #1D4ED8; }
+
+::selection {
+  background: rgba(232,160,32,0.18);
+  color: var(--kwin-deep);
+}
+
+/* === LAYOUT === */
+.container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+@media (min-width: 640px)  { .container { padding: 0 2rem; } }
+@media (min-width: 1024px) { .container { padding: 0 2.5rem; } }
+
+.section       { padding: 5rem 0; }
+.section-sm    { padding: 3.5rem 0; }
+@media (max-width: 767px) {
+  .section     { padding: 3.5rem 0; }
+  .section-sm  { padding: 2.5rem 0; }
+}
+
+/* === BUTTON SYSTEM === */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  text-decoration: none;
+  border: 2px solid transparent;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #F5A623, #E8A020);
+  color: var(--kwin-deep);
+  box-shadow: var(--shadow-gold);
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #FACC15, #F5A623);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(232,160,32,0.4);
+  color: var(--kwin-deep);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #2563EB;
+  border-color: #BFDBFE;
+}
+.btn-secondary:hover {
+  background: #EFF6FF;
+  border-color: #93C5FD;
+}
+
+.btn-outline-light {
+  background: rgba(255,255,255,0.06);
+  color: white;
+  border-color: rgba(255,255,255,0.2);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.btn-outline-light:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.35);
+  color: white;
+}
+
+/* === CARD SYSTEM === */
+.card {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: 1.25rem;
+  padding: 1.75rem;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-smooth);
+}
+.card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-3px);
+}
+
+.card-dark {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 1.25rem;
+  padding: 1.75rem;
+  transition: var(--transition-smooth);
+}
+.card-dark:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.12);
+}
+
+/* === GLASS === */
+.glass {
+  background: rgba(255,255,255,0.8);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 1.25rem;
+}
+
+.glass-dark {
+  background: rgba(4,7,20,0.65);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 1.25rem;
+}
+
+/* === GRADIENT UTILITIES === */
+.gradient-text-gold {
+  background: linear-gradient(135deg, #F5A623, #FACC15);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-blue {
+  background: linear-gradient(135deg, #3B82F6, #06B6D4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* === EYEBROW === */
+.eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* === DIVIDER === */
+.section-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-border), transparent);
+}
+
+/* === ANIMATIONS === */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.55; }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-16px) rotate(1deg); }
+  66%       { transform: translateY(-8px) rotate(-0.5deg); }
+}
+
+.animate-pulse  { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+.animate-floatY { animation: floatY 9s ease-in-out infinite; }
+
+/* === HOVER LIFT === */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+}
+
+/* === ACCESSIBILITY === */
+/* === MOBILE BASE === */
+html {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: pan-y;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Minimum 44px touch target for interactive elements */
+.btn {
+  min-height: 44px;
+}
+
+/* Smaller heading minimums on very small screens */
+@media (max-width: 360px) {
+  h1 { font-size: 1.875rem; }
+  h2 { font-size: 1.5rem; }
+}
+
+/* === ACCESSIBILITY === */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
