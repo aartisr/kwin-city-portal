@@ -43,7 +43,7 @@ export default function Hero() {
       />
 
       {/* Hard header clearance — shrink-0 means flex-centering below can NEVER push this above 0 */}
-      <div className="h-[70px] shrink-0" aria-hidden="true" />
+      <div className="h-[96px] sm:h-[84px] md:h-[70px] shrink-0" aria-hidden="true" />
 
       {/* Content area — flex-1 centers within remaining space; overflows downward on short viewports */}
       <div className="flex-1 flex items-center">
