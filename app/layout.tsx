@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import PwaRegistration from '@/components/PwaRegistration';
@@ -54,6 +55,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: SITE_URL,
   },
+  manifest: '/manifest.webmanifest',
+  icons: {
+    icon: [{ url: '/icon', sizes: '512x512', type: 'image/png' }],
+    apple: [{ url: '/apple-icon', sizes: '180x180', type: 'image/png' }],
+  },
   openGraph: {
     title: 'KWIN City | Knowledge · Wellbeing · Innovation | North Bengaluru',
     description:
@@ -107,6 +113,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="KWIN City" />
         <link rel="manifest" href="/manifest.webmanifest" />
+        <link rel="apple-touch-icon" href="/apple-icon" />
         {/* Preconnect to external origins for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

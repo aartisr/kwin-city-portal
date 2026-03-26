@@ -17,10 +17,15 @@
             android:exported="true"
             android:theme="@style/Theme.KWIN.Splash">
 
+            <!-- Digital Asset Links statement for verified origin association -->
+            <meta-data
+                android:name="asset_statements"
+                android:resource="@string/asset_statements" />
+
             <!-- The URL to load on launch -->
             <meta-data
                 android:name="android.support.customtabs.trusted.DEFAULT_URL"
-                android:value="https://kwin-city.netlify.app/?source=twa" />
+                android:value="https://kwin-city.com/?source=twa" />
 
             <!-- Splash screen background colour -->
             <meta-data
