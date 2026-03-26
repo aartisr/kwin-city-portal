@@ -2,6 +2,15 @@ plugins {
     id 'com.android.application'
 }
 
+def hasReleaseSigning =
+        project.hasProperty('KWIN_RELEASE_STORE_FILE') &&
+        project.hasProperty('KWIN_RELEASE_STORE_PASSWORD') &&
+        project.hasProperty('KWIN_RELEASE_KEY_ALIAS') &&
+        project.hasProperty('KWIN_RELEASE_KEY_PASSWORD')
+
+def ciVersionName = (project.findProperty('KWIN_VERSION_NAME') ?: '1.0.0').toString()
+def ciVersionCode = (project.findProperty('KWIN_VERSION_CODE') ?: '1').toString().toInteger()
+
 android {
     namespace 'com.kwincity.portal'
     compileSdk 34
@@ -10,17 +19,28 @@ android {
         applicationId 'com.kwincity.portal'
         minSdk 21
         targetSdk 34
-        versionCode 1
-        versionName '1.0.0'
+        versionCode ciVersionCode
+        versionName ciVersionName
 
         manifestPlaceholders = [hostName: 'kwin-city.com']
+    }
+
+    signingConfigs {
+        release {
+            if (hasReleaseSigning) {
+                storeFile file(project.property('KWIN_RELEASE_STORE_FILE'))
+                storePassword project.property('KWIN_RELEASE_STORE_PASSWORD')
+                keyAlias project.property('KWIN_RELEASE_KEY_ALIAS')
+                keyPassword project.property('KWIN_RELEASE_KEY_PASSWORD')
+            }
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.debug // use debug key for now; swap for keystore in CI
+            signingConfig hasReleaseSigning ? signingConfigs.release : signingConfigs.debug
         }
         debug {
             applicationIdSuffix '.debug'
