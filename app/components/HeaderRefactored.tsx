@@ -74,7 +74,13 @@ const HIGH_LEVEL_MENUS: NavGroup[] = [
  * Refactored Header Component
  * Mirrors the grouped, five-menu information architecture used by Header.tsx.
  */
-export default function Header() {
+export default function Header({
+  trustBannerVisible,
+  onToggleTrustBanner,
+}: {
+  trustBannerVisible: boolean;
+  onToggleTrustBanner: () => void;
+}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileOpenGroup, setMobileOpenGroup] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
@@ -116,9 +122,18 @@ export default function Header() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
           ? 'bg-white/95 backdrop-blur-2xl shadow-sm border-b border-gray-100'
-          : 'bg-white/88 backdrop-blur-xl border-b border-slate-200/70 shadow-[0_6px_24px_rgba(2,6,23,0.06)]'
+          : trustBannerVisible
+          ? 'bg-white/88 backdrop-blur-xl border-b border-slate-200/70 shadow-[0_6px_24px_rgba(2,6,23,0.06)]'
+          : 'bg-white backdrop-blur-2xl shadow-[0_4px_24px_rgba(2,6,23,0.07)]'
       }`}
     >
+      {/* Gradient accent line — visible only when trust bar is hidden and not scrolled */}
+      <div
+        aria-hidden="true"
+        className={`absolute bottom-0 left-0 right-0 h-[2px] transition-opacity duration-500 bg-gradient-to-r from-amber-300 via-cyan-300 to-amber-200 ${
+          !trustBannerVisible && !scrolled ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
       <nav className="container flex items-center justify-between h-[70px]">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
@@ -205,7 +220,22 @@ export default function Header() {
         </div>
 
         {/* CTA */}
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex items-center gap-2">
+          {/* Trust Protocol toggle */}
+          <button
+            onClick={onToggleTrustBanner}
+            title={trustBannerVisible ? 'Hide Trust Protocol bar' : 'Show Trust Protocol bar'}
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 border ${
+              trustBannerVisible
+                ? 'bg-cyan-50 text-cyan-700 border-cyan-200 hover:bg-cyan-100'
+                : 'bg-transparent text-slate-400 border-slate-200 hover:text-slate-600 hover:border-slate-300'
+            }`}
+          >
+            <svg className="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill={trustBannerVisible ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+            </svg>
+            <span className="hidden xl:inline">Trust</span>
+          </button>
           <Link
             href="/about"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-[#040714] bg-[linear-gradient(135deg,#F5A623,#E8A020)]"
@@ -227,27 +257,44 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* Mobile toggle */}
-        <button
-          aria-label="Toggle menu"
-          className="lg:hidden flex flex-col gap-[5px] focus:outline-none p-1"
-          onClick={() => {
-            setMobileMenuOpen(!mobileMenuOpen);
-            if (mobileMenuOpen) {
-              setMobileOpenGroup(null);
-            }
-          }}
-        >
-          <span
-            className={`w-6 h-0.5 transition-all duration-300 bg-gray-900 ${mobileMenuOpen ? 'rotate-45 translate-y-[6.5px]' : ''}`}
-          />
-          <span
-            className={`w-6 h-0.5 transition-all duration-300 bg-gray-900 ${mobileMenuOpen ? 'opacity-0' : ''}`}
-          />
-          <span
-            className={`w-6 h-0.5 transition-all duration-300 bg-gray-900 ${mobileMenuOpen ? '-rotate-45 -translate-y-[6.5px]' : ''}`}
-          />
-        </button>
+        {/* Mobile controls */}
+        <div className="lg:hidden flex items-center gap-2">
+          {/* Trust Protocol toggle — mobile */}
+          <button
+            onClick={onToggleTrustBanner}
+            title={trustBannerVisible ? 'Hide Trust Protocol bar' : 'Show Trust Protocol bar'}
+            className={`flex items-center justify-center w-8 h-8 rounded-lg border transition-all duration-200 ${
+              trustBannerVisible
+                ? 'bg-cyan-50 text-cyan-700 border-cyan-200'
+                : 'bg-transparent text-slate-400 border-slate-200'
+            }`}
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill={trustBannerVisible ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+            </svg>
+          </button>
+          {/* Hamburger */}
+          <button
+            aria-label="Toggle menu"
+            className="flex flex-col gap-[5px] focus:outline-none p-1"
+            onClick={() => {
+              setMobileMenuOpen(!mobileMenuOpen);
+              if (mobileMenuOpen) {
+                setMobileOpenGroup(null);
+              }
+            }}
+          >
+            <span
+              className={`w-6 h-0.5 transition-all duration-300 bg-gray-900 ${mobileMenuOpen ? 'rotate-45 translate-y-[6.5px]' : ''}`}
+            />
+            <span
+              className={`w-6 h-0.5 transition-all duration-300 bg-gray-900 ${mobileMenuOpen ? 'opacity-0' : ''}`}
+            />
+            <span
+              className={`w-6 h-0.5 transition-all duration-300 bg-gray-900 ${mobileMenuOpen ? '-rotate-45 -translate-y-[6.5px]' : ''}`}
+            />
+          </button>
+        </div>
       </nav>
 
       {/* Mobile menu */}
