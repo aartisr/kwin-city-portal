@@ -78,6 +78,9 @@ export default function Footer() {
             <ul className="space-y-3 text-[15px] md:text-sm leading-7">
               <li><Link href="/sustainability"  className="text-[#94A3B8] hover:text-white transition-colors">Sustainability</Link></li>
               <li><Link href="/data-insights"   className="text-[#94A3B8] hover:text-white transition-colors">Data Insights Lab</Link></li>
+              <li><Link href="/trust" className="text-[#94A3B8] hover:text-white transition-colors">Trust Center</Link></li>
+              <li><Link href="/news-intelligence" className="text-[#94A3B8] hover:text-white transition-colors">News Intelligence</Link></li>
+              <li><Link href="/news-reader" className="text-[#94A3B8] hover:text-white transition-colors">OPML News Reader</Link></li>
               <li><Link href="/evidence"        className="text-[#94A3B8] hover:text-white transition-colors">Evidence Vault</Link></li>
               <li><Link href="/sources"         className="text-[#94A3B8] hover:text-white transition-colors">Sources & Claims</Link></li>
               <li><Link href="/contact"         className="text-[#94A3B8] hover:text-white transition-colors">Contact Us</Link></li>

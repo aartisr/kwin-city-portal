@@ -2,6 +2,24 @@ import Link from 'next/link';
 
 const routes = [
   {
+    icon: '🛡️',
+    title: 'Trust Center',
+    href: '/trust',
+    summary:
+      'The public protocol for authenticity: verification tiers, originality boundaries, attribution standards, and open auditability.',
+    iconBgClass: 'bg-[#14B8A6]/15',
+    linkClass: 'text-[#14B8A6]',
+  },
+  {
+    icon: '🗞️',
+    title: 'News Intelligence',
+    href: '/news-intelligence',
+    summary:
+      'A credibility-first media observatory for KWIN with explicit attribution, verification tiers, and transparent boundaries between signal and proof.',
+    iconBgClass: 'bg-[#0EA5E9]/15',
+    linkClass: 'text-[#0EA5E9]',
+  },
+  {
     icon: '🏙️',
     title: 'About KWIN',
     href: '/about',
@@ -58,7 +76,7 @@ export default function HomeRouteGrid() {
         <div className="max-w-3xl mb-12">
           <div className="eyebrow text-[#E8A020] mb-3">Explore the Portal</div>
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-5 leading-tight">
-            Six dimensions of{' '}
+            Eight dimensions of{' '}
             <span className="bg-gradient-to-r from-[#E8A020] to-[#F5C050] bg-clip-text text-transparent">
               the KWIN story.
             </span>

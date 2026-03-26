@@ -312,6 +312,34 @@ The `docs/` directory contains in-depth guides for every major system:
 
 ---
 
+## KWIN News Feed Import
+
+Use the prebuilt OPML file to monitor KWIN City and related Bengaluru updates in feed readers.
+
+- OPML file: [docs/kwin-city-news-feeds.opml](docs/kwin-city-news-feeds.opml)
+
+### Feedly
+
+1. Open Feedly and go to **Organize Sources**.
+2. Select **Import OPML**.
+3. Upload `docs/kwin-city-news-feeds.opml`.
+4. Review and move feeds into your preferred collections.
+
+### Inoreader
+
+1. Open Inoreader and go to **Preferences → Import/Export**.
+2. Select **Import OPML**.
+3. Upload `docs/kwin-city-news-feeds.opml`.
+4. Adjust folder names and notification rules.
+
+### Suggested Alert Rules
+
+- High priority: `KWIN City`, `KHIR City`, `MB Patil`
+- Medium priority: `Doddaballapura`, `KIADB`, `foreign universities Karnataka`
+- Recommended cadence: immediate alerts for high priority, digest mode for medium priority
+
+---
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the full contribution guide.
