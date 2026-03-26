@@ -2,8 +2,23 @@ import type { Metadata } from 'next';
 import PersonaPage from '@/components/PersonaPage';
 
 export const metadata: Metadata = {
-  title: 'For Journalists | KWIN City',
-  description: 'Journalist-ready page with verified framing, quote-safe claims, source pathways, and responsible reporting context for KWIN City.',
+  title: 'For Journalists | KWIN City — Verified Story Angles · Source Pathways',
+  description:
+    'Journalist-ready KWIN City briefing: verified facts ready for publication, quote-safe claims, primary source pathways, and responsible reporting context for North Bengaluru’s proposed knowledge township.',
+  keywords: [
+    'KWIN City news',
+    'North Bengaluru development news',
+    'KIADB press',
+    'Karnataka smart city journalism',
+    'Bengaluru township story',
+  ],
+  alternates: { canonical: 'https://kwin-city.com/for/journalist' },
+  openGraph: {
+    title: 'KWIN City for Journalists — Verified Story Angles & Primary Sources',
+    description: 'File faster with stronger sourcing. Verified claims, quote-ready frames, and primary source pathways.',
+    url: 'https://kwin-city.com/for/journalist',
+    type: 'website',
+  },
 };
 
 export default function JournalistPage() {

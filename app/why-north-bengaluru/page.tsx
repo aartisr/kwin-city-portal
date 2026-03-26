@@ -3,15 +3,64 @@ import SiteFrame from '@/components/SiteFrame';
 import PageIntro from '@/components/PageIntro';
 import WhyNorthBengaluru from '@/components/WhyNorthBengaluru';
 import StrategicLocationMap from '@/components/StrategicLocationMap';
+import JsonLd from '@/components/JsonLd';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://kwin-city.com' },
+    { '@type': 'ListItem', position: 2, name: 'Why North Bengaluru', item: 'https://kwin-city.com/why-north-bengaluru' },
+  ],
+};
+
+const placeSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Place',
+  name: 'North Bengaluru, Karnataka',
+  description:
+    'North Bengaluru is India\'s fastest-growing urban corridor, adjacent to Kempegowda International Airport and integrated into the STRR infrastructure belt.',
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 13.2905,
+    longitude: 77.5419,
+  },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Doddaballapura',
+    addressRegion: 'Karnataka',
+    addressCountry: 'IN',
+  },
+};
 
 export const metadata: Metadata = {
-  title: 'Why North Bengaluru | KWIN City Research Portal',
-  description: 'Regional context for why North Bengaluru is a plausible setting for KWIN City.',
+  title: 'Why North Bengaluru | Airport City · STRR Corridor · Fastest-Growing Region',
+  description:
+    'North Bengaluru is India\'s most compelling urban canvas: adjacent to Kempegowda International Airport, integrated into the STRR corridor, and at the heart of Karnataka\'s fastest-growing northern belt. Explore the evidence.',
+  keywords: [
+    'North Bengaluru development',
+    'Doddaballapura investment',
+    'KIAL airport city',
+    'Bengaluru aerospace corridor',
+    'STRR corridor real estate',
+    'Karnataka economic growth',
+    'Bengaluru satellite city',
+    'KWIN City location',
+  ],
+  alternates: { canonical: 'https://kwin-city.com/why-north-bengaluru' },
+  openGraph: {
+    title: 'Why North Bengaluru — Airport City, STRR Corridor, India\'s Fastest-Growing Region',
+    description:
+      'The strategic case for North Bengaluru as India\'s next knowledge-economy hub — backed by aviation data, infrastructure maps, and Karnataka economic evidence.',
+    url: 'https://kwin-city.com/why-north-bengaluru',
+    type: 'website',
+  },
 };
 
 export default function WhyNorthBengaluruPage() {
   return (
     <SiteFrame>
+      <JsonLd data={[breadcrumb, placeSchema]} />
       <main>
         <PageIntro
           eyebrow="The Region"

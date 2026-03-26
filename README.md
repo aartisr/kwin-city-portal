@@ -7,7 +7,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.4-38bdf8?logo=tailwindcss)](https://tailwindcss.com)
 [![License: Private](https://img.shields.io/badge/License-Private-red)](LICENSE)
-[![Canonical](https://img.shields.io/badge/Site-kwin.city-6366f1)](https://kwin.city)
+[![Canonical](https://img.shields.io/badge/Site-kwin-city.com-6366f1)](https://kwin-city.com)
 
 ---
 
@@ -311,7 +311,7 @@ The short version: every new claim needs a source badge, every new source needs 
 ## License
 
 Private. All content is the intellectual property of BAJA Associates / Aarti S Ravikumar.  
-Multiple claims on this site are pending primary source verification — see the [Claim Ledger](https://kwin.city/sources) for current status.
+Multiple claims on this site are pending primary source verification — see the [Claim Ledger](https://kwin-city.com/sources) for current status.
 
 ---
 

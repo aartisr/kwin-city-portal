@@ -3,15 +3,41 @@ import SiteFrame from '@/components/SiteFrame';
 import PageIntro from '@/components/PageIntro';
 import Pillars from '@/components/Pillars';
 import SourceReferences from '@/components/SourceReferences';
+import JsonLd from '@/components/JsonLd';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://kwin-city.com' },
+    { '@type': 'ListItem', position: 2, name: 'About', item: 'https://kwin-city.com/about' },
+  ],
+};
 
 export const metadata: Metadata = {
-  title: 'About KWIN | KWIN City Research Portal',
-  description: 'Overview of KWIN City and how the project is currently framed on this research portal.',
+  title: 'About KWIN City | Knowledge · Wellbeing · Innovation Township',
+  description:
+    'Learn about KWIN City — a proposed 465-acre knowledge-economy township in Doddaballapura, North Bengaluru. Built on three pillars: world-class research, genuine wellbeing infrastructure, and breakthrough industrial clusters.',
+  keywords: [
+    'about KWIN City',
+    'KWIN City overview',
+    'knowledge economy township India',
+    'KIADB Doddaballapura',
+    'North Bengaluru urban development',
+  ],
+  alternates: { canonical: 'https://kwin-city.com/about' },
+  openGraph: {
+    title: 'About KWIN City — Knowledge, Wellbeing, Innovation Township',
+    description: 'Three pillars. One ambitious city. Learn what KWIN City proposes and what the evidence says.',
+    url: 'https://kwin-city.com/about',
+    type: 'website',
+  },
 };
 
 export default function AboutPage() {
   return (
     <SiteFrame>
+      <JsonLd data={breadcrumb} />
       <main>
         <PageIntro
           eyebrow="About KWIN City"

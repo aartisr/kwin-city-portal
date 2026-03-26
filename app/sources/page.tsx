@@ -6,8 +6,24 @@ import {
 } from '@/data/constants';
 
 export const metadata: Metadata = {
-  title: 'Sources | KWIN City Research Portal',
-  description: 'Source registry and claim-to-source mapping for KWIN City website content.',
+  title: 'Sources & Claim Ledger | Primary Institutional Records · KIADB · Karnataka',
+  description:
+    'Full source registry and claim-to-source mapping for KWIN City. Every fact on this portal links to its primary institutional document — KIADB records, Karnataka state data, and verified open data.',
+  keywords: [
+    'KWIN City sources',
+    'KIADB documents',
+    'Karnataka development records',
+    'urban research sources India',
+    'claim verification portal',
+  ],
+  alternates: { canonical: 'https://kwin-city.com/sources' },
+  openGraph: {
+    title: 'KWIN City Sources — Complete Claim Ledger & Primary Institutional Records',
+    description:
+      'Every claim on the KWIN City portal links to its primary source. Full ledger with KIADB, Karnataka open data, and verified institutional records.',
+    url: 'https://kwin-city.com/sources',
+    type: 'website',
+  },
 };
 
 const statusStyles = {

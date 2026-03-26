@@ -2,8 +2,23 @@ import type { Metadata } from 'next';
 import PersonaPage from '@/components/PersonaPage';
 
 export const metadata: Metadata = {
-  title: 'For Researchers | KWIN City',
-  description: 'Researcher-focused view of KWIN City data layers, methods, evidence quality, and reproducible inquiry pathways.',
+  title: 'For Researchers | KWIN City — Reproducible Evidence · Open Data · Methodology',
+  description:
+    'Researcher-grade portal for KWIN City: traceable data layers, Karnataka government open data, evidence quality tiers, claim-to-source mapping, and reproducible inquiry pathways.',
+  keywords: [
+    'KWIN City research',
+    'urban research India',
+    'Karnataka open data research',
+    'evidence-based city portal',
+    'smart city research methodology',
+  ],
+  alternates: { canonical: 'https://kwin-city.com/for/researcher' },
+  openGraph: {
+    title: 'KWIN City for Researchers — From Narrative to Reproducible Evidence',
+    description: 'Data layers, claim ledger, and methodology for academic and policy researchers.',
+    url: 'https://kwin-city.com/for/researcher',
+    type: 'website',
+  },
 };
 
 export default function ResearcherPage() {

@@ -4,9 +4,26 @@ import DataInsightsHub from '@/components/DataInsightsHub';
 import { OPENCITY_DATASETS } from '@/components/DataInsightsHub';
 
 export const metadata: Metadata = {
-  title: 'Data Insights | KWIN City',
+  title: 'Data Insights Lab | Live Charts · Regional Analytics · Open Data',
   description:
-    'Live charts and illustrations generated on demand from OpenCity and KWIN portal data. Connectivity, growth trajectory, groundwater resilience, lake governance, and sector projections.',
+    'Live charts generated from verified Karnataka government open data: airport connectivity growth, STRR corridor development, groundwater resilience, lake governance, and KWIN sector projections.',
+  keywords: [
+    'Bengaluru data insights',
+    'Karnataka open data charts',
+    'North Bengaluru analytics',
+    'KWIN data lab',
+    'airport growth data Bengaluru',
+    'groundwater Doddaballapura',
+    'urban data India',
+  ],
+  alternates: { canonical: 'https://kwin-city.com/data-insights' },
+  openGraph: {
+    title: 'KWIN City Data Insights Lab — Live Regional Analytics from Government Open Data',
+    description:
+      'Interactive charts powered by Karnataka open data: airport growth, corridors, groundwater, and sector projections.',
+    url: 'https://kwin-city.com/data-insights',
+    type: 'website',
+  },
 };
 
 export default function DataInsightsPage() {

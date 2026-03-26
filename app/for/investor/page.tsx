@@ -2,8 +2,26 @@ import type { Metadata } from 'next';
 import PersonaPage from '@/components/PersonaPage';
 
 export const metadata: Metadata = {
-  title: 'For Investors | KWIN City',
-  description: 'Investment-focused briefing on KWIN City sectors, opportunity windows, and risk-aware due diligence context.',
+  title: 'For Investors | KWIN City — ₹40,000 Cr Opportunity · 5 Sector Clusters',
+  description:
+    'Investment-focused briefing on KWIN City: ₹40,000 crore investment target, five sector clusters (semiconductors, aerospace, health-tech, ICT, renewables), risk framework, and due diligence checklist. North Bengaluru.',
+  keywords: [
+    'invest in North Bengaluru',
+    'KWIN City investment opportunity',
+    'Karnataka industrial investment',
+    'semiconductor investment India',
+    'aerospace investment Karnataka',
+    'KIADB investment',
+    'Bengaluru real estate investment',
+  ],
+  alternates: { canonical: 'https://kwin-city.com/for/investor' },
+  openGraph: {
+    title: 'KWIN City for Investors — ₹40,000 Cr Opportunity in North Bengaluru',
+    description:
+      'Evidence-first investment briefing: five sector clusters, risk framework, and due diligence checklist for KWIN City.',
+    url: 'https://kwin-city.com/for/investor',
+    type: 'website',
+  },
 };
 
 export default function InvestorPage() {
