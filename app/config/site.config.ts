@@ -25,6 +25,8 @@ export const MAIN_NAVIGATION = [
   { label: 'Sectors', href: '/sectors', icon: '🏭' },
   { label: 'Sustainability', href: '/sustainability', icon: '🌱' },
   { label: 'Data Insights', href: '/data-insights', icon: '📊' },
+  { label: 'Trust', href: '/trust', icon: '🛡️' },
+  { label: 'News Intel', href: '/news-intelligence', icon: '🗞️' },
   { label: 'Evidence', href: '/evidence', icon: '✓' },
   { label: 'Sources', href: '/sources', icon: '📚' },
 ] as const;

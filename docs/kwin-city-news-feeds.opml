@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+  <head>
+    <title>KWIN City Bengaluru News Feeds</title>
+    <dateCreated>Thu, 26 Mar 2026 14:10:00 GMT</dateCreated>
+    <ownerName>KWIN City Portal</ownerName>
+    <ownerEmail>info@kwin-city.com</ownerEmail>
+  </head>
+  <body>
+    <outline text="KWIN Critical Alerts" title="KWIN Critical Alerts">
+      <outline
+        type="rss"
+        text="Google News - KWIN City (India)"
+        title="Google News - KWIN City (India)"
+        xmlUrl="https://news.google.com/rss/search?q=%22KWIN%20City%22%20OR%20%22Knowledge%20Wellbeing%20Innovation%20City%22%20Bengaluru&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://news.google.com/"
+      />
+    </outline>
+
+    <outline text="Bengaluru Local Desk Feeds" title="Bengaluru Local Desk Feeds">
+      <outline
+        type="rss"
+        text="The Hindu - Bengaluru"
+        title="The Hindu - Bengaluru"
+        xmlUrl="https://www.thehindu.com/news/cities/bangalore/feeder/default.rss"
+        htmlUrl="https://www.thehindu.com/news/cities/bangalore/"
+      />
+      <outline
+        type="rss"
+        text="Times of India - Bengaluru"
+        title="Times of India - Bengaluru"
+        xmlUrl="https://timesofindia.indiatimes.com/rssfeeds/-2128833038.cms"
+        htmlUrl="https://timesofindia.indiatimes.com/city/bengaluru"
+      />
+    </outline>
+
+    <outline text="Publisher-Specific KWIN Filters" title="Publisher-Specific KWIN Filters">
+      <outline
+        type="rss"
+        text="Deccan Herald - KWIN"
+        title="Deccan Herald - KWIN"
+        xmlUrl="https://news.google.com/rss/search?q=KWIN%20City%20site:deccanherald.com&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://www.deccanherald.com"
+      />
+      <outline
+        type="rss"
+        text="The Hindu - KWIN"
+        title="The Hindu - KWIN"
+        xmlUrl="https://news.google.com/rss/search?q=KWIN%20City%20site:thehindu.com&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://www.thehindu.com"
+      />
+      <outline
+        type="rss"
+        text="Times of India - KWIN"
+        title="Times of India - KWIN"
+        xmlUrl="https://news.google.com/rss/search?q=KWIN%20City%20site:timesofindia.indiatimes.com&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://timesofindia.indiatimes.com"
+      />
+      <outline
+        type="rss"
+        text="New Indian Express - KWIN"
+        title="New Indian Express - KWIN"
+        xmlUrl="https://news.google.com/rss/search?q=KWIN%20City%20site:newindianexpress.com&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://www.newindianexpress.com"
+      />
+    </outline>
+
+    <outline text="Broader Karnataka Signals" title="Broader Karnataka Signals">
+      <outline
+        type="rss"
+        text="Google News - KHIR City"
+        title="Google News - KHIR City"
+        xmlUrl="https://news.google.com/rss/search?q=%22KHIR%20City%22%20Bengaluru&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://news.google.com/"
+      />
+      <outline
+        type="rss"
+        text="Google News - Doddaballapura + Industrial"
+        title="Google News - Doddaballapura + Industrial"
+        xmlUrl="https://news.google.com/rss/search?q=Doddaballapura%20industrial%20policy%20Karnataka&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://news.google.com/"
+      />
+    </outline>
+  </body>
+</opml>
