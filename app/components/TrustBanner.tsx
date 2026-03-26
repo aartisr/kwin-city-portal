@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
-export default function TrustBanner() {
-  const [isHidden, setIsHidden] = useState(false);
+export default function TrustBanner({ visible }: { visible: boolean }) {
+  const [isScrollHidden, setIsScrollHidden] = useState(false);
   const lastY = useRef(0);
 
   useEffect(() => {
@@ -13,11 +13,11 @@ export default function TrustBanner() {
       const delta = currentY - lastY.current;
 
       if (currentY < 120) {
-        setIsHidden(false);
+        setIsScrollHidden(false);
       } else if (delta > 6) {
-        setIsHidden(true);
+        setIsScrollHidden(true);
       } else if (delta < -6) {
-        setIsHidden(false);
+        setIsScrollHidden(false);
       }
 
       lastY.current = currentY;
@@ -30,13 +30,13 @@ export default function TrustBanner() {
   return (
     <>
       <div
-        className={`transition-all duration-300 ${isHidden ? 'h-0' : 'h-[88px] md:h-[52px]'}`}
+        className={`transition-all duration-300 ${visible && !isScrollHidden ? 'h-[88px] md:h-[52px]' : 'h-0'}`}
         aria-hidden="true"
       />
 
       <section
         className={`fixed left-0 right-0 top-[70px] z-40 border-b border-cyan-100 shadow-[0_10px_24px_rgba(15,23,42,0.08)] bg-[linear-gradient(90deg,rgba(236,254,255,0.96)_0%,rgba(248,250,252,0.96)_45%,rgba(255,251,235,0.96)_100%)] backdrop-blur-xl transition-all duration-300 ${
-          isHidden ? '-translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
+          visible && !isScrollHidden ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
         }`}
       >
         <div className="container py-2.5 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
