@@ -44,17 +44,17 @@ export const OPENCITY_DATASETS: DatasetConfig[] = [
     note: "Shows North Bengaluru's airport-anchored growth trajectory.",
   },
   {
-    id: 'rainfall-district',
-    label: 'Karnataka Rainfall by District',
-    description: 'Annual rainfall across districts — critical for water planning and sustainability credibility.',
-    tag: 'Water',
-    tagColor: '#06B6D4',
-    dataset: 'karnataka-annual-rainfall-districts-taluks-and-hoblis',
-    xField: 'District',
-    yField: 'Annual_Rainfall_mm',
-    chartType: 'bar',
-    unit: 'mm',
-    note: "Sets baseline for KWIN's lake and water recycling planning.",
+    id: 'aviation-growth',
+    label: 'Bengaluru Air Traffic Growth Trajectory',
+    description: 'Year-over-year growth in total passengers at KIAL, indicating North Bengaluru demand momentum.',
+    tag: 'Growth',
+    tagColor: '#8B5CF6',
+    dataset: 'bengaluru-aviation-traffic-data',
+    xField: 'Year',
+    yField: 'Growth_Percent',
+    chartType: 'line',
+    unit: '% YoY',
+    note: 'Derived from OpenCity aviation records; a stronger growth signal than rainfall context.',
   },
   {
     id: 'groundwater',
@@ -151,6 +151,34 @@ function normaliseRows(
 
   const xKey = findKey(cfg.xField) ?? keys[1];
   const yKey = findKey(cfg.yField) ?? keys[2];
+
+  if (cfg.id === 'aviation-growth') {
+    const yearKey = findKey('Year') ?? xKey;
+    const passengersKey = findKey('Total_Passengers') ?? findKey('Passengers') ?? yKey;
+
+    const yearly = records
+      .map((row) => {
+        const year = Number(String(row[yearKey] ?? '').replace(/[^0-9]/g, ''));
+        const passengers = parseFloat(String(row[passengersKey] ?? 0).replace(/,/g, ''));
+        return { year, passengers };
+      })
+      .filter((row) => Number.isFinite(row.year) && Number.isFinite(row.passengers) && row.passengers > 0)
+      .sort((a, b) => a.year - b.year);
+
+    const growthSeries: Record<string, string | number>[] = [];
+    for (let i = 1; i < yearly.length; i += 1) {
+      const prev = yearly[i - 1];
+      const curr = yearly[i];
+      if (prev.passengers <= 0) continue;
+      const growth = ((curr.passengers - prev.passengers) / prev.passengers) * 100;
+      growthSeries.push({
+        [cfg.xField]: String(curr.year),
+        [cfg.yField]: Number(growth.toFixed(2)),
+      });
+    }
+
+    return growthSeries.slice(-limit);
+  }
 
   // For pie charts: aggregate by xKey
   if (cfg.chartType === 'pie') {
@@ -271,8 +299,7 @@ function ChartRenderer({
     <ResponsiveContainer width="100%" height={340}>
       <BarChart {...common}>
         <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" />
-        <XAxis dataKey={cfg.xField} tick={tickStyle} angle={-40} textAnchor="end" interval={0} />
-          <XAxis dataKey={cfg.xField} tick={tickStyle} angle={-40} textAnchor="end" interval="preserveStartEnd" />
+        <XAxis dataKey={cfg.xField} tick={tickStyle} angle={-40} textAnchor="end" interval="preserveStartEnd" />
         <YAxis tick={tickStyle} tickFormatter={fmt} />
         <Tooltip formatter={(v) => [fmt(Number(v ?? 0)), cfg.unit ?? cfg.yField]} />
         <Bar dataKey={cfg.yField} radius={[4, 4, 0, 0]}>

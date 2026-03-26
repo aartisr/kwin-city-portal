@@ -15,7 +15,7 @@ export default function SustainabilityPage() {
         <PageIntro
           eyebrow="Sustainability"
           title="A city that works with nature, not against it."
-          description="Solar self-sufficiency, interconnected lakes, 40% green cover, near-zero waste. KWIN's sustainability ambitions are tested in this section against the actual rainfall, groundwater, and lake-governance evidence for the region."
+          description="Solar self-sufficiency, interconnected lakes, 40% green cover, near-zero waste. KWIN's sustainability ambitions are tested in this section against growth trajectory, groundwater, and lake-governance evidence for the region."
           sourceIds={['brief', 'rainfall', 'groundwater', 'lakes', 'kiadb']}
         />
         <Sustainability />

@@ -6,7 +6,7 @@ import { OPENCITY_DATASETS } from '@/components/DataInsightsHub';
 export const metadata: Metadata = {
   title: 'Data Insights | KWIN City',
   description:
-    'Live charts and illustrations generated on demand from OpenCity and KWIN portal data. Aviation, water, groundwater, lake governance, and sector projections.',
+    'Live charts and illustrations generated on demand from OpenCity and KWIN portal data. Connectivity, growth trajectory, groundwater resilience, lake governance, and sector projections.',
 };
 
 export default function DataInsightsPage() {
@@ -45,6 +45,9 @@ export default function DataInsightsPage() {
                 <span className="text-xs font-bold tracking-widest uppercase px-3 py-1.5 rounded-full border border-[#3B82F6]/30 text-[#3B82F6] bg-[#3B82F6]/5">
                   Connectivity
                 </span>
+                <span className="text-xs font-bold tracking-widest uppercase px-3 py-1.5 rounded-full border border-[#8B5CF6]/30 text-[#8B5CF6] bg-[#8B5CF6]/5">
+                  Growth
+                </span>
                 <span className="text-xs font-bold tracking-widest uppercase px-3 py-1.5 rounded-full border border-[#06B6D4]/30 text-[#06B6D4] bg-[#06B6D4]/5">
                   Water
                 </span>
@@ -67,7 +70,7 @@ export default function DataInsightsPage() {
                 {
                   step: '01',
                   title: 'Choose & Filter',
-                  desc: 'Pick a dataset category — Connectivity, Water, Ecology, or KWIN Plan data.',
+                  desc: 'Pick a dataset category — Connectivity, Growth, Water, Ecology, or KWIN Plan data.',
                 },
                 {
                   step: '02',
