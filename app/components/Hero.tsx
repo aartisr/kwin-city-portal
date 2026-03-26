@@ -16,7 +16,7 @@ const stats = [
 export default function Hero() {
   return (
     <section
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[linear-gradient(150deg,#040714_0%,#0D1640_50%,#07131F_100%)]"
+      className="relative min-h-screen flex flex-col overflow-hidden bg-[linear-gradient(150deg,#040714_0%,#0D1640_50%,#07131F_100%)]"
     >
       {/* Animated gradient orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
@@ -42,23 +42,15 @@ export default function Hero() {
         className="absolute inset-0 opacity-[0.025] [background-image:linear-gradient(rgba(255,255,255,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.15)_1px,transparent_1px)] [background-size:64px_64px]"
       />
 
-      <div className="container relative z-10 pt-28 pb-24">
-        <div className="max-w-5xl mx-auto text-center">
-          {/* Eyebrow badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="mb-8 flex justify-center"
-          >
-            <span className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full text-xs font-bold tracking-[0.2em] uppercase border border-white/10 bg-white/5 text-[#94A3B8] backdrop-blur-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#F5A623] animate-pulse" />
-              North Bengaluru · Proposed 2024
-            </span>
-          </motion.div>
+      {/* Hard header clearance — shrink-0 means flex-centering below can NEVER push this above 0 */}
+      <div className="h-[70px] shrink-0" aria-hidden="true" />
 
+      {/* Content area — flex-1 centers within remaining space; overflows downward on short viewports */}
+      <div className="flex-1 flex items-center">
+        <div className="container relative z-10 w-full py-12">
+          <div className="max-w-5xl mx-auto text-center">
           {/* Staggered headline */}
-          <div className="mb-8">
+          <div className="mb-6">
             {[
               { text: 'Knowledge.', colorClass: 'text-white' },
               { text: 'Wellbeing.',  colorClass: 'gradient-text-gold' },
@@ -79,11 +71,24 @@ export default function Hero() {
             ))}
           </div>
 
+          {/* Location badge — sits below headline */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.75, duration: 0.6 }}
+            className="mb-8 flex justify-center"
+          >
+            <span className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full text-xs font-bold tracking-[0.2em] uppercase border border-white/10 bg-white/5 text-[#94A3B8] backdrop-blur-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#F5A623] animate-pulse" />
+              North Bengaluru · Proposed 2024
+            </span>
+          </motion.div>
+
           {/* Tagline */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.9, duration: 0.8 }}
+            transition={{ delay: 0.95, duration: 0.8 }}
             className="text-xl md:text-2xl text-[#94A3B8] max-w-3xl mx-auto leading-relaxed mb-10"
           >
             India&#39;s most consequential city is expanding north.{' '}
@@ -149,8 +154,9 @@ export default function Hero() {
               Review all sources
             </Link>
           </motion.p>
+          </div>
         </div>
-      </div>
+      </div>{/* end content wrapper */}
 
       {/* Scroll indicator */}
       <motion.div
