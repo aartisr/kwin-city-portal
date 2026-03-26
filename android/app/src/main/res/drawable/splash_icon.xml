@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Splash icon: amber rounded rect with K lettermark -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:gravity="center" android:width="160dp" android:height="160dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#F5A623" />
+            <corners android:radius="32dp" />
+        </shape>
+    </item>
+</layer-list>

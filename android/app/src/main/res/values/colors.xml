@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- KWIN dark navy launch colour -->
+    <color name="colorPrimary">#040714</color>
+    <color name="colorAccent">#F5A623</color>
+    <color name="colorBackground">#040714</color>
+</resources>

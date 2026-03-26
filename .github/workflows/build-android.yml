@@ -1,0 +1,102 @@
+name: Build KWIN City Android APK
+
+on:
+  # Run on any version tag push (e.g. v1.0.0)
+  push:
+    tags:
+      - 'v[0-9]*'
+  # Also allow manual trigger from GitHub Actions UI
+  workflow_dispatch:
+    inputs:
+      version_name:
+        description: 'Version name (e.g. 1.0.0)'
+        required: false
+        default: 'dev'
+
+permissions:
+  contents: write   # needed to create GitHub Releases
+
+jobs:
+  build-android:
+    name: Build Android TWA APK
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── Checkout ───────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── Java 17 (required by AGP 8.x) ─────────────────────
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      # ── Android SDK ─────────────────────────────────────────
+      - name: Set ANDROID_SDK_ROOT
+        run: echo "ANDROID_SDK_ROOT=$ANDROID_HOME" >> $GITHUB_ENV
+
+      - name: Install required Android SDK components
+        run: |
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
+            "platforms;android-34" \
+            "build-tools;34.0.0" \
+            --sdk_root=$ANDROID_HOME 2>/dev/null || true
+
+      # ── Gradle setup ────────────────────────────────────────
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.4'
+
+      # ── local.properties ───────────────────────────────────
+      - name: Create local.properties
+        working-directory: android
+        run: echo "sdk.dir=$ANDROID_HOME" > local.properties
+
+      # ── Build debug APK ─────────────────────────────────────
+      - name: Build debug APK
+        working-directory: android
+        run: gradle assembleDebug --no-daemon --stacktrace
+
+      # ── Rename APK ──────────────────────────────────────────
+      - name: Rename APK
+        run: |
+          VERSION="${{ github.ref_name || inputs.version_name || 'dev' }}"
+          mv android/app/build/outputs/apk/debug/app-debug.apk \
+             android/app/build/outputs/apk/debug/kwin-city-${VERSION}.apk
+
+      # ── Upload artifact ─────────────────────────────────────
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kwin-city-android-apk
+          path: android/app/build/outputs/apk/debug/kwin-city-*.apk
+          retention-days: 30
+
+      # ── Create GitHub Release (only on tag pushes) ──────────
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: 'KWIN City Android ${{ github.ref_name }}'
+          body: |
+            ## 📱 KWIN City Android App ${{ github.ref_name }}
+
+            Trusted Web Activity (TWA) — wraps [kwin-city.netlify.app](https://kwin-city.netlify.app) in a native Android shell.
+
+            ### Installation
+            1. Download `kwin-city-${{ github.ref_name }}.apk` below
+            2. On your Android device: **Settings → Security → Install unknown apps** → Allow
+            3. Open the downloaded APK and tap **Install**
+            4. Find "KWIN City" on your home screen
+
+            > **Recommended:** Use the PWA install instead — open [kwin-city.netlify.app](https://kwin-city.netlify.app) in Chrome and tap "Add to Home Screen" for automatic updates.
+
+            ---
+            Built automatically from `master` via GitHub Actions · No tracking · Open source
+          files: android/app/build/outputs/apk/debug/kwin-city-*.apk
+          draft: false
+          prerelease: false
