@@ -3,11 +3,23 @@
 > **Knowledge · Wellbeing · Innovation**  
 > *An evidence-first research portal for India's next-generation knowledge city.*
 
+<!-- Tech Stack -->
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.4-38bdf8?logo=tailwindcss)](https://tailwindcss.com)
 [![License: Private](https://img.shields.io/badge/License-Private-red)](LICENSE)
-[![Canonical](https://img.shields.io/badge/Site-kwin-city.com-6366f1)](https://kwin-city.com)
+[![Canonical](https://img.shields.io/badge/Site-kwin--city.com-6366f1)](https://kwin-city.com)
+
+<!-- Deployment & CI -->
+[![Netlify Status](https://img.shields.io/netlify/REPLACE_WITH_NETLIFY_SITE_ID?label=Netlify)](https://app.netlify.com/sites/REPLACE_WITH_NETLIFY_SITE_NAME/deploys)
+[![GitHub last commit](https://img.shields.io/github/last-commit/aartisr/kwin-city-portal?logo=github)](https://github.com/aartisr/kwin-city-portal/commits/main)
+[![GitHub repo size](https://img.shields.io/github/repo-size/aartisr/kwin-city-portal)](https://github.com/aartisr/kwin-city-portal)
+
+<!-- Security & Validation -->
+[![Security Headers](https://img.shields.io/security-headers?url=https%3A%2F%2Fkwin-city.com&label=Security%20Headers)](https://securityheaders.com/?q=kwin-city.com)
+[![Mozilla Observatory](https://img.shields.io/mozilla-observatory/grade/kwin-city.com?publish=true&label=Mozilla%20Observatory)](https://observatory.mozilla.org/analyze/kwin-city.com)
+[![W3C Validation](https://img.shields.io/w3c-validation/html?targetUrl=https%3A%2F%2Fkwin-city.com&label=W3C%20HTML)](https://validator.w3.org/nu/?doc=https%3A%2F%2Fkwin-city.com)
+[![HSTS Preload](https://img.shields.io/hsts/preload/kwin-city.com?label=HSTS%20Preload)](https://hstspreload.org/?domain=kwin-city.com)
 
 ---
 

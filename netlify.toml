@@ -3,3 +3,46 @@
 
 [build.environment]
   NODE_VERSION = "20.19.0"
+
+# ── Security & Trust Headers ──────────────────────────────────────────────────
+# Targeting A+ on securityheaders.com and Mozilla Observatory.
+# Also satisfies HSTS preload requirements (hstspreload.org).
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Force HTTPS for 2 years across all subdomains; flag for HSTS preload list
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+
+    # Prevent clickjacking / iframe embedding from other origins
+    X-Frame-Options = "DENY"
+
+    # Block MIME-type sniffing attacks
+    X-Content-Type-Options = "nosniff"
+
+    # Limit referrer data sent to external sites
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # Disable browser features not needed by this site
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), accelerometer=(), gyroscope=(), interest-cohort=()"
+
+    # Content Security Policy
+    # Next.js App Router requires unsafe-inline/unsafe-eval for hydration scripts;
+    # frame-ancestors 'none' still prevents clickjacking regardless.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://api.resend.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+
+    # Cross-Origin policies for resource isolation
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Resource-Policy = "same-origin"
+    Cross-Origin-Embedder-Policy = "require-corp"
+
+# Static assets get long-lived cache + immutable flag
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Verification / well-known files should not be cached
+[[headers]]
+  for = "/BingSiteAuth.xml"
+  [headers.values]
+    Cache-Control = "no-cache"

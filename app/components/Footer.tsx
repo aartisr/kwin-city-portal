@@ -130,6 +130,37 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* ── Trust & Certification Badges ── */}
+        <div className="border-t border-white/6 py-7">
+          <p className="text-center text-[10px] font-bold tracking-[0.2em] uppercase text-[#475569] mb-5">
+            Certifications &amp; Trust
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-2.5">
+            {([
+              { icon: '🔒', label: 'SSL / TLS Secured',          href: 'https://www.ssllabs.com/ssltest/analyze.html?d=kwin-city.com' },
+              { icon: '✓',  label: 'Schema.org Rich Results',     href: 'https://search.google.com/test/rich-results?url=https%3A%2F%2Fkwin-city.com' },
+              { icon: '🔍', label: 'Bing Webmaster Verified',     href: 'https://kwin-city.com/BingSiteAuth.xml' },
+              { icon: '🛡️', label: 'HSTS Protected',             href: 'https://hstspreload.org/?domain=kwin-city.com' },
+              { icon: '📊', label: 'Open Data',                   href: 'https://data.opencity.in/' },
+              { icon: '🌐', label: 'Google Search Console',       href: 'https://search.google.com/search-console' },
+              { icon: '⚡', label: 'Next.js 15',                  href: 'https://nextjs.org' },
+              { icon: '🚀', label: 'Deployed on Netlify',         href: 'https://netlify.com' },
+            ] as { icon: string; label: string; href: string }[]).map((b) => (
+              <a
+                key={b.label}
+                href={b.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={b.label}
+                className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-[11px] text-[#94A3B8] hover:text-white hover:border-white/20 hover:bg-white/[0.08] transition-all"
+              >
+                <span aria-hidden="true">{b.icon}</span>
+                <span>{b.label}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+
         <div className="border-t border-white/10 mt-2 px-5 py-5 md:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           {/* Left — copyright + author inline */}
           <div className="flex items-center gap-2.5 text-[11px] text-[#64748B]">

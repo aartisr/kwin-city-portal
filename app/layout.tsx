@@ -80,9 +80,11 @@ export const metadata: Metadata = {
     images: [OG_IMAGE],
   },
   verification: {
-    // Add Google Search Console & Bing verification tokens here when available
-    // google: 'YOUR_GOOGLE_VERIFICATION_TOKEN',
-    // other: { 'msvalidate.01': ['YOUR_BING_TOKEN'] },
+    // STEP: Paste your Google Search Console HTML-tag token here.
+    // Get it from: Search Console → Settings → Ownership verification → HTML tag
+    // e.g. google: 'abc123XYZ',
+    //
+    // Bing verification is handled via public/BingSiteAuth.xml (already in place).
   },
 };
 
