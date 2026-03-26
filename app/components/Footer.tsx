@@ -123,21 +123,22 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 rounded-2xl bg-white/[0.04] px-5 py-7 md:px-6 md:py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
-          <div className="text-center md:text-left w-full md:w-auto">
-            <div className="inline-block rounded-lg bg-white/[0.02] px-3.5 py-2.5 border border-white/8">
-              <p className="text-[13px] font-medium text-[#CBD5E1] leading-6">Copyright &copy; {year} BAJA Associates. All rights reserved.</p>
-              <p className="mt-1 text-[12px] font-normal text-[#94A3B8] leading-6">Author: Aarti S Ravikumar.</p>
-            </div>
-            <p className="mt-2 text-[12px] text-[#A8B6CC] leading-6">Original site content, design, and compilation are protected by copyright law.</p>
+        <div className="border-t border-white/10 mt-2 px-5 py-5 md:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+          {/* Left — copyright + author inline */}
+          <div className="flex items-center gap-2.5 text-[11px] text-[#64748B]">
+            <span className="text-[#475569]">© {year} BAJA Associates</span>
+            <span className="w-px h-3 bg-white/10" />
+            <span>Aarti S Ravikumar</span>
+            <span className="w-px h-3 bg-white/10" />
+            <span className="hidden sm:inline">Content protected by copyright</span>
           </div>
-          <div className="text-[12px] text-[#A8B6CC] leading-6 text-center md:text-right w-full md:w-auto">
-            <p>Built on open data · Every claim is sourced · Updated continuously</p>
-            <p className="mt-1">
-              <Link href="/terms" className="text-[#CBD5E1] hover:text-white transition-colors">Terms of Use</Link>
-              {' · '}
-              <Link href="/sources" className="text-[#CBD5E1] hover:text-white transition-colors">Sources & Claims</Link>
-            </p>
+          {/* Right — links + tagline */}
+          <div className="flex items-center gap-2.5 text-[11px] text-[#64748B]">
+            <span className="hidden md:inline">Open data · Every claim sourced</span>
+            <span className="hidden md:inline w-px h-3 bg-white/10" />
+            <Link href="/terms" className="text-[#4F6280] hover:text-white transition-colors">Terms</Link>
+            <span className="w-px h-3 bg-white/10" />
+            <Link href="/sources" className="text-[#4F6280] hover:text-white transition-colors">Sources</Link>
           </div>
         </div>
       </div>
