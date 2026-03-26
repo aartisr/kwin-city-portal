@@ -37,7 +37,7 @@ const routes = [
     icon: '🌿',
     title: 'Sustainability',
     href: '/sustainability',
-    summary: 'Water, green cover, solar, and ecological plans — studied against rainfall, groundwater, and lake-governance data.',
+    summary: 'Water, green cover, solar, and ecological plans — studied against growth trajectory, groundwater, and lake-governance data.',
     iconBgClass: 'bg-[#10B981]/15',
     linkClass: 'text-[#10B981]',
   },

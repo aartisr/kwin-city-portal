@@ -38,7 +38,7 @@ const columns = [
     items: [
       "Airport traffic data confirms North Bengaluru's connectivity advantage.",
       'STRR and IRR documents validate the corridor-led growth narrative.',
-      'Rainfall and hydrology datasets make sustainability claims testable.',
+      'Growth-trajectory, groundwater, and lake-governance datasets make key claims testable.',
     ],
     bg: 'bg-blue-50',
     border: 'border-blue-200',

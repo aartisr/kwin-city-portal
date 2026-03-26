@@ -7,33 +7,35 @@ export default function Footer() {
 
   return (
     <footer
-      className="border-t border-white/6 bg-[#040714]"
+      className="border-t border-white/6 bg-[linear-gradient(180deg,#040714_0%,#061027_52%,#040714_100%)]"
     >
       {/* CTA banner */}
       <div
-        className="border-b border-white/6 bg-[rgba(245,166,35,0.06)]"
+        className="border-b border-white/6 bg-[rgba(245,166,35,0.07)]"
       >
-        <div className="container py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div>
-            <p className="text-xs font-bold tracking-[0.2em] uppercase text-[#F5A623] mb-2">The definitive KWIN resource</p>
-            <h3 className="text-2xl font-extrabold text-white mb-2">
-              Everything KWIN. One place.
-            </h3>
-            <p className="text-[#94A3B8] text-sm max-w-xl">
-              This portal exists so that anyone — investor, resident, researcher, journalist, or curious citizen — can
-              understand KWIN City with complete confidence in what&apos;s known and what&apos;s still being confirmed.
-            </p>
-          </div>
-          <div className="flex gap-3 shrink-0">
-            <Link href="/about" className="btn btn-primary">Explore KWIN</Link>
-            <Link href="/sources" className="btn btn-outline-light">View Sources</Link>
+        <div className="container py-8 md:py-10">
+          <div className="rounded-2xl border border-white/10 bg-[linear-gradient(145deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] px-6 py-8 md:px-9 md:py-9 flex flex-col md:flex-row items-start md:items-center justify-between gap-7">
+            <div>
+              <p className="text-[11px] md:text-xs font-bold tracking-[0.22em] uppercase text-[#F5A623] mb-3">The definitive KWIN resource</p>
+              <h3 className="text-2xl font-extrabold text-white mb-3 leading-tight">
+                Everything KWIN. One place.
+              </h3>
+              <p className="text-[#9BAEC6] text-[15px] md:text-sm leading-7 max-w-xl">
+                This portal exists so that anyone — investor, resident, researcher, journalist, or curious citizen — can
+                understand KWIN City with complete confidence in what&apos;s known and what&apos;s still being confirmed.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3 shrink-0 w-full sm:w-auto">
+              <Link href="/about" className="btn btn-primary text-center">Explore KWIN</Link>
+              <Link href="/sources" className="btn btn-outline-light text-center">View Sources</Link>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Link grid */}
-      <div className="container py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 mb-10">
+      <div className="container pt-16 md:pt-20 pb-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 pt-2 md:pt-3 mb-12">
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-5">
@@ -44,19 +46,19 @@ export default function Footer() {
               </div>
               <span className="font-extrabold text-xl text-white tracking-tight">KWIN City</span>
             </div>
-            <p className="text-sm text-[#64748B] leading-relaxed max-w-xs">
+            <p className="text-[15px] md:text-sm text-[#7C8EA6] leading-7 max-w-xs">
               A research portal for KWIN City, North Bengaluru. Built with transparent sourcing, structured for
               every type of visitor, and updated to reflect the best available evidence.
             </p>
-            <p className="text-xs text-[#334155] mt-4">
+            <p className="text-[12px] text-[#4F6280] mt-4 tracking-[0.04em]">
               13°13&apos;N 77°32&apos;E · Doddaballapura, Karnataka
             </p>
           </div>
 
           {/* Explore */}
           <div>
-            <h4 className="text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-5">Explore</h4>
-            <ul className="space-y-3 text-sm">
+            <h4 className="text-[11px] md:text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-5">Explore</h4>
+            <ul className="space-y-3 text-[15px] md:text-sm leading-7">
               <li><Link href="/about"                className="text-[#94A3B8] hover:text-white transition-colors">About KWIN</Link></li>
               <li><Link href="/why-north-bengaluru"  className="text-[#94A3B8] hover:text-white transition-colors">Why North Bengaluru</Link></li>
               <li><Link href="/timeline"             className="text-[#94A3B8] hover:text-white transition-colors">Development Timeline</Link></li>
@@ -66,8 +68,8 @@ export default function Footer() {
 
           {/* Research */}
           <div>
-            <h4 className="text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-5">Research</h4>
-            <ul className="space-y-3 text-sm">
+            <h4 className="text-[11px] md:text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-5">Research</h4>
+            <ul className="space-y-3 text-[15px] md:text-sm leading-7">
               <li><Link href="/sustainability"  className="text-[#94A3B8] hover:text-white transition-colors">Sustainability</Link></li>
               <li><Link href="/data-insights"   className="text-[#94A3B8] hover:text-white transition-colors">Data Insights Lab</Link></li>
               <li><Link href="/evidence"        className="text-[#94A3B8] hover:text-white transition-colors">Evidence Vault</Link></li>
@@ -83,8 +85,8 @@ export default function Footer() {
 
           {/* Context */}
           <div>
-            <h4 className="text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-5">By Audience</h4>
-            <ul className="space-y-3 text-sm">
+            <h4 className="text-[11px] md:text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-5">By Audience</h4>
+            <ul className="space-y-3 text-[15px] md:text-sm leading-7">
               <li><Link href="/for/investor"         className="text-[#94A3B8] hover:text-white transition-colors">For Investors</Link></li>
               <li><Link href="/for/resident"         className="text-[#94A3B8] hover:text-white transition-colors">For Residents</Link></li>
               <li><Link href="/for/researcher"       className="text-[#94A3B8] hover:text-white transition-colors">For Researchers</Link></li>
@@ -95,8 +97,8 @@ export default function Footer() {
 
           {/* Open Data */}
           <div>
-            <h4 className="text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-5">Open Data</h4>
-            <ul className="space-y-3 text-sm">
+            <h4 className="text-[11px] md:text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-5">Open Data</h4>
+            <ul className="space-y-3 text-[15px] md:text-sm leading-7">
               <li>
                 <a href="https://data.opencity.in/dataset/bengaluru-aviation-traffic-data" target="_blank" rel="noopener noreferrer" className="text-[#94A3B8] hover:text-white transition-colors">
                   Aviation Data ↗
@@ -121,15 +123,15 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-7 px-4 py-4 rounded-xl bg-white/[0.03] flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="text-center md:text-left">
-            <div className="inline-block rounded-lg bg-[#0B122B] px-3 py-2 border border-white/10">
-              <p className="text-sm font-semibold text-white">Copyright &copy; {year} BAJA Associates. All rights reserved.</p>
-              <p className="mt-1 text-sm font-semibold text-white">Author: Aarti S Ravikumar.</p>
+        <div className="border-t border-white/10 rounded-2xl bg-white/[0.04] px-5 py-7 md:px-6 md:py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+          <div className="text-center md:text-left w-full md:w-auto">
+            <div className="inline-block rounded-lg bg-white/[0.02] px-3.5 py-2.5 border border-white/8">
+              <p className="text-[13px] font-medium text-[#CBD5E1] leading-6">Copyright &copy; {year} BAJA Associates. All rights reserved.</p>
+              <p className="mt-1 text-[12px] font-normal text-[#94A3B8] leading-6">Author: Aarti S Ravikumar.</p>
             </div>
-            <p className="mt-2 text-xs text-[#94A3B8]">Original site content, design, and compilation are protected by copyright law.</p>
+            <p className="mt-2 text-[12px] text-[#A8B6CC] leading-6">Original site content, design, and compilation are protected by copyright law.</p>
           </div>
-          <div className="text-xs text-[#94A3B8] text-center md:text-right">
+          <div className="text-[12px] text-[#A8B6CC] leading-6 text-center md:text-right w-full md:w-auto">
             <p>Built on open data · Every claim is sourced · Updated continuously</p>
             <p className="mt-1">
               <Link href="/terms" className="text-[#CBD5E1] hover:text-white transition-colors">Terms of Use</Link>

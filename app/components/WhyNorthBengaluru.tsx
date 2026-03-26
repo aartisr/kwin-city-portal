@@ -18,7 +18,7 @@ const pillars = [
   },
   {
     title: 'Water and resilience constraints',
-    body: 'Rainfall, groundwater, and lake-governance datasets matter because they impose real conditions on what a credible township must solve. They make the sustainability conversation sharper, not softer.',
+    body: 'Growth trajectory, groundwater, and lake-governance datasets matter because they impose real conditions on what a credible township must solve. They make the sustainability conversation sharper, not softer.',
     sourceIds: ['rainfall', 'groundwater', 'lakes'],
   },
 ];
