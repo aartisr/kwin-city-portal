@@ -19,6 +19,10 @@ export default function PwaInstallPrompt() {
     if (window.matchMedia('(display-mode: standalone)').matches) return;
     // User previously dismissed
     if (localStorage.getItem('kwin-pwa-dismissed-v2') === 'true') return;
+    // Mobile-only: check for mobile device
+    const isMobile = window.matchMedia('(max-width: 768px)').matches ||
+      /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase());
+    if (!isMobile) return;
 
     const onPrompt = (e: Event) => {
       e.preventDefault();
