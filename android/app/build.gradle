@@ -13,7 +13,7 @@ android {
         versionCode 1
         versionName '1.0.0'
 
-        manifestPlaceholders = [hostName: 'kwin-city.netlify.app']
+        manifestPlaceholders = [hostName: 'kwin-city.com']
     }
 
     buildTypes {

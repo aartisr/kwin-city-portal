@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Get the KWIN City App | Install on Android & iOS',
   description:
     'Install the KWIN City intelligence portal as a free app on your Android or iPhone. No app store required. Works offline. Nobel Prize quality.',
-  alternates: { canonical: 'https://kwin-city.netlify.app/download' },
+  alternates: { canonical: 'https://kwin-city.com/download' },
 };
 
 const steps = {
@@ -14,7 +14,7 @@ const steps = {
     {
       num: '01',
       title: 'Open in Chrome',
-      body: 'Visit kwin-city.netlify.app in Chrome on your Android device.',
+      body: 'Visit kwin-city.com in Chrome on your Android device.',
     },
     {
       num: '02',
@@ -31,7 +31,7 @@ const steps = {
     {
       num: '01',
       title: 'Open in Safari',
-      body: 'Visit kwin-city.netlify.app in Safari on your iPhone or iPad.',
+      body: 'Visit kwin-city.com in Safari on your iPhone or iPad.',
     },
     {
       num: '02',
@@ -56,7 +56,7 @@ const features = [
 ];
 
 export default function DownloadPage() {
-  const url = 'https://kwin-city.netlify.app';
+  const url = 'https://kwin-city.com';
 
   return (
     <SiteFrame>
