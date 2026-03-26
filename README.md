@@ -180,6 +180,48 @@ This prevents accidental multi-root workspace coupling with other local projects
 | **Format** | `npm run format` | Prettier — write all files |
 | **Format check** | `npm run format:check` | Prettier — check only (CI-safe) |
 | **Clean** | `npm run clean:next` | Delete `.next/` and `.next-dev/` |
+| **Android release tag** | `yarn release:android 1.2.3` | Create and push `v1.2.3` tag (triggers signed APK/AAB build) |
+
+---
+
+## Android Release (Signed)
+
+The repository includes a production Android release workflow at `.github/workflows/build-android.yml`.
+
+### 1. Add GitHub Repository Secrets
+
+Set these in **GitHub → Settings → Secrets and variables → Actions**:
+
+- `ANDROID_KEYSTORE_BASE64`
+- `ANDROID_KEYSTORE_PASSWORD`
+- `ANDROID_KEY_ALIAS`
+- `ANDROID_KEY_PASSWORD`
+
+Tip to create `ANDROID_KEYSTORE_BASE64` locally:
+
+```bash
+base64 -i android/kwin-release.jks | pbcopy
+```
+
+### 2. Trigger Release in One Command
+
+```bash
+yarn release:android 1.2.3
+```
+
+This will:
+
+1. Create and push tag `v1.2.3`
+2. Trigger GitHub Actions
+3. Build **signed** `APK` and `AAB`
+4. Publish both under GitHub Releases
+
+### 3. Keep TWA Verification in Sync
+
+Update these with your **release keystore SHA-256 fingerprint**:
+
+- `public/.well-known/assetlinks.json`
+- `android/app/src/main/res/values/strings.xml`
 
 ---
 

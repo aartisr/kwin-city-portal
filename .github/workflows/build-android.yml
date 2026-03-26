@@ -1,4 +1,4 @@
-name: Build KWIN City Android APK
+name: Build KWIN City Android Release
 
 on:
   # Run on any version tag push (e.g. v1.0.0)
@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   build-android:
-    name: Build Android TWA APK
+    name: Build Signed Android Artifacts
     runs-on: ubuntu-latest
 
     steps:
@@ -51,29 +51,100 @@ jobs:
         with:
           gradle-version: '8.4'
 
+      # ── Version metadata from tag/manual input ─────────────
+      - name: Resolve version metadata
+        id: version
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            RAW="${GITHUB_REF_NAME}"
+          else
+            RAW="${{ inputs.version_name }}"
+          fi
+
+          VERSION_NAME="${RAW#v}"
+
+          if [[ ! "$VERSION_NAME" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid version: $VERSION_NAME"
+            echo "Expected semver like 1.2.3"
+            exit 1
+          fi
+
+          # Monotonic integer for Android versionCode.
+          VERSION_CODE="${GITHUB_RUN_NUMBER}"
+
+          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
+
+      # ── Require signing secrets for production release ──────
+      - name: Validate release signing secrets
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [[ -z "$KEYSTORE_B64" || -z "$KEYSTORE_PASSWORD" || -z "$KEY_ALIAS" || -z "$KEY_PASSWORD" ]]; then
+            echo "Missing one or more required Android signing secrets."
+            echo "Required: ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD"
+            exit 1
+          fi
+
+      # ── Decode keystore and write Gradle signing properties ─
+      - name: Configure Android signing
+        working-directory: android
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          echo "$KEYSTORE_B64" | base64 --decode > app/kwin-release.jks
+
+          {
+            echo "KWIN_RELEASE_STORE_FILE=app/kwin-release.jks"
+            echo "KWIN_RELEASE_STORE_PASSWORD=$KEYSTORE_PASSWORD"
+            echo "KWIN_RELEASE_KEY_ALIAS=$KEY_ALIAS"
+            echo "KWIN_RELEASE_KEY_PASSWORD=$KEY_PASSWORD"
+          } >> gradle.properties
+
       # ── local.properties ───────────────────────────────────
       - name: Create local.properties
         working-directory: android
         run: echo "sdk.dir=$ANDROID_HOME" > local.properties
 
-      # ── Build debug APK ─────────────────────────────────────
-      - name: Build debug APK
+      # ── Build signed release APK + AAB ──────────────────────
+      - name: Build signed release artifacts
         working-directory: android
-        run: gradle assembleDebug --no-daemon --stacktrace
-
-      # ── Rename APK ──────────────────────────────────────────
-      - name: Rename APK
         run: |
-          VERSION="${{ github.ref_name || inputs.version_name || 'dev' }}"
-          mv android/app/build/outputs/apk/debug/app-debug.apk \
-             android/app/build/outputs/apk/debug/kwin-city-${VERSION}.apk
+          gradle \
+            assembleRelease \
+            bundleRelease \
+            -PKWIN_VERSION_NAME=${{ steps.version.outputs.version_name }} \
+            -PKWIN_VERSION_CODE=${{ steps.version.outputs.version_code }} \
+            --no-daemon --stacktrace
 
-      # ── Upload artifact ─────────────────────────────────────
+      # ── Rename outputs ───────────────────────────────────────
+      - name: Rename release artifacts
+        run: |
+          VERSION="${{ steps.version.outputs.version_name }}"
+          mv android/app/build/outputs/apk/release/app-release.apk \
+             android/app/build/outputs/apk/release/kwin-city-${VERSION}-release.apk
+          mv android/app/build/outputs/bundle/release/app-release.aab \
+             android/app/build/outputs/bundle/release/kwin-city-${VERSION}-release.aab
+
+      # ── Upload artifacts ─────────────────────────────────────
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: kwin-city-android-apk
-          path: android/app/build/outputs/apk/debug/kwin-city-*.apk
+          name: kwin-city-android-apk-release
+          path: android/app/build/outputs/apk/release/kwin-city-*-release.apk
+          retention-days: 30
+
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kwin-city-android-aab-release
+          path: android/app/build/outputs/bundle/release/kwin-city-*-release.aab
           retention-days: 30
 
       # ── Create GitHub Release (only on tag pushes) ──────────
@@ -81,22 +152,29 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          name: 'KWIN City Android ${{ github.ref_name }}'
+          name: 'KWIN City Android v${{ steps.version.outputs.version_name }}'
           body: |
-            ## 📱 KWIN City Android App ${{ github.ref_name }}
+            ## 📱 KWIN City Android App v${{ steps.version.outputs.version_name }}
 
-            Trusted Web Activity (TWA) — wraps [kwin-city.netlify.app](https://kwin-city.netlify.app) in a native Android shell.
+            Signed Android release artifacts for KWIN City.
+
+            - `APK` for direct installs
+            - `AAB` for store distribution
+
+            Trusted Web Activity (TWA) — wraps [kwin-city.com](https://kwin-city.com) in a native Android shell.
 
             ### Installation
-            1. Download `kwin-city-${{ github.ref_name }}.apk` below
+            1. Download `kwin-city-${{ steps.version.outputs.version_name }}-release.apk` below
             2. On your Android device: **Settings → Security → Install unknown apps** → Allow
             3. Open the downloaded APK and tap **Install**
             4. Find "KWIN City" on your home screen
 
-            > **Recommended:** Use the PWA install instead — open [kwin-city.netlify.app](https://kwin-city.netlify.app) in Chrome and tap "Add to Home Screen" for automatic updates.
+            > **Recommended:** Use the PWA install for automatic updates — open [kwin-city.com](https://kwin-city.com) in Chrome and tap "Add to Home Screen".
 
             ---
-            Built automatically from `master` via GitHub Actions · No tracking · Open source
-          files: android/app/build/outputs/apk/debug/kwin-city-*.apk
+            Built automatically from `master` via GitHub Actions · Signed release · Open source
+          files: |
+            android/app/build/outputs/apk/release/kwin-city-*-release.apk
+            android/app/build/outputs/bundle/release/kwin-city-*-release.aab
           draft: false
           prerelease: false
