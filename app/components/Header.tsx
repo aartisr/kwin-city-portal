@@ -55,6 +55,7 @@ const HIGH_LEVEL_MENUS: NavGroup[] = [
       { label: 'News Intelligence', href: '/news-intelligence', desc: 'Attribution-first media observatory' },
       { label: 'Live News Reader', href: '/news-reader', desc: 'On-demand OPML summary reader' },
       { label: 'Trust Center', href: '/trust', desc: 'Authenticity and originality protocol' },
+      { label: 'Get the App', href: '/download', icon: '📱', desc: 'Install on Android & iOS — free' },
     ],
   },
   {

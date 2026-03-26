@@ -1,0 +1,47 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.kwincity.portal'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.kwincity.portal'
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName '1.0.0'
+
+        manifestPlaceholders = [hostName: 'kwin-city.netlify.app']
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug // use debug key for now; swap for keystore in CI
+        }
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    // No Java/Kotlin sources — everything is via androidbrowserhelper
+    sourceSets {
+        main {
+            java.srcDirs = []
+        }
+    }
+}
+
+dependencies {
+    // Trusted Web Activity shell — no Java code needed
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.5.0'
+}

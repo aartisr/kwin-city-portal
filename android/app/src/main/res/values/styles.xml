@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme — dark to match the KWIN portal -->
+    <style name="Theme.KWIN" parent="android:Theme.Material.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+    </style>
+
+    <!-- Splash screen theme — shown while Chrome Custom Tab loads -->
+    <style name="Theme.KWIN.Splash" parent="Theme.KWIN">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+</resources>

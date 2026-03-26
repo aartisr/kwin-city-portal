@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App display names -->
+    <string name="app_name">KWIN City</string>
+    <string name="launcher_name">KWIN City</string>
+
+    <!-- Digital Asset Links statement (Android autoVerify).
+         Replace SHA256_CERT_FINGERPRINT with the actual debug/release fingerprint.
+         Run: keytool -printcert -jarfile app-debug.apk | grep SHA256
+    -->
+    <string name="asset_statements">
+        [{
+            \"relation\": [\"delegate_permission/common.handle_all_urls\"],
+            \"target\": {
+                \"namespace\": \"web\",
+                \"site\": \"https://kwin-city.netlify.app\"
+            }
+        }]
+    </string>
+</resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Adaptive launcher icon foreground — KWIN K lettermark on amber card -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Amber rounded-rect card (safe zone: 72dp centred within 108dp) -->
+    <path
+        android:fillColor="#F5A623"
+        android:pathData="M 18,18 L 90,18 Q 98,18 98,26 L 98,82 Q 98,90 90,90 L 18,90 Q 10,90 10,82 L 10,26 Q 10,18 18,18 Z" />
+
+    <!-- K lettermark in dark navy -->
+    <!-- Vertical bar of K -->
+    <path
+        android:fillColor="#040714"
+        android:pathData="M 36,30 L 44,30 L 44,78 L 36,78 Z" />
+    <!-- Top-right diagonal of K -->
+    <path
+        android:fillColor="#040714"
+        android:pathData="M 44,54 L 68,30 L 78,30 L 54,54 Z" />
+    <!-- Bottom-right diagonal of K -->
+    <path
+        android:fillColor="#040714"
+        android:pathData="M 44,54 L 78,78 L 68,78 L 44,58 Z" />
+</vector>

@@ -86,6 +86,11 @@ export default function Footer() {
               <li><Link href="/contact"         className="text-[#94A3B8] hover:text-white transition-colors">Contact Us</Link></li>
               <li><Link href="/for"             className="text-[#94A3B8] hover:text-white transition-colors">Persona Views</Link></li>
               <li>
+                <Link href="/download" className="inline-flex items-center gap-1.5 text-amber-400 hover:text-amber-300 transition-colors font-semibold">
+                  📱 Get the App
+                </Link>
+              </li>
+              <li>
                 <a href="https://kiadb.karnataka.gov.in/" target="_blank" rel="noopener noreferrer" className="text-[#94A3B8] hover:text-white transition-colors">
                   KIADB Portal ↗
                 </a>
