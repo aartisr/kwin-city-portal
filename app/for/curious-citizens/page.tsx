@@ -2,8 +2,23 @@ import type { Metadata } from 'next';
 import PersonaPage from '@/components/PersonaPage';
 
 export const metadata: Metadata = {
-  title: 'For Curious Citizens | KWIN City',
-  description: 'A plain-language explainer for citizens who want to understand KWIN City without technical jargon.',
+  title: 'KWIN City Explained Simply | For Curious Citizens',
+  description:
+    'What is KWIN City? A plain-language guide — no jargon. Understand what is proposed, what has evidence, and what is still a plan for North Bengaluru’s knowledge township.',
+  keywords: [
+    'what is KWIN City',
+    'KWIN City explained',
+    'North Bengaluru new city',
+    'knowledge city India explained',
+    'Doddaballapura city project',
+  ],
+  alternates: { canonical: 'https://kwin-city.com/for/curious-citizens' },
+  openGraph: {
+    title: 'KWIN City Explained Simply — No Jargon, Just Facts',
+    description: 'What is KWIN City? What is confirmed, what is proposed? A plain-language guide for everyone.',
+    url: 'https://kwin-city.com/for/curious-citizens',
+    type: 'website',
+  },
 };
 
 export default function CuriousCitizensPage() {

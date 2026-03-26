@@ -2,8 +2,23 @@ import type { Metadata } from 'next';
 import PersonaPage from '@/components/PersonaPage';
 
 export const metadata: Metadata = {
-  title: 'For Residents | KWIN City',
-  description: 'Resident-focused guide to livability, connectivity, sustainability, and everyday quality-of-life factors in the KWIN vision.',
+  title: 'For Residents | KWIN City — Livability, Healthcare, Green Cover & Connectivity',
+  description:
+    'Resident-focused guide to KWIN City: access, healthcare, international schools, 40% green cover, air quality, and everyday quality-of-life evidence for a future North Bengaluru community.',
+  keywords: [
+    'KWIN City residents',
+    'live in North Bengaluru',
+    'sustainable community Bengaluru',
+    'Doddaballapura housing',
+    'knowledge city livability India',
+  ],
+  alternates: { canonical: 'https://kwin-city.com/for/resident' },
+  openGraph: {
+    title: 'KWIN City for Residents — Livability, Healthcare & Green Community',
+    description: 'What daily life in KWIN City may look like — evidence-first, jargon-free.',
+    url: 'https://kwin-city.com/for/resident',
+    type: 'website',
+  },
 };
 
 export default function ResidentPage() {

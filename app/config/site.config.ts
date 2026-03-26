@@ -7,8 +7,10 @@
 export const SITE_CONFIG = {
   name: 'KWIN City',
   description: 'Knowledge, Wellbeing, Innovation City',
-  url: 'https://kwin.city',
+  url: 'https://kwin-city.com',
   locale: 'en_IN',
+  // Canonical content refresh date used in sitemap, schema, and UI labels.
+  lastUpdatedISO: '2026-03-26',
 } as const;
 
 /**
@@ -172,7 +174,7 @@ export const SEO_CONFIG = {
   keywords: ['KWIN', 'Bengaluru', 'Innovation', 'Knowledge District', 'Doddaballapura'],
   author: 'Aarti S Ravikumar',
   creator: 'BAJA Associates',
-  canonical: 'https://kwin.city',
+  canonical: 'https://kwin-city.com',
   ogImage: '/og-image.png',
   twitterHandle: '@kwincity',
 } as const;

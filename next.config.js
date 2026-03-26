@@ -38,7 +38,7 @@ const baseConfig = {
     minimumCacheTTL: 60 * 60 * 24 * 90,
   },
   
-  // Security headers
+  // Security + SEO headers
   headers: async () => {
     return [
       {
@@ -48,7 +48,14 @@ const baseConfig = {
           { key: 'X-Frame-Options', value: 'DENY' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Permissions-Policy', value: 'geolocation=(), microphone=(), camera=()' },
+          // Strict-Transport-Security: tell browsers/Google to always use HTTPS
+          { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
         ],
+      },
+      // Sitemap and robots.txt must never be cached so crawlers always get fresh data
+      {
+        source: '/(sitemap.xml|robots.txt)',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' }],
       },
       // Cache static assets (JS, CSS) for 1 year (they have hash in filename)
       {

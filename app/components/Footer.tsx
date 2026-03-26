@@ -1,9 +1,15 @@
 'use client';
 
 import Link from 'next/link';
+import { SITE_CONFIG } from '@/config/site.config';
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const lastUpdatedText = new Date(SITE_CONFIG.lastUpdatedISO).toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
 
   return (
     <footer
@@ -74,6 +80,7 @@ export default function Footer() {
               <li><Link href="/data-insights"   className="text-[#94A3B8] hover:text-white transition-colors">Data Insights Lab</Link></li>
               <li><Link href="/evidence"        className="text-[#94A3B8] hover:text-white transition-colors">Evidence Vault</Link></li>
               <li><Link href="/sources"         className="text-[#94A3B8] hover:text-white transition-colors">Sources & Claims</Link></li>
+              <li><Link href="/contact"         className="text-[#94A3B8] hover:text-white transition-colors">Contact Us</Link></li>
               <li><Link href="/for"             className="text-[#94A3B8] hover:text-white transition-colors">Persona Views</Link></li>
               <li>
                 <a href="https://kiadb.karnataka.gov.in/" target="_blank" rel="noopener noreferrer" className="text-[#94A3B8] hover:text-white transition-colors">
@@ -136,9 +143,14 @@ export default function Footer() {
           <div className="flex items-center gap-2.5 text-[11px] text-[#64748B]">
             <span className="hidden md:inline">Open data · Every claim sourced</span>
             <span className="hidden md:inline w-px h-3 bg-white/10" />
+            <span className="hidden md:inline">Last updated</span>
+            <time className="hidden md:inline text-[#4F6280]" dateTime={SITE_CONFIG.lastUpdatedISO}>{lastUpdatedText}</time>
+            <span className="hidden md:inline w-px h-3 bg-white/10" />
             <Link href="/terms" className="text-[#4F6280] hover:text-white transition-colors">Terms</Link>
             <span className="w-px h-3 bg-white/10" />
             <Link href="/sources" className="text-[#4F6280] hover:text-white transition-colors">Sources</Link>
+            <span className="w-px h-3 bg-white/10" />
+            <Link href="/contact" className="text-[#4F6280] hover:text-white transition-colors">Contact</Link>
           </div>
         </div>
       </div>

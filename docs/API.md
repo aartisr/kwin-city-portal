@@ -21,7 +21,7 @@ The KWIN City Portal exposes one internal API route that acts as a secure, cache
 **Route file:** `app/api/opencity/route.ts`  
 **Method:** `GET`  
 **Base URL (dev):** `http://localhost:3000/api/opencity`  
-**Base URL (prod):** `https://kwin.city/api/opencity`
+**Base URL (prod):** `https://kwin-city.com/api/opencity`
 
 This API route:
 - Accepts a `dataset` slug and optional parameters

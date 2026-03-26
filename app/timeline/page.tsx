@@ -4,8 +4,23 @@ import PageIntro from '@/components/PageIntro';
 import Timeline from '@/components/Timeline';
 
 export const metadata: Metadata = {
-  title: 'Timeline | KWIN City Research Portal',
-  description: 'Working development timeline for KWIN City with explicit verification boundaries.',
+  title: 'Development Timeline | KWIN City 2024–2030 Roadmap',
+  description:
+    'KWIN City\'s five-phase development roadmap from 2024 inauguration to full operations by 2030. Every milestone is labeled with its source and verification status.',
+  keywords: [
+    'KWIN City timeline',
+    'KWIN development phases',
+    'North Bengaluru 2030',
+    'KIADB project milestones',
+    'knowledge city timeline India',
+  ],
+  alternates: { canonical: 'https://kwin-city.com/timeline' },
+  openGraph: {
+    title: 'KWIN City Development Timeline — 2024 to 2030',
+    description: 'Five phases. One extraordinary ambition. The KWIN City roadmap, labeled with evidence.',
+    url: 'https://kwin-city.com/timeline',
+    type: 'website',
+  },
 };
 
 export default function TimelinePage() {
