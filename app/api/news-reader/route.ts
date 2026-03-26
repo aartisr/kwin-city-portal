@@ -4,6 +4,7 @@ type FeedItem = {
   title: string;
   link: string;
   summary: string;
+  fullContent: string;
   source: string;
   sourceFeedUrl: string;
   publishedAt: string | null;
@@ -115,10 +116,12 @@ function parseFeedItems(feedXml: string, sourceUrl: string, perFeedLimit: number
     if (!link) {
       continue;
     }
+    const fullText = stripHtml(summaryText);
     parsed.push({
       title,
       link,
       summary: summarize(summaryText),
+      fullContent: fullText.length > 5000 ? `${fullText.slice(0, 5000)}…` : fullText,
       source,
       sourceFeedUrl: sourceUrl,
       publishedAt: published,
@@ -133,10 +136,12 @@ function parseFeedItems(feedXml: string, sourceUrl: string, perFeedLimit: number
     if (!link) {
       continue;
     }
+    const fullText = stripHtml(summaryText);
     parsed.push({
       title,
       link,
       summary: summarize(summaryText),
+      fullContent: fullText.length > 5000 ? `${fullText.slice(0, 5000)}…` : fullText,
       source,
       sourceFeedUrl: sourceUrl,
       publishedAt: published,

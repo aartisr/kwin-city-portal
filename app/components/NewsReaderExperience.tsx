@@ -6,6 +6,7 @@ type ReaderItem = {
   title: string;
   link: string;
   summary: string;
+  fullContent?: string;
   source: string;
   sourceFeedUrl: string;
   publishedAt: string | null;
@@ -91,6 +92,16 @@ export default function NewsReaderExperience() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<ReaderResponse | null>(null);
+  const [selectedItem, setSelectedItem] = useState<ReaderItem | null>(null);
+
+  useEffect(() => {
+    if (!selectedItem) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedItem(null);
+    };
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, [selectedItem]);
 
   useEffect(() => {
     try {
@@ -437,12 +448,10 @@ export default function NewsReaderExperience() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
                 {trendingItems.map((item) => (
-                  <a
+                  <button
                     key={`trending-${item.link}`}
-                    href={item.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group rounded-xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff,#f8fafc)] p-3 hover:border-cyan-300 transition-colors"
+                    onClick={() => setSelectedItem(item)}
+                    className="group rounded-xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff,#f8fafc)] p-3 hover:border-cyan-300 transition-colors text-left"
                   >
                     <div className="flex items-center justify-between gap-2 mb-1.5">
                       <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-cyan-700">{item.source}</span>
@@ -451,7 +460,7 @@ export default function NewsReaderExperience() {
                     <p className="text-sm font-bold leading-6 text-slate-900 line-clamp-2 group-hover:text-slate-700">
                       {item.title}
                     </p>
-                  </a>
+                  </button>
                 ))}
               </div>
             </section>
@@ -490,21 +499,20 @@ export default function NewsReaderExperience() {
                   <p className="text-sm text-slate-700 leading-7 min-h-[126px]">{item.summary}</p>
 
                   <div className="mt-4 flex items-center justify-between gap-3">
+                    <button
+                      onClick={() => setSelectedItem(item)}
+                      className="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-3 py-2 text-xs font-semibold text-white hover:bg-slate-800"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5"><path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" /></svg>
+                      Read in Reader
+                    </button>
                     <a
                       href={item.link}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center rounded-lg bg-slate-900 px-3 py-2 text-xs font-semibold text-white hover:bg-slate-800"
-                    >
-                      Read Original Source
-                    </a>
-                    <a
-                      href={item.sourceFeedUrl}
-                      target="_blank"
-                      rel="noreferrer"
                       className="text-xs font-semibold text-slate-500 hover:text-slate-800"
                     >
-                      Feed XML
+                      Original ↗
                     </a>
                   </div>
                 </article>
@@ -525,6 +533,88 @@ export default function NewsReaderExperience() {
           ) : null}
         </div>
       </section>
+
+      {/* ── In-page reading drawer ── */}
+      {selectedItem ? (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm"
+            onClick={() => setSelectedItem(null)}
+            aria-hidden="true"
+          />
+
+          {/* Drawer panel */}
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={selectedItem.title}
+            className="fixed inset-y-0 right-0 z-50 flex w-full max-w-2xl flex-col bg-white shadow-2xl"
+          >
+            {/* Top bar */}
+            <div className="flex items-center justify-between gap-4 border-b border-slate-200 px-5 py-4">
+              <div className="flex items-center gap-2">
+                <span className="rounded-full border border-cyan-200 bg-cyan-50 px-2.5 py-1 text-[11px] font-bold tracking-[0.08em] uppercase text-cyan-800">
+                  {selectedItem.source}
+                </span>
+                <span className="text-[11px] text-slate-500">{formatDate(selectedItem.publishedAt)}</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <a
+                  href={selectedItem.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1 rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                >
+                  Open Original ↗
+                </a>
+                <button
+                  onClick={() => setSelectedItem(null)}
+                  aria-label="Close reader"
+                  className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
+                    <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Scrollable content */}
+            <div className="flex-1 overflow-y-auto px-6 py-6">
+              <h1 className="text-2xl font-extrabold leading-tight text-slate-900 mb-5">
+                {selectedItem.title}
+              </h1>
+
+              {selectedItem.fullContent && selectedItem.fullContent.length > selectedItem.summary.length + 20 ? (
+                <div className="prose prose-slate prose-sm max-w-none leading-8 text-slate-700 whitespace-pre-line">
+                  {selectedItem.fullContent}
+                </div>
+              ) : (
+                <>
+                  <p className="leading-8 text-slate-700">{selectedItem.summary}</p>
+                  <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+                    <strong>Full article not available in RSS feed.</strong> Open the original source to read the complete story.
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Footer CTA */}
+            <div className="border-t border-slate-200 bg-slate-50 px-6 py-4 flex items-center justify-between gap-3">
+              <span className="text-xs text-slate-500">Content from the publisher's RSS feed · <span className="font-semibold">{selectedItem.source}</span></span>
+              <a
+                href={selectedItem.link}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
+              >
+                Read full article at {getDomain(selectedItem.link)} ↗
+              </a>
+            </div>
+          </div>
+        </>
+      ) : null}
     </main>
   );
 }
