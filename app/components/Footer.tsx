@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { SITE_CONFIG } from '@/config/site.config';
+import NewsletterSignup from '@/components/NewsletterSignup';
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -68,6 +69,8 @@ export default function Footer() {
               <li><Link href="/about"                className="text-[#94A3B8] hover:text-white transition-colors">About KWIN</Link></li>
               <li><Link href="/why-north-bengaluru"  className="text-[#94A3B8] hover:text-white transition-colors">Why North Bengaluru</Link></li>
               <li><Link href="/timeline"             className="text-[#94A3B8] hover:text-white transition-colors">Development Timeline</Link></li>
+              <li><Link href="/updates"              className="text-[#94A3B8] hover:text-white transition-colors">Updates Feed</Link></li>
+              <li><Link href="/faq"                  className="text-[#94A3B8] hover:text-white transition-colors">FAQ</Link></li>
               <li><Link href="/sectors"              className="text-[#94A3B8] hover:text-white transition-colors">Industry Sectors</Link></li>
             </ul>
           </div>
@@ -83,6 +86,8 @@ export default function Footer() {
               <li><Link href="/news-reader" className="text-[#94A3B8] hover:text-white transition-colors">OPML News Reader</Link></li>
               <li><Link href="/evidence"        className="text-[#94A3B8] hover:text-white transition-colors">Evidence Vault</Link></li>
               <li><Link href="/sources"         className="text-[#94A3B8] hover:text-white transition-colors">Sources & Claims</Link></li>
+              <li><Link href="/downloads"       className="text-[#94A3B8] hover:text-white transition-colors">Document Downloads</Link></li>
+              <li><Link href="/search"          className="text-[#94A3B8] hover:text-white transition-colors">Search</Link></li>
               <li><Link href="/contact"         className="text-[#94A3B8] hover:text-white transition-colors">Contact Us</Link></li>
               <li><Link href="/for"             className="text-[#94A3B8] hover:text-white transition-colors">Persona Views</Link></li>
               <li>
@@ -136,6 +141,10 @@ export default function Footer() {
               </li>
             </ul>
           </div>
+        </div>
+
+        <div id="newsletter" className="border-t border-white/10 pt-10 pb-2">
+          <NewsletterSignup variant="footer" />
         </div>
 
         {/* ── Trust & Certification Badges ── */}

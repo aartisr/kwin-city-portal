@@ -6,6 +6,9 @@ const CACHE_VERSION = 'kwin-v2';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 const IMAGE_CACHE = `${CACHE_VERSION}-images`;
+const IS_LOCALHOST =
+  self.location.hostname === 'localhost' ||
+  self.location.hostname === '127.0.0.1';
 
 // Routes to precache on install
 const PRECACHE_ROUTES = [
@@ -26,6 +29,11 @@ const PRECACHE_ROUTES = [
 // INSTALL — precache app shell
 // ─────────────────────────────────────────────
 self.addEventListener('install', (event) => {
+  if (IS_LOCALHOST) {
+    event.waitUntil(self.skipWaiting());
+    return;
+  }
+
   event.waitUntil(
     caches
       .open(STATIC_CACHE)
@@ -45,6 +53,20 @@ self.addEventListener('install', (event) => {
 // ACTIVATE — purge old cache versions
 // ─────────────────────────────────────────────
 self.addEventListener('activate', (event) => {
+  if (IS_LOCALHOST) {
+    event.waitUntil(
+      caches
+        .keys()
+        .then((keys) => Promise.all(keys.map((key) => caches.delete(key))))
+        .then(() => self.registration.unregister())
+        .then(() => self.clients.matchAll({ type: 'window' }))
+        .then((clients) => {
+          clients.forEach((client) => client.navigate(client.url));
+        })
+    );
+    return;
+  }
+
   event.waitUntil(
     caches
       .keys()
@@ -63,6 +85,8 @@ self.addEventListener('activate', (event) => {
 // FETCH — routing strategies
 // ─────────────────────────────────────────────
 self.addEventListener('fetch', (event) => {
+  if (IS_LOCALHOST) return;
+
   const { request } = event;
   const url = new URL(request.url);
 
@@ -104,14 +128,21 @@ self.addEventListener('fetch', (event) => {
 // ─────────────────────────────────────────────
 
 async function cacheFirstStrategy(request, cacheName) {
-  const cached = await caches.match(request);
+  const cached = await caches.match(request, { ignoreSearch: true });
   if (cached) return cached;
-  const response = await fetch(request);
-  if (response.ok) {
-    const cache = await caches.open(cacheName);
-    cache.put(request, response.clone());
+
+  try {
+    const response = await fetch(request);
+    if (response.ok) {
+      const cache = await caches.open(cacheName);
+      cache.put(request, response.clone());
+    }
+    return response;
+  } catch {
+    // Avoid unhandled promise rejections in fetch event handlers.
+    const fallback = await caches.match(request, { ignoreSearch: true });
+    return fallback || new Response('', { status: 503 });
   }
-  return response;
 }
 
 async function cacheFirstWithExpiry(request, cacheName, maxAgeSeconds) {
