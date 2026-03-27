@@ -233,8 +233,8 @@ function ChartRenderer({
   if (cfg.chartType === 'pie') {
     const chartDesc = `Pie chart: ${cfg.description}. Categories shown: ${data.map((d) => `${d[cfg.xField]}: ${fmt(Number(d[cfg.yField] ?? 0))}`).join(', ')}`;
     return (
-      <figure>
-        <ResponsiveContainer width="100%" height={340} role="img" aria-label={cfg.label} aria-describedby={`chart-desc-${cfg.id}`}>
+      <figure role="img" aria-label={cfg.label} aria-describedby={`chart-desc-${cfg.id}`}>
+        <ResponsiveContainer width="100%" height={340}>
           <PieChart>
             <Pie
               data={data}
@@ -261,8 +261,8 @@ function ChartRenderer({
   if (cfg.chartType === 'area') {
     const chartDesc = `Area chart: ${cfg.description}. ${cfg.note ? `Note: ${cfg.note}` : ''}`;
     return (
-      <figure>
-        <ResponsiveContainer width="100%" height={340} role="img" aria-label={cfg.label} aria-describedby={`chart-desc-${cfg.id}`}>
+      <figure role="img" aria-label={cfg.label} aria-describedby={`chart-desc-${cfg.id}`}>
+        <ResponsiveContainer width="100%" height={340}>
           <AreaChart {...common}>
           <defs>
             <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
@@ -282,23 +282,27 @@ function ChartRenderer({
           <Tooltip formatter={(v) => [fmt(Number(v ?? 0)), cfg.unit ?? cfg.yField]} />
           <Area type="monotone" dataKey={cfg.yField} stroke="#F5A623" fill="url(#areaGrad)" strokeWidth={2} />
         </AreaChart>
-      </ResponsiveContainer>
+        </ResponsiveContainer>
+        <figcaption id={`chart-desc-${cfg.id}`} className="sr-only">{chartDesc}</figcaption>
+      </figure>
     );
   }
 
   if (cfg.chartType === 'line') {
     const chartDesc = `Line chart: ${cfg.description}. ${cfg.note ? `Note: ${cfg.note}` : ''}`;
     return (
-      <figure>
-        <ResponsiveContainer width="100%" height={340} role="img" aria-label={cfg.label} aria-describedby={`chart-desc-${cfg.id}`}>
-          <Line Chart {...common}>
+      <figure role="img" aria-label={cfg.label} aria-describedby={`chart-desc-${cfg.id}`}>
+        <ResponsiveContainer width="100%" height={340}>
+          <LineChart {...common}>
           <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" />
           <XAxis dataKey={cfg.xField} tick={tickStyle} angle={-40} textAnchor="end" />
           <YAxis tick={tickStyle} tickFormatter={fmt} />
           <Tooltip formatter={(v) => [fmt(Number(v ?? 0)), cfg.unit ?? cfg.yField]} />
           <Line type="monotone" dataKey={cfg.yField} stroke="#3B82F6" strokeWidth={2} dot={false} />
-        </LineChart>
-      </ResponsiveContainer>
+          </LineChart>
+        </ResponsiveContainer>
+        <figcaption id={`chart-desc-${cfg.id}`} className="sr-only">{chartDesc}</figcaption>
+      </figure>
     );
   }
 
