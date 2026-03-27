@@ -7,7 +7,7 @@
  *   • variant="footer"  — compact horizontal strip for the footer
  *   • variant="section" — full-width card for landing sections
  *
- * Uses Netlify Forms (data-netlify="true") — zero backend code.
+ * Submits to /api/newsletter — stored via Resend or file fallback.
  * Honeypot field for spam prevention.
  * Persona interest checkboxes for segmented email delivery.
  */
@@ -51,17 +51,10 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
     setErrorMessage('');
 
     try {
-      const form = e.currentTarget;
-      const formData = new FormData(form);
-      const encoded = new URLSearchParams();
-      for (const [k, v] of formData.entries()) {
-        encoded.append(k, String(v));
-      }
-      // Netlify Forms POST
-      const response = await fetch('/', {
+      const response = await fetch('/api/newsletter', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encoded.toString(),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name.trim(), email: email.trim(), interests }),
       });
 
       if (response.ok) {
@@ -100,18 +93,9 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
           ) : (
             <motion.form
               key="form"
-              name="kwin-newsletter"
-              method="POST"
-              data-netlify="true"
-              data-netlify-honeypot="bot-field"
               onSubmit={handleSubmit}
               className="space-y-2"
             >
-              <input type="hidden" name="form-name" value="kwin-newsletter" />
-              {/* Honeypot — hidden from real users */}
-              <div aria-hidden="true" className="hidden">
-                <input name="bot-field" tabIndex={-1} autoComplete="off" />
-              </div>
               <input
                 type="text"
                 name="name"
@@ -185,17 +169,9 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
                 key="form"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                name="kwin-newsletter"
-                method="POST"
-                data-netlify="true"
-                data-netlify-honeypot="bot-field"
                 onSubmit={handleSubmit}
                 className="bg-white/5 border border-white/10 rounded-2xl p-8 space-y-6"
               >
-                <input type="hidden" name="form-name" value="kwin-newsletter" />
-                <div aria-hidden="true" className="hidden">
-                  <input name="bot-field" tabIndex={-1} autoComplete="off" />
-                </div>
 
                 {/* Name + Email row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
