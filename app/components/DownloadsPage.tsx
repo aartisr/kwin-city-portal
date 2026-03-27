@@ -93,9 +93,9 @@ export default function DownloadsPage() {
             <div className="grid grid-cols-3 gap-4 shrink-0">
               {(
                 [
-                  { n: documents.filter((d) => d.verificationTier === 'verified').length,   label: 'Verified',   color: 'text-emerald-700' },
-                  { n: documents.filter((d) => d.verificationTier === 'pending').length,    label: 'Pending',    color: 'text-amber-600' },
-                  { n: documents.filter((d) => d.verificationTier === 'contextual').length, label: 'Contextual', color: 'text-gray-500' },
+                  { n: documents.filter((d) => d.verificationTier === 'verified').length,   label: l({ en: 'Verified', kn: 'ದೃಢೀಕೃತ', hi: 'सत्यापित', ta: 'சரிபார்க்கப்பட்டது' }),   color: 'text-emerald-700' },
+                  { n: documents.filter((d) => d.verificationTier === 'pending').length,    label: l({ en: 'Pending', kn: 'ಬಾಕಿ', hi: 'लंबित', ta: 'நிலுவை' }),    color: 'text-amber-600' },
+                  { n: documents.filter((d) => d.verificationTier === 'contextual').length, label: l({ en: 'Contextual', kn: 'ಸಂದರ್ಭಾತ್ಮಕ', hi: 'प्रासंगिक', ta: 'சூழல் சார்ந்த' }), color: 'text-gray-500' },
                 ] as { n: number; label: string; color: string }[]
               ).map((stat) => (
                 <div key={stat.label} className="rounded-xl bg-gray-50 border border-gray-100 px-4 py-3 text-center">
@@ -133,7 +133,7 @@ export default function DownloadsPage() {
             >
               <p className="text-2xl mb-2">📁</p>
               <p className="font-bold text-sm text-gray-900">{l({ en: 'All Documents', kn: 'ಎಲ್ಲಾ ದಸ್ತಾವೇಜುಗಳು', hi: 'सभी दस्तावेज़', ta: 'அனைத்து ஆவணங்கள்' })}</p>
-              <p className="text-xs text-gray-500 mt-0.5">{countByCategory('all')} items</p>
+              <p className="text-xs text-gray-500 mt-0.5">{countByCategory('all')} {l({ en: 'items', kn: 'ವಸ್ತುಗಳು', hi: 'आइटम', ta: 'உருப்படிகள்' })}</p>
             </button>
 
             {categories.map((cat) => (
@@ -148,14 +148,14 @@ export default function DownloadsPage() {
               >
                 <p className="text-2xl mb-2">{cat.icon}</p>
                 <p className="font-bold text-sm text-gray-900">{cat.label}</p>
-                <p className="text-xs text-gray-500 mt-0.5">{countByCategory(cat.id)} items</p>
+                <p className="text-xs text-gray-500 mt-0.5">{countByCategory(cat.id)} {l({ en: 'items', kn: 'ವಸ್ತುಗಳು', hi: 'आइटम', ta: 'உருப்படிகள்' })}</p>
               </button>
             ))}
           </div>
 
           {/* Tier filter row */}
           <div className="flex items-center gap-2 flex-wrap mb-8">
-            <span className="text-xs text-gray-400 font-medium">Filter by verification:</span>
+            <span className="text-xs text-gray-400 font-medium">{l({ en: 'Filter by verification:', kn: 'ಪರಿಶೀಲನೆ ಆಧಾರವಾಗಿ ಫಿಲ್ಟರ್:', hi: 'सत्यापन के अनुसार फ़िल्टर:', ta: 'சரிபார்ப்பின் அடிப்படையில் வடிகட்டி:' })}</span>
             {(['all', 'verified', 'pending', 'contextual'] as const).map((t) => (
               <button
                 key={t}
@@ -168,14 +168,14 @@ export default function DownloadsPage() {
                     : `${TIER_CONFIG[t].badge} hover:shadow-sm`
                 }`}
               >
-                {t === 'all' ? 'All Tiers' : `${TIER_CONFIG[t].icon} ${TIER_CONFIG[t].label}`}
+                {t === 'all' ? l({ en: 'All Tiers', kn: 'ಎಲ್ಲಾ ಹಂತಗಳು', hi: 'सभी स्तर', ta: 'அனைத்து நிலைகள்' }) : `${TIER_CONFIG[t].icon} ${TIER_CONFIG[t].label}`}
               </button>
             ))}
           </div>
 
           {/* Result count */}
           <p className="text-sm text-gray-500 mb-6">
-            Showing <span className="font-semibold text-gray-800">{filtered.length}</span> of {documents.length} documents
+            {l({ en: 'Showing', kn: 'ತೋರಿಸಲಾಗುತ್ತಿದೆ', hi: 'दिखाए जा रहे हैं', ta: 'காண்பிக்கப்படுகிறது' })} <span className="font-semibold text-gray-800">{filtered.length}</span> {l({ en: 'of', kn: 'ಇದಲ್ಲಿನ', hi: 'में से', ta: 'இல்' })} {documents.length} {l({ en: 'documents', kn: 'ದಸ್ತಾವೇಜುಗಳು', hi: 'दस्तावेज़', ta: 'ஆவணங்கள்' })}
           </p>
 
           {/* Document cards grid */}
@@ -247,14 +247,14 @@ export default function DownloadsPage() {
                           rel="noopener noreferrer"
                           className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-amber-700 hover:text-amber-900 transition-colors"
                         >
-                          View source ↗
+                          {l({ en: 'View source', kn: 'ಮೂಲ ನೋಡಿ', hi: 'स्रोत देखें', ta: 'மூலத்தை பார்க்க' })} ↗
                         </a>
                       ) : (
                         <Link
                           href={doc.href}
                           className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-amber-700 hover:text-amber-900 transition-colors"
                         >
-                          Read on portal →
+                          {l({ en: 'Read on portal', kn: 'ಪೋರ್ಟಲ್‌ನಲ್ಲಿ ಓದಿ', hi: 'पोर्टल पर पढ़ें', ta: 'தளத்தில் படிக்க' })} →
                         </Link>
                       )}
                     </div>
@@ -265,12 +265,12 @@ export default function DownloadsPage() {
               {filtered.length === 0 && (
                 <div className="col-span-full text-center py-16">
                   <p className="text-4xl mb-3">📭</p>
-                  <p className="text-gray-500 text-sm">No documents match this filter combination.</p>
+                  <p className="text-gray-500 text-sm">{l({ en: 'No documents match this filter combination.', kn: 'ಈ ಫಿಲ್ಟರ್ ಸಂಯೋಜನೆಗೆ ಹೊಂದುವ ದಸ್ತಾವೇಜುಗಳಿಲ್ಲ.', hi: 'इस फ़िल्टर संयोजन से कोई दस्तावेज़ मेल नहीं खाता।', ta: 'இந்த வடிகட்டி சேர்க்கைக்கு பொருந்தும் ஆவணங்கள் இல்லை.' })}</p>
                   <button
                     onClick={() => { setActiveCategory('all'); setActiveTier('all'); }}
                     className="mt-4 text-amber-700 text-sm font-semibold hover:underline"
                   >
-                    Clear all filters
+                    {l({ en: 'Clear all filters', kn: 'ಎಲ್ಲಾ ಫಿಲ್ಟರ್ ತೆರವುಗೊಳಿಸಿ', hi: 'सभी फ़िल्टर साफ करें', ta: 'அனைத்து வடிகட்டிகளையும் அழிக்கவும்' })}
                   </button>
                 </div>
               )}
@@ -283,17 +283,16 @@ export default function DownloadsPage() {
       <section className="section-sm">
         <div className="container">
           <div className="rounded-2xl bg-[linear-gradient(135deg,#040714,#0D1640)] border border-white/10 px-8 py-10 text-center">
-            <p className="text-xs font-bold tracking-[0.2em] uppercase text-amber-400 mb-3">Missing a document?</p>
-            <h2 className="text-2xl font-extrabold text-white mb-3">Help us grow the library</h2>
+            <p className="text-xs font-bold tracking-[0.2em] uppercase text-amber-400 mb-3">{l({ en: 'Missing a document?', kn: 'ದಸ್ತಾವೇಜು ಕಾಣೆಯೇ?', hi: 'कोई दस्तावेज़ छूटा है?', ta: 'ஒரு ஆவணம் தவறவிட்டதா?' })}</p>
+            <h2 className="text-2xl font-extrabold text-white mb-3">{l({ en: 'Help us grow the library', kn: 'ಗ್ರಂಥಾಲಯವನ್ನು ವಿಸ್ತರಿಸಲು ಸಹಾಯಿಸಿ', hi: 'पुस्तकालय बढ़ाने में मदद करें', ta: 'நூலகத்தை வளர்க்க உதவுங்கள்' })}</h2>
             <p className="text-[#9BAEC6] text-sm max-w-lg mx-auto mb-6">
-              If you have an official document, data file, or policy brief we&apos;ve missed, share it with us and we&apos;ll
-              verify and add it.
+              {l({ en: "If you have an official document, data file, or policy brief we've missed, share it with us and we'll verify and add it.", kn: 'ನಾವು ತಪ್ಪಿಸಿಕೊಂಡಿರುವ ಅಧಿಕೃತ ದಸ್ತಾವೇಜು, ಡೇಟಾ ಫೈಲ್ ಅಥವಾ ನೀತಿ ಸಂಕೇತ ಇದ್ದರೆ ಹಂಚಿಕೊಳ್ಳಿ; ನಾವು ಪರಿಶೀಲಿಸಿ ಸೇರಿಸುತ್ತೇವೆ.', hi: 'यदि कोई आधिकारिक दस्तावेज़, डेटा फ़ाइल या नीति संक्षेप छूट गया है, हमें साझा करें; हम सत्यापित करके जोड़ देंगे।', ta: 'நாம் தவறவிட்ட அதிகாரப்பூர்வ ஆவணம், தரவு கோப்பு அல்லது கொள்கை குறிப்புரை இருந்தால் பகிருங்கள்; சரிபார்த்து சேர்ப்போம்.' })}
             </p>
             <a
               href="mailto:hello@kwin-city.com?subject=Document+submission"
               className="btn btn-primary inline-flex"
             >
-              Submit a document
+              {l({ en: 'Submit a document', kn: 'ದಸ್ತಾವೇಜು ಸಲ್ಲಿಸಿ', hi: 'दस्तावेज़ जमा करें', ta: 'ஆவணத்தை சமர்ப்பிக்கவும்' })}
             </a>
           </div>
         </div>

@@ -3,8 +3,12 @@
 import { useState } from 'react';
 import FilterAndExport from '@/components/FilterAndExport';
 import ContentRecommendations from '@/components/ContentRecommendations';
+import { useI18n } from '@/lib/i18n/I18nProvider';
+import { pickLocalizedValue } from '@/lib/i18n/messages';
 
 export default function EvidenceLibraryPage() {
+  const { locale } = useI18n();
+  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
   const [filterTab, setFilterTab] = useState<'sources' | 'timeline' | 'sectors'>('sources');
 
   // Sample evidence data (in production, load from API)
@@ -96,10 +100,9 @@ export default function EvidenceLibraryPage() {
       {/* Header */}
       <section className="bg-gradient-to-r from-blue-900 to-indigo-900 text-white py-16">
         <div className="container">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Evidence Vault</h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">{l({ en: 'Evidence Vault', kn: 'ಸಾಕ್ಷ್ಯ ಸಂಗ್ರಹ', hi: 'प्रमाण भंडार', ta: 'ஆதார களஞ்சியம்' })}</h1>
           <p className="text-lg text-blue-100 max-w-2xl">
-            Comprehensive documentation library with advanced filtering and export capabilities for
-            researchers, investors, and stakeholders
+            {l({ en: 'Comprehensive documentation library with advanced filtering and export capabilities for researchers, investors, and stakeholders', kn: 'ಸಂಶೋಧಕರು, ಹೂಡಿಕೆದಾರರು ಮತ್ತು ಹಿತಾಸಕ್ತರಿಗಾಗಿ ಸುಧಾರಿತ ಫಿಲ್ಟರ್ ಹಾಗೂ ರಫ್ತು ಸಾಮರ್ಥ್ಯಗಳಿರುವ ಸಮಗ್ರ ದಸ್ತಾವೇಜು ಗ್ರಂಥಾಲಯ', hi: 'शोधकर्ताओं, निवेशकों और हितधारकों के लिए उन्नत फ़िल्टरिंग और एक्सपोर्ट क्षमताओं वाला व्यापक दस्तावेज़ पुस्तकालय', ta: 'ஆராய்ச்சியாளர்கள், முதலீட்டாளர்கள் மற்றும் பங்குதாரர்களுக்கான மேம்பட்ட வடிகட்டி/ஏற்றுமதி திறன்களுடன் கூடிய விரிவான ஆவண நூலகம்' })}
           </p>
         </div>
       </section>
@@ -118,10 +121,10 @@ export default function EvidenceLibraryPage() {
               }`}
             >
               {tab === 'sources'
-                ? 'Evidence Sources'
+                ? l({ en: 'Evidence Sources', kn: 'ಸಾಕ್ಷ್ಯ ಮೂಲಗಳು', hi: 'प्रमाण स्रोत', ta: 'ஆதார மூலங்கள்' })
                 : tab === 'timeline'
-                  ? 'Timeline'
-                  : 'Sectors'}
+                  ? l({ en: 'Timeline', kn: 'ಟೈಮ್‌ಲೈನ್', hi: 'टाइमलाइन', ta: 'காலவரிசை' })
+                  : l({ en: 'Sectors', kn: 'ಕ್ಷೇತ್ರಗಳು', hi: 'सेक्टर', ta: 'துறைகள்' })}
             </button>
           ))}
         </div>
@@ -132,10 +135,10 @@ export default function EvidenceLibraryPage() {
           dataType={filterTab === 'timeline' ? 'timeline' : filterTab === 'sectors' ? 'sectors' : 'evidence'}
           title={
             filterTab === 'sources'
-              ? 'Evidence Sources'
+              ? l({ en: 'Evidence Sources', kn: 'ಸಾಕ್ಷ್ಯ ಮೂಲಗಳು', hi: 'प्रमाण स्रोत', ta: 'ஆதார மூலங்கள்' })
               : filterTab === 'timeline'
-                ? 'Timeline Events'
-                : 'Sectors'
+                ? l({ en: 'Timeline Events', kn: 'ಟೈಮ್‌ಲೈನ್ ಘಟನೆಗಳು', hi: 'टाइमलाइन घटनाएँ', ta: 'காலவரிசை நிகழ்வுகள்' })
+                : l({ en: 'Sectors', kn: 'ಕ್ಷೇತ್ರಗಳು', hi: 'सेक्टर', ta: 'துறைகள்' })
           }
         />
 
@@ -148,7 +151,7 @@ export default function EvidenceLibraryPage() {
 
         {/* Evidence listing */}
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Documents</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">{l({ en: 'Documents', kn: 'ದಸ್ತಾವೇಜುಗಳು', hi: 'दस्तावेज़', ta: 'ஆவணங்கள்' })}</h2>
           {getDataForTab().map((item) => (
             <div
               key={item.id}
@@ -158,7 +161,7 @@ export default function EvidenceLibraryPage() {
                 <div>
                   <h3 className="text-lg font-bold text-gray-900">{item.title}</h3>
                   <p className="text-sm text-gray-600 mt-1">
-                    {'date' in item && `Published: ${item.date}`}
+                    {'date' in item && `${l({ en: 'Published', kn: 'ಪ್ರಕಟಿತ', hi: 'प्रकाशित', ta: 'வெளியீடு' })}: ${item.date}`}
                   </p>
                 </div>
                 <span
@@ -175,7 +178,7 @@ export default function EvidenceLibraryPage() {
               </div>
               <p className="text-gray-700 mb-3">{item.description}</p>
               {'source' in item && (
-                <p className="text-sm text-gray-600">Source: {String(item.source)}</p>
+                <p className="text-sm text-gray-600">{l({ en: 'Source', kn: 'ಮೂಲ', hi: 'स्रोत', ta: 'மூலம்' })}: {String(item.source)}</p>
               )}
             </div>
           ))}
@@ -184,7 +187,7 @@ export default function EvidenceLibraryPage() {
         {/* Source references */}
         <div className="mt-12 pt-8 border-t border-gray-200">
           <p className="text-sm text-gray-600">
-            All documentation is verified against primary sources.
+            {l({ en: 'All documentation is verified against primary sources.', kn: 'ಎಲ್ಲಾ ದಸ್ತಾವೇಜುಗಳನ್ನು ಪ್ರಾಥಮಿಕ ಮೂಲಗಳ ವಿರುದ್ಧ ಪರಿಶೀಲಿಸಲಾಗಿದೆ.', hi: 'सभी दस्तावेज़ प्राथमिक स्रोतों के विरुद्ध सत्यापित हैं।', ta: 'அனைத்து ஆவணங்களும் முதன்மை மூலங்களுடன் சரிபார்க்கப்பட்டுள்ளன.' })}
           </p>
         </div>
       </div>
