@@ -251,6 +251,86 @@ export const THEME = {
 };
 ```
 
+### Task 11: Add a New Language (Configuration Only)
+
+**Location:** `app/lib/i18n/messages.ts`
+
+This platform supports multi-language localization through pure configuration. **No component changes needed** when adding a new language.
+
+#### Step 1: Add Language to LOCALE_DEFINITIONS
+
+```typescript
+// app/lib/i18n/messages.ts
+
+export const LOCALE_DEFINITIONS = [
+  { code: 'en', label: 'English', nativeLabel: 'English', htmlLang: 'en-IN' },
+  { code: 'kn', label: 'Kannada', nativeLabel: 'ಕನ್ನಡ', htmlLang: 'kn-IN' },
+  { code: 'hi', label: 'Hindi', nativeLabel: 'हिन्दी', htmlLang: 'hi-IN' },
+  { code: 'ta', label: 'Tamil', nativeLabel: 'தமிழ்', htmlLang: 'ta-IN' },
+  // Add new language here:
+  { code: 'es', label: 'Spanish', nativeLabel: 'Español', htmlLang: 'es-ES' },  // ← New
+];
+```
+
+#### Step 2: Add Translations to localeMessageOverrides
+
+```typescript
+// app/lib/i18n/messages.ts
+
+export const localeMessageOverrides: Record<Locale, Record<string, string>> = {
+  en: { /* existing English translations */ },
+  kn: { /* existing Kannada translations */ },
+  hi: { /* existing Hindi translations */ },
+  ta: { /* existing Tamil translations */ },
+  // Add new language translations:
+  es: {
+    'North Bengaluru': 'Norte de Bengaluru',
+    'Investment Hub': 'Centro de Inversión',
+    'Sectors': 'Sectores',
+    'About': 'Acerca de',
+    'Evidence': 'Evidencia',
+    // ... add all UI label translations here
+  },
+};
+```
+
+#### Step 3: Done! ✅
+- Language switcher automatically includes new language
+- All date/time formatting handled automatically via `getIntlLocale()` helper
+- No component files need modification
+- All UI text uses centralized translation lookup
+
+**How it works internally:**
+- `LOCALE_DEFINITIONS` is the single source of truth for all language metadata
+- `localeMessageOverrides` provides translations for UI labels and messages
+- Components use `useI18n()` hook which automatically handles new languages
+- The `getIntlLocale()` helper maps language codes to Intl.DateTimeFormat locales
+
+**Example: Adding Portuguese (Brazilian)**
+
+```typescript
+// Step 1: Add to LOCALE_DEFINITIONS
+export const LOCALE_DEFINITIONS = [
+  // ... existing languages ...
+  { code: 'pt', label: 'Portuguese', nativeLabel: 'Português', htmlLang: 'pt-BR' },
+];
+
+// Step 2: Add to localeMessageOverrides
+export const localeMessageOverrides = {
+  // ... existing translations ...
+  pt: {
+    'North Bengaluru': 'Norte de Bengaluru',
+    'Investment Hub': 'Centro de Investimento',
+    'Sectors': 'Setores',
+    'About': 'Sobre',
+    'Evidence': 'Evidência',
+    // ... all translations ...
+  },
+};
+
+// That's it! No component changes needed.
+```
+
 ---
 
 ## Advanced: Create a New Page Type
