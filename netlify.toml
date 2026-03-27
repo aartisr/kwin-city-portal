@@ -8,8 +8,6 @@
 # @netlify/plugin-nextjs configuration
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-  [plugins.inputs]
-    skipGoingServerless = true
 
 [context.production.environment]
   NEXT_PUBLIC_ENVIRONMENT = "production"
