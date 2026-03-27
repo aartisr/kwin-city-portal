@@ -5,7 +5,7 @@
       "namespace": "android_app",
       "package_name": "com.kwincity.portal",
       "sha256_cert_fingerprints": [
-        "REPLACE_WITH_ACTUAL_SHA256_FINGERPRINT_FROM_RELEASE_KEYSTORE"
+        "8E:74:B2:C9:1B:D6:71:84:C9:ED:18:91:70:89:E0:D1:A7:00:EA:39:D1:E3:49:1C:B8:7B:56:C6:81:79:D8:32"
       ]
     }
   }
