@@ -14,6 +14,8 @@
 
 import { useState, useId, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useI18n } from '@/lib/i18n/I18nProvider';
+import { pickLocalizedValue } from '@/lib/i18n/messages';
 
 const INTERESTS = [
   { id: 'investor',   label: 'Investment updates',     icon: '📈' },
@@ -25,6 +27,8 @@ const INTERESTS = [
 type Variant = 'footer' | 'section';
 
 export default function NewsletterSignup({ variant = 'section' }: { variant?: Variant }) {
+  const { locale } = useI18n();
+  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
   const uid = useId();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -42,7 +46,7 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
 
     // Basic client-side validation
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      setErrorMessage('Please enter a valid email address.');
+      setErrorMessage(l({ en: 'Please enter a valid email address.', kn: 'ದಯವಿಟ್ಟು ಮಾನ್ಯ ಇಮೇಲ್ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ.', hi: 'कृपया मान्य ईमेल पता दर्ज करें।', ta: 'சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும்.' }));
       setStatus('error');
       return;
     }
@@ -67,16 +71,16 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
       }
     } catch {
       setStatus('error');
-      setErrorMessage('Something went wrong. Please try again or email us at hello@kwin-city.com.');
+      setErrorMessage(l({ en: 'Something went wrong. Please try again or email us at hello@kwin-city.com.', kn: 'ಏನೋ ತಪ್ಪಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ ಅಥವಾ hello@kwin-city.com ಗೆ ಇಮೇಲ್ ಮಾಡಿ.', hi: 'कुछ गलत हुआ। कृपया फिर प्रयास करें या hello@kwin-city.com पर ईमेल करें।', ta: 'ஏதோ தவறு ஏற்பட்டது. மீண்டும் முயற்சிக்கவும் அல்லது hello@kwin-city.com க்கு மின்னஞ்சல் அனுப்பவும்.' }));
     }
   };
 
   if (variant === 'footer') {
     return (
       <div className="w-full">
-        <p className="text-[11px] md:text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-4">Stay Updated</p>
+        <p className="text-[11px] md:text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-4">{l({ en: 'Stay Updated', kn: 'ನವೀಕೃತವಾಗಿರಿ', hi: 'अपडेट रहें', ta: 'புதுப்பிக்கப்பட்டிருங்கள்' })}</p>
         <p className="text-sm text-[#7C8EA6] mb-4 leading-relaxed">
-          Get KWIN City milestone updates in your inbox.
+          {l({ en: 'Get KWIN City milestone updates in your inbox.', kn: 'KWIN City ಮೈಲಿಗಲ್ಲು ನವೀಕರಣಗಳನ್ನು ನಿಮ್ಮ ಇನ್ಬಾಕ್ಸ್‌ನಲ್ಲಿ ಪಡೆಯಿರಿ.', hi: 'KWIN City माइलस्टोन अपडेट अपने इनबॉक्स में पाएं।', ta: 'KWIN City முக்கிய முன்னேற்ற தகவல்களை உங்கள் மின்னஞ்சலில் பெறுங்கள்.' })}
         </p>
 
         <AnimatePresence mode="wait">
@@ -87,8 +91,8 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
               animate={{ opacity: 1, y: 0 }}
               className="rounded-xl bg-emerald-900/30 border border-emerald-700/40 px-4 py-3"
             >
-              <p className="text-emerald-400 text-sm font-semibold">✅ You&apos;re subscribed!</p>
-              <p className="text-emerald-500/80 text-xs mt-0.5">We&apos;ll send you the most important KWIN updates.</p>
+              <p className="text-emerald-400 text-sm font-semibold">✅ {l({ en: "You're subscribed!", kn: 'ನೀವು ಚಂದಾದಾರರಾಗಿದ್ದೀರಿ!', hi: 'आप सदस्य बन गए हैं!', ta: 'நீங்கள் சந்தா செய்துவிட்டீர்கள்!' })}</p>
+              <p className="text-emerald-500/80 text-xs mt-0.5">{l({ en: "We'll send you the most important KWIN updates.", kn: 'ಪ್ರಮುಖ KWIN ನವೀಕರಣಗಳನ್ನು ನಾವು ಕಳುಹಿಸುತ್ತೇವೆ.', hi: 'हम आपको सबसे महत्वपूर्ण KWIN अपडेट भेजेंगे।', ta: 'மிக முக்கியமான KWIN புதுப்பிப்புகளை அனுப்புவோம்.' })}</p>
             </motion.div>
           ) : (
             <motion.form
@@ -101,7 +105,7 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
                 name="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Your name (optional)"
+                placeholder={l({ en: 'Your name (optional)', kn: 'ನಿಮ್ಮ ಹೆಸರು (ಐಚ್ಛಿಕ)', hi: 'आपका नाम (वैकल्पिक)', ta: 'உங்கள் பெயர் (விருப்பம்)' })}
                 className="w-full bg-white/8 border border-white/12 rounded-xl px-4 py-2.5 text-[#C8D8E8] placeholder-[#4F6280] text-sm outline-none focus:border-amber-400/60 transition-colors"
               />
               <input
@@ -125,7 +129,9 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
                 disabled={status === 'submitting'}
                 className="w-full btn btn-primary text-sm py-2.5 disabled:opacity-60"
               >
-                {status === 'submitting' ? 'Subscribing…' : 'Subscribe'}
+                {status === 'submitting'
+                  ? l({ en: 'Subscribing…', kn: 'ಚಂದಾದಾರಿಕೆ ಮಾಡಲಾಗುತ್ತಿದೆ…', hi: 'सदस्यता ली जा रही है…', ta: 'சந்தா செய்யப்படுகிறது…' })
+                  : l({ en: 'Subscribe', kn: 'ಚಂದಾದಾರರಾಗಿ', hi: 'सदस्यता लें', ta: 'சந்தா செய்யவும்' })}
               </button>
             </motion.form>
           )}
@@ -141,12 +147,12 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
         <div className="max-w-3xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
-            <p className="text-xs font-bold tracking-[0.2em] uppercase text-amber-400 mb-3">Stay in the Loop</p>
+            <p className="text-xs font-bold tracking-[0.2em] uppercase text-amber-400 mb-3">{l({ en: 'Stay in the Loop', kn: 'ಸಂಪರ್ಕದಲ್ಲಿರಿ', hi: 'जुड़े रहें', ta: 'தொடர்ந்து அறிந்திருங்கள்' })}</p>
             <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
-              KWIN City updates, delivered.
+              {l({ en: 'KWIN City updates, delivered.', kn: 'KWIN City ನವೀಕರಣಗಳು, ನೇರವಾಗಿ ನಿಮಗೆ.', hi: 'KWIN City अपडेट, सीधे आपके पास।', ta: 'KWIN City புதுப்பிப்புகள், நேரடியாக உங்களுக்கு.' })}
             </h2>
             <p className="text-[#9BAEC6] text-base leading-relaxed max-w-lg mx-auto">
-              Milestone announcements, new data publications, and policy developments — no noise, only signal.
+              {l({ en: 'Milestone announcements, new data publications, and policy developments — no noise, only signal.', kn: 'ಮೈಲಿಗಲ್ಲು ಘೋಷಣೆಗಳು, ಹೊಸ ಡೇಟಾ ಪ್ರಕಟಣೆಗಳು ಮತ್ತು ನೀತಿ ಬೆಳವಣಿಗೆಗಳು — ಅನಗತ್ಯದಿಲ್ಲ, ಉಪಯುಕ್ತ ಮಾಹಿತಿ ಮಾತ್ರ.', hi: 'माइलस्टोन घोषणाएँ, नया डेटा प्रकाशन और नीति अपडेट — बिना शोर, सिर्फ जरूरी जानकारी।', ta: 'முக்கிய முன்னேற்ற அறிவிப்புகள், புதிய தரவு வெளியீடுகள் மற்றும் கொள்கை முன்னேற்றங்கள் — தேவையற்ற தகவல் இல்லாமல், முக்கிய தகவல்கள் மட்டும்.' })}
             </p>
           </div>
 
@@ -159,9 +165,9 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
                 className="bg-emerald-900/30 border border-emerald-700/40 rounded-2xl px-8 py-12 text-center"
               >
                 <div className="text-5xl mb-4">🎉</div>
-                <h3 className="text-2xl font-extrabold text-white mb-2">You&apos;re subscribed!</h3>
+                <h3 className="text-2xl font-extrabold text-white mb-2">{l({ en: "You're subscribed!", kn: 'ನೀವು ಚಂದಾದಾರರಾಗಿದ್ದೀರಿ!', hi: 'आप सदस्य बन गए हैं!', ta: 'நீங்கள் சந்தா செய்துவிட்டீர்கள்!' })}</h3>
                 <p className="text-emerald-300/80 text-sm">
-                  We&apos;ll send you the most important KWIN City updates. No spam, ever.
+                  {l({ en: "We'll send you the most important KWIN City updates. No spam, ever.", kn: 'ಪ್ರಮುಖ KWIN City ನವೀಕರಣಗಳನ್ನು ನಾವು ಕಳುಹಿಸುತ್ತೇವೆ. ಸ್ಪ್ಯಾಮ್ ಇಲ್ಲ.', hi: 'हम आपको सबसे महत्वपूर्ण KWIN City अपडेट भेजेंगे। कभी स्पैम नहीं।', ta: 'மிக முக்கியமான KWIN City தகவல்களை அனுப்புவோம். ஒருபோதும் ஸ்பாம் இல்லை.' })}
                 </p>
               </motion.div>
             ) : (
@@ -180,7 +186,7 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
                       htmlFor={`${uid}-name`}
                       className="block text-xs font-semibold text-[#9BAEC6] mb-1.5"
                     >
-                      Name (optional)
+                      {l({ en: 'Name (optional)', kn: 'ಹೆಸರು (ಐಚ್ಛಿಕ)', hi: 'नाम (वैकल्पिक)', ta: 'பெயர் (விருப்பம்)' })}
                     </label>
                     <input
                       id={`${uid}-name`}
@@ -197,7 +203,7 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
                       htmlFor={`${uid}-email`}
                       className="block text-xs font-semibold text-[#9BAEC6] mb-1.5"
                     >
-                      Email address <span className="text-amber-400">*</span>
+                      {l({ en: 'Email address', kn: 'ಇಮೇಲ್ ವಿಳಾಸ', hi: 'ईमेल पता', ta: 'மின்னஞ்சல் முகவரி' })} <span className="text-amber-400">*</span>
                     </label>
                     <input
                       id={`${uid}-email`}
@@ -217,7 +223,7 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
                 {/* Interests */}
                 <div>
                   <p className="text-xs font-semibold text-[#9BAEC6] mb-3">
-                    What would you like to hear about?
+                    {l({ en: 'What would you like to hear about?', kn: 'ನೀವು ಯಾವ ವಿಷಯದ ನವೀಕರಣಗಳನ್ನು ಬಯಸುತ್ತೀರಿ?', hi: 'आप किन विषयों के बारे में सुनना चाहेंगे?', ta: 'நீங்கள் எந்த விஷயங்களைப் பற்றி அறிய விரும்புகிறீர்கள்?' })}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {INTERESTS.map((int) => {
@@ -252,10 +258,12 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
                     disabled={status === 'submitting'}
                     className="btn btn-primary w-full sm:w-auto disabled:opacity-60"
                   >
-                    {status === 'submitting' ? 'Subscribing…' : 'Subscribe to updates'}
+                    {status === 'submitting'
+                      ? l({ en: 'Subscribing…', kn: 'ಚಂದಾದಾರಿಕೆ ಮಾಡಲಾಗುತ್ತಿದೆ…', hi: 'सदस्यता ली जा रही है…', ta: 'சந்தா செய்யப்படுகிறது…' })
+                      : l({ en: 'Subscribe to updates', kn: 'ನವೀಕರಣಗಳಿಗೆ ಚಂದಾದಾರರಾಗಿ', hi: 'अपडेट्स के लिए सदस्यता लें', ta: 'புதுப்பிப்புகளுக்கு சந்தா செய்யவும்' })}
                   </button>
                   <p className="text-[#4F6280] text-xs text-center">
-                    Unsubscribe at any time. No spam, ever.
+                    {l({ en: 'Unsubscribe at any time. No spam, ever.', kn: 'ಯಾವಾಗ ಬೇಕಾದರೂ ಅನ್ಸಬ್‌ಸ್ಕ್ರೈಬ್ ಮಾಡಬಹುದು. ಸ್ಪ್ಯಾಮ್ ಇಲ್ಲ.', hi: 'कभी भी सदस्यता समाप्त करें। कभी स्पैम नहीं।', ta: 'எப்போதும் சந்தாவை நிறுத்தலாம். ஸ்பாம் இல்லை.' })}
                   </p>
                 </div>
               </motion.form>

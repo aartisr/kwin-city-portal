@@ -300,10 +300,10 @@ export default function Header({
               <Link
                 href="/account"
                 className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 border border-slate-200 bg-white hover:bg-slate-50 transition-colors"
-                title={`Signed in as ${currentUser.email}`}
+                title={`${t('common.signedIn')}: ${currentUser.email}`}
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
-                <span className="max-w-[140px] truncate">Hi, {currentUser.name}</span>
+                <span className="max-w-[140px] truncate">{currentUser.name}</span>
               </Link>
             ) : null}
 
@@ -322,8 +322,8 @@ export default function Header({
             <div className="w-0 overflow-hidden opacity-0 group-hover/header-actions:w-9 group-focus-within/header-actions:w-9 group-hover/header-actions:opacity-100 group-focus-within/header-actions:opacity-100 transition-all duration-200">
               <Link
                 href="/about"
-                aria-label="Explore KWIN"
-                title="Explore KWIN"
+                aria-label={t('common.exploreKwin')}
+                title={t('common.exploreKwin')}
                 className="inline-flex items-center justify-center w-9 h-9 rounded-xl text-gray-500 hover:text-[#A96A00] border border-gray-200 hover:border-amber-300 bg-white hover:bg-amber-50 transition-all duration-150"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">

@@ -39,6 +39,13 @@ export default function CommunityDiscussion() {
   const [busy, setBusy] = useState(false);
   const [csrf, setCsrf] = useState('');
 
+  const t = {
+    couldNotCreatePost: l({ en: 'Could not create post.', kn: 'ಪೋಸ್ಟ್ ರಚಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.', hi: 'पोस्ट नहीं बन सकी।', ta: 'பதிவை உருவாக்க முடியவில்லை.' }),
+    discussionPosted: l({ en: 'Discussion posted.', kn: 'ಚರ್ಚೆ ಪ್ರಕಟಿಸಲಾಗಿದೆ.', hi: 'चर्चा पोस्ट हो गई।', ta: 'விவாதம் வெளியிடப்பட்டது.' }),
+    requestFailed: l({ en: 'Request failed. Please try again.', kn: 'ವಿನಂತಿ ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.', hi: 'अनुरोध विफल हुआ। कृपया फिर प्रयास करें।', ta: 'கோரிக்கை தோல்வியடைந்தது. மீண்டும் முயற்சிக்கவும்.' }),
+    couldNotAddReply: l({ en: 'Could not add reply.', kn: 'ಪ್ರತ್ಯುತ್ತರ ಸೇರಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.', hi: 'उत्तर जोड़ना संभव नहीं हुआ।', ta: 'பதில் சேர்க்க முடியவில்லை.' }),
+  };
+
   const loadSession = async () => {
     const res = await fetch('/api/auth/me', { cache: 'no-store' });
     if (!res.ok) {
@@ -78,7 +85,7 @@ export default function CommunityDiscussion() {
       });
       const data = (await res.json()) as { error?: string; post?: DiscussionPost };
       if (!res.ok) {
-        setStatus(data.error || 'Could not create post.');
+        setStatus(data.error || t.couldNotCreatePost);
         return;
       }
 
@@ -87,9 +94,9 @@ export default function CommunityDiscussion() {
       }
       setTitle('');
       setText('');
-      setStatus('Discussion posted.');
+      setStatus(t.discussionPosted);
     } catch {
-      setStatus('Request failed. Please try again.');
+      setStatus(t.requestFailed);
     } finally {
       setBusy(false);
     }
@@ -120,7 +127,7 @@ export default function CommunityDiscussion() {
     });
     const data = (await res.json()) as { error?: string; reply?: Reply };
     if (!res.ok || !data.reply) {
-      setStatus(data.error || 'Could not add reply.');
+      setStatus(data.error || t.couldNotAddReply);
       return;
     }
 
@@ -150,37 +157,37 @@ export default function CommunityDiscussion() {
       <section className="container py-10 grid grid-cols-1 xl:grid-cols-3 gap-6">
         <div className="xl:col-span-1 space-y-4">
           <div className="rounded-2xl border border-slate-200 bg-white p-5">
-            <p className="text-xs font-bold tracking-widest uppercase text-slate-500 mb-2">Thread Stats</p>
-            <p className="text-sm text-slate-700">Posts: {posts.length}</p>
-            <p className="text-sm text-slate-700">Replies: {stats.totalReplies}</p>
-            <p className="text-sm text-slate-700">Likes: {stats.totalLikes}</p>
+            <p className="text-xs font-bold tracking-widest uppercase text-slate-500 mb-2">{l({ en: 'Thread Stats', kn: 'ಥ್ರೆಡ್ ಅಂಕಿಅಂಶಗಳು', hi: 'थ्रेड आँकड़े', ta: 'திரை விவாத புள்ளிவிவரங்கள்' })}</p>
+            <p className="text-sm text-slate-700">{l({ en: 'Posts', kn: 'ಪೋಸ್ಟ್‌ಗಳು', hi: 'पोस्ट्स', ta: 'பதிவுகள்' })}: {posts.length}</p>
+            <p className="text-sm text-slate-700">{l({ en: 'Replies', kn: 'ಪ್ರತ್ಯುತ್ತರಗಳು', hi: 'उत्तर', ta: 'பதில்கள்' })}: {stats.totalReplies}</p>
+            <p className="text-sm text-slate-700">{l({ en: 'Likes', kn: 'ಇಷ್ಟಗಳು', hi: 'पसंद', ta: 'விருப்பங்கள்' })}: {stats.totalLikes}</p>
           </div>
 
           <form onSubmit={createPost} className="rounded-2xl border border-slate-200 bg-white p-5 space-y-3">
-            <h2 className="text-lg font-extrabold text-slate-900">Start a Discussion</h2>
+            <h2 className="text-lg font-extrabold text-slate-900">{l({ en: 'Start a Discussion', kn: 'ಚರ್ಚೆಯನ್ನು ಆರಂಭಿಸಿ', hi: 'चर्चा शुरू करें', ta: 'ஒரு விவாதத்தை தொடங்கவும்' })}</h2>
             {session ? (
-              <p className="text-sm text-slate-600">Posting as {session.name}</p>
+              <p className="text-sm text-slate-600">{l({ en: 'Posting as', kn: 'ಈ ಹೆಸರಿನಲ್ಲಿ ಪೋಸ್ಟ್ ಮಾಡಲಾಗುತ್ತಿದೆ', hi: 'इस नाम से पोस्ट किया जा रहा है', ta: 'இந்த பெயரில் பதிவிடப்படுகிறது' })} {session.name}</p>
             ) : (
-              <p className="text-sm text-amber-700">Sign in at /account to post or reply.</p>
+              <p className="text-sm text-amber-700">{l({ en: 'Sign in at /account to post or reply.', kn: 'ಪೋಸ್ಟ್ ಅಥವಾ ಪ್ರತಿಕ್ರಿಯೆಗಾಗಿ /account ನಲ್ಲಿ ಸೈನ್ ಇನ್ ಮಾಡಿ.', hi: 'पोस्ट या उत्तर देने के लिए /account पर साइन इन करें।', ta: 'பதிவு செய்ய அல்லது பதிலளிக்க /account இல் உள்நுழைக.' })}</p>
             )}
             <div>
-              <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-1">Title</label>
+              <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-1">{l({ en: 'Title', kn: 'ಶೀರ್ಷಿಕೆ', hi: 'शीर्षक', ta: 'தலைப்பு' })}</label>
               <input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 className="w-full rounded-lg border border-slate-300 px-3 py-2"
-                placeholder="What should we discuss?"
+                placeholder={l({ en: 'What should we discuss?', kn: 'ನಾವು ಯಾವ ವಿಷಯ ಚರ್ಚಿಸಬೇಕು?', hi: 'हमें किस विषय पर चर्चा करनी चाहिए?', ta: 'நாம் எந்த விஷயத்தை விவாதிப்பது?' })}
                 disabled={!session || busy}
               />
             </div>
             <div>
-              <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-1">Message</label>
+              <label className="block text-xs font-bold tracking-widest uppercase text-slate-500 mb-1">{l({ en: 'Message', kn: 'ಸಂದೇಶ', hi: 'संदेश', ta: 'செய்தி' })}</label>
               <textarea
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 rows={4}
                 className="w-full rounded-lg border border-slate-300 px-3 py-2"
-                placeholder="Share context, evidence, and your question..."
+                placeholder={l({ en: 'Share context, evidence, and your question...', kn: 'ಪರಿಸ್ಥಿತಿ, ಸಾಕ್ಷ್ಯ ಮತ್ತು ನಿಮ್ಮ ಪ್ರಶ್ನೆಯನ್ನು ಹಂಚಿಕೊಳ್ಳಿ...', hi: 'संदर्भ, प्रमाण और अपना प्रश्न साझा करें...', ta: 'சூழல், ஆதாரம் மற்றும் உங்கள் கேள்வியை பகிரவும்...' })}
                 disabled={!session || busy}
               />
             </div>
@@ -189,7 +196,7 @@ export default function CommunityDiscussion() {
               disabled={!session || busy}
               className="w-full rounded-lg bg-blue-600 text-white font-semibold px-4 py-2 hover:bg-blue-700 transition-colors disabled:opacity-60"
             >
-              Post
+              {l({ en: 'Post', kn: 'ಪೋಸ್ಟ್ ಮಾಡಿ', hi: 'पोस्ट करें', ta: 'பதிவிடு' })}
             </button>
           </form>
         </div>
@@ -197,7 +204,7 @@ export default function CommunityDiscussion() {
         <div className="xl:col-span-2 space-y-4">
           {posts.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-slate-600">
-              No discussions yet. Be the first to post.
+              {l({ en: 'No discussions yet. Be the first to post.', kn: 'ಇನ್ನೂ ಚರ್ಚೆಗಳು ಇಲ್ಲ. ಮೊದಲ ಪೋಸ್ಟ್ ಮಾಡಿ.', hi: 'अभी कोई चर्चा नहीं है। पहली पोस्ट करें।', ta: 'இன்னும் விவாதங்கள் இல்லை. முதலில் நீங்கள் பதிவிடுங்கள்.' })}
             </div>
           ) : (
             posts.map((post) => (
@@ -206,14 +213,14 @@ export default function CommunityDiscussion() {
                   <div>
                     <h3 className="text-xl font-extrabold text-slate-900">{post.title}</h3>
                     <p className="text-sm text-slate-600">
-                      By {post.author} on {new Date(post.createdAt).toLocaleString()}
+                      {l({ en: 'By', kn: 'ಬರೆದವರು', hi: 'द्वारा', ta: 'எழுதியவர்' })} {post.author} {l({ en: 'on', kn: 'ರಂದು', hi: 'को', ta: 'தேதி' })} {new Date(post.createdAt).toLocaleString()}
                     </p>
                   </div>
                   <button
                     onClick={() => likePost(post.id)}
                     className="px-3 py-1.5 rounded-lg border border-slate-300 text-sm font-semibold text-slate-700 hover:bg-slate-50"
                   >
-                    Like ({post.likes})
+                    {l({ en: 'Like', kn: 'ಇಷ್ಟ', hi: 'पसंद', ta: 'விருப்பு' })} ({post.likes})
                   </button>
                 </div>
                 <p className="text-slate-800 mb-4">{post.text}</p>
@@ -234,7 +241,7 @@ export default function CommunityDiscussion() {
                     value={replyDrafts[post.id] || ''}
                     onChange={(e) => setReplyDrafts((prev) => ({ ...prev, [post.id]: e.target.value }))}
                     className="flex-1 rounded-lg border border-slate-300 px-3 py-2"
-                    placeholder="Write a reply..."
+                    placeholder={l({ en: 'Write a reply...', kn: 'ಪ್ರತ್ಯುತ್ತರ ಬರೆಯಿರಿ...', hi: 'उत्तर लिखें...', ta: 'ஒரு பதிலை எழுதுங்கள்...' })}
                     disabled={!session}
                   />
                   <button
@@ -242,7 +249,7 @@ export default function CommunityDiscussion() {
                     disabled={!session}
                     className="px-3 py-2 rounded-lg bg-slate-900 text-white font-semibold hover:bg-slate-800 disabled:opacity-60"
                   >
-                    Reply
+                    {l({ en: 'Reply', kn: 'ಪ್ರತ್ಯುತ್ತರ', hi: 'उत्तर', ta: 'பதில்' })}
                   </button>
                 </div>
               </article>
