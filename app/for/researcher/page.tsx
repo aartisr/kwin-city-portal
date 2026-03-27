@@ -1,10 +1,20 @@
 import type { Metadata } from 'next';
 import PersonaPage from '@/components/PersonaPage';
+import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 
-export const metadata: Metadata = {
-  title: 'For Researchers | KWIN City — Reproducible Evidence · Open Data · Methodology',
-  description:
-    'Researcher-grade portal for KWIN City: traceable data layers, Karnataka government open data, evidence quality tiers, claim-to-source mapping, and reproducible inquiry pathways.',
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+  return {
+  title: pickByLocale(locale, {
+    en: 'For Researchers | KWIN City — Reproducible Evidence · Open Data · Methodology',
+    kn: 'ಸಂಶೋಧಕರಿಗಾಗಿ | KWIN City — ಪುನರುತ್ಪಾದಕ ಸಾಕ್ಷ್ಯ · ಓಪನ್ ಡೇಟಾ · ವಿಧಾನಶಾಸ್ತ್ರ',
+    hi: 'शोधकर्ताओं के लिए | KWIN City — पुनरुत्पाद्य प्रमाण · ओपन डेटा · कार्यप्रणाली',
+  }),
+  description: pickByLocale(locale, {
+    en: 'Researcher-grade portal for KWIN City: traceable data layers, Karnataka government open data, evidence quality tiers, claim-to-source mapping, and reproducible inquiry pathways.',
+    kn: 'KWIN City ಸಂಶೋಧಕರಿಗೆ: ಟ್ರೇಸ್ ಮಾಡಬಹುದಾದ ಡೇಟಾ, ತೆರೆಯಾದ ಮೂಲಗಳು ಮತ್ತು ಪುನರುತ್ಪಾದಕ ವಿಧಾನ.',
+    hi: 'KWIN City शोधकर्ताओं के लिए: ट्रेस करने योग्य डेटा, ओपन स्रोत और पुनरुत्पाद्य कार्यप्रणाली।',
+  }),
   keywords: [
     'KWIN City research',
     'urban research India',
@@ -14,22 +24,44 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: 'https://kwin-city.com/for/researcher' },
   openGraph: {
-    title: 'KWIN City for Researchers — From Narrative to Reproducible Evidence',
-    description: 'Data layers, claim ledger, and methodology for academic and policy researchers.',
+    title: pickByLocale(locale, {
+      en: 'KWIN City for Researchers — From Narrative to Reproducible Evidence',
+      kn: 'KWIN City ಸಂಶೋಧಕರಿಗಾಗಿ — ಕಥನದಿಂದ ಪುನರುತ್ಪಾದಕ ಸಾಕ್ಷ್ಯವರೆಗೆ',
+      hi: 'KWIN City शोधकर्ताओं के लिए — कथा से पुनरुत्पाद्य प्रमाण तक',
+    }),
+    description: pickByLocale(locale, {
+      en: 'Data layers, claim ledger, and methodology for academic and policy researchers.',
+      kn: 'ಶೈಕ್ಷಣಿಕ ಮತ್ತು ನೀತಿ ಸಂಶೋಧಕರಿಗಾಗಿ ಡೇಟಾ ಪದರಗಳು ಮತ್ತು ವಿಧಾನಶಾಸ್ತ್ರ.',
+      hi: 'शैक्षणिक और नीति शोधकर्ताओं के लिए डेटा लेयर और कार्यप्रणाली।',
+    }),
     url: 'https://kwin-city.com/for/researcher',
     type: 'website',
   },
-};
+  };
+}
 
-export default function ResearcherPage() {
+export default async function ResearcherPage() {
+  const locale = await getServerLocale();
   return (
     <PersonaPage
-      eyebrow="Researcher Console"
-      title="From narrative claims to reproducible evidence workflows."
-      description="This portal is structured to support evidence-grade inquiry. Use it to trace assertions to sources, compare status labels, and develop your own independent interpretations."
+      eyebrow={pickByLocale(locale, { en: 'Researcher Console', kn: 'ಸಂಶೋಧಕ ಕಾನ್ಸೋಲ್', hi: 'रिसर्चर कंसोल' })}
+      title={pickByLocale(locale, {
+        en: 'From narrative claims to reproducible evidence workflows.',
+        kn: 'ಕಥನದ ಹೇಳಿಕೆಗಳಿಂದ ಪುನರುತ್ಪಾದಕ ಸಾಕ್ಷ್ಯ ಕಾರ್ಯಪ್ರವಾಹವರೆಗೆ.',
+        hi: 'कथात्मक दावों से पुनरुत्पाद्य प्रमाण कार्यप्रवाह तक।',
+      })}
+      description={pickByLocale(locale, {
+        en: 'This portal is structured to support evidence-grade inquiry. Use it to trace assertions to sources, compare status labels, and develop your own independent interpretations.',
+        kn: 'ಈ ಪೋರ್ಟಲ್ ಸಾಕ್ಷ್ಯಾಧಾರಿತ ಸಂಶೋಧನೆಯನ್ನು ಬೆಂಬಲಿಸುವಂತೆ ವಿನ್ಯಾಸಗೊಳಿಸಲಾಗಿದೆ.',
+        hi: 'यह पोर्टल प्रमाण-आधारित अनुसंधान को समर्थन देने के लिए बनाया गया है।',
+      })}
       imageSrc="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1400&h=900&q=80&auto=format&fit=crop"
       imageAlt="Researchers in data lab"
-      audienceLabel="For academics, policy analysts, and data scientists"
+      audienceLabel={pickByLocale(locale, {
+        en: 'For academics, policy analysts, and data scientists',
+        kn: 'ಶೈಕ್ಷಣಿಕರು, ನೀತಿ ವಿಶ್ಲೇಷಕರು ಮತ್ತು ಡೇಟಾ ವಿಜ್ಞಾನಿಗಳಿಗಾಗಿ',
+        hi: 'शिक्षाविदों, नीति विश्लेषकों और डेटा वैज्ञानिकों के लिए',
+      })}
       quickActions={[
         { label: 'Open Evidence Vault', href: '/evidence' },
         { label: 'Open Sources & Claims', href: '/sources' },

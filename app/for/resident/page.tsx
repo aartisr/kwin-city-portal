@@ -1,10 +1,20 @@
 import type { Metadata } from 'next';
 import PersonaPage from '@/components/PersonaPage';
+import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 
-export const metadata: Metadata = {
-  title: 'For Residents | KWIN City — Livability, Healthcare, Green Cover & Connectivity',
-  description:
-    'Resident-focused guide to KWIN City: access, healthcare, international schools, 40% green cover, air quality, and everyday quality-of-life evidence for a future North Bengaluru community.',
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+  return {
+  title: pickByLocale(locale, {
+    en: 'For Residents | KWIN City — Livability, Healthcare, Green Cover & Connectivity',
+    kn: 'ನಿವಾಸಿಗಳಿಗಾಗಿ | KWIN City — ವಾಸಸ್ಥಿತಿ, ಆರೋಗ್ಯ, ಹಸಿರು ಆವರಣ ಮತ್ತು ಸಂಪರ್ಕತೆ',
+    hi: 'निवासियों के लिए | KWIN City — जीवन गुणवत्ता, स्वास्थ्य, ग्रीन कवर और कनेक्टिविटी',
+  }),
+  description: pickByLocale(locale, {
+    en: 'Resident-focused guide to KWIN City: access, healthcare, international schools, 40% green cover, air quality, and everyday quality-of-life evidence for a future North Bengaluru community.',
+    kn: 'ನಿವಾಸಿಗಳಿಗಾಗಿ KWIN City ಮಾರ್ಗದರ್ಶಿ: ಪ್ರವೇಶ, ಆರೋಗ್ಯ, ಹಸಿರು ಆವರಣ ಮತ್ತು ದೈನಂದಿನ ಜೀವನ ಗುಣಮಟ್ಟ.',
+    hi: 'निवासियों के लिए KWIN City गाइड: पहुंच, स्वास्थ्य, ग्रीन कवर और दैनिक जीवन गुणवत्ता।',
+  }),
   keywords: [
     'KWIN City residents',
     'live in North Bengaluru',
@@ -14,26 +24,48 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: 'https://kwin-city.com/for/resident' },
   openGraph: {
-    title: 'KWIN City for Residents — Livability, Healthcare & Green Community',
-    description: 'What daily life in KWIN City may look like — evidence-first, jargon-free.',
+    title: pickByLocale(locale, {
+      en: 'KWIN City for Residents — Livability, Healthcare & Green Community',
+      kn: 'KWIN City ನಿವಾಸಿಗಳಿಗಾಗಿ — ವಾಸಸ್ಥಿತಿ, ಆರೋಗ್ಯ ಮತ್ತು ಹಸಿರು ಸಮುದಾಯ',
+      hi: 'KWIN City निवासियों के लिए — जीवन गुणवत्ता, स्वास्थ्य और हरित समुदाय',
+    }),
+    description: pickByLocale(locale, {
+      en: 'What daily life in KWIN City may look like — evidence-first, jargon-free.',
+      kn: 'KWIN City ಯ ದೈನಂದಿನ ಜೀವನ ಹೇಗಿರಬಹುದು — ಸರಳ ಮತ್ತು ಸಾಕ್ಷ್ಯಾಧಾರಿತ ಪರಿಚಯ.',
+      hi: 'KWIN City में दैनिक जीवन कैसा हो सकता है — सरल और प्रमाण-आधारित परिचय।',
+    }),
     url: 'https://kwin-city.com/for/resident',
     type: 'website',
   },
-};
+  };
+}
 
-export default function ResidentPage() {
+export default async function ResidentPage() {
+  const locale = await getServerLocale();
   return (
     <PersonaPage
-      eyebrow="Resident Guide"
-      title="A city story measured by daily life, not just master plans."
-      description="If you are evaluating KWIN City as a future place to live, this page distills what matters most: access, healthcare, education, ecology, and real neighborhood quality."
+      eyebrow={pickByLocale(locale, { en: 'Resident Guide', kn: 'ನಿವಾಸಿ ಮಾರ್ಗದರ್ಶಿ', hi: 'निवासी गाइड' })}
+      title={pickByLocale(locale, {
+        en: 'A city story measured by daily life, not just master plans.',
+        kn: 'ಮಾಸ್ಟರ್ ಪ್ಲ್ಯಾನ್ ಮಾತ್ರವಲ್ಲ, ದೈನಂದಿನ ಜೀವನದಿಂದ ಅಳೆಯುವ ನಗರದ ಕಥೆ.',
+        hi: 'सिर्फ मास्टर प्लान नहीं, दैनिक जीवन से मापी जाने वाली शहर की कहानी।',
+      })}
+      description={pickByLocale(locale, {
+        en: 'If you are evaluating KWIN City as a future place to live, this page distills what matters most: access, healthcare, education, ecology, and real neighborhood quality.',
+        kn: 'ಭವಿಷ್ಯದ ವಾಸಸ್ಥಳವಾಗಿ KWIN City ಯನ್ನು ಪರಿಶೀಲಿಸುವವರಿಗೆ ಮುಖ್ಯ ಅಂಶಗಳನ್ನು ಈ ಪುಟ ಒದಗಿಸುತ್ತದೆ.',
+        hi: 'भविष्य के निवास स्थान के रूप में KWIN City का मूल्यांकन करने वालों के लिए यह पेज मुख्य बिंदु देता है।',
+      })}
       imageSrc="https://images.unsplash.com/photo-1475483768296-6163e08872a1?w=1400&h=900&q=80&auto=format&fit=crop"
       imageAlt="Green urban park with families"
-      audienceLabel="For families, professionals, and long-term residents"
+      audienceLabel={pickByLocale(locale, {
+        en: 'For families, professionals, and long-term residents',
+        kn: 'ಕುಟುಂಬಗಳು, ವೃತ್ತಿಪರರು ಮತ್ತು ದೀರ್ಘಾವಧಿ ನಿವಾಸಿಗಳಿಗಾಗಿ',
+        hi: 'परिवारों, पेशेवरों और दीर्घकालिक निवासियों के लिए',
+      })}
       quickActions={[
-        { label: 'See Sustainability Plan', href: '/sustainability' },
-        { label: 'Explore Regional Context', href: '/why-north-bengaluru' },
-        { label: 'Review Sources', href: '/sources' },
+        { label: pickByLocale(locale, { en: 'See Sustainability Plan', kn: 'ಸ್ಥಿರತಾ ಯೋಜನೆ ನೋಡಿ', hi: 'सस्टेनेबिलिटी प्लान देखें' }), href: '/sustainability' },
+        { label: pickByLocale(locale, { en: 'Explore Regional Context', kn: 'ಪ್ರಾದೇಶಿಕ ಹಿನ್ನೆಲೆ ಅನ್ವೇಷಿಸಿ', hi: 'क्षेत्रीय संदर्भ देखें' }), href: '/why-north-bengaluru' },
+        { label: pickByLocale(locale, { en: 'Review Sources', kn: 'ಮೂಲಗಳನ್ನು ಪರಿಶೀಲಿಸಿ', hi: 'स्रोत समीक्षा करें' }), href: '/sources' },
       ]}
       stats={[
         { value: '30%', label: 'Green Cover Target', note: 'Proposed in sustainability plan', accent: 'text-emerald-400' },
