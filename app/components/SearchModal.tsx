@@ -112,6 +112,7 @@ export default function SearchModal({
 
               {/* Search Input */}
               <div className="flex items-center gap-3 px-4 py-3.5 border-b border-gray-100">
+                <label htmlFor="modal-search-input" className="sr-only">Search KWIN City</label>
                 <svg
                   className="w-5 h-5 text-gray-400 shrink-0"
                   fill="none"
@@ -127,6 +128,7 @@ export default function SearchModal({
                   />
                 </svg>
                 <input
+                  id="modal-search-input"
                   ref={inputRef}
                   type="search"
                   value={query}
@@ -136,6 +138,7 @@ export default function SearchModal({
                   className="flex-1 bg-transparent text-gray-900 placeholder-gray-400 text-[16px] outline-none"
                   autoComplete="off"
                   spellCheck={false}
+                  aria-describedby="modal-search-desc"
                 />
                 {query && (
                   <button
@@ -154,15 +157,15 @@ export default function SearchModal({
               </div>
 
               {/* Results / Popular list */}
-              <div className="max-h-[60vh] overflow-y-auto overscroll-contain">
+              <div className="max-h-[60vh] overflow-y-auto overscroll-contain" role="region" aria-live="polite" aria-label="Search results">
                 {!query.trim() && (
                   <div className="px-4 pt-3 pb-1">
-                    <p className="text-[11px] font-bold tracking-[0.15em] uppercase text-gray-400">Popular</p>
+                    <p className="text-[11px] font-bold tracking-[0.15em] uppercase text-gray-400" id="modal-search-desc">Popular</p>
                   </div>
                 )}
 
                 {query.trim() && results.length === 0 && (
-                  <div className="py-12 text-center">
+                  <div className="py-12 text-center" role="status" aria-live="assertive">
                     <p className="text-gray-500 text-sm">
                       No results for &ldquo;<span className="font-medium text-gray-700">{query}</span>&rdquo;
                     </p>
@@ -170,7 +173,7 @@ export default function SearchModal({
                       Try a different keyword or{' '}
                       <Link
                         href={`/search?q=${encodeURIComponent(query)}`}
-                        className="text-amber-600 hover:underline"
+                        className="text-amber-600 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
                         onClick={onClose}
                       >
                         see the full results page

@@ -216,7 +216,7 @@ export default function ContactForm() {
                   <legend className="block text-xs font-bold tracking-[0.14em] uppercase text-[#64748B] mb-3">
                     Who are you?
                   </legend>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2" role="group" aria-label="Select your persona">
                     {PERSONAS.map((p) => (
                       <button
                         key={p.id}
@@ -226,14 +226,15 @@ export default function ContactForm() {
                           // Move focus to name after persona selection
                           setTimeout(() => nameRef.current?.focus(), 60);
                         }}
+                        aria-pressed={persona === p.id}
                         className={[
-                          'flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-semibold border transition-all duration-200',
+                          'flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-semibold border transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600',
                           persona === p.id
                             ? 'bg-[#F5A623] border-[#F5A623] text-[#040714] shadow-[0_0_18px_rgba(245,166,35,0.25)]'
                             : 'bg-white/[0.03] border-white/10 text-[#94A3B8] hover:border-[#F5A623]/40 hover:text-white',
                         ].join(' ')}
                       >
-                        <span className="text-base leading-none">{p.icon}</span>
+                        <span className="text-base leading-none" aria-hidden="true">{p.icon}</span>
                         {p.label}
                       </button>
                     ))}
@@ -259,6 +260,7 @@ export default function ContactForm() {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       className={inputBase}
+                      aria-describedby={formState === 'error' ? `${uid}-error` : undefined}
                     />
                   </div>
                   <div>
@@ -277,6 +279,7 @@ export default function ContactForm() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       className={inputBase}
+                      aria-describedby={formState === 'error' ? `${uid}-error` : undefined}
                     />
                   </div>
                 </div>
@@ -291,10 +294,12 @@ export default function ContactForm() {
                       Message
                     </label>
                     <span
+                      id={`${uid}-charcount`}
                       className={[
                         'text-[11px] tabular-nums transition-colors',
                         charCount > 900 ? 'text-amber-400' : 'text-[#4F6280]',
                       ].join(' ')}
+                      aria-live="polite"
                     >
                       {charCount}/1000
                     </span>
@@ -308,6 +313,7 @@ export default function ContactForm() {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     className={`${inputBase} resize-none`}
+                    aria-describedby={formState === 'error' ? `${uid}-error` : `${uid}-charcount`}
                   />
                 </div>
 
@@ -315,11 +321,14 @@ export default function ContactForm() {
                 <AnimatePresence>
                   {formState === 'error' && errorMsg && (
                     <motion.p
+                      id={`${uid}-error`}
                       key="err"
                       initial={{ opacity: 0, y: -6 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
                       className="text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-xl px-4 py-3"
+                      role="alert"
+                      aria-live="polite"
                     >
                       {errorMsg}
                     </motion.p>
