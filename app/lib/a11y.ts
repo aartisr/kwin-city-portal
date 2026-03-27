@@ -25,7 +25,7 @@ export const a11y = {
   /**
    * Generate aria attributes for a menu item
    */
-  menuItem: (href: string, current?: boolean) => ({
+  menuItem: (_href: string, current?: boolean) => ({
     role: 'menuitem',
     ...(current && { 'aria-current': 'page' }),
   }),
