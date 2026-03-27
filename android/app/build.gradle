@@ -28,7 +28,8 @@ android {
     signingConfigs {
         release {
             if (hasReleaseSigning) {
-                storeFile file(project.property('KWIN_RELEASE_STORE_FILE'))
+                // Resolve from android/ root so CI value "app/kwin-release.jks" maps correctly.
+                storeFile rootProject.file(project.property('KWIN_RELEASE_STORE_FILE'))
                 storePassword project.property('KWIN_RELEASE_STORE_PASSWORD')
                 keyAlias project.property('KWIN_RELEASE_KEY_ALIAS')
                 keyPassword project.property('KWIN_RELEASE_KEY_PASSWORD')
