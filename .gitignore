@@ -88,3 +88,8 @@ htmlcov/
 
 # Deployment
 .deploy/
+
+# Android signing keys
+*.jks
+*.keystore
+android/*.jks
