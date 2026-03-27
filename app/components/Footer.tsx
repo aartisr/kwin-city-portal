@@ -4,16 +4,12 @@ import Link from 'next/link';
 import { SITE_CONFIG } from '@/config/site.config';
 import NewsletterSignup from '@/components/NewsletterSignup';
 import { useI18n } from '@/lib/i18n/I18nProvider';
+import { getLocaleDefinition } from '@/lib/i18n/messages';
 
 export default function Footer() {
   const { t, locale } = useI18n();
   const year = new Date().getFullYear();
-  const localeMap: Record<string, string> = {
-    en: 'en-IN',
-    kn: 'kn-IN',
-    hi: 'hi-IN',
-  };
-  const lastUpdatedText = new Date(SITE_CONFIG.lastUpdatedISO).toLocaleDateString(localeMap[locale] ?? 'en-IN', {
+  const lastUpdatedText = new Date(SITE_CONFIG.lastUpdatedISO).toLocaleDateString(getLocaleDefinition(locale).htmlLang, {
     day: '2-digit',
     month: 'short',
     year: 'numeric',

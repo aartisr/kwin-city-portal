@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import SiteFrame from '@/components/SiteFrame';
 import { useI18n } from '@/lib/i18n/I18nProvider';
+import { pickLocalizedValue } from '@/lib/i18n/messages';
 import {
   type SearchEntry,
   type SearchCategory,
@@ -21,8 +22,7 @@ const ALL_CATEGORIES: SearchCategory[] = [
 
 export default function SearchPageClient() {
   const { locale } = useI18n();
-  const isKn = locale === 'kn';
-  const isHi = locale === 'hi';
+  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialQuery = searchParams.get('q') ?? '';
@@ -74,7 +74,7 @@ export default function SearchPageClient() {
           <div className="container">
             <p className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600 mb-4">Search</p>
             <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
-              {isKn ? 'KWIN City ನಲ್ಲಿ ಯಾವುದನ್ನಾದರೂ ಹುಡುಕಿ' : isHi ? 'KWIN City में कुछ भी खोजें' : 'Find anything in KWIN City'}
+              {l({ en: 'Find anything in KWIN City', kn: 'KWIN City ನಲ್ಲಿ ಯಾವುದನ್ನಾದರೂ ಹುಡುಕಿ', hi: 'KWIN City में कुछ भी खोजें', ta: 'KWIN City இல் எதையும் தேடுங்கள்' })}
             </h1>
 
             {/* Search bar */}
@@ -99,7 +99,7 @@ export default function SearchPageClient() {
                   type="search"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder={isKn ? 'ಪುಟಗಳು, ಕ್ಷೇತ್ರಗಳು, ಕಾಲರೇಖೆ, FAQ ಹುಡುಕಿ…' : isHi ? 'पेज, सेक्टर, टाइमलाइन, FAQ खोजें…' : 'Search pages, sectors, timeline, FAQ…'}
+                  placeholder={l({ en: 'Search pages, sectors, timeline, FAQ…', kn: 'ಪುಟಗಳು, ಕ್ಷೇತ್ರಗಳು, ಕಾಲರೇಖೆ, FAQ ಹುಡುಕಿ…', hi: 'पेज, सेक्टर, टाइमलाइन, FAQ खोजें…', ta: 'பக்கங்கள், துறைகள், காலவரிசை, FAQ தேடுங்கள்…' })}
                   className="flex-1 bg-transparent text-gray-900 placeholder-gray-400 text-lg outline-none"
                   autoFocus
                   autoComplete="off"
@@ -170,9 +170,9 @@ export default function SearchPageClient() {
             {filtered.length === 0 && debouncedQuery.trim() && (
               <div className="text-center py-20">
                 <div className="text-5xl mb-4">🔍</div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">{isKn ? 'ಯಾವುದೇ ಫಲಿತಾಂಶ ಕಂಡುಬಂದಿಲ್ಲ' : isHi ? 'कोई परिणाम नहीं मिला' : 'No results found'}</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">{l({ en: 'No results found', kn: 'ಯಾವುದೇ ಫಲಿತಾಂಶ ಕಂಡುಬಂದಿಲ್ಲ', hi: 'कोई परिणाम नहीं मिला', ta: 'முடிவுகள் எதுவும் கிடைக்கவில்லை' })}</h2>
                 <p className="text-gray-500 mb-6">
-                  {isKn ? 'ಬೇರೆ ಕೀವರ್ಡ್‌ಗಳನ್ನು ಪ್ರಯತ್ನಿಸಿ — ಕ್ಷೇತ್ರ ಹೆಸರುಗಳು, ಕಾಲರೇಖೆ ವರ್ಷಗಳು ಅಥವಾ FAQ ವಿಷಯಗಳು.' : isHi ? 'अलग कीवर्ड आज़माएँ — सेक्टर नाम, टाइमलाइन वर्ष, या FAQ विषय।' : 'Try different keywords — sector names, timeline years, or FAQ topics.'}
+                  {l({ en: 'Try different keywords — sector names, timeline years, or FAQ topics.', kn: 'ಬೇರೆ ಕೀವರ್ಡ್‌ಗಳನ್ನು ಪ್ರಯತ್ನಿಸಿ — ಕ್ಷೇತ್ರ ಹೆಸರುಗಳು, ಕಾಲರೇಖೆ ವರ್ಷಗಳು ಅಥವಾ FAQ ವಿಷಯಗಳು.', hi: 'अलग कीवर्ड आज़माएँ — सेक्टर नाम, टाइमलाइन वर्ष, या FAQ विषय।', ta: 'வேறு முக்கிய சொற்களை முயற்சிக்கவும் — துறை பெயர்கள், காலவரிசை ஆண்டுகள் அல்லது FAQ தலைப்புகள்.' })}
                 </p>
                 <div className="flex flex-wrap gap-2 justify-center">
                   {['semiconductor', 'investor', 'timeline 2027', 'sustainability', 'download'].map((hint) => (

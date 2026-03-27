@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useState } from 'react';
 import { useI18n } from '@/lib/i18n/I18nProvider';
+import { pickLocalizedValue } from '@/lib/i18n/messages';
 
 type SessionUser = {
   id: string;
@@ -27,8 +28,7 @@ const allTopics = ['timeline', 'sectors', 'sustainability', 'evidence', 'news-in
 
 export default function AuthPreferences() {
   const { locale } = useI18n();
-  const isKn = locale === 'kn';
-  const isHi = locale === 'hi';
+  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -162,9 +162,9 @@ export default function AuthPreferences() {
     <main className="min-h-screen bg-gradient-to-b from-white to-slate-50">
       <section className="bg-gradient-to-r from-[#102A43] to-[#0F4C75] text-white py-14">
         <div className="container">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-3">{isKn ? 'ಖಾತೆ ಮತ್ತು ಆದ್ಯತೆಗಳು' : isHi ? 'खाता और प्राथमिकताएँ' : 'Account and Preferences'}</h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-3">{l({ en: 'Account and Preferences', kn: 'ಖಾತೆ ಮತ್ತು ಆದ್ಯತೆಗಳು', hi: 'खाता और प्राथमिकताएँ', ta: 'கணக்கும் முன்னுரிமைகளும்' })}</h1>
           <p className="text-slate-200 max-w-2xl">
-            {isKn ? 'ಸರ್ವರ್‌ನಲ್ಲಿ ಉಳಿಸಿದ ಬಳಕೆದಾರರ ಆದ್ಯತೆಗಳೊಂದಿಗೆ ಸುರಕ್ಷಿತ ಸೆಷನ್ ದೃಢೀಕರಣ.' : isHi ? 'सर्वर पर संग्रहीत उपयोगकर्ता प्राथमिकताओं के साथ सुरक्षित सत्र प्रमाणीकरण।' : 'Secure session authentication with server-stored user preferences.'}
+            {l({ en: 'Secure session authentication with server-stored user preferences.', kn: 'ಸರ್ವರ್‌ನಲ್ಲಿ ಉಳಿಸಿದ ಬಳಕೆದಾರರ ಆದ್ಯತೆಗಳೊಂದಿಗೆ ಸುರಕ್ಷಿತ ಸೆಷನ್ ದೃಢೀಕರಣ.', hi: 'सर्वर पर संग्रहीत उपयोगकर्ता प्राथमिकताओं के साथ सुरक्षित सत्र प्रमाणीकरण।', ta: 'சேவையகத்தில் சேமிக்கப்பட்ட பயனர் முன்னுரிமைகளுடன் பாதுகாப்பான அமர்வு உறுதிப்படுத்தல்.' })}
           </p>
         </div>
       </section>
@@ -176,19 +176,19 @@ export default function AuthPreferences() {
               onClick={() => setMode('signin')}
               className={`px-4 py-2 rounded-lg text-sm font-bold ${mode === 'signin' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-700'}`}
             >
-              {isKn ? 'ಲಾಗಿನ್' : isHi ? 'साइन इन' : 'Sign In'}
+              {l({ en: 'Sign In', kn: 'ಲಾಗಿನ್', hi: 'साइन इन', ta: 'உள்நுழை' })}
             </button>
             <button
               onClick={() => setMode('signup')}
               className={`px-4 py-2 rounded-lg text-sm font-bold ${mode === 'signup' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-700'}`}
             >
-              {isKn ? 'ನೋಂದಣಿ' : isHi ? 'साइन अप' : 'Sign Up'}
+              {l({ en: 'Sign Up', kn: 'ನೋಂದಣಿ', hi: 'साइन अप', ta: 'பதிவு செய்' })}
             </button>
           </div>
 
           {session ? (
             <div className="space-y-3">
-              <p className="text-sm text-slate-600">{isKn ? 'ಈ ಹೆಸರಿನಲ್ಲಿ ಲಾಗಿನ್ ಆಗಿದ್ದಾರೆ' : isHi ? 'इस रूप में साइन इन' : 'Signed in as'}</p>
+              <p className="text-sm text-slate-600">{l({ en: 'Signed in as', kn: 'ಈ ಹೆಸರಿನಲ್ಲಿ ಲಾಗಿನ್ ಆಗಿದ್ದಾರೆ', hi: 'इस रूप में साइन इन', ta: 'இவராக உள்நுழைந்துள்ளார்' })}</p>
               <p className="text-xl font-extrabold text-slate-900">{session.name}</p>
               <p className="text-sm text-slate-700">{session.email}</p>
               <button
@@ -196,25 +196,25 @@ export default function AuthPreferences() {
                 disabled={busy}
                 className="mt-2 px-4 py-2 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-700 transition-colors disabled:opacity-60"
               >
-                {isKn ? 'ಲಾಗ್ ಔಟ್' : isHi ? 'साइन आउट' : 'Sign Out'}
+                {l({ en: 'Sign Out', kn: 'ಲಾಗ್ ಔಟ್', hi: 'साइन आउट', ta: 'வெளியேறு' })}
               </button>
             </div>
           ) : (
             <form onSubmit={handleAuth} className="space-y-4">
               {mode === 'signup' ? (
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-1">{isKn ? 'ಹೆಸರು' : isHi ? 'नाम' : 'Name'}</label>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">{l({ en: 'Name', kn: 'ಹೆಸರು', hi: 'नाम', ta: 'பெயர்' })}</label>
                   <input
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="w-full rounded-lg border border-slate-300 px-3 py-2"
-                    placeholder={isKn ? 'ನಿಮ್ಮ ಹೆಸರು' : isHi ? 'आपका नाम' : 'Your name'}
+                    placeholder={l({ en: 'Your name', kn: 'ನಿಮ್ಮ ಹೆಸರು', hi: 'आपका नाम', ta: 'உங்கள் பெயர்' })}
                   />
                 </div>
               ) : null}
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">{isKn ? 'ಇಮೇಲ್' : isHi ? 'ईमेल' : 'Email'}</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">{l({ en: 'Email', kn: 'ಇಮೇಲ್', hi: 'ईमेल', ta: 'மின்னஞ்சல்' })}</label>
                 <input
                   type="email"
                   value={email}
@@ -225,13 +225,13 @@ export default function AuthPreferences() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">{isKn ? 'ಪಾಸ್‌ವರ್ಡ್' : isHi ? 'पासवर्ड' : 'Password'}</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">{l({ en: 'Password', kn: 'ಪಾಸ್‌ವರ್ಡ್', hi: 'पासवर्ड', ta: 'கடவுச்சொல்' })}</label>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full rounded-lg border border-slate-300 px-3 py-2"
-                  placeholder={isKn ? 'ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ' : isHi ? 'पासवर्ड दर्ज करें' : 'Enter password'}
+                  placeholder={l({ en: 'Enter password', kn: 'ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ', hi: 'पासवर्ड दर्ज करें', ta: 'கடவுச்சொல்லை உள்ளிடவும்' })}
                 />
               </div>
 
@@ -240,14 +240,16 @@ export default function AuthPreferences() {
                 disabled={busy}
                 className="w-full px-4 py-2 rounded-lg bg-slate-900 text-white font-semibold hover:bg-slate-800 transition-colors disabled:opacity-60"
               >
-                {mode === 'signup' ? (isKn ? 'ಖಾತೆ ರಚಿಸಿ' : isHi ? 'खाता बनाएं' : 'Create Account') : (isKn ? 'ಲಾಗಿನ್' : isHi ? 'साइन इन' : 'Sign In')}
+                {mode === 'signup'
+                  ? l({ en: 'Create Account', kn: 'ಖಾತೆ ರಚಿಸಿ', hi: 'खाता बनाएं', ta: 'கணக்கை உருவாக்கு' })
+                  : l({ en: 'Sign In', kn: 'ಲಾಗಿನ್', hi: 'साइन इन', ta: 'உள்நுழை' })}
               </button>
             </form>
           )}
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-6">
-          <h2 className="text-xl font-extrabold text-slate-900 mb-4">{isKn ? 'ಉಳಿಸಿದ ಆದ್ಯತೆಗಳು' : isHi ? 'सहेजी गई प्राथमिकताएँ' : 'Saved Preferences'}</h2>
+          <h2 className="text-xl font-extrabold text-slate-900 mb-4">{l({ en: 'Saved Preferences', kn: 'ಉಳಿಸಿದ ಆದ್ಯತೆಗಳು', hi: 'सहेजी गई प्राथमिकताएँ', ta: 'சேமிக்கப்பட்ட முன்னுரிமைகள்' })}</h2>
           {!session ? (
             <p className="text-slate-600">Sign in to manage saved preferences.</p>
           ) : (

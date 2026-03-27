@@ -4,6 +4,7 @@ import { useState, useRef, useId } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useI18n } from '@/lib/i18n/I18nProvider';
+import { pickLocalizedValue } from '@/lib/i18n/messages';
 
 // ─── Persona definitions ──────────────────────────────────────────────────────
 const PERSONAS = [
@@ -56,8 +57,7 @@ const inputBase =
 
 export default function ContactForm() {
   const { locale } = useI18n();
-  const isKn = locale === 'kn';
-  const isHi = locale === 'hi';
+  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
   const uid = useId();
   const nameRef = useRef<HTMLInputElement>(null);
 
@@ -122,12 +122,12 @@ export default function ContactForm() {
           className="text-center mb-10"
         >
           <p className="text-[11px] font-bold tracking-[0.22em] uppercase text-[#F5A623] mb-4">
-            {isKn ? 'ಸಂಪರ್ಕಿಸಿ' : isHi ? 'संपर्क करें' : 'Reach out'}
+            {l({ en: 'Reach out', kn: 'ಸಂಪರ್ಕಿಸಿ', hi: 'संपर्क करें', ta: 'தொடர்பு கொள்ளவும்' })}
           </p>
           <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.1] mb-4">
-            {isKn ? 'ನಾವು ನಿಮಗೆ ' : isHi ? 'हम आपकी ' : 'How can we '}
+            {l({ en: 'How can we ', kn: 'ನಾವು ನಿಮಗೆ ', hi: 'हम आपकी ', ta: 'நாங்கள் உங்களுக்கு ' })}
             <span className="bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent">
-              {isKn ? 'ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?' : isHi ? 'कैसे मदद कर सकते हैं?' : 'help you?'}
+              {l({ en: 'help you?', kn: 'ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?', hi: 'कैसे मदद कर सकते हैं?', ta: 'எப்படி உதவலாம்?' })}
             </span>
           </h1>
           <p className="text-[#64748B] text-base">

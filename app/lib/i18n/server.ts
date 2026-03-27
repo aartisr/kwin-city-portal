@@ -1,5 +1,10 @@
 import { cookies } from 'next/headers';
-import { normalizeLocale, type Locale } from '@/lib/i18n/messages';
+import {
+  normalizeLocale,
+  pickLocalizedValue,
+  type Locale,
+  type LocalizedValue,
+} from '@/lib/i18n/messages';
 
 export async function getServerLocale(): Promise<Locale> {
   const cookieStore = await cookies();
@@ -8,7 +13,7 @@ export async function getServerLocale(): Promise<Locale> {
 
 export function pickByLocale<T>(
   locale: Locale,
-  values: { en: T; kn: T; hi: T }
+  values: LocalizedValue<T>
 ): T {
-  return values[locale] ?? values.en;
+  return pickLocalizedValue(locale, values);
 }
