@@ -79,17 +79,20 @@ export default function Footer() {
           <div>
             <h4 className="text-[11px] md:text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-5">Research</h4>
             <ul className="space-y-3 text-[15px] md:text-sm leading-7">
-              <li><Link href="/sustainability"  className="text-[#94A3B8] hover:text-white transition-colors">Sustainability</Link></li>
-              <li><Link href="/data-insights"   className="text-[#94A3B8] hover:text-white transition-colors">Data Insights Lab</Link></li>
-              <li><Link href="/trust" className="text-[#94A3B8] hover:text-white transition-colors">Trust Center</Link></li>
-              <li><Link href="/news-intelligence" className="text-[#94A3B8] hover:text-white transition-colors">News Intelligence</Link></li>
-              <li><Link href="/news-reader" className="text-[#94A3B8] hover:text-white transition-colors">OPML News Reader</Link></li>
-              <li><Link href="/evidence"        className="text-[#94A3B8] hover:text-white transition-colors">Evidence Vault</Link></li>
-              <li><Link href="/sources"         className="text-[#94A3B8] hover:text-white transition-colors">Sources & Claims</Link></li>
-              <li><Link href="/downloads"       className="text-[#94A3B8] hover:text-white transition-colors">Document Downloads</Link></li>
-              <li><Link href="/search"          className="text-[#94A3B8] hover:text-white transition-colors">Search</Link></li>
-              <li><Link href="/contact"         className="text-[#94A3B8] hover:text-white transition-colors">Contact Us</Link></li>
-              <li><Link href="/for"             className="text-[#94A3B8] hover:text-white transition-colors">Persona Views</Link></li>
+              <li><Link href="/sustainability"      className="text-[#94A3B8] hover:text-white transition-colors">Sustainability</Link></li>
+              <li><Link href="/data-insights"       className="text-[#94A3B8] hover:text-white transition-colors">Data Insights Lab</Link></li>
+              <li><Link href="/trust"               className="text-[#94A3B8] hover:text-white transition-colors">Trust Center</Link></li>
+              <li><Link href="/sectors/comparison"  className="text-[#94A3B8] hover:text-white transition-colors">Sector Comparison</Link></li>
+              <li><Link href="/region-map"          className="text-[#94A3B8] hover:text-white transition-colors">Interactive Map</Link></li>
+              <li><Link href="/evidence-library"    className="text-[#94A3B8] hover:text-white transition-colors">Evidence Library</Link></li>
+              <li><Link href="/news-intelligence"   className="text-[#94A3B8] hover:text-white transition-colors">News Intelligence</Link></li>
+              <li><Link href="/news-reader"         className="text-[#94A3B8] hover:text-white transition-colors">OPML News Reader</Link></li>
+              <li><Link href="/evidence"            className="text-[#94A3B8] hover:text-white transition-colors">Evidence Vault</Link></li>
+              <li><Link href="/sources"             className="text-[#94A3B8] hover:text-white transition-colors">Sources & Claims</Link></li>
+              <li><Link href="/downloads"           className="text-[#94A3B8] hover:text-white transition-colors">Document Downloads</Link></li>
+              <li><Link href="/search"              className="text-[#94A3B8] hover:text-white transition-colors">Search</Link></li>
+              <li><Link href="/contact"             className="text-[#94A3B8] hover:text-white transition-colors">Contact Us</Link></li>
+              <li><Link href="/for"                 className="text-[#94A3B8] hover:text-white transition-colors">Persona Views</Link></li>
               <li>
                 <Link href="/download" className="inline-flex items-center gap-1.5 text-amber-400 hover:text-amber-300 transition-colors font-semibold">
                   📱 Get the App
