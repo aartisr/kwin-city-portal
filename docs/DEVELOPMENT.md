@@ -17,6 +17,7 @@ Everything you need to run, build, test, and effectively work on the KWIN City P
 9. [Testing](#9-testing)
 10. [Code Style and Formatting](#10-code-style-and-formatting)
 11. [Troubleshooting Common Issues](#11-troubleshooting-common-issues)
+12. [Adding a New Locale](#12-adding-a-new-locale)
 
 ---
 
@@ -391,6 +392,54 @@ import type { Pillar } from '@/types/kwin';
 ---
 
 ## 11. Troubleshooting Common Issues
+
+## 12. Adding a New Locale
+
+The i18n layer is structured so a new locale is a configuration change, not a cross-repo refactor.
+
+### Core rules
+
+- `app/lib/i18n/messages.ts` is the single source of truth for locale registration.
+- `LOCALE_DEFINITIONS` controls locale code, language labels, and the HTML `lang` attribute.
+- English (`en`) is the canonical base dictionary.
+- Other locales are partial override objects deep-merged onto the English dictionary.
+- `pickByLocale()` requires only the English value and accepts optional overrides for other locales, so existing page-level maps remain valid when a new locale is introduced.
+
+### Add a locale
+
+1. Add one record to `LOCALE_DEFINITIONS` in `app/lib/i18n/messages.ts`.
+
+```ts
+{ code: 'ta', label: 'Tamil', nativeLabel: 'தமிழ்', htmlLang: 'ta-IN' }
+```
+
+2. Add a partial override object to `localeMessageOverrides` in the same file.
+
+```ts
+ta: {
+  common: {
+    language: 'மொழி',
+  },
+  hero: {
+    title1: 'அறிவு.',
+  },
+}
+```
+
+3. Build and verify.
+
+```bash
+npm run build
+```
+
+### Fallback behavior
+
+- If a key is missing in the new locale dictionary, it falls back to English automatically.
+- If a page still uses `pickByLocale(locale, { en: '...', kn: '...', hi: '...' })`, that page will continue working after the new locale is added and will fall back to English until that page receives a dedicated translation.
+
+### Preferred pattern for new shared UI
+
+For reusable UI, prefer shared dictionary keys with `t('section.key')` instead of `locale === 'kn'` / `locale === 'hi'` branches. That keeps localization data-driven and avoids component logic changes when more locales are added.
 
 ### "Hydration mismatch" error in browser console
 

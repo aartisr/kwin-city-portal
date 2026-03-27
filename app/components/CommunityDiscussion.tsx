@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { useI18n } from '@/lib/i18n/I18nProvider';
+import { pickLocalizedValue } from '@/lib/i18n/messages';
 
 type SessionUser = {
   id: string;
@@ -28,8 +29,7 @@ type DiscussionPost = {
 
 export default function CommunityDiscussion() {
   const { locale } = useI18n();
-  const isKn = locale === 'kn';
-  const isHi = locale === 'hi';
+  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
   const [posts, setPosts] = useState<DiscussionPost[]>([]);
   const [session, setSession] = useState<SessionUser | null>(null);
   const [title, setTitle] = useState('');
@@ -140,9 +140,9 @@ export default function CommunityDiscussion() {
     <main className="min-h-screen bg-gradient-to-b from-white to-[#F7FAFC]">
       <section className="bg-gradient-to-r from-[#0F172A] to-[#1E3A8A] text-white py-14">
         <div className="container">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-3">{isKn ? 'ಸಮುದಾಯ ಚರ್ಚೆ' : isHi ? 'समुदाय चर्चा' : 'Community Discussion'}</h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-3">{l({ en: 'Community Discussion', kn: 'ಸಮುದಾಯ ಚರ್ಚೆ', hi: 'समुदाय चर्चा', ta: 'சமூக விவாதம்' })}</h1>
           <p className="text-blue-100 max-w-2xl">
-            {isKn ? 'ಸಾಕ್ಷ್ಯ, ಯೋಜನಾ ಸೂಚನೆಗಳು ಮತ್ತು ಮುಂದಿನ ಸಂಶೋಧನಾ ಪ್ರಶ್ನೆಗಳ ಬಗ್ಗೆ ಚರ್ಚಿಸಲು ತೆರೆಯಾದ ವೇದಿಕೆ.' : isHi ? 'प्रमाण, योजना संकेत और आगे के शोध प्रश्नों पर चर्चा के लिए खुला मंच।' : 'Open conversation board for stakeholders to discuss evidence, planning signals, and next research asks.'}
+            {l({ en: 'Open conversation board for stakeholders to discuss evidence, planning signals, and next research asks.', kn: 'ಸಾಕ್ಷ್ಯ, ಯೋಜನಾ ಸೂಚನೆಗಳು ಮತ್ತು ಮುಂದಿನ ಸಂಶೋಧನಾ ಪ್ರಶ್ನೆಗಳ ಬಗ್ಗೆ ಚರ್ಚಿಸಲು ತೆರೆಯಾದ ವೇದಿಕೆ.', hi: 'प्रमाण, योजना संकेत और आगे के शोध प्रश्नों पर चर्चा के लिए खुला मंच।', ta: 'ஆதாரங்கள், திட்டச் சுட்டுக்கள் மற்றும் அடுத்த ஆய்வு கேள்விகள் குறித்து விவாதிக்க திறந்த கலந்துரையாடல் தளம்.' })}
           </p>
         </div>
       </section>

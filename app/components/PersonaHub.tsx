@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useI18n } from '@/lib/i18n/I18nProvider';
+import { pickLocalizedValue } from '@/lib/i18n/messages';
 
 const personas = [
   {
@@ -125,52 +126,41 @@ const LICENSE_LINKS: Record<string, string> = {
 
 export default function PersonaHub() {
   const { locale } = useI18n();
-  const isKn = locale === 'kn';
-  const isHi = locale === 'hi';
+  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
 
-  const intro = isKn
-    ? 'KWIN City ವಿಭಿನ್ನ ಜನರಿಗೆ ವಿಭಿನ್ನ ಅರ್ಥ ಹೊಂದಿದೆ. ಆದ್ದರಿಂದ ನಿಮ್ಮ ಅಗತ್ಯಕ್ಕೆ ತಕ್ಕ ಮಾರ್ಗವನ್ನು ನಾವು ನಿರ್ಮಿಸಿದ್ದೇವೆ.'
-    : isHi
-      ? 'KWIN City हर व्यक्ति के लिए अलग मायने रखता है। इसलिए हमने आपकी जरूरत के अनुसार अलग मार्ग तैयार किया है।'
-      : 'KWIN City means different things to different people. We built a dedicated lens for each — so you get straight to what matters most to you without wading through everything else.';
+  const intro = l({
+    en: 'KWIN City means different things to different people. We built a dedicated lens for each — so you get straight to what matters most to you without wading through everything else.',
+    kn: 'KWIN City ವಿಭಿನ್ನ ಜನರಿಗೆ ವಿಭಿನ್ನ ಅರ್ಥ ಹೊಂದಿದೆ. ಆದ್ದರಿಂದ ನಿಮ್ಮ ಅಗತ್ಯಕ್ಕೆ ತಕ್ಕ ಮಾರ್ಗವನ್ನು ನಾವು ನಿರ್ಮಿಸಿದ್ದೇವೆ.',
+    hi: 'KWIN City हर व्यक्ति के लिए अलग मायने रखता है। इसलिए हमने आपकी जरूरत के अनुसार अलग मार्ग तैयार किया है।',
+    ta: 'KWIN City ஒவ்வொருவருக்கும் வேறுபட்ட அர்த்தம் தருகிறது. அதனால் உங்கள் தேவைக்கு ஏற்ப தனித்த பாதையை உருவாக்கியுள்ளோம்.',
+  });
 
   const localizedPersonas = personas.map((persona) => {
-    if (!isKn && !isHi) return persona;
     const byId: Record<string, { title: string; tagline: string; description: string }> = {
       investor: {
-        title: isKn ? 'ಹೂಡಿಕೆದಾರರಿಗಾಗಿ' : 'निवेशकों के लिए',
-        tagline: isKn ? 'ಬಂಡವಾಳ ಮತ್ತು ಅವಕಾಶ' : 'पूंजी और अवसर',
-        description: isKn
-          ? 'ಕ್ಷೇತ್ರ ಹಂಚಿಕೆ, ROI ಮಾನದಂಡಗಳು, ಮತ್ತು KWIN ಹೂಡಿಕೆ ಅವಕಾಶಗಳು.'
-          : 'सेक्टर आवंटन, ROI बेंचमार्क और KWIN निवेश अवसर।',
+        title: l({ en: 'For Investors', kn: 'ಹೂಡಿಕೆದಾರರಿಗಾಗಿ', hi: 'निवेशकों के लिए', ta: 'முதலீட்டாளர்களுக்காக' }),
+        tagline: l({ en: 'Capital meets opportunity', kn: 'ಬಂಡವಾಳ ಮತ್ತು ಅವಕಾಶ', hi: 'पूंजी और अवसर', ta: 'மூலதனம் சந்திக்கும் வாய்ப்பு' }),
+        description: l({ en: 'Sector allocations, ROI benchmarks, KIADB regulatory framework, and why the early-mover window in KWIN is open now.', kn: 'ಕ್ಷೇತ್ರ ಹಂಚಿಕೆ, ROI ಮಾನದಂಡಗಳು, ಮತ್ತು KWIN ಹೂಡಿಕೆ ಅವಕಾಶಗಳು.', hi: 'सेक्टर आवंटन, ROI बेंचमार्क और KWIN निवेश अवसर।', ta: 'துறை ஒதுக்கீடுகள், ROI அளவுகோல்கள் மற்றும் KWIN முதலீட்டு வாய்ப்புகள்.' }),
       },
       resident: {
-        title: isKn ? 'ನಿವಾಸಿಗಳಿಗಾಗಿ' : 'निवासियों के लिए',
-        tagline: isKn ? 'ಜೀವನ ಗುಣಮಟ್ಟ' : 'जीवन गुणवत्ता',
-        description: isKn
-          ? 'ಹಸಿರು ಆವರಣ, ಆರೋಗ್ಯ, ಶಾಲೆಗಳು ಮತ್ತು ಸಂಪರ್ಕತೆ ಕುರಿತು ಸಂಪೂರ್ಣ ಚಿತ್ರ.'
-          : 'ग्रीन कवर, स्वास्थ्य, स्कूल और कनेक्टिविटी पर संपूर्ण दृष्टि।',
+        title: l({ en: 'For Residents', kn: 'ನಿವಾಸಿಗಳಿಗಾಗಿ', hi: 'निवासियों के लिए', ta: 'குடியிருப்பாளர்களுக்காக' }),
+        tagline: l({ en: 'Life by design', kn: 'ಜೀವನ ಗುಣಮಟ್ಟ', hi: 'जीवन गुणवत्ता', ta: 'திட்டமிட்ட வாழ்வு' }),
+        description: l({ en: 'Green cover, interconnected lakes, schools, healthcare, and connectivity — the complete quality-of-life picture.', kn: 'ಹಸಿರು ಆವರಣ, ಆರೋಗ್ಯ, ಶಾಲೆಗಳು ಮತ್ತು ಸಂಪರ್ಕತೆ ಕುರಿತು ಸಂಪೂರ್ಣ ಚಿತ್ರ.', hi: 'ग्रीन कवर, स्वास्थ्य, स्कूल और कनेक्टिविटी पर संपूर्ण दृष्टि।', ta: 'பசுமை, சுகாதாரம், பள்ளிகள் மற்றும் இணைப்பு உடன் முழுமையான வாழ்க்கைத் தரம்.' }),
       },
       researcher: {
-        title: isKn ? 'ಸಂಶೋಧಕರಿಗಾಗಿ' : 'शोधकर्ताओं के लिए',
-        tagline: isKn ? 'ಸಂಶೋಧನೆಗೆ ಮೂಲಸೌಕರ್ಯ' : 'अनुसंधान के लिए अवसंरचना',
-        description: isKn
-          ? 'ಡೇಟಾ, ವಿಧಾನಶಾಸ್ತ್ರ, ಮತ್ತು ಕೈಗಾರಿಕೆ-ಅಕಾಡೆಮಿಯಾ ಸಂಪರ್ಕ.'
-          : 'डेटा, कार्यप्रणाली और उद्योग-अकादमिक सहयोग।',
+        title: l({ en: 'For Researchers', kn: 'ಸಂಶೋಧಕರಿಗಾಗಿ', hi: 'शोधकर्ताओं के लिए', ta: 'ஆராய்ச்சியாளர்களுக்காக' }),
+        tagline: l({ en: 'Infrastructure for inquiry', kn: 'ಸಂಶೋಧನೆಗೆ ಮೂಲಸೌಕರ್ಯ', hi: 'अनुसंधान के लिए अवसंरचना', ta: 'ஆராய்ச்சிக்கான கட்டமைப்பு' }),
+        description: l({ en: "Lab facilities, IP policy, industry-academia nexus, and grants inside KWIN's knowledge district.", kn: 'ಡೇಟಾ, ವಿಧಾನಶಾಸ್ತ್ರ, ಮತ್ತು ಕೈಗಾರಿಕೆ-ಅಕಾಡೆಮಿಯಾ ಸಂಪರ್ಕ.', hi: 'डेटा, कार्यप्रणाली और उद्योग-अकादमिक सहयोग।', ta: 'தரவு, முறைவியல் மற்றும் தொழில்-கல்வி இணைப்புகள்.' }),
       },
       journalist: {
-        title: isKn ? 'ಪತ್ರಕರ್ತರಿಗಾಗಿ' : 'पत्रकारों के लिए',
-        tagline: isKn ? 'ಮೊದಲು ನಿಜಾಂಶಗಳು' : 'पहले तथ्य',
-        description: isKn
-          ? 'ಪರಿಶೀಲಿತ ಅಂಶಗಳು, ಮೂಲ ಮಾರ್ಗಗಳು ಮತ್ತು ಕಥೆ ರೂಪಿಸುವ ಸಾಧನಗಳು.'
-          : 'सत्यापित तथ्य, स्रोत मार्ग और स्टोरी फ्रेम।',
+        title: l({ en: 'For Journalists', kn: 'ಪತ್ರಕರ್ತರಿಗಾಗಿ', hi: 'पत्रकारों के लिए', ta: 'செய்தியாளர்களுக்காக' }),
+        tagline: l({ en: 'Facts before filing', kn: 'ಮೊದಲು ನಿಜಾಂಶಗಳು', hi: 'पहले तथ्य', ta: 'முதலில் உண்மைகள்' }),
+        description: l({ en: 'Press kit, verified facts sheet, claim-status tracker, and media contacts — the most accurate story starts here.', kn: 'ಪರಿಶೀಲಿತ ಅಂಶಗಳು, ಮೂಲ ಮಾರ್ಗಗಳು ಮತ್ತು ಕಥೆ ರೂಪಿಸುವ ಸಾಧನಗಳು.', hi: 'सत्यापित तथ्य, स्रोत मार्ग और स्टोरी फ्रेम।', ta: 'சரிபார்க்கப்பட்ட தகவல்கள், ஆதார பாதைகள் மற்றும் கதைகட்டமைப்பு கருவிகள்.' }),
       },
       citizen: {
-        title: isKn ? 'ಕುತೂಹಲಕರ ನಾಗರಿಕರಿಗಾಗಿ' : 'जिज्ञासु नागरिकों के लिए',
-        tagline: isKn ? 'ಸರಳ ಉತ್ತರಗಳು' : 'सरल उत्तर',
-        description: isKn
-          ? 'KWIN ಬಗ್ಗೆ ಸರಳ ವಿವರಣೆ — ಜಾರ್ಗನ್ ಇಲ್ಲದೆ.'
-          : 'KWIN के बारे में सरल व्याख्या — बिना जार्गन।',
+        title: l({ en: 'For Curious Citizens', kn: 'ಕುತೂಹಲಕರ ನಾಗರಿಕರಿಗಾಗಿ', hi: 'जिज्ञासु नागरिकों के लिए', ta: 'ஆர்வமுள்ள குடிமக்களுக்காக' }),
+        tagline: l({ en: 'Plain language, real answers', kn: 'ಸರಳ ಉತ್ತರಗಳು', hi: 'सरल उत्तर', ta: 'எளிய மொழி, தெளிவான பதில்கள்' }),
+        description: l({ en: 'What KWIN is, who decides what, how you can participate, and where to dig deeper — zero jargon.', kn: 'KWIN ಬಗ್ಗೆ ಸರಳ ವಿವರಣೆ — ಜಾರ್ಗನ್ ಇಲ್ಲದೆ.', hi: 'KWIN के बारे में सरल व्याख्या — बिना जार्गन।', ta: 'KWIN என்ன, யார் தீர்மானிக்கிறார்கள், நீங்கள் எப்படி பங்கேற்பது — எளிய விளக்கம்.' }),
       },
     };
 
@@ -191,8 +181,8 @@ export default function PersonaHub() {
         >
           <div className="eyebrow text-[#F5A623] mb-3">Your Guided View</div>
           <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-5 leading-tight">
-            {isKn ? 'ನಿಮಗಾಗಿ ' : isHi ? 'आपके लिए ' : 'Tailored for '}
-            <span className="gradient-text-gold">{isKn ? 'ಹೊಂದಿಕೆಯಾಗಿರುವ ದೃಷ್ಟಿಕೋನ.' : isHi ? 'विशेष रूप से तैयार दृष्टिकोण।' : 'who you are.'}</span>
+            {l({ en: 'Tailored for ', kn: 'ನಿಮಗಾಗಿ ', hi: 'आपके लिए ', ta: 'உங்களுக்கேற்ற ' })}
+            <span className="gradient-text-gold">{l({ en: 'who you are.', kn: 'ಹೊಂದಿಕೆಯಾಗಿರುವ ದೃಷ್ಟಿಕೋನ.', hi: 'विशेष रूप से तैयार दृष्टिकोण।', ta: 'தனிப்பயன் பார்வை.' })}</span>
           </h2>
           <p className="text-lg text-[#94A3B8] leading-relaxed max-w-2xl">
             {intro}

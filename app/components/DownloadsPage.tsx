@@ -17,6 +17,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import data from '@/content/pages/downloads.json';
 import { useI18n } from '@/lib/i18n/I18nProvider';
+import { pickLocalizedValue } from '@/lib/i18n/messages';
 
 type VerificationTier = 'verified' | 'pending' | 'contextual';
 
@@ -57,8 +58,7 @@ const FILE_TYPE_STYLES: Record<string, string> = {
 
 export default function DownloadsPage() {
   const { locale } = useI18n();
-  const isKn = locale === 'kn';
-  const isHi = locale === 'hi';
+  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
   const categories: Category[] = data.categories as Category[];
   const documents: Document[] = data.documents as Document[];
 
@@ -80,7 +80,7 @@ export default function DownloadsPage() {
       {/* Page intro */}
       <section className="pt-28 pb-12 border-b border-gray-100">
         <div className="container">
-          <p className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600 mb-4">{isKn ? 'ಸಂಪನ್ಮೂಲ ಗ್ರಂಥಾಲಯ' : isHi ? 'संसाधन पुस्तकालय' : 'Resource Library'}</p>
+          <p className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600 mb-4">{l({ en: 'Resource Library', kn: 'ಸಂಪನ್ಮೂಲ ಗ್ರಂಥಾಲಯ', hi: 'संसाधन पुस्तकालय', ta: 'வள நூலகம்' })}</p>
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
             <div className="max-w-2xl">
               <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-4 leading-tight">
@@ -113,7 +113,7 @@ export default function DownloadsPage() {
                 {cfg.icon} {cfg.label}
               </span>
             ))}
-            <span className="text-xs text-gray-400 self-center ml-1">{isKn ? '— ಮೂಲ ಪರಿಶೀಲನಾ ಸ್ಥಿತಿ' : isHi ? '— स्रोत सत्यापन स्थिति' : '— Source verification status'}</span>
+            <span className="text-xs text-gray-400 self-center ml-1">{l({ en: '— Source verification status', kn: '— ಮೂಲ ಪರಿಶೀಲನಾ ಸ್ಥಿತಿ', hi: '— स्रोत सत्यापन स्थिति', ta: '— ஆதார சரிபார்ப்பு நிலை' })}</span>
           </div>
         </div>
       </section>
@@ -121,7 +121,7 @@ export default function DownloadsPage() {
       {/* Category cards */}
       <section className="section-sm">
         <div className="container">
-          <h2 className="text-xs font-bold tracking-[0.18em] uppercase text-gray-400 mb-5">{isKn ? 'ವರ್ಗದ ಪ್ರಕಾರ ನೋಡಿ' : isHi ? 'श्रेणी के अनुसार देखें' : 'Browse by Category'}</h2>
+          <h2 className="text-xs font-bold tracking-[0.18em] uppercase text-gray-400 mb-5">{l({ en: 'Browse by Category', kn: 'ವರ್ಗದ ಪ್ರಕಾರ ನೋಡಿ', hi: 'श्रेणी के अनुसार देखें', ta: 'வகைப்படி உலாவவும்' })}</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
             <button
               onClick={() => setActiveCategory('all')}
@@ -132,7 +132,7 @@ export default function DownloadsPage() {
               }`}
             >
               <p className="text-2xl mb-2">📁</p>
-              <p className="font-bold text-sm text-gray-900">{isKn ? 'ಎಲ್ಲಾ ದಸ್ತಾವೇಜುಗಳು' : isHi ? 'सभी दस्तावेज़' : 'All Documents'}</p>
+              <p className="font-bold text-sm text-gray-900">{l({ en: 'All Documents', kn: 'ಎಲ್ಲಾ ದಸ್ತಾವೇಜುಗಳು', hi: 'सभी दस्तावेज़', ta: 'அனைத்து ஆவணங்கள்' })}</p>
               <p className="text-xs text-gray-500 mt-0.5">{countByCategory('all')} items</p>
             </button>
 

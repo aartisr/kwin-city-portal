@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import SearchModal from '@/components/SearchModal';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { useI18n } from '@/lib/i18n/I18nProvider';
-import { messages, type Locale } from '@/lib/i18n/messages';
 
 type NavItem = {
   label: string;
@@ -102,7 +101,7 @@ export default function Header({
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const { locale, t } = useI18n();
+  const { t } = useI18n();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
@@ -169,16 +168,19 @@ export default function Header({
       : NAV_TONES.idleTop;
   
   const translatedGroupLabel = (label: string) => t(`header.groups.${label}`);
+
+  const getTranslatedText = (key: string, fallback?: string) => {
+    const translated = t(key);
+    return translated === key ? fallback ?? key : translated;
+  };
   
   const translatedItem = (item: NavItem): NavItem => {
-    const localizedMap = messages[locale as Locale].header.items as Record<string, { label?: string; desc?: string }>;
-    const localized = localizedMap[item.href];
-    if (!localized) return item;
-  
     return {
       ...item,
-      label: localized.label ?? item.label,
-      desc: localized.desc ?? item.desc,
+      label: getTranslatedText(`header.items.${item.href}.label`, item.label),
+      desc: item.desc
+        ? getTranslatedText(`header.items.${item.href}.desc`, item.desc)
+        : undefined,
     };
   };
 

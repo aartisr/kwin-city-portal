@@ -7,7 +7,7 @@ import PwaRegistration from '@/components/PwaRegistration';
 import PwaInstallPrompt from '@/components/PwaInstallPrompt';
 import PageAnalytics from '@/components/PageAnalytics';
 import I18nProvider from '@/lib/i18n/I18nProvider';
-import { HTML_LANG, normalizeLocale } from '@/lib/i18n/messages';
+import { getLocaleDefinition, normalizeLocale } from '@/lib/i18n/messages';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -109,7 +109,7 @@ export default async function RootLayout({
   const locale = normalizeLocale(cookieStore.get('kwin_locale')?.value);
 
   return (
-    <html lang={HTML_LANG[locale]}>
+    <html lang={getLocaleDefinition(locale).htmlLang}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
