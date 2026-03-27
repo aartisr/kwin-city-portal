@@ -299,16 +299,6 @@ export default function Header({
               </svg>
               <span className="hidden xl:inline">Trust</span>
             </button>
-
-            <Link
-              href="/about"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-[#040714] bg-[linear-gradient(135deg,#F5A623,#E8A020)]"
-            >
-              Explore KWIN
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
           </div>
 
           <div className="lg:hidden flex items-center gap-2">
