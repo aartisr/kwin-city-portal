@@ -5,12 +5,15 @@
 [build.environment]
   NODE_VERSION = "20.19.0"
 
-# @netlify/plugin-nextjs configuration
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
-
 [context.production.environment]
   NEXT_PUBLIC_ENVIRONMENT = "production"
+
+# Next.js routing redirects (SPA-style routing for dynamic routes)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
 
 # ── Security & Trust Headers ──────────────────────────────────────────────────
 # Targeting A+ on securityheaders.com and Mozilla Observatory.
