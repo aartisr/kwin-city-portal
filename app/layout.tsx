@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import PwaRegistration from '@/components/PwaRegistration';
 import PwaInstallPrompt from '@/components/PwaInstallPrompt';
+import PageAnalytics from '@/components/PageAnalytics';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -119,6 +120,7 @@ export default function RootLayout({
       <body className={`${inter.variable} bg-white text-gray-900 overflow-x-hidden`}>
         <PwaRegistration />
         <PwaInstallPrompt />
+        <PageAnalytics />
         {children}
       </body>
     </html>

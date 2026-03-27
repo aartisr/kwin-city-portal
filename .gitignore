@@ -93,3 +93,6 @@ htmlcov/
 *.jks
 *.keystore
 android/*.jks
+
+# Local file-based storage (contains user data)
+.data/
