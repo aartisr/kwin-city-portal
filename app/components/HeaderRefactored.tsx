@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 type NavItem = {
   label: string;
@@ -85,6 +86,7 @@ export default function Header({
   trustBannerVisible: boolean;
   onToggleTrustBanner: () => void;
 }) {
+  const { t, locale } = useI18n();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileOpenGroup, setMobileOpenGroup] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
@@ -113,6 +115,31 @@ export default function Header({
 
   const isGroupActive = (group: NavGroup) =>
     group.items.some((item) => isActive(item.href));
+
+  const localizeGroupLabel = (label: string) => {
+    if (label === 'Discover') return locale === 'kn' ? 'ಅನ್ವೇಷಿಸಿ' : locale === 'hi' ? 'खोजें' : locale === 'ta' ? 'கண்டறி' : 'Discover';
+    if (label === 'Ecosystem') return locale === 'kn' ? 'ಪರಿಸರ ವ್ಯವಸ್ಥೆ' : locale === 'hi' ? 'इकोसिस्टम' : locale === 'ta' ? 'சூழல் அமைப்பு' : 'Ecosystem';
+    if (label === 'Research') return locale === 'kn' ? 'ಸಂಶೋಧನೆ' : locale === 'hi' ? 'अनुसंधान' : locale === 'ta' ? 'ஆய்வு' : 'Research';
+    if (label === 'Intelligence') return locale === 'kn' ? 'ಅಂತರ್ಙಾನ' : locale === 'hi' ? 'इंटेलिजेंस' : locale === 'ta' ? 'நுண்ணறிவு' : 'Intelligence';
+    if (label === 'Audiences') return locale === 'kn' ? 'ಪ್ರೇಕ್ಷಕರು' : locale === 'hi' ? 'दर्शक' : locale === 'ta' ? 'பார்வையாளர் பிரிவுகள்' : 'Audiences';
+    return label;
+  };
+
+  const trMenu = (href: string, field: 'label' | 'desc', fallback?: string) => {
+    const key = `header.items.${href}.${field}`;
+    const val = t(key);
+    return val && val !== key ? val : fallback || '';
+  };
+
+  const menus: NavGroup[] = HIGH_LEVEL_MENUS.map((group) => ({
+    ...group,
+    label: localizeGroupLabel(group.label),
+    items: group.items.map((item) => ({
+      ...item,
+      label: trMenu(item.href, 'label', item.label),
+      desc: trMenu(item.href, 'desc', item.desc),
+    })),
+  }));
 
   const activeGroupLabel = (group: NavGroup) =>
     isGroupActive(group)
@@ -156,7 +183,7 @@ export default function Header({
 
         {/* Desktop nav */}
         <div ref={menuRef} className="hidden lg:flex items-center gap-6">
-          {HIGH_LEVEL_MENUS.map((group) => {
+          {menus.map((group) => {
             const isOpen = desktopOpenGroup === group.label;
 
             return (
@@ -228,7 +255,7 @@ export default function Header({
           {/* Trust Protocol toggle */}
           <button
             onClick={onToggleTrustBanner}
-            title={trustBannerVisible ? 'Hide Trust Protocol bar' : 'Show Trust Protocol bar'}
+            title={trustBannerVisible ? t('common.hideTrustBar') : t('common.showTrustBar')}
             className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 border ${
               trustBannerVisible
                 ? 'bg-cyan-50 text-cyan-700 border-cyan-200 hover:bg-cyan-100'
@@ -238,13 +265,13 @@ export default function Header({
             <svg className="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill={trustBannerVisible ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
             </svg>
-            <span className="hidden xl:inline">Trust</span>
+            <span className="hidden xl:inline">{t('common.trust')}</span>
           </button>
           <Link
             href="/about"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-[#040714] bg-[linear-gradient(135deg,#F5A623,#E8A020)]"
           >
-            Explore KWIN
+            {t('common.exploreKwin')}
             <svg
               className="w-4 h-4"
               fill="none"
@@ -266,7 +293,7 @@ export default function Header({
           {/* Trust Protocol toggle — mobile */}
           <button
             onClick={onToggleTrustBanner}
-            title={trustBannerVisible ? 'Hide Trust Protocol bar' : 'Show Trust Protocol bar'}
+            title={trustBannerVisible ? t('common.hideTrustBar') : t('common.showTrustBar')}
             className={`flex items-center justify-center w-8 h-8 rounded-lg border transition-all duration-200 ${
               trustBannerVisible
                 ? 'bg-cyan-50 text-cyan-700 border-cyan-200'
@@ -279,7 +306,7 @@ export default function Header({
           </button>
           {/* Hamburger */}
           <button
-            aria-label="Toggle menu"
+            aria-label={t('common.toggleMenu')}
             className="flex flex-col gap-[5px] focus:outline-none p-1"
             onClick={() => {
               setMobileMenuOpen(!mobileMenuOpen);
@@ -313,7 +340,7 @@ export default function Header({
             className="lg:hidden bg-white backdrop-blur-xl border-b border-gray-200 shadow-2xl"
           >
             <div className="container py-5 flex flex-col gap-1">
-              {HIGH_LEVEL_MENUS.map((group) => {
+              {menus.map((group) => {
                 const isOpen = mobileOpenGroup === group.label;
 
                 return (
@@ -373,7 +400,7 @@ export default function Header({
                   setMobileOpenGroup(null);
                 }}
               >
-                Explore KWIN
+                {t('common.exploreKwin')}
               </Link>
             </div>
           </motion.div>
