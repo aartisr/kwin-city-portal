@@ -1,0 +1,40 @@
+# Playwright test results and reports
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Test videos and screenshots
+tests/screenshots/
+tests/videos/
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Dependencies
+node_modules/
+.yarn/
+
+# Next.js
+.next/
+out/
+
+# Environment
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+dist/
+build/
