@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import SourceReferences from '@/components/SourceReferences';
 import { HERO_SOURCE_IDS } from '@/data/constants';
 import InlineSourceBadges from '@/components/InlineSourceBadges';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 const stats = [
   { figure: '465+', label: 'Acres', detail: 'Development area', sourceIds: ['brief', 'kiadb'] },
@@ -14,6 +15,8 @@ const stats = [
 ];
 
 export default function Hero() {
+  const { t } = useI18n();
+
   return (
     <section
       className="relative min-h-screen flex flex-col overflow-hidden bg-[linear-gradient(150deg,#040714_0%,#0D1640_50%,#07131F_100%)]"
@@ -52,9 +55,9 @@ export default function Hero() {
           {/* Staggered headline */}
           <div className="mb-6">
             {[
-              { text: 'Knowledge.', colorClass: 'text-white' },
-              { text: 'Wellbeing.',  colorClass: 'gradient-text-gold' },
-              { text: 'Innovation.', colorClass: 'text-[#22D3EE]' },
+              { text: t('hero.title1'), colorClass: 'text-white' },
+              { text: t('hero.title2'), colorClass: 'gradient-text-gold' },
+              { text: t('hero.title3'), colorClass: 'text-[#22D3EE]' },
             ].map((line, i) => (
               <motion.div
                 key={line.text}
@@ -80,7 +83,7 @@ export default function Hero() {
           >
             <span className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full text-xs font-bold tracking-[0.2em] uppercase border border-white/10 bg-white/5 text-[#94A3B8] backdrop-blur-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-[#F5A623] animate-pulse" />
-              North Bengaluru · Proposed 2024
+                {t('hero.badge')}
             </span>
           </motion.div>
 
@@ -91,9 +94,9 @@ export default function Hero() {
             transition={{ delay: 0.95, duration: 0.8 }}
             className="text-xl md:text-2xl text-[#94A3B8] max-w-3xl mx-auto leading-relaxed mb-10"
           >
-            India&#39;s most consequential city is expanding north.{' '}
+            {t('hero.taglineLead')}{' '}
             <span className="text-white/85">
-              KWIN City is the township proposed for that frontier — and this site is your complete guide to it.
+              {t('hero.taglineRest')}
             </span>
           </motion.p>
 
@@ -108,7 +111,7 @@ export default function Hero() {
               href="/about"
               className="group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-lg text-[#040714] transition-transform hover:-translate-y-0.5 bg-[linear-gradient(135deg,#F5A623,#E8A020)] shadow-[0_8px_32px_rgba(232,160,32,0.35)] w-full sm:w-auto"
             >
-              Explore the Vision
+              {t('hero.ctaPrimary')}
               <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
@@ -117,7 +120,7 @@ export default function Hero() {
               href="/evidence"
               className="btn btn-outline-light text-lg px-8 py-4 w-full sm:w-auto justify-center"
             >
-              Read the Research
+              {t('hero.ctaSecondary')}
             </Link>
           </motion.div>
 
@@ -149,9 +152,9 @@ export default function Hero() {
             transition={{ delay: 1.6, duration: 0.5 }}
             className="text-xs text-[#475569] mt-5"
           >
-            ✦ Investment and employment figures from project brief — pending KIADB primary verification.{' '}
+            ✦ {t('hero.sourceNotePrefix')}{' '}
             <Link href="/sources" className="text-[#94A3B8] hover:text-white underline underline-offset-2">
-              Review all sources
+              {t('common.reviewSources')}
             </Link>
           </motion.p>
           </div>
@@ -165,7 +168,7 @@ export default function Hero() {
         transition={{ delay: 2, duration: 0.6 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
-        <span className="text-[10px] tracking-[0.25em] text-[#475569] uppercase">Discover More</span>
+        <span className="text-[10px] tracking-[0.25em] text-[#475569] uppercase">{t('common.discoverMore')}</span>
         <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2.2, repeat: Infinity }}>
           <svg className="w-5 h-5 text-[#475569]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />

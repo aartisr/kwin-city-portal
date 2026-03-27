@@ -1,10 +1,13 @@
 import type { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { SkipLink } from '@/components/SkipLink';
 import PwaRegistration from '@/components/PwaRegistration';
 import PwaInstallPrompt from '@/components/PwaInstallPrompt';
 import PageAnalytics from '@/components/PageAnalytics';
+import I18nProvider from '@/lib/i18n/I18nProvider';
+import { HTML_LANG, normalizeLocale } from '@/lib/i18n/messages';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -97,13 +100,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const cookieStore = await cookies();
+  const locale = normalizeLocale(cookieStore.get('kwin_locale')?.value);
+
   return (
-    <html lang="en-IN">
+    <html lang={HTML_LANG[locale]}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -119,11 +125,13 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className={`${inter.variable} bg-white text-gray-900 overflow-x-hidden`}>
-        <SkipLink />
-        <PwaRegistration />
-        <PwaInstallPrompt />
-        <PageAnalytics />
-        {children}
+        <I18nProvider initialLocale={locale}>
+          <SkipLink />
+          <PwaRegistration />
+          <PwaInstallPrompt />
+          <PageAnalytics />
+          {children}
+        </I18nProvider>
       </body>
     </html>
   );
