@@ -18,6 +18,12 @@ type NavGroup = {
   items: NavItem[];
 };
 
+type AuthUser = {
+  id: string;
+  name: string;
+  email: string;
+};
+
 const NAV_TONES = {
   active: 'text-[#A96A00] font-extrabold bg-amber-50/95 ring-1 ring-amber-200',
   idleScrolled: 'text-gray-600 hover:text-gray-900 font-semibold',
@@ -90,6 +96,7 @@ export default function Header({
   const [scrolled, setScrolled] = useState(false);
   const [desktopOpenGroup, setDesktopOpenGroup] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
@@ -118,6 +125,30 @@ export default function Header({
     };
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
+  }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const loadSession = async () => {
+      try {
+        const res = await fetch('/api/auth/me', {
+          method: 'GET',
+          credentials: 'include',
+          cache: 'no-store',
+          signal: controller.signal,
+        });
+        if (!res.ok) return;
+
+        const data = (await res.json()) as { user?: AuthUser | null };
+        setCurrentUser(data.user ?? null);
+      } catch {
+        // Silent fail: header should remain usable when auth endpoint is unavailable.
+      }
+    };
+
+    loadSession();
+    return () => controller.abort();
   }, []);
 
   const isActive = (href: string) =>
@@ -231,6 +262,17 @@ export default function Header({
           </div>
 
           <div className="hidden lg:flex items-center gap-2">
+            {currentUser ? (
+              <Link
+                href="/account"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 border border-slate-200 bg-white hover:bg-slate-50 transition-colors"
+                title={`Signed in as ${currentUser.email}`}
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
+                <span className="max-w-[140px] truncate">Hi, {currentUser.name}</span>
+              </Link>
+            ) : null}
+
             <button
               aria-label="Search KWIN City (Cmd+K)"
               onClick={() => setSearchOpen(true)}
@@ -322,6 +364,23 @@ export default function Header({
               className="lg:hidden bg-white backdrop-blur-xl border-b border-gray-200 shadow-2xl"
             >
               <div className="container py-5 flex flex-col gap-1">
+                {currentUser ? (
+                  <Link
+                    href="/account"
+                    className="mb-2 flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setMobileOpenGroup(null);
+                    }}
+                  >
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Signed in</p>
+                      <p className="text-sm font-bold text-slate-800 truncate">{currentUser.name}</p>
+                    </div>
+                    <span className="text-xs font-medium text-slate-600">Account</span>
+                  </Link>
+                ) : null}
+
                 {HIGH_LEVEL_MENUS.map((group) => {
                   const isOpen = mobileOpenGroup === group.label;
 
