@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 type ReaderItem = {
   title: string;
@@ -81,6 +82,9 @@ function formatDate(value: string | null): string {
 }
 
 export default function NewsReaderExperience() {
+  const { locale } = useI18n();
+  const isKn = locale === 'kn';
+  const isHi = locale === 'hi';
   const [opmlUrl, setOpmlUrl] = useState('/feeds/kwin-city-news-feeds.opml');
   const [limit, setLimit] = useState(36);
   const [topicQuery, setTopicQuery] = useState('kwin');
@@ -258,6 +262,7 @@ export default function NewsReaderExperience() {
     <main className="bg-[linear-gradient(180deg,#f8fafc_0%,#ffffff_38%,#f5f7fb_100%)]">
       <section className="pt-28 pb-12 border-b border-slate-200">
         <div className="container">
+          <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-700 mb-4">{isKn ? 'ಸುದ್ದಿ ಓದುಗ' : isHi ? 'न्यूज़ रीडर' : 'News Reader'}</p>
           <div className="rounded-3xl border border-slate-200 bg-[radial-gradient(1200px_520px_at_0%_0%,rgba(14,165,233,0.14),transparent_60%),radial-gradient(900px_420px_at_100%_12%,rgba(245,158,11,0.16),transparent_60%),linear-gradient(180deg,#ffffff,#f8fafc)] p-8 md:p-12 shadow-[0_18px_55px_rgba(15,23,42,0.08)]">
             <p className="text-xs font-bold tracking-[0.22em] uppercase text-cyan-700 mb-4">On-Demand Reader</p>
             <h1 className="text-4xl md:text-6xl font-black text-slate-900 leading-tight max-w-5xl">

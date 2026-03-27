@@ -3,6 +3,7 @@
 import { useState, useRef, useId } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 // ─── Persona definitions ──────────────────────────────────────────────────────
 const PERSONAS = [
@@ -54,6 +55,9 @@ const inputBase =
   'transition-all duration-200 autofill:bg-transparent';
 
 export default function ContactForm() {
+  const { locale } = useI18n();
+  const isKn = locale === 'kn';
+  const isHi = locale === 'hi';
   const uid = useId();
   const nameRef = useRef<HTMLInputElement>(null);
 
@@ -118,12 +122,12 @@ export default function ContactForm() {
           className="text-center mb-10"
         >
           <p className="text-[11px] font-bold tracking-[0.22em] uppercase text-[#F5A623] mb-4">
-            Reach out
+            {isKn ? 'ಸಂಪರ್ಕಿಸಿ' : isHi ? 'संपर्क करें' : 'Reach out'}
           </p>
           <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.1] mb-4">
-            How can we{' '}
+            {isKn ? 'ನಾವು ನಿಮಗೆ ' : isHi ? 'हम आपकी ' : 'How can we '}
             <span className="bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent">
-              help you?
+              {isKn ? 'ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?' : isHi ? 'कैसे मदद कर सकते हैं?' : 'help you?'}
             </span>
           </h1>
           <p className="text-[#64748B] text-base">

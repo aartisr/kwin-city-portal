@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import SiteFrame from '@/components/SiteFrame';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 import {
   type SearchEntry,
   type SearchCategory,
@@ -19,6 +20,9 @@ const ALL_CATEGORIES: SearchCategory[] = [
 ];
 
 export default function SearchPageClient() {
+  const { locale } = useI18n();
+  const isKn = locale === 'kn';
+  const isHi = locale === 'hi';
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialQuery = searchParams.get('q') ?? '';
@@ -70,7 +74,7 @@ export default function SearchPageClient() {
           <div className="container">
             <p className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600 mb-4">Search</p>
             <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
-              Find anything in KWIN City
+              {isKn ? 'KWIN City ನಲ್ಲಿ ಯಾವುದನ್ನಾದರೂ ಹುಡುಕಿ' : isHi ? 'KWIN City में कुछ भी खोजें' : 'Find anything in KWIN City'}
             </h1>
 
             {/* Search bar */}
@@ -95,7 +99,7 @@ export default function SearchPageClient() {
                   type="search"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search pages, sectors, timeline, FAQ…"
+                  placeholder={isKn ? 'ಪುಟಗಳು, ಕ್ಷೇತ್ರಗಳು, ಕಾಲರೇಖೆ, FAQ ಹುಡುಕಿ…' : isHi ? 'पेज, सेक्टर, टाइमलाइन, FAQ खोजें…' : 'Search pages, sectors, timeline, FAQ…'}
                   className="flex-1 bg-transparent text-gray-900 placeholder-gray-400 text-lg outline-none"
                   autoFocus
                   autoComplete="off"
@@ -166,9 +170,9 @@ export default function SearchPageClient() {
             {filtered.length === 0 && debouncedQuery.trim() && (
               <div className="text-center py-20">
                 <div className="text-5xl mb-4">🔍</div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">No results found</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">{isKn ? 'ಯಾವುದೇ ಫಲಿತಾಂಶ ಕಂಡುಬಂದಿಲ್ಲ' : isHi ? 'कोई परिणाम नहीं मिला' : 'No results found'}</h2>
                 <p className="text-gray-500 mb-6">
-                  Try different keywords — sector names, timeline years, or FAQ topics.
+                  {isKn ? 'ಬೇರೆ ಕೀವರ್ಡ್‌ಗಳನ್ನು ಪ್ರಯತ್ನಿಸಿ — ಕ್ಷೇತ್ರ ಹೆಸರುಗಳು, ಕಾಲರೇಖೆ ವರ್ಷಗಳು ಅಥವಾ FAQ ವಿಷಯಗಳು.' : isHi ? 'अलग कीवर्ड आज़माएँ — सेक्टर नाम, टाइमलाइन वर्ष, या FAQ विषय।' : 'Try different keywords — sector names, timeline years, or FAQ topics.'}
                 </p>
                 <div className="flex flex-wrap gap-2 justify-center">
                   {['semiconductor', 'investor', 'timeline 2027', 'sustainability', 'download'].map((hint) => (
