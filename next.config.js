@@ -44,10 +44,35 @@ const baseConfig = {
       {
         source: '/:path*',
         headers: [
+          // Content Security Policy - prevents XSS attacks
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://maps.googleapis.com", // unsafe-inline needed for Framer Motion, Next.js inline styles
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.mapbox.com",
+              "font-src 'self' https://fonts.gstatic.com https://api.mapbox.com",
+              "img-src 'self' data: https: blob:",
+              "media-src 'self' https:",
+              "frame-src 'self' https:",
+              "connect-src 'self' https: wss:", // WebSockets for real-time features
+              "object-src 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "frame-ancestors 'none'",
+              "upgrade-insecure-requests",
+            ].join('; '),
+          },
+          // Prevent MIME type sniffing
           { key: 'X-Content-Type-Options', value: 'nosniff' },
+          // Prevent clickjacking
           { key: 'X-Frame-Options', value: 'DENY' },
+          // Prevent XSS (browser built-in protection)
+          { key: 'X-XSS-Protection', value: '1; mode=block' },
+          // Referrer policy
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-          { key: 'Permissions-Policy', value: 'geolocation=(), microphone=(), camera=()' },
+          // Permissions policy (formerly Feature-Policy)
+          { key: 'Permissions-Policy', value: 'geolocation=(), microphone=(), camera=(), payment=()' },
           // Strict-Transport-Security: tell browsers/Google to always use HTTPS
           { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
         ],

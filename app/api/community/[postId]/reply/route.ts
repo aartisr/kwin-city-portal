@@ -5,6 +5,7 @@ import { getSessionFromCookie } from '@/lib/server/auth';
 import { validateBody } from '@/lib/server/community';
 import { hasValidCsrf, isRateLimited, isSameOrigin, CSRF_COOKIE } from '@/lib/server/security';
 import { getPostById, addReplyToPost } from '@/lib/server/data-layer';
+import { sanitizeBody } from '@/lib/sanitizer';
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ postId: string }> }) {
   if (!isSameOrigin(req)) {
@@ -28,7 +29,16 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ pos
 
   const { postId } = await params;
   const body = await req.json().catch(() => ({}));
-  const text = typeof body.text === 'string' ? body.text.trim() : '';
+  const rawText = typeof body.text === 'string' ? body.text.trim() : '';
+
+  // Sanitize input to prevent XSS
+  const text = sanitizeBody(rawText, 5, 1000); // Replies can be shorter
+  if (!text) {
+    return NextResponse.json(
+      { error: 'Reply must be between 5 and 1000 characters' },
+      { status: 400 }
+    );
+  }
 
   const bodyError = validateBody(text);
   if (bodyError) {
