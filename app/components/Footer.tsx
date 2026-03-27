@@ -3,10 +3,17 @@
 import Link from 'next/link';
 import { SITE_CONFIG } from '@/config/site.config';
 import NewsletterSignup from '@/components/NewsletterSignup';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 export default function Footer() {
+  const { t, locale } = useI18n();
   const year = new Date().getFullYear();
-  const lastUpdatedText = new Date(SITE_CONFIG.lastUpdatedISO).toLocaleDateString('en-IN', {
+  const localeMap: Record<string, string> = {
+    en: 'en-IN',
+    kn: 'kn-IN',
+    hi: 'hi-IN',
+  };
+  const lastUpdatedText = new Date(SITE_CONFIG.lastUpdatedISO).toLocaleDateString(localeMap[locale] ?? 'en-IN', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
@@ -24,18 +31,17 @@ export default function Footer() {
         <div className="container py-8 md:py-10">
           <div className="rounded-2xl border border-white/10 bg-[linear-gradient(145deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] px-6 py-8 md:px-9 md:py-9 flex flex-col md:flex-row items-start md:items-center justify-between gap-7">
             <div>
-              <p className="text-[11px] md:text-xs font-bold tracking-[0.22em] uppercase text-[#F5A623] mb-3">The definitive KWIN resource</p>
+              <p className="text-[11px] md:text-xs font-bold tracking-[0.22em] uppercase text-[#F5A623] mb-3">{t('footer.ctaEyebrow')}</p>
               <h3 className="text-2xl font-extrabold text-white mb-3 leading-tight">
-                Everything KWIN. One place.
+                {t('footer.ctaTitle')}
               </h3>
               <p className="text-[#9BAEC6] text-[15px] md:text-sm leading-7 max-w-xl">
-                This portal exists so that anyone — investor, resident, researcher, journalist, or curious citizen — can
-                understand KWIN City with complete confidence in what&apos;s known and what&apos;s still being confirmed.
+                {t('footer.ctaBody')}
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 shrink-0 w-full sm:w-auto">
-              <Link href="/about" className="btn btn-primary text-center">Explore KWIN</Link>
-              <Link href="/sources" className="btn btn-outline-light text-center">View Sources</Link>
+              <Link href="/about" className="btn btn-primary text-center">{t('footer.exploreKwin')}</Link>
+              <Link href="/sources" className="btn btn-outline-light text-center">{t('footer.viewSources')}</Link>
             </div>
           </div>
         </div>
@@ -193,16 +199,16 @@ export default function Footer() {
           </div>
           {/* Right — links + tagline */}
           <div className="flex items-center gap-2.5 text-[11px] text-[#64748B]">
-            <span className="hidden md:inline">Open data · Every claim sourced</span>
+            <span className="hidden md:inline">{t('footer.openData')}</span>
             <span className="hidden md:inline w-px h-3 bg-white/10" />
-            <span className="hidden md:inline">Last updated</span>
+            <span className="hidden md:inline">{t('footer.lastUpdated')}</span>
             <time className="hidden md:inline text-[#4F6280]" dateTime={SITE_CONFIG.lastUpdatedISO}>{lastUpdatedText}</time>
             <span className="hidden md:inline w-px h-3 bg-white/10" />
-            <Link href="/terms" className="text-[#4F6280] hover:text-white transition-colors">Terms</Link>
+            <Link href="/terms" className="text-[#4F6280] hover:text-white transition-colors">{t('common.terms')}</Link>
             <span className="w-px h-3 bg-white/10" />
-            <Link href="/sources" className="text-[#4F6280] hover:text-white transition-colors">Sources</Link>
+            <Link href="/sources" className="text-[#4F6280] hover:text-white transition-colors">{t('common.sources')}</Link>
             <span className="w-px h-3 bg-white/10" />
-            <Link href="/contact" className="text-[#4F6280] hover:text-white transition-colors">Contact</Link>
+            <Link href="/contact" className="text-[#4F6280] hover:text-white transition-colors">{t('common.contact')}</Link>
           </div>
         </div>
       </div>
