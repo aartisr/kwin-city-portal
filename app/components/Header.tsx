@@ -296,17 +296,6 @@ export default function Header({
           <div className="hidden lg:flex items-center gap-2 group/header-actions">
             <LanguageSwitcher compact />
 
-            {currentUser ? (
-              <Link
-                href="/account"
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 border border-slate-200 bg-white hover:bg-slate-50 transition-colors"
-                title={`${t('common.signedIn')}: ${currentUser.email}`}
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
-                <span className="max-w-[140px] truncate">{currentUser.name}</span>
-              </Link>
-            ) : null}
-
             <button
               aria-label={`${t('common.search')} KWIN City (Cmd+K)`}
               onClick={() => setSearchOpen(true)}
@@ -347,6 +336,17 @@ export default function Header({
               </svg>
               <span className="hidden xl:inline">{t('common.trust')}</span>
             </button>
+
+            {currentUser ? (
+              <Link
+                href="/account"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 border border-slate-200 bg-white hover:bg-slate-50 transition-colors"
+                title={`${t('common.signedIn')}: ${currentUser.email}`}
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
+                <span className="max-w-[140px] truncate">{currentUser.name}</span>
+              </Link>
+            ) : null}
           </div>
 
           <div className="lg:hidden flex items-center gap-2">
