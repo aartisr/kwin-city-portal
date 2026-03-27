@@ -4,6 +4,7 @@ export const LOCALE_DEFINITIONS = [
   { code: 'hi', label: 'Hindi', nativeLabel: 'हिन्दी', htmlLang: 'hi-IN' },
   { code: 'ta', label: 'Tamil', nativeLabel: 'தமிழ்', htmlLang: 'ta-IN' },
   { code: 'te', label: 'Telugu', nativeLabel: 'తెలుగు', htmlLang: 'te-IN' },
+  { code: 'es', label: 'Spanish', nativeLabel: 'Español', htmlLang: 'es-ES' },
 ] as const;
 
 export type Locale = (typeof LOCALE_DEFINITIONS)[number]['code'];
@@ -406,6 +407,79 @@ const localeMessageOverrides: Partial<Record<Locale, DeepPartial<MessageDictiona
       lastUpdated: 'చివరగా నవీకరించబడినది',
     },
   },
+  es: {
+    common: {
+      language: 'Idioma',
+      search: 'Buscar',
+      account: 'Cuenta',
+      signedIn: 'Sesión iniciada',
+      trust: 'Confianza',
+      hideTrustBar: 'Ocultar barra de protocolo de confianza',
+      showTrustBar: 'Mostrar barra de protocolo de confianza',
+      toggleMenu: 'Alternar menú',
+      exploreKwin: 'Explorar KWIN',
+      discoverMore: 'Descubre más',
+      reviewSources: 'Ver todas las fuentes',
+      terms: 'Términos',
+      sources: 'Fuentes',
+      contact: 'Contacto',
+    },
+    header: {
+      groups: {
+        Discover: 'Descubrir',
+        Ecosystem: 'Ecosistema',
+        Research: 'Investigación',
+        Intelligence: 'Inteligencia',
+        Audiences: 'Audiencias',
+      },
+      items: {
+        '/about': { label: 'Acerca de KWIN', desc: 'Misión, pilares y marco' },
+        '/why-north-bengaluru': { label: 'Por qué Bengaluru Norte', desc: 'Caso estratégico regional' },
+        '/timeline': { label: 'Cronología', desc: 'Hoja de ruta de desarrollo por fases' },
+        '/updates': { label: 'Actualizaciones', desc: 'Hitos y anuncios' },
+        '/faq': { label: 'FAQ', desc: 'Preguntas respondidas en todos los públicos' },
+        '/sectors': { label: 'Sectores', desc: 'Profundidad industrial y oportunidades' },
+        '/sustainability': { label: 'Sostenibilidad', desc: 'Perspectiva climática y de resiliencia' },
+        '/data-insights': { label: 'Información de datos', desc: 'Paneles de evidencia en vivo' },
+        '/analytics': { label: 'Panel de análisis', desc: 'Información de seguimiento de páginas en el dispositivo' },
+        '/evidence': { label: 'Bóveda de evidencia', desc: 'Lo que cada conjunto de datos puede probar' },
+        '/sources': { label: 'Fuentes y afirmaciones', desc: 'Libro mayor completo de afirmación a fuente' },
+        '/downloads': { label: 'Descargas de documentos', desc: 'Informes, resúmenes y conjuntos de datos abiertos' },
+        '/news-intelligence': { label: 'Inteligencia de noticias', desc: 'Observatorio de medios de atribución primaria' },
+        '/news-reader': { label: 'Lector de noticias en vivo', desc: 'Lector resumen OPML bajo demanda' },
+        '/community': { label: 'Discusión comunitaria', desc: 'Debates abiertos de partes interesadas y respuestas' },
+        '/trust': { label: 'Centro de confianza', desc: 'Protocolo de autenticidad y originalidad' },
+        '/download': { label: 'Obtener la app', desc: 'Instalar gratuitamente en Android e iOS' },
+        '/account': { label: 'Cuenta y preferencias', desc: 'Inicie sesión y guarde sus intereses' },
+        '/for/investor': { label: 'Inversionista', desc: 'Oportunidad e información de riesgo' },
+        '/for/resident': { label: 'Residente', desc: 'Habitabilidad y comunidad' },
+        '/for/researcher': { label: 'Investigador', desc: 'Datos y metodología' },
+        '/for/journalist': { label: 'Periodista', desc: 'Ángulos de historia verificados' },
+        '/for/curious-citizens': { label: 'Ciudadano interesado', desc: 'Explicación en lenguaje sencillo' },
+        '/for': { label: 'Todos los centros de audiencia', desc: 'Explorar todos los caminos de personajes' },
+      },
+    },
+    hero: {
+      title1: 'Conocimiento.',
+      title2: 'Bienestar.',
+      title3: 'Innovación.',
+      badge: 'Bengaluru Norte · Propuesto 2024',
+      taglineLead: 'La ciudad más importante de India se está expandiendo hacia el norte.',
+      taglineRest: 'KWIN City es el municipio propuesto para esa nueva frontera - y este sitio es tu guía completa.',
+      ctaPrimary: 'Explorar la visión',
+      ctaSecondary: 'Leer la investigación',
+      sourceNotePrefix: 'Figuras de inversión y empleo del resumen del proyecto - pendiente verificación primaria de KIADB.',
+    },
+    footer: {
+      ctaEyebrow: 'El recurso definitivo de KWIN',
+      ctaTitle: 'Todo KWIN. Un solo lugar.',
+      ctaBody: 'Este portal existe para que cualquiera - inversor, residente, investigador, periodista o ciudadano interesado - pueda entender KWIN City con total confianza en lo que se sabe y lo que aún se está confirmando.',
+      exploreKwin: 'Explorar KWIN',
+      viewSources: 'Ver fuentes',
+      openData: 'Datos abiertos · Cada afirmación está fundamentada',
+      lastUpdated: 'Última actualización',
+    },
+  },
 };
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -495,6 +569,8 @@ export function getIntlLocale(locale: Locale): string {
     kn: 'kn-IN',
     hi: 'hi-IN',
     ta: 'ta-IN',
+    te: 'te-IN',
+    es: 'es-ES',
   };
   return map[locale] ?? map[DEFAULT_LOCALE];
 }

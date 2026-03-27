@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useI18n } from '@/lib/i18n/I18nProvider';
-import { pickLocalizedValue, getIntlLocale } from '@/lib/i18n/messages';
+import { pickLocalizedValue, getIntlLocale, type Locale } from '@/lib/i18n/messages';
 
 type PageView = {
   path: string;
@@ -18,7 +18,7 @@ type EngagementMetric = {
   timestamp: string;
 };
 
-const fmtDateTime = (iso: string, locale: 'en' | 'kn' | 'hi' | 'ta') => {
+const fmtDateTime = (iso: string, locale: Locale) => {
   try {
     const intlLocale = getIntlLocale(locale);
     return new Date(iso).toLocaleString(intlLocale);
