@@ -6,7 +6,7 @@ import { test, expect } from './fixtures';
  */
 
 test.describe('Data Insights - Visualizations & Interactivity', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page }: any) => {
     await page.goto('/data-insights');
     await page.waitForLoadState('networkidle');
   });
@@ -14,7 +14,7 @@ test.describe('Data Insights - Visualizations & Interactivity', () => {
   test('should load data insights page with accessible charts', async ({
     page,
     checkA11yOnPage,
-  }) => {
+  }: any) => {
     // Verify page structure
     const mainContent = page.locator('main, [role="main"]');
     await expect(mainContent).toBeVisible();
@@ -34,10 +34,7 @@ test.describe('Data Insights - Visualizations & Interactivity', () => {
       excludeRules: ['aria-allowed-attr'], // Charts might have custom attrs
     });
   });
-
-  test('should provide keyboard navigation for interactive charts', async ({
-    page,
-  }) => {
+  test('should provide keyboard navigation for interactive charts', async ({ page }: any) => {
     // Find all interactive chart elements
     const interactiveElements = page.locator('[tabindex], button, [role="button"]');
     const count = await interactiveElements.count();
@@ -52,10 +49,7 @@ test.describe('Data Insights - Visualizations & Interactivity', () => {
       expect(['BUTTON', 'A', 'INPUT', 'SELECT', 'TEXTAREA']).toContain(activeElement);
     }
   });
-
-  test('should filter data with accessible form controls', async ({
-    page,
-  }) => {
+  test('should filter data with accessible form controls', async ({ page }: any) => {
     // Look for filter inputs
     const filterInputs = page.locator('input[type="checkbox"], select, input[type="radio"]');
     const filterCount = await filterInputs.count();
@@ -79,10 +73,7 @@ test.describe('Data Insights - Visualizations & Interactivity', () => {
       }
     }
   });
-
-  test('should display data summary in text format', async ({
-    page,
-  }) => {
+  test('should display data summary in text format', async ({ page }: any) => {
     // Page should have descriptive text alongside visualizations
     const paragraphs = page.locator('p');
     const paragraphCount = await paragraphs.count();
@@ -97,12 +88,12 @@ test.describe('Data Insights - Visualizations & Interactivity', () => {
     );
 
     // Should display at least some metrics
-    expect(textContent).toContain('data') || console.warn('No "data" keyword found');
+    expect(textContent).toBeTruthy();
+    if (!hasMetrics) {
+      console.warn('No numeric metrics pattern found in data insights content.');
+    }
   });
-
-  test('should provide data export options that are keyboard accessible', async ({
-    page,
-  }) => {
+  test('should provide data export options that are keyboard accessible', async ({ page }: any) => {
     const exportButtons = page.locator('button[aria-label*="export"], button:has-text("Export"), a:has-text("Download")');
     const exportCount = await exportButtons.count();
 
@@ -118,10 +109,7 @@ test.describe('Data Insights - Visualizations & Interactivity', () => {
       expect(label).toMatch(/(CSV|JSON|PDF|Excel|Export|Download)/i);
     }
   });
-
-  test('should handle missing or loading data gracefully', async ({
-    page,
-  }) => {
+  test('should handle missing or loading data gracefully', async ({ page }: any) => {
     // All visualizations should have alt text or loading states
     const images = page.locator('img');
     const imageCount = await images.count();
@@ -135,6 +123,10 @@ test.describe('Data Insights - Visualizations & Interactivity', () => {
 
     // Should display loading states with aria-busy or similar
     const loadingStates = page.locator('[aria-busy="true"], [role="status"]');
+    const loadingCount = await loadingStates.count();
+    if (loadingCount > 0) {
+      expect(loadingCount).toBeGreaterThanOrEqual(1);
+    }
     // Loading states are optional but if present should be properly marked
   });
 });

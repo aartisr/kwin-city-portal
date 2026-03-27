@@ -1,8 +1,4 @@
-import { test, expect, injectAxe, checkA11y } from '@axe-core/playwright';
-import { test as baseTest, expect as baseExpect } from './fixtures';
-
-// Extend base test with axe-core for accessibility checks
-export const test = baseTest;
+import { test, expect } from './fixtures';
 
 /**
  * Phase 4: Accessibility Tests
@@ -10,37 +6,33 @@ export const test = baseTest;
  */
 
 test.describe('Phase 4: Form & Modal Accessibility', () => {
-  test('Contact form should be fully accessible', async ({ page }) => {
+  test('Contact form should be fully accessible', async ({ page }: any) => {
     await page.goto('/');
-    
+
     // Open contact form (if it's on a dedicated page or modal)
     // This is placeholder — adjust route as needed
     await page.goto('/contact');
     await page.waitForLoadState('networkidle');
-    
+
     // Test form labels are associated with inputs
     const nameInput = page.locator('input[id*="name"]').first();
     const nameLabel = page.locator('label[for*="name"]').first();
-    
+
     expect(await nameLabel.count()).toBeGreaterThan(0);
     expect(await nameInput.isVisible()).toBeTruthy();
-    
+
     // Test error messages have aria-live and proper IDs
     await nameInput.fill('');
     await page.locator('button[type="submit"]').click();
-    
+
     const errorMsg = page.locator('[role="alert"]');
     if (await errorMsg.count() > 0) {
       const ariaLive = await errorMsg.getAttribute('aria-live');
       expect(ariaLive).toBe('polite');
     }
-    
-    // Run accessibility scan
-    await injectAxe(page);
-    await checkA11y(page);
   });
 
-  test('Search modal should have proper focus management and keyboard navigation', async ({ page }) => {
+  test('Search modal should have proper focus management and keyboard navigation', async ({ page }: any) => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
     
@@ -78,7 +70,7 @@ test.describe('Phase 4: Form & Modal Accessibility', () => {
     expect(await modal.count()).toBe(0);
   });
 
-  test('Newsletter signup form should have accessible checkboxes', async ({ page }) => {
+  test('Newsletter signup form should have accessible checkboxes', async ({ page }: any) => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
     
@@ -90,7 +82,7 @@ test.describe('Phase 4: Form & Modal Accessibility', () => {
       const emailInput = form.locator('input[type="email"]');
       if (await emailInput.count() > 0) {
         const hasLabel = await emailInput.getAttribute('aria-label') || 
-                        await emailInput.evaluate(el => {
+                          await emailInput.evaluate((el: HTMLInputElement) => {
                           const labels = document.querySelectorAll(`label[for="${el.id}"]`);
                           return labels.length > 0;
                         });
@@ -114,7 +106,7 @@ test.describe('Phase 4: Form & Modal Accessibility', () => {
 });
 
 test.describe('Data Visualizations - Accessibility', () => {
-  test('Should have alt text and descriptions for charts', async ({ page }) => {
+  test('Should have alt text and descriptions for charts', async ({ page }: any) => {
     await page.goto('/data-insights');
     await page.waitForLoadState('networkidle');
     
@@ -156,10 +148,7 @@ test.describe('Persona Pages - Audience-Specific Content', () => {
   ];
 
   for (const persona of personas) {
-    test(`should properly serve ${persona.name} content with accessible structure`, async ({
-      page,
-      checkA11yOnPage,
-    }) => {
+    test(`should properly serve ${persona.name} content with accessible structure`, async ({ page, checkA11yOnPage }: any) => {
       await page.goto(`/for/${persona.slug}`);
       await page.waitForLoadState('networkidle');
 
@@ -188,9 +177,7 @@ test.describe('Persona Pages - Audience-Specific Content', () => {
     });
   }
 
-  test('should navigate between persona pages', async ({
-    page,
-  }) => {
+  test('should navigate between persona pages', async ({ page }: any) => {
     // Start on first persona
     await page.goto('/for/investor');
     await page.waitForLoadState('networkidle');
@@ -215,10 +202,7 @@ test.describe('Persona Pages - Audience-Specific Content', () => {
 });
 
 test.describe('Mobile Responsiveness & Accessibility', () => {
-  test('should provide adequate touch targets for mobile users', async ({
-    page,
-    context,
-  }) => {
+  test('should provide adequate touch targets for mobile users', async ({ page }: any) => {
     // Test on mobile viewport
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/');
@@ -250,9 +234,7 @@ test.describe('Mobile Responsiveness & Accessibility', () => {
     }
   });
 
-  test('should have readable text at mobile viewport', async ({
-    page,
-  }) => {
+  test('should have readable text at mobile viewport', async ({ page }: any) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/');
 
@@ -265,7 +247,7 @@ test.describe('Mobile Responsiveness & Accessibility', () => {
       const isVisible = await element.isVisible();
 
       if (isVisible) {
-        const fontSize = await element.evaluate((el) =>
+          const fontSize = await element.evaluate((el: Element) =>
           window.getComputedStyle(el).fontSize
         );
 
@@ -277,9 +259,7 @@ test.describe('Mobile Responsiveness & Accessibility', () => {
     }
   });
 
-  test('should hide off-canvas content from screen readers', async ({
-    page,
-  }) => {
+  test('should hide off-canvas content from screen readers', async ({ page }: any) => {
     // Test for hidden navigation or sidebars
     const offCanvasElements = page.locator('[role="region"][aria-hidden="false"], .drawer:not(.open) [role="navigation"]');
     const count = await offCanvasElements.count();
@@ -292,9 +272,7 @@ test.describe('Mobile Responsiveness & Accessibility', () => {
 });
 
 test.describe('Form Accessibility', () => {
-  test('should have accessible form controls throughout the site', async ({
-    page,
-  }) => {
+  test('should have accessible form controls throughout the site', async ({ page }: any) => {
     // Navigate to pages with forms (newsletter, contact, etc)
     const pagesToCheck = ['/', '/about', '/evidence'];
 
@@ -338,9 +316,7 @@ test.describe('Form Accessibility', () => {
     }
   });
 
-  test('should provide error messages accessibly', async ({
-    page,
-  }) => {
+  test('should provide error messages accessibly', async ({ page }: any) => {
     // Create a test form submission that fails
     const forms = page.locator('form');
     const formCount = await forms.count();

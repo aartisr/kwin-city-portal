@@ -1,4 +1,6 @@
-import { Page, expect } from '@playwright/test';
+import { expect } from './fixtures';
+
+type Page = any;
 
 /**
  * Reusable test utilities for E2E testing
@@ -17,7 +19,7 @@ export async function navigateToPage(page: Page, path: string) {
  */
 export async function isInViewport(page: Page, selector: string): Promise<boolean> {
   return page.evaluate(
-    (sel) => {
+    (sel: string) => {
       const element = document.querySelector(sel);
       if (!element) return false;
 
@@ -38,7 +40,7 @@ export async function isInViewport(page: Page, selector: string): Promise<boolea
  * Note: Full WCAG contrast calculation is complex; this is approximate
  */
 export async function getContrastRatio(page: Page, selector: string): Promise<number> {
-  return page.evaluate((sel) => {
+  return page.evaluate((sel: string) => {
     const element = document.querySelector(sel) as HTMLElement;
     if (!element) return 0;
 
@@ -141,7 +143,7 @@ export async function getA11yViolations(page: Page): Promise<any[]> {
  */
 export async function waitForKeyboardFocus(page: Page, selector: string) {
   return page.waitForFunction(
-    (sel) => {
+    (sel: string) => {
       const element = document.querySelector(sel);
       return element === document.activeElement;
     },

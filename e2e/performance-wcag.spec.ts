@@ -8,7 +8,7 @@ import { test, expect } from './fixtures';
 test.describe('Performance & Reliability', () => {
   test('should load pages within acceptable performance thresholds', async ({
     page,
-  }) => {
+  }: any) => {
     const start = Date.now();
 
     await page.goto('/');
@@ -33,14 +33,14 @@ test.describe('Performance & Reliability', () => {
 
   test('should have proper error boundaries for failed resource loads', async ({
     page,
-  }) => {
+  }: any) => {
     // Navigate to page
     await page.goto('/');
 
     // Monitor failed requests
     const failedRequests: string[] = [];
 
-    page.on('requestfailed', (request) => {
+    page.on('requestfailed', (request: any) => {
       failedRequests.push(request.url());
     });
 
@@ -56,7 +56,7 @@ test.describe('Performance & Reliability', () => {
 
   test('should handle missing images gracefully with alt text', async ({
     page,
-  }) => {
+  }: any) => {
     await page.goto('/');
 
     const images = page.locator('img');
@@ -77,7 +77,7 @@ test.describe('Performance & Reliability', () => {
 
   test('should have proper language declaration for text-to-speech', async ({
     page,
-  }) => {
+  }: any) => {
     await page.goto('/');
 
     // HTML element should have lang attribute
@@ -90,7 +90,7 @@ test.describe('Performance & Reliability', () => {
 
   test('should prevent layout shifts during page load (CLS)', async ({
     page,
-  }) => {
+  }: any) => {
     // Track layout shift events
     const layoutShifts: number[] = [];
 
@@ -128,7 +128,7 @@ test.describe('WCAG 2.1 Compliance - Level AA', () => {
   test('should have sufficient color contrast (4.5:1 for normal text)', async ({
     page,
     injectA11y,
-  }) => {
+  }: any) => {
     await page.goto('/');
     await injectA11y();
 
@@ -144,7 +144,7 @@ test.describe('WCAG 2.1 Compliance - Level AA', () => {
 
   test('should have text resizable up to 200% without loss of functionality', async ({
     page,
-  }) => {
+  }: any) => {
     await page.goto('/');
 
     // Test with 200% zoom
@@ -167,7 +167,7 @@ test.describe('WCAG 2.1 Compliance - Level AA', () => {
   test.skip('should pass automated a11y scan', async ({
     page,
     injectA11y,
-  }) => {
+  }: any) => {
     // This test is a template; actual implementation depends on your setup
     await page.goto('/');
     await injectA11y();
