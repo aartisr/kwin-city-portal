@@ -83,9 +83,9 @@ jobs:
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
-          if [[ -z "$KEYSTORE_B64" || -z "$KEYSTORE_PASSWORD" || -z "$KEY_ALIAS" || -z "$KEY_PASSWORD" ]]; then
+          if [[ -z "$KEYSTORE_B64" || -z "$KEYSTORE_PASSWORD" || -z "$KEY_ALIAS" ]]; then
             echo "Missing one or more required Android signing secrets."
-            echo "Required: ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD"
+            echo "Required: ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS"
             exit 1
           fi
 
@@ -100,6 +100,19 @@ jobs:
         run: |
           echo "$KEYSTORE_B64" | base64 --decode > app/kwin-release.jks
 
+          # PKCS12 keystores use the store password as the key password.
+          EFFECTIVE_KEY_PASSWORD="$KEYSTORE_PASSWORD"
+          if [[ -n "$KEY_PASSWORD" && "$KEY_PASSWORD" != "$KEYSTORE_PASSWORD" ]]; then
+            echo "ANDROID_KEY_PASSWORD differs from ANDROID_KEYSTORE_PASSWORD."
+            echo "This keystore was generated as PKCS12, so CI will use the store password for signing."
+          fi
+
+          # Fail early if the keystore cannot be opened or the alias is wrong.
+          keytool -list -v \
+            -keystore app/kwin-release.jks \
+            -storepass "$KEYSTORE_PASSWORD" \
+            -alias "$KEY_ALIAS" >/dev/null
+
           # Remove previously injected keys (defensive) and force a separator newline.
           sed -i '/^KWIN_RELEASE_/d' gradle.properties || true
           printf '\n' >> gradle.properties
@@ -108,7 +121,7 @@ jobs:
           KWIN_RELEASE_STORE_FILE=app/kwin-release.jks
           KWIN_RELEASE_STORE_PASSWORD=$KEYSTORE_PASSWORD
           KWIN_RELEASE_KEY_ALIAS=$KEY_ALIAS
-          KWIN_RELEASE_KEY_PASSWORD=$KEY_PASSWORD
+          KWIN_RELEASE_KEY_PASSWORD=$EFFECTIVE_KEY_PASSWORD
           EOF
 
       # ── local.properties ───────────────────────────────────
