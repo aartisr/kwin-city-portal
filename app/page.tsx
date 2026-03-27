@@ -10,18 +10,29 @@ import ImageStrip from '@/components/ImageStrip';
 import PersonaHub from '@/components/PersonaHub';
 import JsonLd from '@/components/JsonLd';
 import { SITE_CONFIG } from '@/config/site.config';
+import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 
 const SITE_URL = SITE_CONFIG.url;
 const LAST_UPDATED = `${SITE_CONFIG.lastUpdatedISO}T00:00:00+05:30`;
 
-export const metadata: Metadata = {
-  title: 'KWIN City | Knowledge · Wellbeing · Innovation | North Bengaluru',
-  description:
-    'KWIN City is a proposed 465-acre knowledge-economy township in Doddaballapura, North Bengaluru. Semiconductors, aerospace, health-tech, renewables and R&D — designed net-zero and evidence-first.',
-  alternates: {
-    canonical: 'https://kwin-city.com',
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+  return {
+    title: pickByLocale(locale, {
+      en: 'KWIN City | Knowledge · Wellbeing · Innovation | North Bengaluru',
+      kn: 'KWIN City | ಜ್ಞಾನ · ಕ್ಷೇಮ · ನವೀನತೆ | ಉತ್ತರ ಬೆಂಗಳೂರು',
+      hi: 'KWIN City | ज्ञान · कल्याण · नवाचार | नॉर्थ बेंगलुरु',
+    }),
+    description: pickByLocale(locale, {
+      en: 'KWIN City is a proposed 465-acre knowledge-economy township in Doddaballapura, North Bengaluru. Semiconductors, aerospace, health-tech, renewables and R&D — designed net-zero and evidence-first.',
+      kn: 'KWIN City ಉತ್ತರ ಬೆಂಗಳೂರಿನ ದೊಡ್ಡಬಳ್ಳಾಪುರದಲ್ಲಿ ಪ್ರಸ್ತಾಪಿತ 465 ಏಕರೆ ಜ್ಞಾನ-ಆರ್ಥಿಕ ಟೌನ್‌ಶಿಪ್.',
+      hi: 'KWIN City नॉर्थ बेंगलुरु के डोड्डाबल्लापुर में प्रस्तावित 465 एकड़ ज्ञान-आर्थिक टाउनशिप है।',
+    }),
+    alternates: {
+      canonical: 'https://kwin-city.com',
+    },
+  };
+}
 
 // ─── Schema.org Structured Data ────────────────────────────────────────────
 const organizationSchema = {

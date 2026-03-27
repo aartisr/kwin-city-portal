@@ -1,10 +1,20 @@
 import type { Metadata } from 'next';
 import PersonaPage from '@/components/PersonaPage';
+import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 
-export const metadata: Metadata = {
-  title: 'KWIN City Explained Simply | For Curious Citizens',
-  description:
-    'What is KWIN City? A plain-language guide — no jargon. Understand what is proposed, what has evidence, and what is still a plan for North Bengaluru’s knowledge township.',
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+  return {
+  title: pickByLocale(locale, {
+    en: 'KWIN City Explained Simply | For Curious Citizens',
+    kn: 'KWIN City ಸರಳ ವಿವರಣೆ | ಕುತೂಹಲಕರ ನಾಗರಿಕರಿಗಾಗಿ',
+    hi: 'KWIN City सरल व्याख्या | जिज्ञासु नागरिकों के लिए',
+  }),
+  description: pickByLocale(locale, {
+    en: 'What is KWIN City? A plain-language guide — no jargon. Understand what is proposed, what has evidence, and what is still a plan for North Bengaluru’s knowledge township.',
+    kn: 'KWIN City ಎಂದರೇನು? ಸರಳ ಭಾಷೆಯಲ್ಲಿ ವಿವರಣೆ — ಜಾರ್ಗನ್ ಇಲ್ಲದೆ.',
+    hi: 'KWIN City क्या है? सरल भाषा में गाइड — बिना जार्गन।',
+  }),
   keywords: [
     'what is KWIN City',
     'KWIN City explained',
@@ -14,19 +24,37 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: 'https://kwin-city.com/for/curious-citizens' },
   openGraph: {
-    title: 'KWIN City Explained Simply — No Jargon, Just Facts',
-    description: 'What is KWIN City? What is confirmed, what is proposed? A plain-language guide for everyone.',
+    title: pickByLocale(locale, {
+      en: 'KWIN City Explained Simply — No Jargon, Just Facts',
+      kn: 'KWIN City ಸರಳ ವಿವರಣೆ — ಜಾರ್ಗನ್ ಇಲ್ಲ, ನಿಜಾಂಶ ಮಾತ್ರ',
+      hi: 'KWIN City सरल व्याख्या — बिना जार्गन, सिर्फ तथ्य',
+    }),
+    description: pickByLocale(locale, {
+      en: 'What is KWIN City? What is confirmed, what is proposed? A plain-language guide for everyone.',
+      kn: 'KWIN City ಏನು? ಏನು ದೃಢೀಕೃತ, ಏನು ಪ್ರಸ್ತಾಪಿತ? ಎಲ್ಲರಿಗೂ ಸರಳ ಮಾರ್ಗದರ್ಶಿ.',
+      hi: 'KWIN City क्या है? क्या पुष्ट है, क्या प्रस्तावित है? सभी के लिए सरल गाइड।',
+    }),
     url: 'https://kwin-city.com/for/curious-citizens',
     type: 'website',
   },
-};
+  };
+}
 
-export default function CuriousCitizensPage() {
+export default async function CuriousCitizensPage() {
+  const locale = await getServerLocale();
   return (
     <PersonaPage
-      eyebrow="Citizen Explainer"
-      title="KWIN, explained clearly — no jargon required."
-      description="If you just want the truth in simple terms, this is your page. Learn what KWIN City is, what has evidence, what is still a proposal, and how to track updates responsibly."
+      eyebrow={pickByLocale(locale, { en: 'Citizen Explainer', kn: 'ನಾಗರಿಕ ವಿವರಣೆ', hi: 'नागरिक व्याख्या' })}
+      title={pickByLocale(locale, {
+        en: 'KWIN, explained clearly — no jargon required.',
+        kn: 'KWIN ಸರಳವಾಗಿ — ಜಾರ್ಗನ್ ಬೇಡ.',
+        hi: 'KWIN स्पष्ट तरीके से — बिना जार्गन।',
+      })}
+      description={pickByLocale(locale, {
+        en: 'If you just want the truth in simple terms, this is your page. Learn what KWIN City is, what has evidence, what is still a proposal, and how to track updates responsibly.',
+        kn: 'ಸರಳವಾಗಿ ನಿಜಾಂಶಗಳನ್ನು ತಿಳಿದುಕೊಳ್ಳಲು ಈ ಪುಟ ನಿಮಗಾಗಿ.',
+        hi: 'सरल शब्दों में तथ्य समझने के लिए यह पेज आपके लिए है।',
+      })}
       imageSrc="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1400&h=900&q=80&auto=format&fit=crop"
       imageAlt="Citizens gathering in an urban public space"
       audienceLabel="For students, families, and everyday curious visitors"

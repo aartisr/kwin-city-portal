@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 const personas = [
   {
@@ -97,7 +98,7 @@ const personas = [
     tagline: 'Plain language, real answers',
     description:
       "What KWIN is, who decides what, how you can participate, and where to dig deeper — zero jargon.",
-    href: '/for/citizen',
+    href: '/for/curious-citizens',
     image:
       'https://upload.wikimedia.org/wikipedia/commons/4/41/InfosysHQFrontView.jpg',
     imageSource:
@@ -123,6 +124,61 @@ const LICENSE_LINKS: Record<string, string> = {
 };
 
 export default function PersonaHub() {
+  const { locale } = useI18n();
+  const isKn = locale === 'kn';
+  const isHi = locale === 'hi';
+
+  const intro = isKn
+    ? 'KWIN City ವಿಭಿನ್ನ ಜನರಿಗೆ ವಿಭಿನ್ನ ಅರ್ಥ ಹೊಂದಿದೆ. ಆದ್ದರಿಂದ ನಿಮ್ಮ ಅಗತ್ಯಕ್ಕೆ ತಕ್ಕ ಮಾರ್ಗವನ್ನು ನಾವು ನಿರ್ಮಿಸಿದ್ದೇವೆ.'
+    : isHi
+      ? 'KWIN City हर व्यक्ति के लिए अलग मायने रखता है। इसलिए हमने आपकी जरूरत के अनुसार अलग मार्ग तैयार किया है।'
+      : 'KWIN City means different things to different people. We built a dedicated lens for each — so you get straight to what matters most to you without wading through everything else.';
+
+  const localizedPersonas = personas.map((persona) => {
+    if (!isKn && !isHi) return persona;
+    const byId: Record<string, { title: string; tagline: string; description: string }> = {
+      investor: {
+        title: isKn ? 'ಹೂಡಿಕೆದಾರರಿಗಾಗಿ' : 'निवेशकों के लिए',
+        tagline: isKn ? 'ಬಂಡವಾಳ ಮತ್ತು ಅವಕಾಶ' : 'पूंजी और अवसर',
+        description: isKn
+          ? 'ಕ್ಷೇತ್ರ ಹಂಚಿಕೆ, ROI ಮಾನದಂಡಗಳು, ಮತ್ತು KWIN ಹೂಡಿಕೆ ಅವಕಾಶಗಳು.'
+          : 'सेक्टर आवंटन, ROI बेंचमार्क और KWIN निवेश अवसर।',
+      },
+      resident: {
+        title: isKn ? 'ನಿವಾಸಿಗಳಿಗಾಗಿ' : 'निवासियों के लिए',
+        tagline: isKn ? 'ಜೀವನ ಗುಣಮಟ್ಟ' : 'जीवन गुणवत्ता',
+        description: isKn
+          ? 'ಹಸಿರು ಆವರಣ, ಆರೋಗ್ಯ, ಶಾಲೆಗಳು ಮತ್ತು ಸಂಪರ್ಕತೆ ಕುರಿತು ಸಂಪೂರ್ಣ ಚಿತ್ರ.'
+          : 'ग्रीन कवर, स्वास्थ्य, स्कूल और कनेक्टिविटी पर संपूर्ण दृष्टि।',
+      },
+      researcher: {
+        title: isKn ? 'ಸಂಶೋಧಕರಿಗಾಗಿ' : 'शोधकर्ताओं के लिए',
+        tagline: isKn ? 'ಸಂಶೋಧನೆಗೆ ಮೂಲಸೌಕರ್ಯ' : 'अनुसंधान के लिए अवसंरचना',
+        description: isKn
+          ? 'ಡೇಟಾ, ವಿಧಾನಶಾಸ್ತ್ರ, ಮತ್ತು ಕೈಗಾರಿಕೆ-ಅಕಾಡೆಮಿಯಾ ಸಂಪರ್ಕ.'
+          : 'डेटा, कार्यप्रणाली और उद्योग-अकादमिक सहयोग।',
+      },
+      journalist: {
+        title: isKn ? 'ಪತ್ರಕರ್ತರಿಗಾಗಿ' : 'पत्रकारों के लिए',
+        tagline: isKn ? 'ಮೊದಲು ನಿಜಾಂಶಗಳು' : 'पहले तथ्य',
+        description: isKn
+          ? 'ಪರಿಶೀಲಿತ ಅಂಶಗಳು, ಮೂಲ ಮಾರ್ಗಗಳು ಮತ್ತು ಕಥೆ ರೂಪಿಸುವ ಸಾಧನಗಳು.'
+          : 'सत्यापित तथ्य, स्रोत मार्ग और स्टोरी फ्रेम।',
+      },
+      citizen: {
+        title: isKn ? 'ಕುತೂಹಲಕರ ನಾಗರಿಕರಿಗಾಗಿ' : 'जिज्ञासु नागरिकों के लिए',
+        tagline: isKn ? 'ಸರಳ ಉತ್ತರಗಳು' : 'सरल उत्तर',
+        description: isKn
+          ? 'KWIN ಬಗ್ಗೆ ಸರಳ ವಿವರಣೆ — ಜಾರ್ಗನ್ ಇಲ್ಲದೆ.'
+          : 'KWIN के बारे में सरल व्याख्या — बिना जार्गन।',
+      },
+    };
+
+    const entry = byId[persona.id];
+    if (!entry) return persona;
+    return { ...persona, ...entry };
+  });
+
   return (
     <section className="section bg-[#040714]">
       <div className="container">
@@ -135,33 +191,32 @@ export default function PersonaHub() {
         >
           <div className="eyebrow text-[#F5A623] mb-3">Your Guided View</div>
           <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-5 leading-tight">
-            Tailored for{' '}
-            <span className="gradient-text-gold">who you are.</span>
+            {isKn ? 'ನಿಮಗಾಗಿ ' : isHi ? 'आपके लिए ' : 'Tailored for '}
+            <span className="gradient-text-gold">{isKn ? 'ಹೊಂದಿಕೆಯಾಗಿರುವ ದೃಷ್ಟಿಕೋನ.' : isHi ? 'विशेष रूप से तैयार दृष्टिकोण।' : 'who you are.'}</span>
           </h2>
           <p className="text-lg text-[#94A3B8] leading-relaxed max-w-2xl">
-            KWIN City means different things to different people. We built a dedicated lens for each —
-            so you get straight to what matters most to you without wading through everything else.
+            {intro}
           </p>
         </motion.div>
 
         {/* Grid: 2 tall cards on top, 3 shorter cards on bottom */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {/* Row 1: first two cards — taller */}
-          {personas.slice(0, 2).map((persona, idx) => (
+          {localizedPersonas.slice(0, 2).map((persona, idx) => (
             <PersonaCard key={persona.id} persona={persona} idx={idx} tall />
           ))}
 
           {/* Third card top-row on xl (Researcher) */}
           <div className="hidden xl:block">
-            <PersonaCard persona={personas[2]} idx={2} tall />
+            <PersonaCard persona={localizedPersonas[2]} idx={2} tall />
           </div>
 
           {/* Bottom row: Researcher (hidden on xl above), Journalist, Citizen */}
           <div className="xl:hidden">
-            <PersonaCard persona={personas[2]} idx={2} />
+            <PersonaCard persona={localizedPersonas[2]} idx={2} />
           </div>
-          <PersonaCard persona={personas[3]} idx={3} />
-          <PersonaCard persona={personas[4]} idx={4} />
+          <PersonaCard persona={localizedPersonas[3]} idx={3} />
+          <PersonaCard persona={localizedPersonas[4]} idx={4} />
         </div>
 
         <div className="mt-6">
@@ -173,7 +228,7 @@ export default function PersonaHub() {
               <span className="hidden group-open:inline sm:inline">Hide Persona Image Credits & Licenses</span>
             </summary>
             <div className="mt-2 flex flex-wrap justify-center gap-x-3 gap-y-1 text-[10px] text-[#64748B]">
-              {personas.map((persona) => (
+              {localizedPersonas.map((persona) => (
                 <span key={persona.id}>
                   {persona.title}:{' '}
                   <a
