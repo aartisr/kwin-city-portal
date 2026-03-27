@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useI18n } from '@/lib/i18n/I18nProvider';
+import { getIntlLocale } from '@/lib/i18n/messages';
 import { pickLocalizedValue } from '@/lib/i18n/messages';
 
 type ReaderItem = {
@@ -71,9 +72,9 @@ function formatDate(value: string | null, locale: 'en' | 'kn' | 'hi' | 'ta' = 'e
   }
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) {
-    return locale === 'kn' ? 'ದಿನಾಂಕ ಲಭ್ಯವಿಲ್ಲ' : locale === 'hi' ? 'तिथि उपलब्ध नहीं' : locale === 'ta' ? 'தேதி கிடைக்கவில்லை' : 'Date unavailable';
+    return locale === 'kn' ? 'ದಿನಾಂಕ ಲಭ್ಯವಿಲ್ಲ' : locale === 'hi' ? 'तिथि उपलब्ध नहीं' : locale === 'ta' ? 'தேതി கிடைक்ಲಾಗವില್ಲೆ' : 'Date unavailable';
   }
-  const intlLocale = locale === 'kn' ? 'kn-IN' : locale === 'hi' ? 'hi-IN' : locale === 'ta' ? 'ta-IN' : 'en-IN';
+  const intlLocale = getIntlLocale(locale);
   return new Intl.DateTimeFormat(intlLocale, {
     day: '2-digit',
     month: 'short',

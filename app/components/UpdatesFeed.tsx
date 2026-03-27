@@ -17,6 +17,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import data from '@/content/pages/updates.json';
 import { useI18n } from '@/lib/i18n/I18nProvider';
+import { getIntlLocale } from '@/lib/i18n/messages';
 import { pickLocalizedValue } from '@/lib/i18n/messages';
 
 type VerificationTier = 'verified' | 'pending' | 'contextual';
@@ -60,7 +61,7 @@ const CATEGORY_STYLES: Record<string, { dot: string; chip: string }> = {
 };
 
 function formatDate(iso: string, locale: string) {
-  const intlLocale = locale === 'kn' ? 'kn-IN' : locale === 'hi' ? 'hi-IN' : locale === 'ta' ? 'ta-IN' : 'en-IN';
+  const intlLocale = getIntlLocale(locale as any);
   return new Date(iso).toLocaleDateString(intlLocale, {
     day: 'numeric',
     month: 'long',

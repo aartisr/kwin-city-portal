@@ -414,3 +414,13 @@ export function normalizeLocale(value?: string | null): Locale {
   if (SUPPORTED_LOCALES.includes(lower as Locale)) return lower as Locale;
   return DEFAULT_LOCALE;
 }
+
+export function getIntlLocale(locale: Locale): string {
+  const map: Record<Locale, string> = {
+    en: 'en-IN',
+    kn: 'kn-IN',
+    hi: 'hi-IN',
+    ta: 'ta-IN',
+  };
+  return map[locale] ?? map[DEFAULT_LOCALE];
+}
