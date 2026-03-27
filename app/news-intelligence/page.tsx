@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import SiteFrame from '@/components/SiteFrame';
 import SourceReferences from '@/components/SourceReferences';
+import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 
 const FEED_GROUPS = [
   {
@@ -116,29 +117,37 @@ const PROTOCOL = [
   },
 ] as const;
 
-export const metadata: Metadata = {
-  title: 'News Intelligence | KWIN City',
-  description:
-    'A credibility-first news intelligence dashboard for KWIN City with explicit attribution, verification tiers, and downloadable OPML feeds.',
-  alternates: {
-    canonical: 'https://kwin-city.com/news-intelligence',
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+  return {
+    title: pickByLocale(locale, { en: 'News Intelligence | KWIN City', kn: 'ಸುದ್ದಿ ಇಂಟೆಲಿಜೆನ್ಸ್ | KWIN City', hi: 'न्यूज़ इंटेलिजेंस | KWIN City' }),
+    description: pickByLocale(locale, {
+      en: 'A credibility-first news intelligence dashboard for KWIN City with explicit attribution, verification tiers, and downloadable OPML feeds.',
+      kn: 'KWIN Cityಗಾಗಿ ವಿಶ್ವಾಸಾರ್ಹ ಸುದ್ದಿ ಇಂಟೆಲಿಜೆನ್ಸ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್.',
+      hi: 'KWIN City के लिए विश्वसनीय न्यूज़ इंटेलिजेंस डैशबोर्ड।',
+    }),
+    alternates: { canonical: 'https://kwin-city.com/news-intelligence' },
+  };
+}
 
-export default function NewsIntelligencePage() {
+export default async function NewsIntelligencePage() {
+  const locale = await getServerLocale();
   return (
     <SiteFrame>
       <main className="bg-gradient-to-b from-[#f8fafc] via-white to-[#f8fafc]">
         <section className="pt-28 pb-16 border-b border-gray-200">
           <div className="container">
             <div className="rounded-3xl border border-[#dbe3ef] bg-[radial-gradient(1200px_500px_at_10%_0%,rgba(14,116,144,0.08),transparent_65%),radial-gradient(900px_400px_at_100%_20%,rgba(234,179,8,0.08),transparent_65%),linear-gradient(180deg,#ffffff,rgba(248,250,252,0.95))] p-8 md:p-12">
-              <p className="text-xs font-bold tracking-[0.22em] uppercase text-cyan-700 mb-4">News Intelligence Desk</p>
+              <p className="text-xs font-bold tracking-[0.22em] uppercase text-cyan-700 mb-4">{pickByLocale(locale, { en: 'News Intelligence Desk', kn: 'ಸುದ್ದಿ ಇಂಟೆಲಿಜೆನ್ಸ್ ಡೆಸ್ಕ್', hi: 'न्यूज़ इंटेलिजेंस डेस्क' })}</p>
               <h1 className="text-4xl md:text-6xl font-black text-slate-900 leading-tight max-w-5xl">
-                World-Class KWIN Media Observatory
+                {pickByLocale(locale, { en: 'World-Class KWIN Media Observatory', kn: 'ವಿಶ್ವಮಟ್ಟದ KWIN ಮೀಡಿಯಾ ವೀಕ್ಷಣಾಲಯ', hi: 'विश्वस्तरीय KWIN मीडिया ऑब्जर्वेटरी' })}
               </h1>
               <p className="mt-5 text-base md:text-lg text-slate-700 max-w-4xl leading-8">
-                Built for precision, attribution, and institutional-grade trust. This is a curated monitoring system,
-                not a rumor stream. Every feed is transparent about origin, verification strength, and appropriate use.
+                {pickByLocale(locale, {
+                  en: 'Built for precision, attribution, and institutional-grade trust. This is a curated monitoring system, not a rumor stream. Every feed is transparent about origin, verification strength, and appropriate use.',
+                  kn: 'ನಿಖರತೆ, ಮೂಲ ಸೂಚನೆ ಮತ್ತು ಸಂಸ್ಥಾತ್ಮಕ ವಿಶ್ವಾಸಕ್ಕಾಗಿ ನಿರ್ಮಿಸಿದ ಮೇಲ್ವಿಚಾರಣಾ ವ್ಯವಸ್ಥೆ.',
+                  hi: 'सटीकता, स्रोत स्पष्टता और संस्थागत भरोसे के लिए बनाई गई निगरानी प्रणाली।',
+                })}
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">

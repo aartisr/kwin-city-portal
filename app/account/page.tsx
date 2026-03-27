@@ -1,12 +1,24 @@
 import type { Metadata } from 'next';
 import SiteFrame from '@/components/SiteFrame';
 import AuthPreferences from '@/components/AuthPreferences';
+import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 
-export const metadata: Metadata = {
-  title: 'Account and Preferences',
-  description: 'Sign in and manage saved user preferences for KWIN City',
-  robots: { index: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+  return {
+    title: pickByLocale(locale, {
+      en: 'Account and Preferences',
+      kn: 'ಖಾತೆ ಮತ್ತು ಆದ್ಯತೆಗಳು',
+      hi: 'खाता और प्राथमिकताएँ',
+    }),
+    description: pickByLocale(locale, {
+      en: 'Sign in and manage saved user preferences for KWIN City',
+      kn: 'KWIN Cityಗಾಗಿ ನಿಮ್ಮ ಉಳಿಸಿದ ಆದ್ಯತೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ.',
+      hi: 'KWIN City के लिए अपनी सहेजी गई प्राथमिकताएँ प्रबंधित करें।',
+    }),
+    robots: { index: false },
+  };
+}
 
 export default function AccountPage() {
   return (

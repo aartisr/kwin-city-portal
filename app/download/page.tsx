@@ -1,13 +1,24 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import SiteFrame from '@/components/SiteFrame';
+import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 
-export const metadata: Metadata = {
-  title: 'Get the KWIN City App | Install on Android & iOS',
-  description:
-    'Install the KWIN City intelligence portal as a free app on your Android or iPhone. No app store required. Works offline. Nobel Prize quality.',
-  alternates: { canonical: 'https://kwin-city.com/download' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+  return {
+    title: pickByLocale(locale, {
+      en: 'Get the KWIN City App | Install on Android & iOS',
+      kn: 'KWIN City ಆಪ್ ಪಡೆಯಿರಿ | Android ಮತ್ತು iOS ನಲ್ಲಿ ಸ್ಥಾಪಿಸಿ',
+      hi: 'KWIN City ऐप प्राप्त करें | Android और iOS पर इंस्टॉल करें',
+    }),
+    description: pickByLocale(locale, {
+      en: 'Install the KWIN City intelligence portal as a free app on your Android or iPhone. No app store required. Works offline.',
+      kn: 'KWIN City ಪೋರ್ಟಲ್ ಅನ್ನು ಉಚಿತ ಆಪ್ ಆಗಿ ಸ್ಥಾಪಿಸಿ. ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿ ಕೆಲಸ ಮಾಡುತ್ತದೆ.',
+      hi: 'KWIN City पोर्टल को मुफ्त ऐप के रूप में इंस्टॉल करें। ऑफ़लाइन भी काम करता है।',
+    }),
+    alternates: { canonical: 'https://kwin-city.com/download' },
+  };
+}
 
 const steps = {
   android: [
@@ -55,7 +66,8 @@ const features = [
   { icon: '🆓', title: 'Completely Free', body: 'No app store, no account, no subscription ever.' },
 ];
 
-export default function DownloadPage() {
+export default async function DownloadPage() {
+  const locale = await getServerLocale();
   const url = 'https://kwin-city.com';
 
   return (
@@ -75,12 +87,12 @@ export default function DownloadPage() {
             </div>
 
             <p className="text-[11px] font-bold tracking-[0.25em] uppercase text-amber-400 mb-5">
-              Free App · Android & iOS
+              {pickByLocale(locale, { en: 'Free App · Android & iOS', kn: 'ಉಚಿತ ಆಪ್ · Android ಮತ್ತು iOS', hi: 'मुफ़्त ऐप · Android और iOS' })}
             </p>
             <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-[1.1] tracking-tight">
               KWIN City<br />
               <span className="bg-gradient-to-r from-amber-400 to-cyan-300 bg-clip-text text-transparent">
-                in your pocket
+                {pickByLocale(locale, { en: 'in your pocket', kn: 'ನಿಮ್ಮ ಜೇಬಿನಲ್ಲಿ', hi: 'आपकी जेब में' })}
               </span>
             </h1>
             <p className="text-[#7C8EA6] text-lg md:text-xl leading-8 mb-10 max-w-2xl mx-auto">
@@ -99,7 +111,7 @@ export default function DownloadPage() {
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
                 </svg>
-                Open & Install Now
+                {pickByLocale(locale, { en: 'Open & Install Now', kn: 'ಈಗ ತೆರೆಯಿರಿ ಮತ್ತು ಸ್ಥಾಪಿಸಿ', hi: 'अभी खोलें और इंस्टॉल करें' })}
               </a>
               <a
                 href="https://github.com/aartisr/kwin-city-portal/releases/latest"
@@ -123,7 +135,7 @@ export default function DownloadPage() {
         {/* ── Features grid ────────────────────────────────── */}
         <section className="container py-16 max-w-5xl mx-auto">
           <p className="text-center text-[11px] font-bold tracking-[0.22em] uppercase text-amber-400 mb-10">
-            Why the KWIN App
+            {pickByLocale(locale, { en: 'Why the KWIN App', kn: 'KWIN ಆಪ್ ಯಾಕೆ', hi: 'KWIN ऐप क्यों' })}
           </p>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {features.map((f) => (
@@ -142,7 +154,7 @@ export default function DownloadPage() {
         {/* ── Install guides ────────────────────────────────── */}
         <section className="container py-16 max-w-5xl mx-auto">
           <p className="text-center text-[11px] font-bold tracking-[0.22em] uppercase text-amber-400 mb-3">
-            Step-by-Step Installation
+            {pickByLocale(locale, { en: 'Step-by-Step Installation', kn: 'ಹಂತ ಹಂತದ ಸ್ಥಾಪನೆ', hi: 'स्टेप-बाय-स्टेप इंस्टॉलेशन' })}
           </p>
           <h2 className="text-center text-3xl font-extrabold text-white mb-12">
             3 taps to install

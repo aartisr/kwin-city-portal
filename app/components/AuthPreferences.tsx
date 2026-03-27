@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useEffect, useState } from 'react';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 type SessionUser = {
   id: string;
@@ -25,6 +26,9 @@ const defaultPreferences: Preferences = {
 const allTopics = ['timeline', 'sectors', 'sustainability', 'evidence', 'news-intelligence'];
 
 export default function AuthPreferences() {
+  const { locale } = useI18n();
+  const isKn = locale === 'kn';
+  const isHi = locale === 'hi';
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -158,9 +162,9 @@ export default function AuthPreferences() {
     <main className="min-h-screen bg-gradient-to-b from-white to-slate-50">
       <section className="bg-gradient-to-r from-[#102A43] to-[#0F4C75] text-white py-14">
         <div className="container">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-3">Account and Preferences</h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-3">{isKn ? 'ಖಾತೆ ಮತ್ತು ಆದ್ಯತೆಗಳು' : isHi ? 'खाता और प्राथमिकताएँ' : 'Account and Preferences'}</h1>
           <p className="text-slate-200 max-w-2xl">
-            Secure session authentication with server-stored user preferences.
+            {isKn ? 'ಸರ್ವರ್‌ನಲ್ಲಿ ಉಳಿಸಿದ ಬಳಕೆದಾರರ ಆದ್ಯತೆಗಳೊಂದಿಗೆ ಸುರಕ್ಷಿತ ಸೆಷನ್ ದೃಢೀಕರಣ.' : isHi ? 'सर्वर पर संग्रहीत उपयोगकर्ता प्राथमिकताओं के साथ सुरक्षित सत्र प्रमाणीकरण।' : 'Secure session authentication with server-stored user preferences.'}
           </p>
         </div>
       </section>
@@ -172,19 +176,19 @@ export default function AuthPreferences() {
               onClick={() => setMode('signin')}
               className={`px-4 py-2 rounded-lg text-sm font-bold ${mode === 'signin' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-700'}`}
             >
-              Sign In
+              {isKn ? 'ಲಾಗಿನ್' : isHi ? 'साइन इन' : 'Sign In'}
             </button>
             <button
               onClick={() => setMode('signup')}
               className={`px-4 py-2 rounded-lg text-sm font-bold ${mode === 'signup' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-700'}`}
             >
-              Sign Up
+              {isKn ? 'ನೋಂದಣಿ' : isHi ? 'साइन अप' : 'Sign Up'}
             </button>
           </div>
 
           {session ? (
             <div className="space-y-3">
-              <p className="text-sm text-slate-600">Signed in as</p>
+              <p className="text-sm text-slate-600">{isKn ? 'ಈ ಹೆಸರಿನಲ್ಲಿ ಲಾಗಿನ್ ಆಗಿದ್ದಾರೆ' : isHi ? 'इस रूप में साइन इन' : 'Signed in as'}</p>
               <p className="text-xl font-extrabold text-slate-900">{session.name}</p>
               <p className="text-sm text-slate-700">{session.email}</p>
               <button
@@ -192,25 +196,25 @@ export default function AuthPreferences() {
                 disabled={busy}
                 className="mt-2 px-4 py-2 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-700 transition-colors disabled:opacity-60"
               >
-                Sign Out
+                {isKn ? 'ಲಾಗ್ ಔಟ್' : isHi ? 'साइन आउट' : 'Sign Out'}
               </button>
             </div>
           ) : (
             <form onSubmit={handleAuth} className="space-y-4">
               {mode === 'signup' ? (
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-1">Name</label>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">{isKn ? 'ಹೆಸರು' : isHi ? 'नाम' : 'Name'}</label>
                   <input
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="w-full rounded-lg border border-slate-300 px-3 py-2"
-                    placeholder="Your name"
+                    placeholder={isKn ? 'ನಿಮ್ಮ ಹೆಸರು' : isHi ? 'आपका नाम' : 'Your name'}
                   />
                 </div>
               ) : null}
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">Email</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">{isKn ? 'ಇಮೇಲ್' : isHi ? 'ईमेल' : 'Email'}</label>
                 <input
                   type="email"
                   value={email}
@@ -221,13 +225,13 @@ export default function AuthPreferences() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">Password</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">{isKn ? 'ಪಾಸ್‌ವರ್ಡ್' : isHi ? 'पासवर्ड' : 'Password'}</label>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full rounded-lg border border-slate-300 px-3 py-2"
-                  placeholder="Enter password"
+                  placeholder={isKn ? 'ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ' : isHi ? 'पासवर्ड दर्ज करें' : 'Enter password'}
                 />
               </div>
 
@@ -236,14 +240,14 @@ export default function AuthPreferences() {
                 disabled={busy}
                 className="w-full px-4 py-2 rounded-lg bg-slate-900 text-white font-semibold hover:bg-slate-800 transition-colors disabled:opacity-60"
               >
-                {mode === 'signup' ? 'Create Account' : 'Sign In'}
+                {mode === 'signup' ? (isKn ? 'ಖಾತೆ ರಚಿಸಿ' : isHi ? 'खाता बनाएं' : 'Create Account') : (isKn ? 'ಲಾಗಿನ್' : isHi ? 'साइन इन' : 'Sign In')}
               </button>
             </form>
           )}
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-6">
-          <h2 className="text-xl font-extrabold text-slate-900 mb-4">Saved Preferences</h2>
+          <h2 className="text-xl font-extrabold text-slate-900 mb-4">{isKn ? 'ಉಳಿಸಿದ ಆದ್ಯತೆಗಳು' : isHi ? 'सहेजी गई प्राथमिकताएँ' : 'Saved Preferences'}</h2>
           {!session ? (
             <p className="text-slate-600">Sign in to manage saved preferences.</p>
           ) : (

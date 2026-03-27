@@ -1,12 +1,20 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import ReloadButton from './ReloadButton';
+import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 
-export const metadata: Metadata = {
-  title: 'You Are Offline | KWIN City',
-  description: 'No internet connection. Your cached KWIN City pages are still available.',
-  robots: { index: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+  return {
+    title: pickByLocale(locale, { en: 'You Are Offline | KWIN City', kn: 'ನೀವು ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿ ಇದ್ದೀರಿ | KWIN City', hi: 'आप ऑफ़लाइन हैं | KWIN City' }),
+    description: pickByLocale(locale, {
+      en: 'No internet connection. Your cached KWIN City pages are still available.',
+      kn: 'ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಇಲ್ಲ. ನಿಮ್ಮ ಕ್ಯಾಶ್ ಆದ KWIN City ಪುಟಗಳು ಇನ್ನೂ ಲಭ್ಯವಿವೆ.',
+      hi: 'इंटरनेट कनेक्शन नहीं है। आपके कैश किए गए KWIN City पेज अभी भी उपलब्ध हैं।',
+    }),
+    robots: { index: false },
+  };
+}
 
 export default function OfflinePage() {
   return (
