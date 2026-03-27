@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 export default function TimelinePage() {
   return (
     <SiteFrame>
-      <main>
+      <main id="main-content" role="main">
         <PageIntro
           eyebrow="Development Timeline"
           title="Five phases. One extraordinary ambition."

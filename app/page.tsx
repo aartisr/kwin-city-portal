@@ -149,7 +149,7 @@ export default function Home() {
   return (
     <SiteFrame>
       <JsonLd data={[organizationSchema, webSiteSchema, realEstateProjectSchema, faqSchema, breadcrumbSchema]} />
-      <main>
+      <main id="main-content" role="main">
         <Hero />
         <ImageStrip />
         <BengaluruPride />

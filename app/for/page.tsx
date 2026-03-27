@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 export default function PersonaHubPage() {
   return (
     <SiteFrame>
-      <main>
+      <main id="main-content" role="main">
         <PersonaHub />
       </main>
     </SiteFrame>

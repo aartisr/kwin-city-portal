@@ -55,7 +55,7 @@ export default function SectorsPage() {
   return (
     <SiteFrame>
       <JsonLd data={[breadcrumb, itemListSchema]} />
-      <main>
+      <main id="main-content" role="main">
         <PageIntro
           eyebrow="Industry Sectors"
           title="The industries that will power KWIN — and why they belong here."

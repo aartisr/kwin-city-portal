@@ -39,7 +39,7 @@ export default function EvidencePage() {
   return (
     <SiteFrame>
       <JsonLd data={breadcrumb} />
-      <main>
+      <main id="main-content" role="main">
         <PageIntro
           eyebrow="Evidence Vault"
           title="The research that makes KWIN's story credible."
