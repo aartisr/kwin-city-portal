@@ -100,12 +100,16 @@ jobs:
         run: |
           echo "$KEYSTORE_B64" | base64 --decode > app/kwin-release.jks
 
-          {
-            echo "KWIN_RELEASE_STORE_FILE=app/kwin-release.jks"
-            echo "KWIN_RELEASE_STORE_PASSWORD=$KEYSTORE_PASSWORD"
-            echo "KWIN_RELEASE_KEY_ALIAS=$KEY_ALIAS"
-            echo "KWIN_RELEASE_KEY_PASSWORD=$KEY_PASSWORD"
-          } >> gradle.properties
+          # Remove previously injected keys (defensive) and force a separator newline.
+          sed -i '/^KWIN_RELEASE_/d' gradle.properties || true
+          printf '\n' >> gradle.properties
+
+          cat >> gradle.properties <<EOF
+          KWIN_RELEASE_STORE_FILE=app/kwin-release.jks
+          KWIN_RELEASE_STORE_PASSWORD=$KEYSTORE_PASSWORD
+          KWIN_RELEASE_KEY_ALIAS=$KEY_ALIAS
+          KWIN_RELEASE_KEY_PASSWORD=$KEY_PASSWORD
+          EOF
 
       # ── local.properties ───────────────────────────────────
       - name: Create local.properties
