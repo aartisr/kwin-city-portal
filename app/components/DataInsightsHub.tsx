@@ -231,33 +231,39 @@ function ChartRenderer({
   };
 
   if (cfg.chartType === 'pie') {
+    const chartDesc = `Pie chart: ${cfg.description}. Categories shown: ${data.map((d) => `${d[cfg.xField]}: ${fmt(Number(d[cfg.yField] ?? 0))}`).join(', ')}`;
     return (
-      <ResponsiveContainer width="100%" height={340}>
-        <PieChart>
-          <Pie
-            data={data}
-            dataKey={cfg.yField}
-            nameKey={cfg.xField}
-            cx="50%"
-            cy="45%"
-            outerRadius={110}
-            label={({ name, percent }) => `${String(name).slice(0, 18)} (${((percent ?? 0) * 100).toFixed(0)}%)`}
-            labelLine={false}
-          >
-            {data.map((_, i) => (
-              <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
-            ))}
-          </Pie>
-          <Tooltip formatter={(v) => [fmt(Number(v ?? 0)), cfg.yField]} />
-        </PieChart>
-      </ResponsiveContainer>
+      <figure>
+        <ResponsiveContainer width="100%" height={340} role="img" aria-label={cfg.label} aria-describedby={`chart-desc-${cfg.id}`}>
+          <PieChart>
+            <Pie
+              data={data}
+              dataKey={cfg.yField}
+              nameKey={cfg.xField}
+              cx="50%"
+              cy="45%"
+              outerRadius={110}
+              label={({ name, percent }) => `${String(name).slice(0, 18)} (${((percent ?? 0) * 100).toFixed(0)}%)`}
+              labelLine={false}
+            >
+              {data.map((_, i) => (
+                <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
+              ))}
+            </Pie>
+            <Tooltip formatter={(v) => [fmt(Number(v ?? 0)), cfg.yField]} />
+          </PieChart>
+        </ResponsiveContainer>
+        <figcaption id={`chart-desc-${cfg.id}`} className="sr-only">{chartDesc}</figcaption>
+      </figure>
     );
   }
 
   if (cfg.chartType === 'area') {
+    const chartDesc = `Area chart: ${cfg.description}. ${cfg.note ? `Note: ${cfg.note}` : ''}`;
     return (
-      <ResponsiveContainer width="100%" height={340}>
-        <AreaChart {...common}>
+      <figure>
+        <ResponsiveContainer width="100%" height={340} role="img" aria-label={cfg.label} aria-describedby={`chart-desc-${cfg.id}`}>
+          <AreaChart {...common}>
           <defs>
             <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#F5A623" stopOpacity={0.25} />
@@ -281,9 +287,11 @@ function ChartRenderer({
   }
 
   if (cfg.chartType === 'line') {
+    const chartDesc = `Line chart: ${cfg.description}. ${cfg.note ? `Note: ${cfg.note}` : ''}`;
     return (
-      <ResponsiveContainer width="100%" height={340}>
-        <LineChart {...common}>
+      <figure>
+        <ResponsiveContainer width="100%" height={340} role="img" aria-label={cfg.label} aria-describedby={`chart-desc-${cfg.id}`}>
+          <Line Chart {...common}>
           <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" />
           <XAxis dataKey={cfg.xField} tick={tickStyle} angle={-40} textAnchor="end" />
           <YAxis tick={tickStyle} tickFormatter={fmt} />
