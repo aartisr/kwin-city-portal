@@ -15,6 +15,7 @@ export default function Footer() {
   return (
     <footer
       className="border-t border-white/6 bg-[linear-gradient(180deg,#040714_0%,#061027_52%,#040714_100%)]"
+      role="contentinfo"
     >
       {/* CTA banner */}
       <div
@@ -42,7 +43,7 @@ export default function Footer() {
 
       {/* Link grid */}
       <div className="container pt-16 md:pt-20 pb-14">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 pt-2 md:pt-3 mb-12">
+        <nav className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 pt-2 md:pt-3 mb-12" role="navigation">
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-5">
@@ -64,42 +65,42 @@ export default function Footer() {
 
           {/* Explore */}
           <div>
-            <h4 className="text-[11px] md:text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-5">Explore</h4>
-            <ul className="space-y-3 text-[15px] md:text-sm leading-7">
-              <li><Link href="/about"                className="text-[#94A3B8] hover:text-white transition-colors">About KWIN</Link></li>
-              <li><Link href="/why-north-bengaluru"  className="text-[#94A3B8] hover:text-white transition-colors">Why North Bengaluru</Link></li>
-              <li><Link href="/timeline"             className="text-[#94A3B8] hover:text-white transition-colors">Development Timeline</Link></li>
-              <li><Link href="/updates"              className="text-[#94A3B8] hover:text-white transition-colors">Updates Feed</Link></li>
-              <li><Link href="/faq"                  className="text-[#94A3B8] hover:text-white transition-colors">FAQ</Link></li>
-              <li><Link href="/sectors"              className="text-[#94A3B8] hover:text-white transition-colors">Industry Sectors</Link></li>
+            <h4 className="text-[11px] md:text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-5" id="explore-nav">Explore</h4>
+            <ul className="space-y-3 text-[15px] md:text-sm leading-7" aria-labelledby="explore-nav">
+              <li><Link href="/about"                className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">About KWIN</Link></li>
+              <li><Link href="/why-north-bengaluru"  className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">Why North Bengaluru</Link></li>
+              <li><Link href="/timeline"             className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">Development Timeline</Link></li>
+              <li><Link href="/updates"              className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">Updates Feed</Link></li>
+              <li><Link href="/faq"                  className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">FAQ</Link></li>
+              <li><Link href="/sectors"              className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">Industry Sectors</Link></li>
             </ul>
           </div>
 
           {/* Research */}
           <div>
-            <h4 className="text-[11px] md:text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-5">Research</h4>
-            <ul className="space-y-3 text-[15px] md:text-sm leading-7">
-              <li><Link href="/sustainability"      className="text-[#94A3B8] hover:text-white transition-colors">Sustainability</Link></li>
-              <li><Link href="/data-insights"       className="text-[#94A3B8] hover:text-white transition-colors">Data Insights Lab</Link></li>
-              <li><Link href="/trust"               className="text-[#94A3B8] hover:text-white transition-colors">Trust Center</Link></li>
-              <li><Link href="/sectors/comparison"  className="text-[#94A3B8] hover:text-white transition-colors">Sector Comparison</Link></li>
-              <li><Link href="/region-map"          className="text-[#94A3B8] hover:text-white transition-colors">Interactive Map</Link></li>
-              <li><Link href="/evidence-library"    className="text-[#94A3B8] hover:text-white transition-colors">Evidence Library</Link></li>
-              <li><Link href="/news-intelligence"   className="text-[#94A3B8] hover:text-white transition-colors">News Intelligence</Link></li>
-              <li><Link href="/news-reader"         className="text-[#94A3B8] hover:text-white transition-colors">OPML News Reader</Link></li>
-              <li><Link href="/evidence"            className="text-[#94A3B8] hover:text-white transition-colors">Evidence Vault</Link></li>
-              <li><Link href="/sources"             className="text-[#94A3B8] hover:text-white transition-colors">Sources & Claims</Link></li>
-              <li><Link href="/downloads"           className="text-[#94A3B8] hover:text-white transition-colors">Document Downloads</Link></li>
-              <li><Link href="/search"              className="text-[#94A3B8] hover:text-white transition-colors">Search</Link></li>
-              <li><Link href="/contact"             className="text-[#94A3B8] hover:text-white transition-colors">Contact Us</Link></li>
-              <li><Link href="/for"                 className="text-[#94A3B8] hover:text-white transition-colors">Persona Views</Link></li>
+            <h4 className="text-[11px] md:text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-5" id="research-nav">Research</h4>
+            <ul className="space-y-3 text-[15px] md:text-sm leading-7" aria-labelledby="research-nav">
+              <li><Link href="/sustainability"      className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">Sustainability</Link></li>
+              <li><Link href="/data-insights"       className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">Data Insights Lab</Link></li>
+              <li><Link href="/trust"               className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">Trust Center</Link></li>
+              <li><Link href="/sectors/comparison"  className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">Sector Comparison</Link></li>
+              <li><Link href="/region-map"          className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">Interactive Map</Link></li>
+              <li><Link href="/evidence-library"    className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">Evidence Library</Link></li>
+              <li><Link href="/news-intelligence"   className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">News Intelligence</Link></li>
+              <li><Link href="/news-reader"         className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">OPML News Reader</Link></li>
+              <li><Link href="/evidence"            className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">Evidence Vault</Link></li>
+              <li><Link href="/sources"             className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">Sources & Claims</Link></li>
+              <li><Link href="/downloads"           className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">Document Downloads</Link></li>
+              <li><Link href="/search"              className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">Search</Link></li>
+              <li><Link href="/contact"             className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">Contact Us</Link></li>
+              <li><Link href="/for"                 className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">Persona Views</Link></li>
               <li>
-                <Link href="/download" className="inline-flex items-center gap-1.5 text-amber-400 hover:text-amber-300 transition-colors font-semibold">
+                <Link href="/download" className="inline-flex items-center gap-1.5 text-amber-400 hover:text-amber-300 transition-colors font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">
                   📱 Get the App
                 </Link>
               </li>
               <li>
-                <a href="https://kiadb.karnataka.gov.in/" target="_blank" rel="noopener noreferrer" className="text-[#94A3B8] hover:text-white transition-colors">
+                <a href="https://kiadb.karnataka.gov.in/" target="_blank" rel="noopener noreferrer" aria-label="KIADB Portal (opens in new window)" className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">
                   KIADB Portal ↗
                 </a>
               </li>
@@ -108,43 +109,43 @@ export default function Footer() {
 
           {/* Context */}
           <div>
-            <h4 className="text-[11px] md:text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-5">By Audience</h4>
-            <ul className="space-y-3 text-[15px] md:text-sm leading-7">
-              <li><Link href="/for/investor"         className="text-[#94A3B8] hover:text-white transition-colors">For Investors</Link></li>
-              <li><Link href="/for/resident"         className="text-[#94A3B8] hover:text-white transition-colors">For Residents</Link></li>
-              <li><Link href="/for/researcher"       className="text-[#94A3B8] hover:text-white transition-colors">For Researchers</Link></li>
-              <li><Link href="/for/journalist"       className="text-[#94A3B8] hover:text-white transition-colors">For Journalists</Link></li>
-              <li><Link href="/for/curious-citizens" className="text-[#94A3B8] hover:text-white transition-colors">For Curious Citizens</Link></li>
+            <h4 className="text-[11px] md:text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-5" id="audience-nav">By Audience</h4>
+            <ul className="space-y-3 text-[15px] md:text-sm leading-7" aria-labelledby="audience-nav">
+              <li><Link href="/for/investor"         className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">For Investors</Link></li>
+              <li><Link href="/for/resident"         className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">For Residents</Link></li>
+              <li><Link href="/for/researcher"       className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">For Researchers</Link></li>
+              <li><Link href="/for/journalist"       className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">For Journalists</Link></li>
+              <li><Link href="/for/curious-citizens" className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">For Curious Citizens</Link></li>
             </ul>
           </div>
 
           {/* Open Data */}
           <div>
-            <h4 className="text-[11px] md:text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-5">Open Data</h4>
-            <ul className="space-y-3 text-[15px] md:text-sm leading-7">
+            <h4 className="text-[11px] md:text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-5" id="data-nav">Open Data</h4>
+            <ul className="space-y-3 text-[15px] md:text-sm leading-7" aria-labelledby="data-nav">
               <li>
-                <a href="https://data.opencity.in/dataset/bengaluru-aviation-traffic-data" target="_blank" rel="noopener noreferrer" className="text-[#94A3B8] hover:text-white transition-colors">
+                <a href="https://data.opencity.in/dataset/bengaluru-aviation-traffic-data" target="_blank" rel="noopener noreferrer" aria-label="Aviation Data (opens in new window)" className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">
                   Aviation Data ↗
                 </a>
               </li>
               <li>
-                <a href="https://data.opencity.in/dataset/bengaluru-strr-via-bannerughatta-national-park-documents" target="_blank" rel="noopener noreferrer" className="text-[#94A3B8] hover:text-white transition-colors">
+                <a href="https://data.opencity.in/dataset/bengaluru-strr-via-bannerughatta-national-park-documents" target="_blank" rel="noopener noreferrer" aria-label="STRR Documents (opens in new window)" className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">
                   STRR Documents ↗
                 </a>
               </li>
               <li>
-                <a href="https://data.opencity.in/dataset/economic-survey-of-karnataka-2025-26" target="_blank" rel="noopener noreferrer" className="text-[#94A3B8] hover:text-white transition-colors">
+                <a href="https://data.opencity.in/dataset/economic-survey-of-karnataka-2025-26" target="_blank" rel="noopener noreferrer" aria-label="Economic Survey (opens in new window)" className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">
                   Economic Survey ↗
                 </a>
               </li>
               <li>
-                <a href="https://data.opencity.in/dataset/bengaluru-lakes-and-their-maintainers" target="_blank" rel="noopener noreferrer" className="text-[#94A3B8] hover:text-white transition-colors">
+                <a href="https://data.opencity.in/dataset/bengaluru-lakes-and-their-maintainers" target="_blank" rel="noopener noreferrer" aria-label="Lakes Governance (opens in new window)" className="text-[#94A3B8] hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded">
                   Lakes Governance ↗
                 </a>
               </li>
             </ul>
           </div>
-        </div>
+        </nav>
 
         <div id="newsletter" className="border-t border-white/10 pt-10 pb-2">
           <NewsletterSignup variant="footer" />

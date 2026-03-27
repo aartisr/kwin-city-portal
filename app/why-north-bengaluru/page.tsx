@@ -61,7 +61,7 @@ export default function WhyNorthBengaluruPage() {
   return (
     <SiteFrame>
       <JsonLd data={[breadcrumb, placeSchema]} />
-      <main>
+      <main id="main-content" role="main">
         <PageIntro
           eyebrow="The Region"
           title="North Bengaluru: the most compelling urban canvas in India right now."

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { SkipLink } from '@/components/SkipLink';
 import PwaRegistration from '@/components/PwaRegistration';
 import PwaInstallPrompt from '@/components/PwaInstallPrompt';
 import PageAnalytics from '@/components/PageAnalytics';
@@ -118,6 +119,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className={`${inter.variable} bg-white text-gray-900 overflow-x-hidden`}>
+        <SkipLink />
         <PwaRegistration />
         <PwaInstallPrompt />
         <PageAnalytics />

@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 export default function DataInsightsPage() {
   return (
     <SiteFrame>
-      <main>
+      <main id="main-content" role="main">
         {/* Hero */}
         <section className="pt-28 pb-14 bg-[linear-gradient(150deg,#040714_0%,#0D1640_45%,#07131F_100%)]">
           <div className="container">

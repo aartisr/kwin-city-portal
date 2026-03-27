@@ -193,22 +193,28 @@ export default function Header({
             </div>
           </Link>
 
-          <div ref={menuRef} className="hidden lg:flex items-center gap-6">
+          <div ref={menuRef} className="hidden lg:flex items-center gap-6" role="navigation" aria-label="Main navigation">
             {HIGH_LEVEL_MENUS.map((group) => {
               const isOpen = desktopOpenGroup === group.label;
+              const menuId = `menu-${group.label.toLowerCase().replace(/\s+/g, '-')}`;
 
               return (
                 <div key={group.label} className="relative">
                   <button
                     onClick={() => setDesktopOpenGroup((curr) => (curr === group.label ? null : group.label))}
-                    className={`flex items-center gap-1 text-sm px-2.5 py-1 rounded-full transition-all duration-200 ${activeGroupLabel(group)}`}
+                    aria-expanded={isOpen}
+                    aria-haspopup="true"
+                    aria-controls={menuId}
+                    className={`flex items-center gap-1 text-sm px-2.5 py-1 rounded-full transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 ${activeGroupLabel(group)}`}
                   >
                     {group.label}
                     <svg
-                      className={`w-3.5 h-3.5 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                      className={`w-3.5 h-3.5 transition-transform duration-200`}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
                     </svg>
@@ -222,6 +228,9 @@ export default function Header({
                         exit={{ opacity: 0, y: -6, scale: 0.97 }}
                         transition={{ duration: 0.15 }}
                         className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden"
+                        role="menu"
+                        id={menuId}
+                        aria-label={`${group.label} menu`}
                         onClick={() => setDesktopOpenGroup(null)}
                       >
                         <div className="px-4 py-3 border-b border-gray-100 bg-gray-50">
@@ -276,7 +285,7 @@ export default function Header({
             <button
               aria-label="Search KWIN City (Cmd+K)"
               onClick={() => setSearchOpen(true)}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm text-gray-500 hover:text-gray-800 border border-gray-200 hover:border-amber-300 bg-white hover:bg-amber-50 transition-all duration-150"
+              className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm text-gray-500 hover:text-gray-800 border border-gray-200 hover:border-amber-300 bg-white hover:bg-amber-50 transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -300,8 +309,9 @@ export default function Header({
 
             <button
               onClick={onToggleTrustBanner}
-              title={trustBannerVisible ? 'Hide Trust Protocol bar' : 'Show Trust Protocol bar'}
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 border ${
+              aria-label={trustBannerVisible ? 'Hide Trust Protocol bar' : 'Show Trust Protocol bar'}
+              aria-pressed={trustBannerVisible}
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 ${
                 trustBannerVisible
                   ? 'bg-cyan-50 text-cyan-700 border-cyan-200 hover:bg-cyan-100'
                   : 'bg-transparent text-slate-400 border-slate-200 hover:text-slate-600 hover:border-slate-300'
@@ -341,7 +351,8 @@ export default function Header({
 
             <button
               aria-label="Toggle menu"
-              className="flex flex-col gap-[5px] focus:outline-none p-1"
+              aria-expanded={mobileMenuOpen}
+              className="flex flex-col gap-[5px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded p-1"
               onClick={() => {
                 setMobileMenuOpen(!mobileMenuOpen);
                 if (mobileMenuOpen) {

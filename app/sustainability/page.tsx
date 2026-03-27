@@ -40,7 +40,7 @@ export default function SustainabilityPage() {
   return (
     <SiteFrame>
       <JsonLd data={breadcrumb} />
-      <main>
+      <main id="main-content" role="main">
         <PageIntro
           eyebrow="Sustainability"
           title="A city that works with nature, not against it."

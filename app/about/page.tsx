@@ -38,7 +38,7 @@ export default function AboutPage() {
   return (
     <SiteFrame>
       <JsonLd data={breadcrumb} />
-      <main>
+      <main id="main-content" role="main">
         <PageIntro
           eyebrow="About KWIN City"
           title="A township designed around people, knowledge, and the future."
