@@ -6,6 +6,20 @@ export default function PwaRegistration() {
   useEffect(() => {
     if (typeof window === 'undefined' || !('serviceWorker' in navigator)) return;
 
+    const isLocalhost =
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1';
+
+    // Service workers frequently interfere with Next.js dev assets/HMR.
+    // Keep SW active only in production-like environments.
+    if (process.env.NODE_ENV !== 'production' || isLocalhost) {
+      navigator.serviceWorker
+        .getRegistrations()
+        .then((registrations) => Promise.all(registrations.map((reg) => reg.unregister())))
+        .catch(() => {});
+      return;
+    }
+
     navigator.serviceWorker
       .register('/sw.js', { scope: '/' })
       .then((reg) => {

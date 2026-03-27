@@ -1,0 +1,54 @@
+{
+  "id": "updates",
+  "title": "KWIN City Updates",
+  "description": "Official milestones and project announcements for KWIN City development — tracked with transparent sourcing. This is the first-party record of what we know and when we learned it.",
+  "categories": [
+    { "id": "milestone",  "label": "Milestone",    "icon": "🏆", "color": "amber" },
+    { "id": "policy",     "label": "Policy",       "icon": "🏛️", "color": "purple" },
+    { "id": "data",       "label": "Data",         "icon": "📊", "color": "teal" },
+    { "id": "research",   "label": "Research",     "icon": "🔬", "color": "emerald" }
+  ],
+  "entries": [
+    {
+      "id": "update-2025-12-phase1-infra",
+      "date": "2025-12-15",
+      "title": "Phase 1 infrastructure development reported in progress",
+      "summary": "KIADB sources confirmed Phase 1 road network planning and partial construction commenced in Q4 2025, with STRR connectivity framework underway.",
+      "body": "Phase 1 of KWIN City development focuses on core infrastructure: road networks, STRR connectivity planning, water supply systems design, and electrical grid planning. Construction activity has been reported by regional media and is consistent with the project timeline. Full Phase 1 milestones are tracked in the Development Timeline.",
+      "category": "milestone",
+      "verificationTier": "pending",
+      "tags": ["phase 1", "infrastructure", "construction", "STRR", "2025"],
+      "links": [
+        { "label": "Development Timeline", "href": "/timeline" }
+      ]
+    },
+    {
+      "id": "update-2024-12-kiadb-approvals",
+      "date": "2024-12-01",
+      "title": "KIADB approvals finalised for KWIN City",
+      "summary": "Karnataka Industrial Areas Development Board formally finalised project approvals, confirming KWIN City's status as an official industrial and knowledge township initiative.",
+      "body": "The finalisation of KIADB approvals represents the key institutional milestone confirming KWIN City's official status. Initial land demarcation and master plan disclosure followed. This is the foundational verified fact anchor for all subsequent KWIN City development claims on this portal.",
+      "category": "milestone",
+      "verificationTier": "verified",
+      "tags": ["kiadb", "approval", "official", "2024", "phase 0", "milestone"],
+      "links": [
+        { "label": "Sources", "href": "/sources" },
+        { "label": "Timeline", "href": "/timeline" }
+      ]
+    },
+    {
+      "id": "update-2024-10-inauguration",
+      "date": "2024-10-01",
+      "title": "KWIN City inaugurated — Phase 0 begins",
+      "summary": "Official inauguration ceremony marks the start of KWIN City's development journey. Phase 0 encompasses land acquisition, KIADB approvals, initial demarcation, and public disclosure of the master plan.",
+      "body": "The inauguration of KWIN City marks the beginning of an ambitious multi-phase township development in North Bengaluru. Phase 0 activities — inauguration, land acquisition, and KIADB approvals — have been confirmed through official sources. This event is the foundational anchor for the entire KWIN City development timeline.",
+      "category": "milestone",
+      "verificationTier": "verified",
+      "tags": ["inauguration", "launch", "phase 0", "2024", "kiadb", "land acquisition"],
+      "links": [
+        { "label": "Development Timeline", "href": "/timeline" },
+        { "label": "About KWIN City", "href": "/about" }
+      ]
+    }
+  ]
+}

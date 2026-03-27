@@ -226,7 +226,6 @@ export default function ContactForm() {
                           // Move focus to name after persona selection
                           setTimeout(() => nameRef.current?.focus(), 60);
                         }}
-                        aria-pressed={persona === p.id}
                         className={[
                           'flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-semibold border transition-all duration-200',
                           persona === p.id

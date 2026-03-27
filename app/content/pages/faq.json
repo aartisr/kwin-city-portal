@@ -1,0 +1,173 @@
+{
+  "id": "faq",
+  "title": "Frequently Asked Questions",
+  "description": "Clear answers to the most common questions about KWIN City — from investment pathways to what's been confirmed and what's still being verified.",
+  "groups": [
+    {
+      "id": "general",
+      "label": "General",
+      "icon": "🌐",
+      "audience": "All visitors",
+      "questions": [
+        {
+          "id": "what-is-kwin",
+          "question": "What exactly is KWIN City?",
+          "answer": "KWIN stands for Knowledge, Wellbeing, Innovation. It is a proposed integrated township in Doddaballapura, North Bengaluru, Karnataka — spanning approximately 465+ acres (pending primary source verification). The project is being developed under the aegis of the Karnataka Industrial Areas Development Board (KIADB) and aims to create a self-contained ecosystem combining education, healthcare, advanced manufacturing, and green living.",
+          "verificationNote": "The 465-acre figure is widely cited in secondary sources but awaits primary KIADB document confirmation.",
+          "relatedLinks": [{ "label": "About KWIN City", "href": "/about" }, { "label": "Timeline", "href": "/timeline" }]
+        },
+        {
+          "id": "who-is-building",
+          "question": "Who is building KWIN City?",
+          "answer": "KWIN City is a Government of Karnataka initiative developed through the Karnataka Industrial Areas Development Board (KIADB) — the state agency responsible for industrial area development across Karnataka. KIADB acquires land, develops infrastructure, and allots plots to eligible industrial and institutional applicants. The project framework also involves collaboration with the state's Department of Industries and Commerce.",
+          "verificationNote": null,
+          "relatedLinks": [{ "label": "Sources & Claims", "href": "/sources" }]
+        },
+        {
+          "id": "when-complete",
+          "question": "When will KWIN City be complete?",
+          "answer": "KWIN City is planned across five phases from 2024 to 2030. Phase 0 (inauguration and land acquisition) was completed in 2024. Phase 1 (infrastructure and connectivity) is in progress as of 2025. Phases 2–5 extend through 2026–2030. Full operational status is targeted for 2030, though specific timelines for individual phases are subject to change and are pending primary KIADB confirmation.",
+          "verificationNote": "Phase timelines are based on secondary sources and the project brief; not yet confirmed by a dated KIADB master schedule.",
+          "relatedLinks": [{ "label": "Development Timeline", "href": "/timeline" }]
+        },
+        {
+          "id": "how-many-jobs",
+          "question": "How many jobs will KWIN City create?",
+          "answer": "The project vision targets 100,000+ direct jobs by 2030 across five major sectors — semiconductor manufacturing, aerospace, health-tech, ICT, and renewable energy. At the sector level, ICT is projected to contribute 30,000 jobs, semiconductor 25,000, health-tech 20,000, aerospace 15,000, and renewable energy 10,000. These figures are from the project brief and await independent primary verification.",
+          "verificationNote": "All job projections are pending independent verification; treat as aspirational targets, not confirmed figures.",
+          "relatedLinks": [{ "label": "Industry Sectors", "href": "/sectors" }, { "label": "Evidence Vault", "href": "/evidence" }]
+        },
+        {
+          "id": "where-located",
+          "question": "Where exactly is KWIN City located?",
+          "answer": "KWIN City is located in Doddaballapura, North Bengaluru, Karnataka — at approximately 13°13′N 77°32′E. The site is strategically positioned near Kempegowda International Airport (~35 km), the proposed Satellite Town Ring Road (STRR) corridor, and the Bengaluru–Mumbai highway.",
+          "verificationNote": null,
+          "relatedLinks": [{ "label": "Why North Bengaluru", "href": "/why-north-bengaluru" }]
+        },
+        {
+          "id": "verified-vs-pending",
+          "question": "What does 'Verified', 'Pending', and 'Contextual' mean on this site?",
+          "answer": "This portal uses a three-tier labelling system: ✅ Verified means the claim is supported by a traceable primary source (official government document or institutional publication). 🔍 Pending means the claim appears in the project brief or media coverage but has not yet been confirmed against a dated official primary source. ⚪ Contextual means the data point is from a credible secondary source that provides relevant context but doesn't directly prove the KWIN-specific claim.",
+          "verificationNote": null,
+          "relatedLinks": [{ "label": "Trust Center", "href": "/trust" }, { "label": "Sources & Claims", "href": "/sources" }]
+        }
+      ]
+    },
+    {
+      "id": "investor",
+      "label": "For Investors",
+      "icon": "📈",
+      "audience": "Investors & businesses",
+      "questions": [
+        {
+          "id": "investment-size",
+          "question": "What is the total investment opportunity?",
+          "answer": "The project vision cites a ₹40,000 Crore (approximately $4.8 billion) investment target across all sectors. Sector-level indicative figures include ICT at ₹12,000+ Crore, semiconductor at ₹8,000+ Crore, health-tech at ₹6,000+ Crore, aerospace at ₹5,000+ Crore, and renewable energy at ₹4,000+ Crore. All figures are pending primary verification.",
+          "verificationNote": "₹40,000 Crore total is widely cited but not yet confirmed against a signed KIADB financial model.",
+          "relatedLinks": [{ "label": "For Investors", "href": "/for/investor" }, { "label": "Industry Sectors", "href": "/sectors" }]
+        },
+        {
+          "id": "how-to-invest",
+          "question": "How can businesses invest or apply for land?",
+          "answer": "The primary pathway for industrial investment is through the Karnataka Industrial Areas Development Board (KIADB) via their official allotment application process. Businesses express interest, complete KIADB's eligibility assessment, and apply for specific plot categories. Contact the KIADB directly at kiadb.karnataka.gov.in for current allotment schedules and application forms.",
+          "verificationNote": null,
+          "relatedLinks": [{ "label": "KIADB Portal ↗", "href": "https://kiadb.karnataka.gov.in/" }]
+        },
+        {
+          "id": "incentives",
+          "question": "What government incentives are available?",
+          "answer": "Eligible industries in KIADB-designated zones typically qualify for Karnataka's industrial policy incentives including stamp duty exemptions, power tariff subsidies, land cost concessions, and capital investment subsidies. Semiconductor and aerospace investments may qualify for additional central government schemes under India Semiconductor Mission and PLI schemes. Check current eligibility with KIADB and the Department of Industries and Commerce, Karnataka.",
+          "verificationNote": "Specific incentives for KWIN City have not been published; general KIADB incentive framework applies.",
+          "relatedLinks": [{ "label": "For Investors", "href": "/for/investor" }, { "label": "Sources ↗", "href": "/sources" }]
+        },
+        {
+          "id": "timeline-investment",
+          "question": "When can investors expect returns?",
+          "answer": "Industrial plots in Phase 1 corridors are expected to be allotted from 2025–2026 onwards. Revenue-generating operations in industrial clusters are targeted from Phase 3 (2027). The full ecosystem supporting premium valuations — complete connectivity, knowledge district operational, and full amenities — is targeted for 2030. Investment timelines should be evaluated independently against KIADB's published schedules.",
+          "verificationNote": "Return timelines are illustrative and based on the project roadmap, not KIADB commitments.",
+          "relatedLinks": [{ "label": "Development Timeline", "href": "/timeline" }]
+        }
+      ]
+    },
+    {
+      "id": "resident",
+      "label": "For Residents",
+      "icon": "🏡",
+      "audience": "Future residents & communities",
+      "questions": [
+        {
+          "id": "housing",
+          "question": "Will there be residential housing in KWIN City?",
+          "answer": "KWIN City's master plan includes mixed-use development with residential zones designed to house the township's workforce. Details on residential allotment timelines, plot sizes, and pricing have not been publicly announced yet. Current Phase 1 focus is on infrastructure. Residential plots are expected in later development phases.",
+          "verificationNote": "Residential development details are not yet in public domain.",
+          "relatedLinks": [{ "label": "For Residents", "href": "/for/resident" }]
+        },
+        {
+          "id": "amenities",
+          "question": "What amenities are planned for residents?",
+          "answer": "The master plan envisions schools, hospitals, retail zones, green parks, community recreation centers, and a public transit network. Sustainability targets include 40% green cover, 10 interconnected lakes, and urban heat island mitigation systems. These remain planning commitments pending infrastructure development.",
+          "verificationNote": "Amenity specifics (school names, hospital operators, etc.) are pending official disclosure.",
+          "relatedLinks": [{ "label": "Sustainability", "href": "/sustainability" }]
+        },
+        {
+          "id": "connectivity",
+          "question": "How will KWIN City connect to Bengaluru city?",
+          "answer": "KWIN City is planned to connect to Bengaluru via the Satellite Town Ring Road (STRR), the NH-648 (Bengaluru–Mangaluru highway), and potential metro/rail expansion. The site is approximately 35 km from Kempegowda International Airport. STRR alignment details are pending final approval.",
+          "verificationNote": "STRR connectivity is referenced in the project brief but final road alignment is not yet confirmed.",
+          "relatedLinks": [{ "label": "Why North Bengaluru", "href": "/why-north-bengaluru" }]
+        }
+      ]
+    },
+    {
+      "id": "researcher",
+      "label": "For Researchers",
+      "icon": "🔬",
+      "audience": "Academics & analysts",
+      "questions": [
+        {
+          "id": "data-sources",
+          "question": "What data sources does this portal use?",
+          "answer": "This portal draws on: (1) official KIADB documentation wherever available, (2) Government of Karnataka publications including economic surveys and industrial policy documents, (3) OpenCity.in CKAN datasets for live quantitative data, and (4) credible secondary journalism from established outlets. Each data point is tagged with its verification status. A full claim-to-source ledger is available on the Sources page.",
+          "verificationNote": null,
+          "relatedLinks": [{ "label": "Sources & Claims", "href": "/sources" }, { "label": "Evidence Vault", "href": "/evidence" }, { "label": "Data Insights Lab", "href": "/data-insights" }]
+        },
+        {
+          "id": "open-data",
+          "question": "Is the underlying data available for research?",
+          "answer": "Yes. The live data powering the Data Insights Lab comes from OpenCity.in's public CKAN API, which is freely accessible. The portal's editorial claim-to-source ledger is publicly viewable at /sources. All JSON content files structuring this portal are maintained in the open-source repository.",
+          "verificationNote": null,
+          "relatedLinks": [{ "label": "Data Insights Lab", "href": "/data-insights" }, { "label": "Document Downloads", "href": "/downloads" }]
+        },
+        {
+          "id": "cite-portal",
+          "question": "Can I cite this portal in academic work?",
+          "answer": "You may cite this portal as a secondary aggregator, but we strongly recommend tracing each claim to its primary source listed in our Sources & Claims ledger. The portal is authored by Aarti Sri Ravikumar and is updated as new primary sources become available. For academic citation, use the format: 'KWIN City Portal (kwin-city.com), [Page Title], accessed [Date]'. Always verify critical figures against the primary sources linked.",
+          "verificationNote": null,
+          "relatedLinks": [{ "label": "Sources & Claims", "href": "/sources" }, { "label": "Trust Center", "href": "/trust" }]
+        }
+      ]
+    },
+    {
+      "id": "journalist",
+      "label": "For Journalists",
+      "icon": "📰",
+      "audience": "Press & media",
+      "questions": [
+        {
+          "id": "verified-stats",
+          "question": "Which statistics has this portal independently verified?",
+          "answer": "Verified facts include: KWIN City's location in Doddaballapura (KIADB-confirmed); KIADB as the project operator (official); the multi-phase development structure (official); the three K-W-I pillars as the organizing framework (official brief). Pending-verification items include: the 465-acre area; ₹40,000 Crore investment target; 100,000+ jobs projection; specific university partnerships. See the full ledger at /sources.",
+          "verificationNote": null,
+          "relatedLinks": [{ "label": "Sources & Claims", "href": "/sources" }, { "label": "For Journalists", "href": "/for/journalist" }]
+        },
+        {
+          "id": "press-contact",
+          "question": "Who can journalists contact for comment?",
+          "answer": "For official KWIN City / KIADB statements, contact: Karnataka Industrial Areas Development Board (KIADB), 14/3, II-Cross, Kasturba Road, Bengaluru 560001 | Tel: +91-80-22251601 | Web: kiadb.karnataka.gov.in. For portal-specific queries, contact: hello@kwin-city.com.",
+          "verificationNote": null,
+          "relatedLinks": [{ "label": "KIADB Portal ↗", "href": "https://kiadb.karnataka.gov.in/" }]
+        }
+      ]
+    }
+  ]
+}

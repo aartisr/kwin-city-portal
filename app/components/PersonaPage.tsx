@@ -86,15 +86,15 @@ export default function PersonaPage({
         {stats && stats.length > 0 && (
           <section className="bg-[#040714] border-y border-white/8">
             <div className="container">
-              <dl className="grid grid-cols-2 sm:grid-cols-4">
+              <div className="grid grid-cols-2 sm:grid-cols-4">
                 {stats.map((s) => (
                   <div key={s.label} className="px-6 py-8 text-center border-r border-b border-white/8 [&:nth-child(2n)]:border-r-0 sm:[&:nth-child(2n)]:border-r sm:[&:nth-child(4n)]:border-r-0 [&:nth-last-child(-n+2)]:border-b-0 sm:[&:nth-last-child(-n+2)]:border-b sm:[&:nth-last-child(-n+4)]:border-b-0">
-                    <dt className="text-xs font-bold tracking-widest uppercase text-[#64748B] mb-2">{s.label}</dt>
-                    <dd className={`text-3xl md:text-4xl font-extrabold mb-1 ${s.accent ?? 'text-[#F5A623]'}`}>{s.value}</dd>
+                    <p className="text-xs font-bold tracking-widest uppercase text-[#64748B] mb-2">{s.label}</p>
+                    <p className={`text-3xl md:text-4xl font-extrabold mb-1 ${s.accent ?? 'text-[#F5A623]'}`}>{s.value}</p>
                     {s.note && <p className="text-[11px] text-[#475569] leading-snug mt-1">{s.note}</p>}
                   </div>
                 ))}
-              </dl>
+              </div>
             </div>
           </section>
         )}
