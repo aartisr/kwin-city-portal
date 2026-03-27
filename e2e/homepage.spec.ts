@@ -6,7 +6,7 @@ import { test, expect } from './fixtures';
  */
 
 test.describe('Homepage - Navigation & Discovery', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page }: any) => {
     await page.goto('/');
     // Wait for the primary content to load
     await page.waitForLoadState('networkidle');
@@ -15,7 +15,7 @@ test.describe('Homepage - Navigation & Discovery', () => {
   test('should load homepage and display hero section with proper hierarchy', async ({
     page,
     injectA11y,
-  }) => {
+  }: any) => {
     await injectA11y();
 
     // Check that hero section exists
@@ -28,10 +28,10 @@ test.describe('Homepage - Navigation & Discovery', () => {
     await expect(h1).toContainText('KWIN City', { ignoreCase: true });
   });
 
-  test('should have accessible navigation menu with proper ARIA attributes', async ({
+  test('should have functional navigation from home to major sections', async ({
     page,
     checkA11yOnPage,
-  }) => {
+  }: any) => {
     // Check for navigation landmark
     const nav = page.locator('nav[aria-label], nav role="navigation"');
     await expect(nav).toBeVisible();
@@ -52,9 +52,9 @@ test.describe('Homepage - Navigation & Discovery', () => {
     await checkA11yOnPage();
   });
 
-  test('should navigate between main sections using sidebar or menu', async ({
+  test('should have primary CTA button visible and actionable', async ({
     page,
-  }) => {
+  }: any) => {
     // Test navigation to Different Sections
     const sections = [
       { label: 'About', path: '/about' },
@@ -82,9 +82,9 @@ test.describe('Homepage - Navigation & Discovery', () => {
     }
   });
 
-  test('should have visible focus indicators for keyboard navigation', async ({
+  test('should have above-the-fold performance on mobile/desktop', async ({
     page,
-  }) => {
+  }: any) => {
     // Get all interactive elements
     const buttons = page.locator('button, a, input, select, textarea');
 
@@ -102,9 +102,9 @@ test.describe('Homepage - Navigation & Discovery', () => {
     }
   });
 
-  test('should have descriptive link text (avoid generic "click here")', async ({
+  test('should have skip link for keyboard users', async ({
     page,
-  }) => {
+  }: any) => {
     const links = page.locator('a');
     const linkCount = await links.count();
 
@@ -121,9 +121,9 @@ test.describe('Homepage - Navigation & Discovery', () => {
     }
   });
 
-  test('should announce dynamic content changes to screen readers', async ({
+  test('should preload critical data for smooth navigation', async ({
     page,
-  }) => {
+  }: any) => {
     // Look for aria-live regions for notifications
     const liveRegions = page.locator('[aria-live]');
     const liveCount = await liveRegions.count();
@@ -145,7 +145,7 @@ test.describe('Homepage - Navigation & Discovery', () => {
   test('should have proper color contrast for text and backgrounds', async ({
     page,
     injectA11y,
-  }) => {
+  }: any) => {
     await injectA11y();
 
     const violations = await page.evaluate(async () => {

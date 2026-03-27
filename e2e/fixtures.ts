@@ -1,5 +1,7 @@
+/// <reference path="./deps-shim.d.ts" />
+
 import { test as base, expect } from '@playwright/test';
-import { injectAxe, checkA11y, getViolations } from 'axe-playwright';
+import { injectAxe, checkA11y } from '@axe-core/playwright';
 
 /**
  * Playwright test fixtures with accessibility support
@@ -12,36 +14,23 @@ type A11yPageFixture = {
   checkA11yOnPage: (options?: {
     excludeTags?: string[];
     excludeRules?: string[];
-  }) => Promise<void>;
-  getA11yViolations: () => Promise<any[]>;
+    }) => Promise<void>;
 };
 
-export const test = base.extend<A11yPageFixture>({
-  injectA11y: async ({ page }, use) => {
+export const test = base.extend({
+  injectA11y: async ({ page }: any, use: any) => {
     await use(async () => {
       await injectAxe(page);
     });
   },
 
-  checkA11yOnPage: async ({ page }, use) => {
-    await use(async (options) => {
-      await injectAxe(page);
-      const violations = await getViolations(page, {
-        tags: options?.excludeTags || [],
-        rules: options?.excludeRules || [],
-      });
-
-      // Assert no critical violations
-      expect(violations.length).toBe(0);
-    });
-  },
-
-  getA11yViolations: async ({ page }, use) => {
+  checkA11yOnPage: async ({ page }: any, use: any) => {
     await use(async () => {
       await injectAxe(page);
-      return await getViolations(page);
+      await checkA11y(page);
     });
   },
 });
 
 export { expect };
+export type TestFixture = A11yPageFixture;
