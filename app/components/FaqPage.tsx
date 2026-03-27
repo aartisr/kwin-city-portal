@@ -17,7 +17,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import data from '@/content/pages/faq.json';
 import { useI18n } from '@/lib/i18n/I18nProvider';
-import { pickLocalizedValue } from '@/lib/i18n/messages';
+import { type Locale, pickLocalizedValue } from '@/lib/i18n/messages';
 
 interface RelatedLink {
   label: string;
@@ -64,10 +64,10 @@ function AccordionItem({
 }: {
   q: FaqQuestion;
   groupId: string;
-  locale: 'en' | 'kn' | 'hi' | 'ta';
+  locale: Locale;
 }) {
   const [open, setOpen] = useState(false);
-  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
+  const l = (values: { en: string; kn?: string; hi?: string; ta?: string; te?: string; es?: string }) => pickLocalizedValue(locale, values);
   const answerId = `faq-answer-${groupId}-${q.id}`;
   const buttonId = `faq-btn-${groupId}-${q.id}`;
 
@@ -167,7 +167,7 @@ function AccordionItem({
 
 export default function FaqPage() {
   const { locale } = useI18n();
-  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
+  const l = (values: { en: string; kn?: string; hi?: string; ta?: string; te?: string; es?: string }) => pickLocalizedValue(locale, values);
   const groups: FaqGroup[] = data.groups as FaqGroup[];
   const [activeGroup, setActiveGroup] = useState<string>('all');
   const [filterQuery, setFilterQuery] = useState('');

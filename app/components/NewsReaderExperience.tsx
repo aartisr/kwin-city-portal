@@ -2,8 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useI18n } from '@/lib/i18n/I18nProvider';
-import { getIntlLocale } from '@/lib/i18n/messages';
-import { pickLocalizedValue } from '@/lib/i18n/messages';
+import { type Locale, getIntlLocale, pickLocalizedValue } from '@/lib/i18n/messages';
 
 type ReaderItem = {
   title: string;
@@ -66,7 +65,7 @@ function isInTimeWindow(value: string | null, window: 'all' | '24h' | '7d' | '30
   return diff <= 30 * 24 * 60 * 60 * 1000;
 }
 
-function formatDate(value: string | null, locale: 'en' | 'kn' | 'hi' | 'ta' = 'en'): string {
+function formatDate(value: string | null, locale: Locale = 'en'): string {
   if (!value) {
     return locale === 'kn' ? 'ದಿನಾಂಕ ಲಭ್ಯವಿಲ್ಲ' : locale === 'hi' ? 'तिथि उपलब्ध नहीं' : locale === 'ta' ? 'தேதி கிடைக்கவில்லை' : 'Date unavailable';
   }

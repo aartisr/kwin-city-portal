@@ -17,8 +17,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import data from '@/content/pages/updates.json';
 import { useI18n } from '@/lib/i18n/I18nProvider';
-import { getIntlLocale } from '@/lib/i18n/messages';
-import { pickLocalizedValue } from '@/lib/i18n/messages';
+import { type Locale, getIntlLocale, pickLocalizedValue } from '@/lib/i18n/messages';
 
 type VerificationTier = 'verified' | 'pending' | 'contextual';
 
@@ -60,8 +59,8 @@ const CATEGORY_STYLES: Record<string, { dot: string; chip: string }> = {
   research:  { dot: 'bg-emerald-500', chip: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
 };
 
-function formatDate(iso: string, locale: string) {
-  const intlLocale = getIntlLocale(locale as any);
+function formatDate(iso: string, locale: Locale) {
+  const intlLocale = getIntlLocale(locale);
   return new Date(iso).toLocaleDateString(intlLocale, {
     day: 'numeric',
     month: 'long',
@@ -69,7 +68,7 @@ function formatDate(iso: string, locale: string) {
   });
 }
 
-function UpdateCard({ entry, catMeta, locale }: { entry: UpdateEntry; catMeta: UpdateCategory | undefined; locale: 'en' | 'kn' | 'hi' | 'ta' }) {
+function UpdateCard({ entry, catMeta, locale }: { entry: UpdateEntry; catMeta: UpdateCategory | undefined; locale: Locale }) {
   const [expanded, setExpanded] = useState(false);
   const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
   const tier = TIER_BADGES[entry.verificationTier];
