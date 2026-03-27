@@ -285,6 +285,17 @@ export default function Header({
               <kbd className="hidden xl:inline text-[10px] font-mono bg-gray-100 border border-gray-200 rounded px-1.5 py-0.5 text-gray-400">Cmd+K</kbd>
             </button>
 
+            <Link
+              href="/about"
+              aria-label="Explore KWIN"
+              title="Explore KWIN"
+              className="inline-flex items-center justify-center w-9 h-9 rounded-xl text-gray-500 hover:text-[#A96A00] border border-gray-200 hover:border-amber-300 bg-white hover:bg-amber-50 transition-all duration-150"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 3l2.2 4.46L19 9l-3.5 3.41.83 4.83L12 15.1l-4.33 2.14.83-4.83L5 9l4.8-1.54L12 3z" />
+              </svg>
+            </Link>
+
             <button
               onClick={onToggleTrustBanner}
               title={trustBannerVisible ? 'Hide Trust Protocol bar' : 'Show Trust Protocol bar'}
