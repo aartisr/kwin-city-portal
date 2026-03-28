@@ -126,7 +126,7 @@ const LICENSE_LINKS: Record<string, string> = {
 
 export default function PersonaHub() {
   const { locale } = useI18n();
-  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
 
   const intro = l({
     en: 'KWIN City means different things to different people. We built a dedicated lens for each — so you get straight to what matters most to you without wading through everything else.',

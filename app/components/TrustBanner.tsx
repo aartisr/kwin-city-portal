@@ -7,7 +7,7 @@ import { pickLocalizedValue } from '@/lib/i18n/messages';
 
 export default function TrustBanner({ visible }: { visible: boolean }) {
   const { locale, t } = useI18n();
-  const l = (values: { en: string; kn: string; hi: string; ta: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const [isScrollHidden, setIsScrollHidden] = useState(false);
   const lastY = useRef(0);
 

@@ -21,7 +21,7 @@ export async function generateMetadata() {
 
 export default async function NotFound() {
   const locale = await getServerLocale();
-  const l = (values: { en: string; kn: string; hi: string; ta: string }): string => pickByLocale<string>(locale, values);
+  const l = (values: Parameters<typeof pickByLocale<string>>[1]): string => pickByLocale<string>(locale, values);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-50 px-4">

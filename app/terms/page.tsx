@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function TermsPage() {
   const locale = await getServerLocale();
-  const l = (values: { en: string; kn: string; hi: string; ta: string }) => pickByLocale(locale, values);
+  const l = (values: Parameters<typeof pickByLocale<string>>[1]) => pickByLocale(locale, values);
   const effectiveDate = '25 March 2026';
 
   return (

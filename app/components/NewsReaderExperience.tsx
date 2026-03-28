@@ -85,7 +85,7 @@ function formatDate(value: string | null, locale: Locale = 'en'): string {
 
 export default function NewsReaderExperience() {
   const { locale } = useI18n();
-  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const [opmlUrl, setOpmlUrl] = useState('/feeds/kwin-city-news-feeds.opml');
   const [limit, setLimit] = useState(36);
   const [topicQuery, setTopicQuery] = useState('kwin');

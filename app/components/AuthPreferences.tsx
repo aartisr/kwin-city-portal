@@ -28,7 +28,7 @@ const allTopics = ['timeline', 'sectors', 'sustainability', 'evidence', 'news-in
 
 export default function AuthPreferences() {
   const { locale } = useI18n();
-  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');

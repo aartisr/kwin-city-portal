@@ -121,7 +121,7 @@ const routes = [
 
 export default function HomeRouteGrid() {
   const { locale } = useI18n();
-  const l = (values: { en: string; kn: string; hi: string; ta: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
 
   return (
     <section className="section bg-gray-50">

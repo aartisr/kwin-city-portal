@@ -91,7 +91,7 @@ const cards = [
 
 export default function HomeSummary() {
   const { locale } = useI18n();
-  const l = (values: { en: string; kn: string; hi: string; ta: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
 
   return (
     <section className="section bg-white">

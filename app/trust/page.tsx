@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function TrustPage() {
   const locale = await getServerLocale();
-  const l = (values: { en: string; kn: string; hi: string; ta: string }): string => pickByLocale<string>(locale, values);
+  const l = (values: Parameters<typeof pickByLocale<string>>[1]): string => pickByLocale<string>(locale, values);
 
   const principles = [
     {

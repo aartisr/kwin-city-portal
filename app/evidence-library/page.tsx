@@ -8,7 +8,7 @@ import { pickLocalizedValue } from '@/lib/i18n/messages';
 
 export default function EvidenceLibraryPage() {
   const { locale } = useI18n();
-  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const [filterTab, setFilterTab] = useState<'sources' | 'timeline' | 'sectors'>('sources');
 
   // Sample evidence data (in production, load from API)

@@ -8,7 +8,7 @@ import { getLocaleDefinition, pickLocalizedValue } from '@/lib/i18n/messages';
 
 export default function Footer() {
   const { t, locale } = useI18n();
-  const l = (values: { en: string; kn: string; hi: string; ta: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const year = new Date().getFullYear();
   const lastUpdatedText = new Date(SITE_CONFIG.lastUpdatedISO).toLocaleDateString(getLocaleDefinition(locale).htmlLang, {
     day: '2-digit',

@@ -29,7 +29,7 @@ const fmtDateTime = (iso: string, locale: Locale) => {
 
 export default function AnalyticsDashboard() {
   const { locale } = useI18n();
-  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const [pageViews, setPageViews] = useState<PageView[]>([]);
   const [engagement, setEngagement] = useState<EngagementMetric[]>([]);
 

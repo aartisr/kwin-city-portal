@@ -8,7 +8,7 @@ import { pickLocalizedValue } from '@/lib/i18n/messages';
 export default function EvidencePreview() {
   const preview = KWIN_EVIDENCE_SOURCES.slice(0, 3);
   const { locale } = useI18n();
-  const l = (values: { en: string; kn: string; hi: string; ta: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
 
   return (
     <section

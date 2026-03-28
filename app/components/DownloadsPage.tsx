@@ -58,7 +58,7 @@ const FILE_TYPE_STYLES: Record<string, string> = {
 
 export default function DownloadsPage() {
   const { locale } = useI18n();
-  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const categories: Category[] = data.categories as Category[];
   const documents: Document[] = data.documents as Document[];
 
