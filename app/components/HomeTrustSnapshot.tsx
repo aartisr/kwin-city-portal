@@ -115,7 +115,7 @@ const columns = [
 
 export default function HomeTrustSnapshot() {
   const { locale } = useI18n();
-  const l = (values: { en: string; kn: string; hi: string; ta: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
 
   return (
     <section className="section bg-[linear-gradient(160deg,#F8FAFC_0%,#FFFFFF_100%)]">

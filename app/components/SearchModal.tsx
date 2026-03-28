@@ -28,7 +28,7 @@ export default function SearchModal({
   onClose: () => void;
 }) {
   const { locale } = useI18n();
-  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchEntry[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);

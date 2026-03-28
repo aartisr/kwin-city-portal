@@ -29,7 +29,7 @@ type DiscussionPost = {
 
 export default function CommunityDiscussion() {
   const { locale } = useI18n();
-  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const [posts, setPosts] = useState<DiscussionPost[]>([]);
   const [session, setSession] = useState<SessionUser | null>(null);
   const [title, setTitle] = useState('');

@@ -70,7 +70,7 @@ function formatDate(iso: string, locale: Locale) {
 
 function UpdateCard({ entry, catMeta, locale }: { entry: UpdateEntry; catMeta: UpdateCategory | undefined; locale: Locale }) {
   const [expanded, setExpanded] = useState(false);
-  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const tier = TIER_BADGES[entry.verificationTier];
   const tierLabel =
     entry.verificationTier === 'verified'
@@ -162,7 +162,7 @@ function UpdateCard({ entry, catMeta, locale }: { entry: UpdateEntry; catMeta: U
 
 export default function UpdatesFeed() {
   const { locale } = useI18n();
-  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const categories: UpdateCategory[] = data.categories as UpdateCategory[];
   const entries: UpdateEntry[] = data.entries as UpdateEntry[];
 

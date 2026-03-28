@@ -28,7 +28,7 @@ type Variant = 'footer' | 'section';
 
 export default function NewsletterSignup({ variant = 'section' }: { variant?: Variant }) {
   const { locale } = useI18n();
-  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const uid = useId();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');

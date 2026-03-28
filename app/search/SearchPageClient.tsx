@@ -22,7 +22,7 @@ const ALL_CATEGORIES: SearchCategory[] = [
 
 export default function SearchPageClient() {
   const { locale } = useI18n();
-  const l = (values: { en: string; kn?: string; hi?: string; ta?: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialQuery = searchParams.get('q') ?? '';

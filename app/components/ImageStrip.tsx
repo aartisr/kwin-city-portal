@@ -91,7 +91,7 @@ const LICENSE_LINKS: Record<string, string> = {
 
 export default function ImageStrip() {
   const { locale } = useI18n();
-  const l = (values: { en: string; kn: string; hi: string; ta: string }) => pickLocalizedValue(locale, values);
+  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
 
   return (
     <div className="bg-[#040714] py-2 overflow-hidden">
