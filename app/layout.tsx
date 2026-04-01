@@ -8,6 +8,7 @@ import PwaInstallPrompt from '@/components/PwaInstallPrompt';
 import PageAnalytics from '@/components/PageAnalytics';
 import I18nProvider from '@/lib/i18n/I18nProvider';
 import { getLocaleDefinition, normalizeLocale } from '@/lib/i18n/messages';
+import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -132,6 +133,7 @@ export default async function RootLayout({
           <PageAnalytics />
           {children}
         </I18nProvider>
+        <Analytics />
       </body>
     </html>
   );
