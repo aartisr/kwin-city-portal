@@ -114,47 +114,9 @@ const baseConfig = {
     };
   },
   
-  // ============= WEBPACK OPTIMIZATIONS =============
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.optimization = {
-        ...config.optimization,
-        splitChunks: {
-          chunks: 'all',
-          cacheGroups: {
-            // Separate vendor code
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
-              priority: 10,
-              reuseExistingChunk: true,
-            },
-            // Framer Motion in its own chunk
-            frameMotion: {
-              test: /[\\/]node_modules[\\/](framer-motion)[\\/]/,
-              name: 'framer-motion',
-              priority: 20,
-              reuseExistingChunk: true,
-            },
-            // Mapbox in its own chunk
-            mapbox: {
-              test: /[\\/]node_modules[\\/](mapbox-gl)[\\/]/,
-              name: 'mapbox',
-              priority: 20,
-              reuseExistingChunk: true,
-            },
-            // Common chunks between pages
-            common: {
-              minChunks: 2,
-              priority: 5,
-              reuseExistingChunk: true,
-            },
-          },
-        },
-      };
-    }
-    return config;
-  },
+  // Keep Next.js' default client chunking. Overriding splitChunks here can break
+  // App Router CSS asset generation in development and lead to /_next/static/css 404s.
+  webpack: (config) => config,
 };
 
 module.exports = (phase) => ({
