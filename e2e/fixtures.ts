@@ -27,7 +27,11 @@ export const test = base.extend({
 
   checkA11yOnPage: async ({ page }: any, use: any) => {
     await use(async (options?: { excludeTags?: string[]; excludeRules?: string[] }) => {
-      const builder = new AxeBuilder({ page });
+      const builder = new (AxeBuilder as unknown as new (args: { page: unknown }) => {
+        withTags: (tags: string[]) => void;
+        disableRules: (rules: string | string[]) => void;
+        analyze: () => Promise<{ violations: unknown[] }>;
+      })({ page });
 
       if (options?.excludeTags?.length) {
         builder.withTags(options.excludeTags);
