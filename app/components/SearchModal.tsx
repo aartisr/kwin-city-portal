@@ -7,18 +7,17 @@
  * Keyboard-navigable, accessible, zero-network-requests, instant results.
  */
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  type SearchEntry,
-  querySearchIndex,
   getPopularEntries,
   CATEGORY_COLORS,
 } from '@/lib/search-index';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import { pickLocalizedValue } from '@/lib/i18n/messages';
+import { useSearchNavigation } from '@/components/search-modal/useSearchNavigation';
 
 export default function SearchModal({
   open,
@@ -30,59 +29,32 @@ export default function SearchModal({
   const { locale } = useI18n();
   const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<SearchEntry[]>([]);
-  const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const popular = getPopularEntries();
+
+  const {
+    results,
+    activeIndex,
+    displayed,
+    setActiveIndex,
+    handleKey,
+  } = useSearchNavigation({
+    query,
+    open,
+    onClose,
+    router,
+    popular,
+  });
 
   // Reset & focus on open
   useEffect(() => {
     if (!open) return;
     setQuery('');
-    setResults([]);
-    setActiveIndex(0);
     // Defer to let AnimatePresence mount before focusing
     const t = setTimeout(() => inputRef.current?.focus(), 60);
     return () => clearTimeout(t);
   }, [open]);
-
-  // Live search
-  useEffect(() => {
-    const found = querySearchIndex(query, 12);
-    setResults(found);
-    setActiveIndex(0);
-  }, [query]);
-
-  // Keyboard navigation
-  const handleKey = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      const displayed = query.trim() ? results : popular;
-      if (displayed.length === 0) {
-        if (e.key === 'Escape') onClose();
-        return;
-      }
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        setActiveIndex((i) => (i + 1) % displayed.length);
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        setActiveIndex((i) => (i - 1 + displayed.length) % displayed.length);
-      } else if (e.key === 'Enter') {
-        e.preventDefault();
-        const chosen = displayed[activeIndex];
-        if (chosen) {
-          onClose();
-          router.push(chosen.href);
-        }
-      } else if (e.key === 'Escape') {
-        onClose();
-      }
-    },
-    [query, results, popular, activeIndex, onClose, router],
-  );
-
-  const displayed = query.trim() ? results : popular;
 
   return (
     <AnimatePresence>
