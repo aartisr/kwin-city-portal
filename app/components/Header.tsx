@@ -7,84 +7,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import SearchModal from '@/components/SearchModal';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { useI18n } from '@/lib/i18n/I18nProvider';
-
-type NavItem = {
-  label: string;
-  href: string;
-  icon?: string;
-  desc?: string;
-};
-
-type NavGroup = {
-  label: string;
-  items: NavItem[];
-};
-
-type AuthUser = {
-  id: string;
-  name: string;
-  email: string;
-};
-
-const NAV_TONES = {
-  active: 'text-[#A96A00] font-extrabold bg-amber-50/95 ring-1 ring-amber-200',
-  idleScrolled: 'text-gray-600 hover:text-gray-900 font-semibold',
-  idleTop: 'text-slate-700 hover:text-slate-900 font-semibold',
-  dropdownActive: 'text-[#A96A00]',
-  dropdownIdle: 'text-gray-800',
-} as const;
-
-const HIGH_LEVEL_MENUS: NavGroup[] = [
-  {
-    label: 'Discover',
-    items: [
-      { label: 'About KWIN', href: '/about', desc: 'Mission, pillars, and framework' },
-      { label: 'Why North Bengaluru', href: '/why-north-bengaluru', desc: 'Regional strategic case' },
-      { label: 'Timeline', href: '/timeline', desc: 'Phase-wise development roadmap' },
-      { label: 'Updates', href: '/updates', icon: '📡', desc: 'Milestones & announcements' },
-      { label: 'FAQ', href: '/faq', icon: '❓', desc: 'Questions answered - for every audience' },
-    ],
-  },
-  {
-    label: 'Ecosystem',
-    items: [
-      { label: 'Sectors', href: '/sectors', desc: 'Industry depth and opportunities' },
-      { label: 'Sustainability', href: '/sustainability', desc: 'Climate and resilience lens' },
-    ],
-  },
-  {
-    label: 'Research',
-    items: [
-      { label: 'Data Insights', href: '/data-insights', desc: 'Live evidence dashboards' },
-      { label: 'Evidence Vault', href: '/evidence', desc: 'What each dataset can prove' },
-      { label: 'Analytics Dashboard', href: '/analytics', icon: '📊', desc: 'On-device page tracking insights' },
-      { label: 'Sources & Claims', href: '/sources', desc: 'Full claim-to-source ledger' },
-      { label: 'Document Downloads', href: '/downloads', icon: '📥', desc: 'Reports, briefs & open datasets' },
-    ],
-  },
-  {
-    label: 'Intelligence',
-    items: [
-      { label: 'News Intelligence', href: '/news-intelligence', desc: 'Attribution-first media observatory' },
-      { label: 'Live News Reader', href: '/news-reader', desc: 'On-demand OPML summary reader' },
-      { label: 'Community Discussion', href: '/community', icon: '💬', desc: 'Open stakeholder threads and replies' },
-      { label: 'Trust Center', href: '/trust', desc: 'Authenticity and originality protocol' },
-      { label: 'Get the App', href: '/download', icon: '📱', desc: 'Install on Android & iOS - free' },
-    ],
-  },
-  {
-    label: 'Audiences',
-    items: [
-      { label: 'Account & Preferences', href: '/account', icon: '👤', desc: 'Sign in and save your interests' },
-      { label: 'Investor', href: '/for/investor', icon: '📈', desc: 'Opportunity & risk briefing' },
-      { label: 'Resident', href: '/for/resident', icon: '🏡', desc: 'Livability & community' },
-      { label: 'Researcher', href: '/for/researcher', icon: '🔬', desc: 'Data & methodology' },
-      { label: 'Journalist', href: '/for/journalist', icon: '📰', desc: 'Verified story angles' },
-      { label: 'Curious Citizen', href: '/for/curious-citizens', icon: '🌏', desc: 'Plain-language explainer' },
-      { label: 'All Audience Hubs', href: '/for', desc: 'Browse all persona pathways' },
-    ],
-  },
-];
+import { HIGH_LEVEL_MENUS, NAV_TONES } from '@/components/header/navigation';
+import { translateGroupLabel, translateNavItem } from '@/components/header/i18n';
+import { useHeaderSession } from '@/components/header/useHeaderSession';
+import type { NavGroup } from '@/components/header/types';
 
 export default function Header({
   trustBannerVisible,
@@ -98,7 +24,7 @@ export default function Header({
   const [scrolled, setScrolled] = useState(false);
   const [desktopOpenGroup, setDesktopOpenGroup] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
+  const currentUser = useHeaderSession();
   const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const { t } = useI18n();
@@ -130,30 +56,6 @@ export default function Header({
     return () => document.removeEventListener('keydown', handler);
   }, []);
 
-  useEffect(() => {
-    const controller = new AbortController();
-
-    const loadSession = async () => {
-      try {
-        const res = await fetch('/api/auth/me', {
-          method: 'GET',
-          credentials: 'include',
-          cache: 'no-store',
-          signal: controller.signal,
-        });
-        if (!res.ok) return;
-
-        const data = (await res.json()) as { user?: AuthUser | null };
-        setCurrentUser(data.user ?? null);
-      } catch {
-        // Silent fail: header should remain usable when auth endpoint is unavailable.
-      }
-    };
-
-    loadSession();
-    return () => controller.abort();
-  }, []);
-
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href);
 
@@ -166,23 +68,8 @@ export default function Header({
       : scrolled
       ? NAV_TONES.idleScrolled
       : NAV_TONES.idleTop;
-  
-  const translatedGroupLabel = (label: string) => t(`header.groups.${label}`);
 
-  const getTranslatedText = (key: string, fallback?: string) => {
-    const translated = t(key);
-    return translated === key ? fallback ?? key : translated;
-  };
-  
-  const translatedItem = (item: NavItem): NavItem => {
-    return {
-      ...item,
-      label: getTranslatedText(`header.items.${item.href}.label`, item.label),
-      desc: item.desc
-        ? getTranslatedText(`header.items.${item.href}.desc`, item.desc)
-        : undefined,
-    };
-  };
+  const translatedGroupLabel = (label: string) => translateGroupLabel(t, label);
 
   return (
     <>
@@ -258,7 +145,7 @@ export default function Header({
                         </div>
                         <div className="p-2">
                           {group.items.map((rawItem, index) => {
-                            const item = translatedItem(rawItem);
+                            const item = translateNavItem(t, rawItem);
                             return (
                             <motion.div
                               key={item.href}
@@ -450,7 +337,7 @@ export default function Header({
                             className="overflow-hidden pl-3 border-l-2 border-amber-200 ml-1"
                           >
                             {group.items.map((rawItem) => {
-                              const item = translatedItem(rawItem);
+                              const item = translateNavItem(t, rawItem);
                               return (
                               <Link
                                 key={item.href}

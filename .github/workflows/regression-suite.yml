@@ -1,0 +1,68 @@
+name: Regression Suite
+
+on:
+  pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
+
+concurrency:
+  group: regression-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Critical lint gate
+        run: npm run lint:critical
+
+      - name: Type check
+        run: npm run type-check
+
+      - name: Build (lint-free gate)
+        run: npm run build:ci
+
+      - name: Unit tests with coverage thresholds
+        run: npm run test:coverage
+
+      - name: E2E smoke tests
+        env:
+          PW_TEST_HTML_REPORT_OPEN: never
+        run: npm run e2e:smoke
+
+      - name: A11y smoke tests
+        env:
+          PW_TEST_HTML_REPORT_OPEN: never
+        run: npm run e2e:a11y-smoke
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report

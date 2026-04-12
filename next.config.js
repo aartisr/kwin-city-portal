@@ -49,13 +49,13 @@ const baseConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://maps.googleapis.com", // unsafe-inline needed for Framer Motion, Next.js inline styles
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://maps.googleapis.com https://www.clarity.ms https://scripts.clarity.ms https://va.vercel-scripts.com", // unsafe-inline needed for Framer Motion, Next.js inline styles
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.mapbox.com",
               "font-src 'self' https://fonts.gstatic.com https://api.mapbox.com",
               "img-src 'self' data: https: blob:",
               "media-src 'self' https:",
               "frame-src 'self' https:",
-              "connect-src 'self' https: wss:", // WebSockets for real-time features
+              "connect-src 'self' https: wss: https://*.clarity.ms https://va.vercel-scripts.com", // WebSockets for real-time features
               "object-src 'none'",
               "base-uri 'self'",
               "form-action 'self'",
@@ -114,47 +114,9 @@ const baseConfig = {
     };
   },
   
-  // ============= WEBPACK OPTIMIZATIONS =============
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.optimization = {
-        ...config.optimization,
-        splitChunks: {
-          chunks: 'all',
-          cacheGroups: {
-            // Separate vendor code
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
-              priority: 10,
-              reuseExistingChunk: true,
-            },
-            // Framer Motion in its own chunk
-            frameMotion: {
-              test: /[\\/]node_modules[\\/](framer-motion)[\\/]/,
-              name: 'framer-motion',
-              priority: 20,
-              reuseExistingChunk: true,
-            },
-            // Mapbox in its own chunk
-            mapbox: {
-              test: /[\\/]node_modules[\\/](mapbox-gl)[\\/]/,
-              name: 'mapbox',
-              priority: 20,
-              reuseExistingChunk: true,
-            },
-            // Common chunks between pages
-            common: {
-              minChunks: 2,
-              priority: 5,
-              reuseExistingChunk: true,
-            },
-          },
-        },
-      };
-    }
-    return config;
-  },
+  // Keep Next.js' default client chunking. Overriding splitChunks here can break
+  // App Router CSS asset generation in development and lead to /_next/static/css 404s.
+  webpack: (config) => config,
 };
 
 module.exports = (phase) => ({

@@ -6,6 +6,7 @@ import { SkipLink } from '@/components/SkipLink';
 import PwaRegistration from '@/components/PwaRegistration';
 import PwaInstallPrompt from '@/components/PwaInstallPrompt';
 import PageAnalytics from '@/components/PageAnalytics';
+import ClarityInit from '@/components/ClarityInit';
 import I18nProvider from '@/lib/i18n/I18nProvider';
 import { getLocaleDefinition, normalizeLocale } from '@/lib/i18n/messages';
 import { Analytics } from '@vercel/analytics/next';
@@ -132,6 +133,7 @@ export default async function RootLayout({
           <PwaRegistration />
           <PwaInstallPrompt />
           <PageAnalytics />
+          <ClarityInit />
           {children}
         </I18nProvider>
         <Analytics />

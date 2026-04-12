@@ -1,7 +1,7 @@
 /// <reference path="./deps-shim.d.ts" />
 
 import { test as base, expect } from '@playwright/test';
-import { injectAxe, checkA11y } from '@axe-core/playwright';
+import AxeBuilder from '@axe-core/playwright';
 
 /**
  * Playwright test fixtures with accessibility support
@@ -20,14 +20,31 @@ type A11yPageFixture = {
 export const test = base.extend({
   injectA11y: async ({ page }: any, use: any) => {
     await use(async () => {
-      await injectAxe(page);
+      // No-op for compatibility with older tests; AxeBuilder handles script injection internally.
+      await Promise.resolve(page);
     });
   },
 
   checkA11yOnPage: async ({ page }: any, use: any) => {
-    await use(async () => {
-      await injectAxe(page);
-      await checkA11y(page);
+    await use(async (options?: { excludeTags?: string[]; excludeRules?: string[] }) => {
+      const builder = new (AxeBuilder as unknown as new (args: { page: unknown }) => {
+        withTags: (tags: string[]) => void;
+        disableRules: (rules: string | string[]) => void;
+        analyze: () => Promise<{ violations: unknown[] }>;
+      })({ page });
+
+      if (options?.excludeTags?.length) {
+        builder.withTags(options.excludeTags);
+      }
+
+      if (options?.excludeRules?.length) {
+        for (const ruleId of options.excludeRules) {
+          builder.disableRules(ruleId);
+        }
+      }
+
+      const results = await builder.analyze();
+      expect(results.violations).toEqual([]);
     });
   },
 });
