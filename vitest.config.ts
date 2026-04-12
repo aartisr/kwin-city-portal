@@ -19,7 +19,11 @@ export default defineConfig({
         '**/*.config.*',
       ],
     },
-    include: ['**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    include: [
+      'app/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+      'scripts/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+    ],
+    exclude: ['e2e/**'],
   },
   resolve: {
     alias: {
