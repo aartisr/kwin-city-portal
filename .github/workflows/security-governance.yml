@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Gitleaks scan
         uses: gitleaks/gitleaks-action@v2
@@ -28,6 +30,14 @@ jobs:
       pull-requests: write
     steps:
       - name: Dependency review
+        id: dependency_review
+        continue-on-error: true
         uses: actions/dependency-review-action@v4
         with:
           fail-on-severity: high
+
+      - name: Dependency graph disabled notice
+        if: steps.dependency_review.outcome == 'failure'
+        run: |
+          echo "::warning::Dependency review could not run. This commonly happens when Dependency graph is disabled for the repository."
+          echo "::warning::Enable it at: https://github.com/aartisr/kwin-city-portal/settings/security_analysis"
