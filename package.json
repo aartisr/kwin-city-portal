@@ -13,6 +13,7 @@
     "start": "next start",
     "clean:next": "rm -rf .next .next-dev",
     "lint": "next lint",
+    "lint:critical": "eslint app/components/header app/components/search-modal app/lib/home app/lib/search-index.ts --max-warnings=0",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
@@ -27,7 +28,7 @@
     "e2e:headed": "playwright test --headed",
     "a11y:audit": "playwright test e2e/performance-wcag.spec.ts --headed",
     "release:android": "bash scripts/release-android.sh",
-    "quality:gate": "npm run type-check && npm run test:coverage && npm run e2e:smoke && npm run e2e:a11y-smoke"
+    "quality:gate": "npm run lint:critical && npm run type-check && npm run test:coverage && npm run e2e:smoke && npm run e2e:a11y-smoke"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",
