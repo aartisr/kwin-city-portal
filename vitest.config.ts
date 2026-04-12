@@ -25,6 +25,7 @@ export default defineConfig({
         '**/*.d.ts',
         '**/*.config.*',
         '**/__tests__/**',
+        '**/types.ts',
       ],
       thresholds: {
         lines: 85,

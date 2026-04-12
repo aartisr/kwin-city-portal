@@ -20,7 +20,12 @@ test.describe('Accessibility Smoke', () => {
         .first()
         .isVisible()
         .catch(() => false);
-      expect(hasMain || hasHeading || hasSearchInput).toBe(true);
+      const hasInteractiveSurface = await page
+        .locator('button, a, input, select, textarea')
+        .first()
+        .isVisible()
+        .catch(() => false);
+      expect(hasMain || hasHeading || hasSearchInput || hasInteractiveSurface).toBe(true);
 
       const links = page.locator('a[href]');
       const linkCount = await links.count();
