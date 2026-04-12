@@ -11,13 +11,27 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
+      include: [
+        'app/components/header/**/*.ts',
+        'app/components/search-modal/**/*.ts',
+        'app/lib/home/**/*.ts',
+        'app/lib/search-index.ts',
+      ],
       exclude: [
         'node_modules/',
         '.next/',
+        '.next-dev/',
         'dist/',
         '**/*.d.ts',
         '**/*.config.*',
+        '**/__tests__/**',
       ],
+      thresholds: {
+        lines: 85,
+        statements: 85,
+        branches: 70,
+        functions: 85,
+      },
     },
     include: [
       'app/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
