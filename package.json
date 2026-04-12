@@ -25,6 +25,7 @@
     "release:android": "bash scripts/release-android.sh"
   },
   "dependencies": {
+    "@microsoft/clarity": "^1.0.2",
     "@supabase/supabase-js": "^2.99.3",
     "@vercel/analytics": "^2.0.1",
     "axios": "^1.6.1",
