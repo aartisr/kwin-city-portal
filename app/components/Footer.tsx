@@ -171,8 +171,6 @@ export default function Footer() {
               { icon: '🛡️', label: l({ en: 'HSTS Protected', kn: 'HSTS ರಕ್ಷಿತ', hi: 'HSTS संरक्षित', ta: 'HSTS பாதுகாப்பில்' }), href: 'https://hstspreload.org/?domain=kwin-city.com' },
               { icon: '📊', label: l({ en: 'Open Data', kn: 'ಮುಕ್ತ ಡೇಟಾ', hi: 'ओपन डेटा', ta: 'திறந்த தரவு' }), href: 'https://data.opencity.in/' },
               { icon: '🌐', label: l({ en: 'Google Search Console', kn: 'Google ಹುಡುಕಾಟ ಕನ್ಸೋಲ್', hi: 'Google सर्च कंसोल', ta: 'Google தேடல் கன்சோல்' }), href: 'https://search.google.com/search-console' },
-              { icon: '⚡', label: l({ en: 'Next.js 15', kn: 'Next.js 15', hi: 'Next.js 15', ta: 'Next.js 15' }), href: 'https://nextjs.org' },
-              { icon: '🚀', label: l({ en: 'Deployed on Netlify', kn: 'Netlify ನಲ್ಲಿ ನಿಯೋಜಿತ', hi: 'Netlify पर तैनात', ta: 'Netlify இல் வெளியிடப்பட்டது' }), href: 'https://netlify.com' },
             ] as { icon: string; label: string; href: string }[]).map((b) => (
               <a
                 key={b.label}
