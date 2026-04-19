@@ -40,6 +40,21 @@ export async function generateMetadata(): Promise<Metadata> {
       }),
       url: 'https://kwin-city.com/sources',
       type: 'website',
+      images: [{ url: 'https://kwin-city.com/sources/opengraph-image' }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: pickByLocale(locale, {
+        en: 'KWIN City Sources — Complete Claim Ledger & Primary Institutional Records',
+        kn: 'KWIN City ಮೂಲಗಳು — ಸಂಪೂರ್ಣ ಕ್ಲೇಮ್ ಲೆಡ್ಜರ್ ಮತ್ತು ಪ್ರಾಥಮಿಕ ದಾಖಲೆಗಳು',
+        hi: 'KWIN City स्रोत — पूर्ण क्लेम लेजर और प्राथमिक संस्थागत रिकॉर्ड',
+      }),
+      description: pickByLocale(locale, {
+        en: 'Every claim on the KWIN City portal links to its primary source. Full ledger with KIADB, Karnataka open data, and verified institutional records.',
+        kn: 'KWIN City ಪೋರ್ಟಲ್‌ನ ಪ್ರತಿಯೊಂದು ಕ್ಲೇಮ್ ತನ್ನ ಮೂಲಕ್ಕೆ ಲಿಂಕ್ ಆಗಿದೆ.',
+        hi: 'KWIN City पोर्टल का हर दावा अपने मूल स्रोत से जुड़ा है।',
+      }),
+      images: ['https://kwin-city.com/sources/opengraph-image'],
     },
   };
 }

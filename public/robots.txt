@@ -1,8 +1,31 @@
 User-Agent: *
 Allow: /
 Disallow: /api/
-Disallow: /_next/
-Disallow: /static/
 
-Host: https://kwin-city.com
+User-Agent: GPTBot
+Allow: /
+Disallow: /api/
+
+User-Agent: ChatGPT-User
+Allow: /
+Disallow: /api/
+
+User-Agent: ClaudeBot
+Allow: /
+Disallow: /api/
+
+User-Agent: PerplexityBot
+Allow: /
+Disallow: /api/
+
+User-Agent: Google-Extended
+Allow: /
+Disallow: /api/
+
 Sitemap: https://kwin-city.com/sitemap.xml
+# Feed discovery
+# https://kwin-city.com/feed.xml
+
+# AI and LLM discoverability guidance
+# https://kwin-city.com/llms.txt
+# https://kwin-city.com/ai.txt

@@ -1,26 +1,47 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import JsonLd from '@/components/JsonLd';
 import SiteFrame from '@/components/SiteFrame';
 import SourceReferences from '@/components/SourceReferences';
 import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 
+const SITE_URL = 'https://kwin-city.com';
+const PAGE_URL = `${SITE_URL}/trust`;
+const OG_IMAGE = `${SITE_URL}/og-image.png`;
+
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
+  const title = pickByLocale(locale, {
+    en: 'Trust Center | Authenticity, Attribution, and Originality',
+    kn: 'ವಿಶ್ವಾಸ ಕೇಂದ್ರ | ಪ್ರಾಮಾಣಿಕತೆ, ಮೂಲೋಕ್ತಿ ಮತ್ತು ಮೂಲತತ್ವ',
+    hi: 'ट्रस्ट सेंटर | प्रामाणिकता, एट्रिब्यूशन और मौलिकता',
+    ta: 'நம்பிக்கை மையம் | உண்மைத்தன்மை, மேற்கோள் மற்றும் மூலத்தன்மை',
+  });
+  const description = pickByLocale(locale, {
+    en: 'The KWIN City Trust Center: our authenticity standards, source-attribution protocol, originality rules, and verification boundaries.',
+    kn: 'KWIN City ವಿಶ್ವಾಸ ಕೇಂದ್ರ: ಪ್ರಾಮಾಣಿಕತಾ ಮಾನದಂಡಗಳು, ಮೂಲೋಕ್ತಿ ಪ್ರೋಟೋಕಾಲ್, ಮೂಲತತ್ವ ನಿಯಮಗಳು ಮತ್ತು ಪರಿಶೀಲನಾ ಗಡಿಗಳು.',
+    hi: 'KWIN City ट्रस्ट सेंटर: हमारे प्रामाणिकता मानक, स्रोत-एट्रिब्यूशन प्रोटोकॉल, मौलिकता नियम और सत्यापन सीमाएं।',
+    ta: 'KWIN City நம்பிக்கை மையம்: உண்மைத்தன்மை தரநிலைகள், மூல மேற்கோள் நெறிமுறை, மூலத்தன்மை விதிகள் மற்றும் சரிபார்ப்பு எல்லைகள்.',
+  });
+
   return {
-    title: pickByLocale(locale, {
-      en: 'Trust Center | Authenticity, Attribution, and Originality',
-      kn: 'ವಿಶ್ವಾಸ ಕೇಂದ್ರ | ಪ್ರಾಮಾಣಿಕತೆ, ಮೂಲೋಕ್ತಿ ಮತ್ತು ಮೂಲತತ್ವ',
-      hi: 'ट्रस्ट सेंटर | प्रामाणिकता, एट्रिब्यूशन और मौलिकता',
-      ta: 'நம்பிக்கை மையம் | உண்மைத்தன்மை, மேற்கோள் மற்றும் மூலத்தன்மை',
-    }),
-    description: pickByLocale(locale, {
-      en: 'The KWIN City Trust Center: our authenticity standards, source-attribution protocol, originality rules, and verification boundaries.',
-      kn: 'KWIN City ವಿಶ್ವಾಸ ಕೇಂದ್ರ: ಪ್ರಾಮಾಣಿಕತಾ ಮಾನದಂಡಗಳು, ಮೂಲೋಕ್ತಿ ಪ್ರೋಟೋಕಾಲ್, ಮೂಲತತ್ವ ನಿಯಮಗಳು ಮತ್ತು ಪರಿಶೀಲನಾ ಗಡಿಗಳು.',
-      hi: 'KWIN City ट्रस्ट सेंटर: हमारे प्रामाणिकता मानक, स्रोत-एट्रिब्यूशन प्रोटोकॉल, मौलिकता नियम और सत्यापन सीमाएं।',
-      ta: 'KWIN City நம்பிக்கை மையம்: உண்மைத்தன்மை தரநிலைகள், மூல மேற்கோள் நெறிமுறை, மூலத்தன்மை விதிகள் மற்றும் சரிபார்ப்பு எல்லைகள்.',
-    }),
+    title,
+    description,
     alternates: {
-      canonical: 'https://kwin-city.com/trust',
+      canonical: PAGE_URL,
+    },
+    openGraph: {
+      title,
+      description,
+      url: PAGE_URL,
+      type: 'website',
+      images: [{ url: OG_IMAGE }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [OG_IMAGE],
     },
   };
 }
@@ -28,6 +49,41 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function TrustPage() {
   const locale = await getServerLocale();
   const l = (values: Parameters<typeof pickByLocale<string>>[1]): string => pickByLocale<string>(locale, values);
+  const pageSchemas = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+        { '@type': 'ListItem', position: 2, name: 'Trust Center', item: PAGE_URL },
+      ],
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      '@id': `${PAGE_URL}#webpage`,
+      url: PAGE_URL,
+      name: l({
+        en: 'KWIN City Trust Center',
+        kn: 'KWIN City ವಿಶ್ವಾಸ ಕೇಂದ್ರ',
+        hi: 'KWIN City ट्रस्ट सेंटर',
+        ta: 'KWIN City நம்பிக்கை மையம்',
+      }),
+      description: l({
+        en: 'Standards for authenticity, attribution, originality, and verification on the KWIN City portal.',
+        kn: 'KWIN City ಪೋರ್ಟಲ್‌ನ ಪ್ರಾಮಾಣಿಕತೆ, ಮೂಲೋಕ್ತಿ, ಮೂಲತತ್ವ ಮತ್ತು ಪರಿಶೀಲನಾ ಮಾನದಂಡಗಳು.',
+        hi: 'KWIN City पोर्टल पर प्रामाणिकता, एट्रिब्यूशन, मौलिकता और सत्यापन के मानक।',
+        ta: 'KWIN City தளத்தில் உண்மைத்தன்மை, மேற்கோள், மூலத்தன்மை மற்றும் சரிபார்ப்பு தரநிலைகள்.',
+      }),
+      about: {
+        '@type': 'Thing',
+        name: 'KWIN City trust and verification standards',
+      },
+      isPartOf: {
+        '@id': `${SITE_URL}/#website`,
+      },
+    },
+  ];
 
   const principles = [
     {
@@ -58,6 +114,7 @@ export default async function TrustPage() {
 
   return (
     <SiteFrame>
+      <JsonLd data={pageSchemas} />
       <main className="bg-[linear-gradient(180deg,#f8fafc_0%,#ffffff_35%,#f8fafc_100%)]">
         <section className="pt-28 pb-14 border-b border-slate-200">
           <div className="container">

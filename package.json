@@ -27,6 +27,7 @@
     "e2e:debug": "playwright test --debug",
     "e2e:headed": "playwright test --headed",
     "a11y:audit": "playwright test e2e/performance-wcag.spec.ts --headed",
+    "notify:search": "node scripts/ping-search-engines.mjs",
     "release:android": "bash scripts/release-android.sh",
     "quality:gate": "npm run lint:critical && npm run type-check && npm run test:coverage && npm run e2e:smoke && npm run e2e:a11y-smoke"
   },

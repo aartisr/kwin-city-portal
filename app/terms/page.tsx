@@ -6,10 +6,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
     title: pickByLocale(locale, {
-      en: 'Terms of Use | KWIN City Research Portal',
-      kn: 'ಬಳಕೆ ನಿಯಮಗಳು | KWIN City ಸಂಶೋಧನಾ ಪೋರ್ಟಲ್',
-      hi: 'उपयोग की शर्तें | KWIN City रिसर्च पोर्टल',
-      ta: 'பயன்பாட்டு விதிமுறைகள் | KWIN City ஆய்வு தளம்',
+      en: 'Terms of Use | Research Portal',
+      kn: 'ಬಳಕೆ ನಿಯಮಗಳು | ಸಂಶೋಧನಾ ಪೋರ್ಟಲ್',
+      hi: 'उपयोग की शर्तें | रिसर्च पोर्टल',
+      ta: 'பயன்பாட்டு விதிமுறைகள் | ஆய்வு தளம்',
     }),
     description: pickByLocale(locale, {
       en: 'Terms of use, copyright, and permitted use rules for the KWIN City Research Portal.',

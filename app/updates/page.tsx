@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import SiteFrame from '@/components/SiteFrame';
 import UpdatesFeed from '@/components/UpdatesFeed';
+import JsonLd from '@/components/JsonLd';
+import { getUpdatesSchemas } from '@/lib/updates/schemas';
 import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -23,6 +25,17 @@ export async function generateMetadata(): Promise<Metadata> {
       }),
       url: 'https://kwin-city.com/updates',
       type: 'website',
+      images: [{ url: 'https://kwin-city.com/updates/opengraph-image' }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: pickByLocale(locale, { en: 'KWIN City Updates — Milestones, Data & Portal News', kn: 'KWIN City ನವೀಕರಣಗಳು — ಮೈಲಿಗಲ್ಲುಗಳು, ಡೇಟಾ ಮತ್ತು ಪೋರ್ಟಲ್ ಸುದ್ದಿ', hi: 'KWIN City अपडेट्स — माइलस्टोन, डेटा और पोर्टल समाचार' }),
+      description: pickByLocale(locale, {
+        en: 'Official KWIN City updates with verification-first project intelligence.',
+        kn: 'ಪರಿಶೀಲನೆ-ಮೊದಲು KWIN City ಅಧಿಕೃತ ನವೀಕರಣಗಳು.',
+        hi: 'सत्यापन-प्रथम KWIN City आधिकारिक अपडेट्स।',
+      }),
+      images: ['https://kwin-city.com/updates/opengraph-image'],
     },
   };
 }
@@ -30,6 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function UpdatesRoute() {
   return (
     <SiteFrame>
+      <JsonLd data={getUpdatesSchemas()} />
       <UpdatesFeed />
     </SiteFrame>
   );

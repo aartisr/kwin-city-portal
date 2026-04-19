@@ -76,7 +76,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${SITE_URL}/updates`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
       url: `${SITE_URL}/download`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/downloads`,
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.7,
@@ -137,12 +149,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.6,
     },
-      {
-        url: `${SITE_URL}/contact`,
-        lastModified,
-        changeFrequency: 'yearly',
-        priority: 0.5,
-      },
+    {
+      url: `${SITE_URL}/faq`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${SITE_URL}/community`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.6,
+    },
+    {
+      url: `${SITE_URL}/contact`,
+      lastModified,
+      changeFrequency: 'yearly',
+      priority: 0.5,
+    },
     {
       url: `${SITE_URL}/terms`,
       lastModified,

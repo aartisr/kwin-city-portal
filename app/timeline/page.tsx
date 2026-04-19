@@ -8,9 +8,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
     title: pickByLocale(locale, {
-      en: 'Development Timeline | KWIN City 2024–2030 Roadmap',
-      kn: 'ಅಭಿವೃದ್ಧಿ ಕಾಲರೇಖೆ | KWIN City 2024–2030 ಮಾರ್ಗನಕ್ಷೆ',
-      hi: 'डेवलपमेंट टाइमलाइन | KWIN City 2024–2030 रोडमैप',
+      en: 'Development Timeline | 2024–2030 Roadmap',
+      kn: 'ಅಭಿವೃದ್ಧಿ ಕಾಲರೇಖೆ | 2024–2030 ಮಾರ್ಗನಕ್ಷೆ',
+      hi: 'डेवलपमेंट टाइमलाइन | 2024–2030 रोडमैप',
     }),
     description: pickByLocale(locale, {
       en: 'KWIN City\'s five-phase development roadmap from 2024 inauguration to full operations by 2030. Every milestone is labeled with its source and verification status.',
@@ -38,6 +38,21 @@ export async function generateMetadata(): Promise<Metadata> {
       }),
       url: 'https://kwin-city.com/timeline',
       type: 'website',
+      images: [{ url: 'https://kwin-city.com/timeline/opengraph-image' }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: pickByLocale(locale, {
+        en: 'KWIN City Development Timeline — 2024 to 2030',
+        kn: 'KWIN City ಅಭಿವೃದ್ಧಿ ಕಾಲರೇಖೆ — 2024 ರಿಂದ 2030',
+        hi: 'KWIN City डेवलपमेंट टाइमलाइन — 2024 से 2030',
+      }),
+      description: pickByLocale(locale, {
+        en: 'Five phases. One extraordinary ambition. The KWIN City roadmap, labeled with evidence.',
+        kn: 'ಐದು ಹಂತಗಳು. ಒಂದು ಮಹತ್ವಾಕಾಂಕ್ಷೆ. ಸಾಕ್ಷ್ಯಾಧಾರಗಳೊಂದಿಗೆ KWIN ಮಾರ್ಗನಕ್ಷೆ.',
+        hi: 'पांच चरण। एक महत्वाकांक्षा। प्रमाण के साथ KWIN रोडमैप।',
+      }),
+      images: ['https://kwin-city.com/timeline/opengraph-image'],
     },
   };
 }

@@ -1,0 +1,46 @@
+name: Discovery Publish Signals
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - app/content/pages/updates.json
+      - app/sitemap.ts
+      - public/robots.txt
+      - public/llms.txt
+      - public/ai.txt
+      - app/feed.xml/route.ts
+      - scripts/ping-search-engines.mjs
+      - package.json
+  workflow_dispatch:
+
+concurrency:
+  group: discovery-publish-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish-signals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Type check
+        run: npm run type-check
+
+      - name: Notify search engines
+        run: npm run notify:search
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          INDEXNOW_HOST: ${{ secrets.INDEXNOW_HOST }}

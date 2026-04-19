@@ -65,6 +65,21 @@ export async function generateMetadata(): Promise<Metadata> {
       }),
       url: 'https://kwin-city.com/sectors',
       type: 'website',
+      images: [{ url: 'https://kwin-city.com/sectors/opengraph-image' }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: pickByLocale(locale, {
+        en: 'KWIN City Industry Sectors — Semiconductors, Aerospace, Health-tech, Renewables',
+        kn: 'KWIN City ಕೈಗಾರಿಕಾ ಕ್ಷೇತ್ರಗಳು — ಸೆಮಿಕಂಡಕ್ಟರ್, ಏರೋಸ್ಪೇಸ್, ಹೆಲ್ತ್-ಟೆಕ್, ನವೀಕರಿಸಬಹುದಾದ ಶಕ್ತಿ',
+        hi: 'KWIN City उद्योग क्षेत्र — सेमीकंडक्टर, एयरोस्पेस, हेल्थ-टेक, नवीकरणीय ऊर्जा',
+      }),
+      description: pickByLocale(locale, {
+        en: 'Five high-growth sector clusters driving KWIN City investment: semiconductors, aerospace, health-tech, ICT, and renewables.',
+        kn: 'KWIN City ಹೂಡಿಕೆಯನ್ನು ಮುನ್ನಡೆಸುವ ಐದು ವೇಗದ ಕ್ಷೇತ್ರಗಳು.',
+        hi: 'KWIN City निवेश को आगे बढ़ाने वाले पांच उच्च-विकास क्षेत्र।',
+      }),
+      images: ['https://kwin-city.com/sectors/opengraph-image'],
     },
   };
 }

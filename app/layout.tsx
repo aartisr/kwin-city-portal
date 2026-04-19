@@ -8,6 +8,7 @@ import PwaInstallPrompt from '@/components/PwaInstallPrompt';
 import PageAnalytics from '@/components/PageAnalytics';
 import ClarityInit from '@/components/ClarityInit';
 import I18nProvider from '@/lib/i18n/I18nProvider';
+import { SITE_CONFIG } from '@/config/site.config';
 import { getLocaleDefinition, normalizeLocale } from '@/lib/i18n/messages';
 import { Analytics } from '@vercel/analytics/next';
 
@@ -19,6 +20,8 @@ const inter = Inter({
 
 const SITE_URL = 'https://kwin-city.com';
 const OG_IMAGE = `${SITE_URL}/og-image.png`;
+const SITE_LOGO = `${SITE_URL}/icon`;
+const LAST_UPDATED = `${SITE_CONFIG.lastUpdatedISO}T00:00:00+05:30`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -61,6 +64,10 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: SITE_URL,
+    types: {
+      'application/rss+xml': `${SITE_URL}/feed.xml`,
+      'text/plain': `${SITE_URL}/llms.txt`,
+    },
   },
   manifest: '/manifest.webmanifest',
   icons: {
@@ -100,7 +107,69 @@ export const metadata: Metadata = {
     //
     // Bing verification is handled via public/BingSiteAuth.xml (already in place).
   },
+  other: {
+    'ai-policy': `${SITE_URL}/ai.txt`,
+    'llms-policy': `${SITE_URL}/llms.txt`,
+  },
 };
+
+const GLOBAL_DISCOVERY_SCHEMA = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${SITE_URL}/#organization`,
+    name: 'KWIN City',
+    alternateName: 'Knowledge Wellbeing Innovation City',
+    url: SITE_URL,
+    logo: SITE_LOGO,
+    description:
+      'KWIN City is presented on this portal as a proposed 465-acre knowledge-economy township in Doddaballapura, North Bengaluru, with KIADB cited in project materials.',
+    foundingLocation: {
+      '@type': 'Place',
+      name: 'Doddaballapura, Karnataka, India',
+    },
+    areaServed: 'North Bengaluru, Karnataka, India',
+    sameAs: ['https://www.kiadb.in'],
+    dateModified: LAST_UPDATED,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
+    url: SITE_URL,
+    name: 'KWIN City Portal',
+    inLanguage: ['en-IN', 'kn-IN', 'hi-IN', 'ta-IN'],
+    publisher: {
+      '@id': `${SITE_URL}/#organization`,
+    },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+    dateModified: LAST_UPDATED,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${SITE_URL}/#knowledge-hub`,
+    url: SITE_URL,
+    name: 'KWIN City Knowledge Hub',
+    hasPart: [
+      `${SITE_URL}/updates`,
+      `${SITE_URL}/news-intelligence`,
+      `${SITE_URL}/data-insights`,
+      `${SITE_URL}/evidence`,
+      `${SITE_URL}/sources`,
+      `${SITE_URL}/timeline`,
+      `${SITE_URL}/faq`,
+    ],
+    dateModified: LAST_UPDATED,
+  },
+];
 
 export default async function RootLayout({
   children,
@@ -115,13 +184,19 @@ export default async function RootLayout({
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="canonical" href={SITE_URL} />
+        <link rel="alternate" type="application/rss+xml" title="KWIN City Updates Feed" href={`${SITE_URL}/feed.xml`} />
+        <link rel="alternate" type="text/plain" title="LLM Usage Policy" href={`${SITE_URL}/llms.txt`} />
+        <link rel="alternate" type="text/plain" title="AI Crawling Policy" href={`${SITE_URL}/ai.txt`} />
         {/* PWA — mobile app experience */}
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="KWIN City" />
         <link rel="manifest" href="/manifest.webmanifest" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(GLOBAL_DISCOVERY_SCHEMA) }}
+        />
         {/* Preconnect to external origins for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
