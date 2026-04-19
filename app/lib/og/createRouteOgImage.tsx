@@ -33,7 +33,8 @@ export function createRouteOgImage(options: RouteOgOptions) {
         >
           <div
             style={{
-              display: 'inline-flex',
+              display: 'flex',
+              alignSelf: 'flex-start',
               borderRadius: '999px',
               border: '1px solid #F5A62366',
               background: '#F5A62322',

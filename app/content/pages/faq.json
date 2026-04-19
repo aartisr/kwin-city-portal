@@ -134,7 +134,7 @@
         {
           "id": "open-data",
           "question": "Is the underlying data available for research?",
-          "answer": "Yes. The live data powering the Data Insights Lab comes from OpenCity.in's public CKAN API, which is freely accessible. The portal's editorial claim-to-source ledger is publicly viewable at /sources. All JSON content files structuring this portal are maintained in the open-source repository.",
+          "answer": "Yes. The live data powering the Data Insights Lab comes from OpenCity.in's public CKAN API, which is freely accessible. The portal's editorial claim-to-source ledger is publicly viewable at /sources. All JSON content files structuring this portal are maintained in the public project source.",
           "verificationNote": null,
           "relatedLinks": [{ "label": "Data Insights Lab", "href": "/data-insights" }, { "label": "Document Downloads", "href": "/downloads" }]
         },
