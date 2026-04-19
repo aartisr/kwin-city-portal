@@ -38,7 +38,7 @@ No database, no Docker, no cloud credentials required for local development. The
 ### Clone and install
 
 ```bash
-git clone <repository-url>
+git clone <source-url>
 cd kwin-city-portal
 npm install
 ```
@@ -58,7 +58,7 @@ echo "NEXT_PUBLIC_MAPBOX_TOKEN=your_token_here" >> .env.local
 
 ### VS Code workspace
 
-Open the project using the provided workspace file to keep it isolated from other local repos:
+Open the project using the provided workspace file to keep it isolated from other local projects:
 
 ```bash
 code kwin-city-portal.code-workspace
@@ -395,7 +395,7 @@ import type { Pillar } from '@/types/kwin';
 
 ## 12. Adding a New Locale
 
-The i18n layer is structured so a new locale is a configuration change, not a cross-repo refactor.
+The i18n layer is structured so a new locale is a configuration change, not a cross-project refactor.
 
 ### Core rules
 

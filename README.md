@@ -7,13 +7,13 @@
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.4-38bdf8?logo=tailwindcss)](https://tailwindcss.com)
-[![License: Private](https://img.shields.io/badge/License-Private-red)](LICENSE)
+[![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red)](LICENSE)
 [![Canonical](https://img.shields.io/badge/Site-kwin--city.com-6366f1)](https://kwin-city.com)
 
 <!-- Deployment & CI -->
 [![Netlify Status](https://img.shields.io/netlify/REPLACE_WITH_NETLIFY_SITE_ID?label=Netlify)](https://app.netlify.com/sites/REPLACE_WITH_NETLIFY_SITE_NAME/deploys)
 [![GitHub last commit](https://img.shields.io/github/last-commit/aartisr/kwin-city-portal?logo=github)](https://github.com/aartisr/kwin-city-portal/commits/main)
-[![GitHub repo size](https://img.shields.io/github/repo-size/aartisr/kwin-city-portal)](https://github.com/aartisr/kwin-city-portal)
+[![Project size](https://img.shields.io/github/repo-size/aartisr/kwin-city-portal)](https://github.com/aartisr/kwin-city-portal)
 
 <!-- Security & Validation -->
 [![Security Headers](https://img.shields.io/security-headers?url=https%3A%2F%2Fkwin-city.com&label=Security%20Headers)](https://securityheaders.com/?q=kwin-city.com)
@@ -139,8 +139,8 @@ No database, Docker, or cloud credentials are needed. The only external service 
 ### Installation
 
 ```bash
-# Clone the repository
-git clone <repository-url>
+# Clone the project source
+git clone <source-url>
 cd kwin-city-portal
 
 # Install dependencies
@@ -186,9 +186,9 @@ This prevents accidental multi-root workspace coupling with other local projects
 
 ## Android Release (Signed)
 
-The repository includes a production Android release workflow at `.github/workflows/build-android.yml`.
+This project includes a production Android release workflow at `.github/workflows/build-android.yml`.
 
-### 1. Add GitHub Repository Secrets
+### 1. Add GitHub Actions Secrets
 
 Set these in **GitHub → Settings → Secrets and variables → Actions**:
 
@@ -392,7 +392,7 @@ The short version: every new claim needs a source badge, every new source needs 
 
 ## License
 
-Private. All content is the intellectual property of BAJA Associates / Aarti S Ravikumar.  
+Proprietary. All content is the intellectual property of BAJA Associates / Aarti S Ravikumar.  
 Multiple claims on this site are pending primary source verification — see the [Claim Ledger](https://kwin-city.com/sources) for current status.
 
 ---

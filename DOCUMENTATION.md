@@ -295,7 +295,7 @@ Every document in this portal follows these principles:
 **Last Updated:** March 27, 2026  
 **Version:** 2.0 (World-Class Standards)  
 
-**Repository:** [kwin-city-portal](https://github.com/aartisr/kwin-city-portal)  
+**Project:** KWIN City Portal  
 **Website:** [kwin-city.com](https://kwin-city.com)
 
 ---
