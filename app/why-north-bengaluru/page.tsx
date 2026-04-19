@@ -71,6 +71,21 @@ export async function generateMetadata(): Promise<Metadata> {
       }),
       url: 'https://kwin-city.com/why-north-bengaluru',
       type: 'website',
+      images: [{ url: 'https://kwin-city.com/why-north-bengaluru/opengraph-image' }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: pickByLocale(locale, {
+        en: 'Why North Bengaluru — Airport City, STRR Corridor, India\'s Fastest-Growing Region',
+        kn: 'ಉತ್ತರ ಬೆಂಗಳೂರು ಯಾಕೆ — ಏರ್‌ಪೋರ್ಟ್ ಸಿಟಿ, STRR ಕಾರಿಡಾರ್',
+        hi: 'नॉर्थ बेंगलुरु क्यों — एयरपोर्ट सिटी, STRR कॉरिडोर',
+      }),
+      description: pickByLocale(locale, {
+        en: 'The strategic case for North Bengaluru as India\'s next knowledge-economy hub — backed by aviation data, infrastructure maps, and Karnataka economic evidence.',
+        kn: 'ವಿಮಾನಯಾನ ಮತ್ತು ಮೂಲಸೌಕರ್ಯ ಡೇಟಾದ ಆಧಾರದಿಂದ ಉತ್ತರ ಬೆಂಗಳೂರುಗಾಗಿ ತಂತ್ರಾತ್ಮಕ ವಿಶ್ಲೇಷಣೆ.',
+        hi: 'एविएशन और इंफ्रास्ट्रक्चर डेटा के आधार पर नॉर्थ बेंगलुरु का रणनीतिक विश्लेषण।',
+      }),
+      images: ['https://kwin-city.com/why-north-bengaluru/opengraph-image'],
     },
   };
 }

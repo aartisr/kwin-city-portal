@@ -6,7 +6,7 @@ import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
-    title: pickByLocale(locale, { en: 'OPML News Reader | KWIN City', kn: 'OPML ಸುದ್ದಿ ಓದುಗ | KWIN City', hi: 'OPML न्यूज़ रीडर | KWIN City' }),
+    title: pickByLocale(locale, { en: 'OPML News Reader', kn: 'OPML ಸುದ್ದಿ ಓದುಗ', hi: 'OPML न्यूज़ रीडर' }),
     description: pickByLocale(locale, {
       en: 'On-demand OPML news reader with summary-first cards and direct links to original sources.',
       kn: 'ಸಂಗ್ರಹ ಆಧಾರಿತ OPML ಸುದ್ದಿ ಓದುಗ ಮತ್ತು ಮೂಲಗಳಿಗೆ ನೇರ ಲಿಂಕ್‌ಗಳು.',

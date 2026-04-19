@@ -1,7 +1,7 @@
 import EnhancedRegionMap from '@/components/EnhancedRegionMap';
 
 export const metadata = {
-  title: 'Interactive Map | KWIN City',
+  title: 'Interactive Map',
   description: 'Explore KWIN City geography, infrastructure, and zones with interactive layers',
   robots: { index: false },
 };

@@ -6,7 +6,7 @@ import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
-    title: pickByLocale(locale, { en: 'You Are Offline | KWIN City', kn: 'ನೀವು ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿ ಇದ್ದೀರಿ | KWIN City', hi: 'आप ऑफ़लाइन हैं | KWIN City' }),
+    title: pickByLocale(locale, { en: 'You Are Offline', kn: 'ನೀವು ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿ ಇದ್ದೀರಿ', hi: 'आप ऑफ़लाइन हैं' }),
     description: pickByLocale(locale, {
       en: 'No internet connection. Your cached KWIN City pages are still available.',
       kn: 'ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಇಲ್ಲ. ನಿಮ್ಮ ಕ್ಯಾಶ್ ಆದ KWIN City ಪುಟಗಳು ಇನ್ನೂ ಲಭ್ಯವಿವೆ.',

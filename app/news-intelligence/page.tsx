@@ -1,8 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import JsonLd from '@/components/JsonLd';
 import SiteFrame from '@/components/SiteFrame';
 import SourceReferences from '@/components/SourceReferences';
 import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
+
+const SITE_URL = 'https://kwin-city.com';
+const PAGE_URL = `${SITE_URL}/news-intelligence`;
+const OG_IMAGE = `${SITE_URL}/og-image.png`;
 
 const FEED_GROUPS = [
   {
@@ -119,21 +124,75 @@ const PROTOCOL = [
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
+  const title = pickByLocale(locale, {
+    en: 'News Intelligence',
+    kn: 'ಸುದ್ದಿ ಇಂಟೆಲಿಜೆನ್ಸ್',
+    hi: 'न्यूज़ इंटेलिजेंस',
+  });
+  const description = pickByLocale(locale, {
+    en: 'A credibility-first news intelligence dashboard for KWIN City with explicit attribution, verification tiers, and downloadable OPML feeds.',
+    kn: 'KWIN Cityಗಾಗಿ ವಿಶ್ವಾಸಾರ್ಹ ಸುದ್ದಿ ಇಂಟೆಲಿಜೆನ್ಸ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್.',
+    hi: 'KWIN City के लिए विश्वसनीय न्यूज़ इंटेलिजेंस डैशबोर्ड।',
+  });
   return {
-    title: pickByLocale(locale, { en: 'News Intelligence | KWIN City', kn: 'ಸುದ್ದಿ ಇಂಟೆಲಿಜೆನ್ಸ್ | KWIN City', hi: 'न्यूज़ इंटेलिजेंस | KWIN City' }),
-    description: pickByLocale(locale, {
-      en: 'A credibility-first news intelligence dashboard for KWIN City with explicit attribution, verification tiers, and downloadable OPML feeds.',
-      kn: 'KWIN Cityಗಾಗಿ ವಿಶ್ವಾಸಾರ್ಹ ಸುದ್ದಿ ಇಂಟೆಲಿಜೆನ್ಸ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್.',
-      hi: 'KWIN City के लिए विश्वसनीय न्यूज़ इंटेलिजेंस डैशबोर्ड।',
-    }),
-    alternates: { canonical: 'https://kwin-city.com/news-intelligence' },
+    title,
+    description,
+    alternates: { canonical: PAGE_URL },
+    openGraph: {
+      title: `${title} | KWIN City`,
+      description,
+      url: PAGE_URL,
+      type: 'website',
+      images: [{ url: OG_IMAGE }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} | KWIN City`,
+      description,
+      images: [OG_IMAGE],
+    },
   };
 }
 
 export default async function NewsIntelligencePage() {
   const locale = await getServerLocale();
+  const pageSchemas = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+        { '@type': 'ListItem', position: 2, name: 'News Intelligence', item: PAGE_URL },
+      ],
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      '@id': `${PAGE_URL}#collection`,
+      url: PAGE_URL,
+      name: 'KWIN City News Intelligence',
+      description:
+        'A monitored collection of publisher feeds and KWIN-related news intelligence sources with transparent attribution and verification framing.',
+      isPartOf: {
+        '@id': `${SITE_URL}/#website`,
+      },
+      hasPart: FEED_GROUPS.flatMap((group) =>
+        group.feeds.map((feed) => ({
+          '@type': 'DataFeed',
+          name: feed.name,
+          url: feed.xmlUrl,
+          provider: {
+            '@type': 'Organization',
+            name: feed.provider,
+          },
+        })),
+      ),
+    },
+  ];
+
   return (
     <SiteFrame>
+      <JsonLd data={pageSchemas} />
       <main className="bg-gradient-to-b from-[#f8fafc] via-white to-[#f8fafc]">
         <section className="pt-28 pb-16 border-b border-gray-200">
           <div className="container">

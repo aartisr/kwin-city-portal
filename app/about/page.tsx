@@ -58,6 +58,13 @@ export async function generateMetadata(): Promise<Metadata> {
       description: ogDescription,
       url: 'https://kwin-city.com/about',
       type: 'website',
+      images: [{ url: 'https://kwin-city.com/about/opengraph-image' }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: ogTitle,
+      description: ogDescription,
+      images: ['https://kwin-city.com/about/opengraph-image'],
     },
   };
 }

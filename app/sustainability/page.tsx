@@ -50,6 +50,21 @@ export async function generateMetadata(): Promise<Metadata> {
       }),
       url: 'https://kwin-city.com/sustainability',
       type: 'website',
+      images: [{ url: 'https://kwin-city.com/sustainability/opengraph-image' }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: pickByLocale(locale, {
+        en: 'KWIN City Sustainability — Net-Zero · Solar · 40% Green Cover',
+        kn: 'KWIN City ಸ್ಥಿರತೆ — ನೆಟ್-ಶೂನ್ಯ · ಸೌರ · 40% ಹಸಿರು',
+        hi: 'KWIN City सस्टेनेबिलिटी — नेट-ज़ीरो · सौर · 40% ग्रीन कवर',
+      }),
+      description: pickByLocale(locale, {
+        en: 'KWIN City is designed net-zero from Day 1. Explore solar, water, green cover, and resilience evidence.',
+        kn: 'KWIN City ಆರಂಭದಿಂದಲೇ ನೆಟ್-ಶೂನ್ಯ ದೃಷ್ಟಿಯಿಂದ ವಿನ್ಯಾಸಗೊಂಡಿದೆ.',
+        hi: 'KWIN City को शुरुआत से ही नेट-ज़ीरो दृष्टिकोण से डिज़ाइन किया गया है।',
+      }),
+      images: ['https://kwin-city.com/sustainability/opengraph-image'],
     },
   };
 }

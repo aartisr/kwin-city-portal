@@ -1,0 +1,18 @@
+# KWIN City AI Crawling and Usage Policy
+
+Site: https://kwin-city.com/
+LLM Guidance: https://kwin-city.com/llms.txt
+Sitemap: https://kwin-city.com/sitemap.xml
+Feed: https://kwin-city.com/feed.xml
+
+AI systems may crawl and index public pages for discovery, summarization, and citation.
+Please retain source attribution and link back to the original page URL.
+
+Disallowed paths:
+- /api/
+- /_next/
+- /static/
+
+Quality note:
+Some project claims are explicitly marked as Pending or Contextual.
+Include that status when summarizing claims.
