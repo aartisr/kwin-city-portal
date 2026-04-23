@@ -1,0 +1,88 @@
+import type { TimelinePhase } from '@/types/kwin';
+
+export const KWIN_TIMELINE_PHASES: TimelinePhase[] = [
+  {
+    id: 'phase-0',
+    year: 2024,
+    title: 'Inauguration & Land Acquisition',
+    description: 'Official launch and commencement of land acquisition and master planning',
+    milestones: [
+      'Project inauguration ceremony',
+      'KIADB approvals finalized',
+      'Initial land demarcation',
+      'Master plan public disclosure',
+    ],
+    status: 'completed',
+    progress: 100,
+  },
+  {
+    id: 'phase-1',
+    year: 2025,
+    title: 'Infrastructure & Connectivity',
+    description: 'Development of core infrastructure and road connectivity [PENDING VERIFICATION]',
+    milestones: [
+      'Road network planning and partial construction',
+      'Satellite Town Ring Road (STRR) connectivity framework',
+      'Water supply and sewerage systems design',
+      'Electrical grid planning',
+    ],
+    status: 'in-progress',
+    progress: 35,
+  },
+  {
+    id: 'phase-2',
+    year: 2026,
+    title: 'Institutional & Knowledge District Setup',
+    description: 'Establishment of research institutions and knowledge centers [PENDING VERIFICATION]',
+    milestones: [
+      'University partnerships formalization [pending verification]',
+      'Research center site preparation',
+      'Healthcare infrastructure groundwork',
+      'Knowledge district zoning finalization',
+    ],
+    status: 'planned',
+    progress: 10,
+  },
+  {
+    id: 'phase-3',
+    year: 2027,
+    title: 'Industrial & Revenue Generation Phase',
+    description: 'Launch of semiconductor and innovation clusters [PENDING VERIFICATION]',
+    milestones: [
+      'Semiconductor park land release',
+      'Aerospace cluster infrastructure setup',
+      'Solar farm construction (465 acres) [pending verification]',
+      'Industrial land allotments commence',
+    ],
+    status: 'planned',
+    progress: 0,
+  },
+  {
+    id: 'phase-4',
+    year: 2028,
+    title: 'Wellbeing & Sustainability Integration',
+    description: 'Green infrastructure and wellness centers operational [PENDING VERIFICATION]',
+    milestones: [
+      'Lake restoration and water management systems complete',
+      'Green building standards enforcement begins',
+      'Health-tech hub operational',
+      'Urban heat island mitigation systems',
+    ],
+    status: 'planned',
+    progress: 0,
+  },
+  {
+    id: 'phase-5',
+    year: 2030,
+    title: 'Full Operational Status',
+    description: 'Complete ecosystem operational with mixed-use development [PENDING VERIFICATION]',
+    milestones: [
+      'Primary industrial clusters operational',
+      '100,000+ jobs created [pending verification]',
+      'Net-zero carbon operations target',
+      'World-class amenities fully functional',
+    ],
+    status: 'planned',
+    progress: 0,
+  },
+];

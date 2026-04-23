@@ -14,8 +14,14 @@ export default defineConfig({
       include: [
         'app/components/header/**/*.ts',
         'app/components/search-modal/**/*.ts',
+        'app/components/data-insights/**/*.ts',
+        'app/components/news-reader/**/*.ts',
+        'app/components/auth-preferences/**/*.ts',
         'app/lib/home/**/*.ts',
         'app/lib/search-index.ts',
+        'app/lib/search-index/**/*.ts',
+        'app/lib/server/data-layer.ts',
+        'app/lib/server/data-layer/**/*.ts',
       ],
       exclude: [
         'node_modules/',
