@@ -234,8 +234,76 @@ a:hover { color: #1D4ED8; }
   66%       { transform: translateY(-8px) rotate(-0.5deg); }
 }
 
+@keyframes heroOrbA {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(40px, -30px, 0); }
+}
+
+@keyframes heroOrbB {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-30px, 35px, 0); }
+}
+
+@keyframes heroOrbC {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(20px, 20px, 0); }
+}
+
+@keyframes kwinFadeUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes kwinFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes heroScrollIndicator {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, 8px, 0); }
+}
+
 .animate-pulse  { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
 .animate-floatY { animation: floatY 9s ease-in-out infinite; }
+.hero-orb { will-change: transform; }
+.hero-orb-a { animation: heroOrbA 20s ease-in-out infinite; }
+.hero-orb-b { animation: heroOrbB 25s ease-in-out infinite 4s; }
+.hero-orb-c { animation: heroOrbC 18s ease-in-out infinite 8s; }
+.kwin-fade-up {
+  opacity: 0;
+  animation: kwinFadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+}
+.kwin-fade-in {
+  opacity: 0;
+  animation: kwinFadeIn 0.8s ease forwards;
+}
+.hero-scroll-indicator {
+  animation: heroScrollIndicator 2.2s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-orb-a,
+  .hero-orb-b,
+  .hero-orb-c,
+  .kwin-fade-up,
+  .kwin-fade-in,
+  .hero-scroll-indicator,
+  .animate-pulse,
+  .animate-floatY {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
 
 /* === HOVER LIFT === */
 .hover-lift {

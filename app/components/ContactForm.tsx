@@ -68,6 +68,7 @@ export default function ContactForm() {
   const [honeypot, setHoneypot] = useState(''); // hidden anti-spam field
   const [formState, setFormState] = useState<FormState>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const [errorRequestId, setErrorRequestId] = useState('');
 
   const selectedPersona = PERSONAS.find((p) => p.id === persona);
   const messagePlaceholder =
@@ -81,6 +82,7 @@ export default function ContactForm() {
 
     setFormState('submitting');
     setErrorMsg('');
+    setErrorRequestId('');
 
     try {
       const res = await fetch('/api/contact', {
@@ -99,6 +101,7 @@ export default function ContactForm() {
 
       if (!res.ok || !data.success) {
         setErrorMsg(data.error ?? 'Something went wrong. Please try again.');
+        setErrorRequestId(typeof data.requestId === 'string' ? data.requestId : '');
         setFormState('error');
         return;
       }
@@ -259,6 +262,7 @@ export default function ContactForm() {
                       id={`${uid}-name`}
                       type="text"
                       required
+                      maxLength={120}
                       autoComplete="name"
                       placeholder="Arjun Sharma"
                       value={name}
@@ -278,6 +282,8 @@ export default function ContactForm() {
                       id={`${uid}-email`}
                       type="email"
                       required
+                      maxLength={200}
+                      inputMode="email"
                       autoComplete="email"
                       placeholder="arjun@example.com"
                       value={email}
@@ -335,6 +341,7 @@ export default function ContactForm() {
                       aria-live="polite"
                     >
                       {errorMsg}
+                      {errorRequestId ? ` Reference ID: ${errorRequestId}` : ''}
                     </motion.p>
                   )}
                 </AnimatePresence>

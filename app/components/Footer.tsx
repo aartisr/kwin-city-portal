@@ -1,13 +1,15 @@
-'use client';
-
 import Link from 'next/link';
+import DeferredNewsletterSignup from '@/components/DeferredNewsletterSignup';
 import { SITE_CONFIG } from '@/config/site.config';
-import NewsletterSignup from '@/components/NewsletterSignup';
-import { useI18n } from '@/lib/i18n/I18nProvider';
-import { getLocaleDefinition, pickLocalizedValue } from '@/lib/i18n/messages';
+import {
+  getLocaleDefinition,
+  pickLocalizedValue,
+  translate,
+  type Locale,
+} from '@/lib/i18n/messages';
 
-export default function Footer() {
-  const { t, locale } = useI18n();
+export default function Footer({ locale }: { locale: Locale }) {
+  const t = (key: string) => translate(locale, key);
   const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const year = new Date().getFullYear();
   const lastUpdatedText = new Date(SITE_CONFIG.lastUpdatedISO).toLocaleDateString(getLocaleDefinition(locale).htmlLang, {
@@ -155,7 +157,7 @@ export default function Footer() {
         </nav>
 
         <div id="newsletter" className="border-t border-white/10 pt-10 pb-2">
-          <NewsletterSignup variant="footer" />
+          <DeferredNewsletterSignup />
         </div>
 
         {/* ── Trust & Certification Badges ── */}

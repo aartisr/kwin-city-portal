@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect } from 'react';
-import Clarity from '@microsoft/clarity';
 
 declare global {
   interface Window {
@@ -14,12 +13,27 @@ const clarityProjectId = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID || CLARITY_P
 
 export default function ClarityInit() {
   useEffect(() => {
-    if (window.__kwinClarityInitialized) {
-      return;
+    let cancelled = false;
+
+    async function initClarity() {
+      if (window.__kwinClarityInitialized) {
+        return;
+      }
+
+      const { default: Clarity } = await import('@microsoft/clarity');
+      if (cancelled || window.__kwinClarityInitialized) {
+        return;
+      }
+
+      Clarity.init(clarityProjectId);
+      window.__kwinClarityInitialized = true;
     }
 
-    Clarity.init(clarityProjectId);
-    window.__kwinClarityInitialized = true;
+    void initClarity();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return null;

@@ -131,7 +131,7 @@ KWIN City is a multi-phase urban development project in **Doddaballapura, North 
 | Tool | Minimum Version |
 |------|----------------|
 | Node.js | 18.x LTS |
-| npm | 9.x |
+| Yarn | 1.22.x |
 | Git | 2.x |
 
 No database, Docker, or cloud credentials are needed. The only external service (OpenCity CKAN API) is public and requires no key.
@@ -144,13 +144,13 @@ git clone <source-url>
 cd kwin-city-portal
 
 # Install dependencies
-npm install
+yarn install
 ```
 
 ### Start the Development Server
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
@@ -171,16 +171,25 @@ This prevents accidental multi-root workspace coupling with other local projects
 
 | Script | Command | What it does |
 |--------|---------|-------------|
-| **Dev server** | `npm run dev` | Start dev server on port 3000 |
-| **Production build** | `npm run build` | Build for production (outputs to `.next/`) |
-| **Production server** | `npm start` | Serve the production build |
-| **Lint** | `npm run lint` | Run ESLint |
-| **Test** | `npm test` | Run Vitest test suite |
-| **Type check** | `npm run type-check` | TypeScript compiler (no emit) |
-| **Format** | `npm run format` | Prettier — write all files |
-| **Format check** | `npm run format:check` | Prettier — check only (CI-safe) |
-| **Clean** | `npm run clean:next` | Delete `.next/` and `.next-dev/` |
+| **Dev server** | `yarn dev` | Start dev server on port 3000 |
+| **Production build** | `yarn build` | Build for production (outputs to `.next/`) |
+| **Production server** | `yarn start` | Serve the production build |
+| **Lint** | `yarn lint` | Run ESLint |
+| **Test** | `yarn test` | Run Vitest test suite |
+| **Type check** | `yarn type-check` | TypeScript compiler (no emit) |
+| **Format** | `yarn format` | Prettier — write all files |
+| **Format check** | `yarn format:check` | Prettier — check only (CI-safe) |
+| **Clean** | `yarn clean:next` | Delete `.next/` and `.next-dev/` |
 | **Android release tag** | `yarn release:android 1.2.3` | Create and push `v1.2.3` tag (triggers signed APK/AAB build) |
+
+## Operational Trust
+
+The contact intake path is intentionally defensive:
+
+- same-origin requests only
+- per-IP rate limiting with response headers
+- structured request logging with request IDs
+- server-side sanitization before email rendering
 
 ---
 

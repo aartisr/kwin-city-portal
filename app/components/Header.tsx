@@ -1,23 +1,41 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
-import SearchModal from '@/components/SearchModal';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
-import { useI18n } from '@/lib/i18n/I18nProvider';
-import { HIGH_LEVEL_MENUS, NAV_TONES } from '@/components/header/navigation';
-import { translateGroupLabel, translateNavItem } from '@/components/header/i18n';
+import { NAV_TONES } from '@/components/header/navigation';
 import { useHeaderSession } from '@/components/header/useHeaderSession';
 import type { NavGroup } from '@/components/header/types';
+import { useLocale } from '@/lib/i18n/locale-context';
+
+const SearchModal = dynamic(() => import('@/components/SearchModal'), {
+  ssr: false,
+});
+
+type HeaderLabels = {
+  search: string;
+  account: string;
+  signedIn: string;
+  trust: string;
+  hideTrustBar: string;
+  showTrustBar: string;
+  toggleMenu: string;
+  exploreKwin: string;
+  language: string;
+};
 
 export default function Header({
   trustBannerVisible,
   onToggleTrustBanner,
+  menuGroups,
+  labels,
 }: {
   trustBannerVisible: boolean;
   onToggleTrustBanner: () => void;
+  menuGroups: NavGroup[];
+  labels: HeaderLabels;
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileOpenGroup, setMobileOpenGroup] = useState<string | null>(null);
@@ -27,7 +45,7 @@ export default function Header({
   const currentUser = useHeaderSession();
   const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const { t } = useI18n();
+  const { locale, setLocale } = useLocale();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
@@ -69,8 +87,6 @@ export default function Header({
       ? NAV_TONES.idleScrolled
       : NAV_TONES.idleTop;
 
-  const translatedGroupLabel = (label: string) => translateGroupLabel(t, label);
-
   return (
     <>
       <header
@@ -101,7 +117,7 @@ export default function Header({
           </Link>
 
           <div ref={menuRef} className="hidden lg:flex items-center gap-6" role="navigation" aria-label="Main navigation">
-            {HIGH_LEVEL_MENUS.map((group) => {
+            {menuGroups.map((group) => {
               const isOpen = desktopOpenGroup === group.label;
               const menuId = `menu-${group.label.toLowerCase().replace(/\s+/g, '-')}`;
 
@@ -114,7 +130,7 @@ export default function Header({
                     aria-controls={menuId}
                     className={`flex items-center gap-1 text-sm px-2.5 py-1 rounded-full transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 ${activeGroupLabel(group)}`}
                   >
-                    {translatedGroupLabel(group.label)}
+                    {group.label}
                     <svg
                       className={`w-3.5 h-3.5 transition-transform duration-200`}
                       fill="none"
@@ -127,79 +143,66 @@ export default function Header({
                     </svg>
                   </button>
 
-                  <AnimatePresence>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -6, scale: 0.97 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -6, scale: 0.97 }}
-                        transition={{ duration: 0.15 }}
-                        className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden"
-                        role="menu"
-                        id={menuId}
-                        aria-label={`${translatedGroupLabel(group.label)} menu`}
-                        onClick={() => setDesktopOpenGroup(null)}
-                      >
-                        <div className="px-4 py-3 border-b border-gray-100 bg-gray-50">
-                          <p className="text-[11px] font-bold tracking-widest uppercase text-gray-400">{translatedGroupLabel(group.label)}</p>
-                        </div>
-                        <div className="p-2">
-                          {group.items.map((rawItem, index) => {
-                            const item = translateNavItem(t, rawItem);
-                            return (
-                            <motion.div
+                  {isOpen ? (
+                    <div
+                      className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden"
+                      role="menu"
+                      id={menuId}
+                      aria-label={`${group.label} menu`}
+                      onClick={() => setDesktopOpenGroup(null)}
+                    >
+                      <div className="px-4 py-3 border-b border-gray-100 bg-gray-50">
+                        <p className="text-[11px] font-bold tracking-widest uppercase text-gray-400">{group.label}</p>
+                      </div>
+                      <div className="p-2">
+                        {group.items.map((item) => {
+                          return (
+                            <Link
                               key={item.href}
-                              initial={{ opacity: 0, y: 6 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ duration: 0.16, delay: index * 0.03 }}
+                              href={item.href}
+                              className={`flex items-start gap-3 px-3 py-2.5 rounded-xl transition-colors group ${
+                                isActive(item.href) ? 'bg-amber-50' : 'hover:bg-gray-50'
+                              }`}
                             >
-                              <Link
-                                href={item.href}
-                                className={`flex items-start gap-3 px-3 py-2.5 rounded-xl transition-colors group ${
-                                  isActive(item.href) ? 'bg-amber-50' : 'hover:bg-gray-50'
-                                }`}
-                              >
-                                {item.icon ? <span className="text-lg leading-none mt-0.5">{item.icon}</span> : null}
-                                <div className="min-w-0">
-                                  <div className={`text-sm font-bold ${isActive(item.href) ? NAV_TONES.dropdownActive : NAV_TONES.dropdownIdle}`}>
-                                    {item.label}
-                                  </div>
-                                  {item.desc ? <div className="text-xs text-gray-500 mt-0.5">{item.desc}</div> : null}
+                              {item.icon ? <span className="text-lg leading-none mt-0.5">{item.icon}</span> : null}
+                              <div className="min-w-0">
+                                <div className={`text-sm font-bold ${isActive(item.href) ? NAV_TONES.dropdownActive : NAV_TONES.dropdownIdle}`}>
+                                  {item.label}
                                 </div>
-                                {isActive(item.href) ? <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#E8A020] mt-2" /> : null}
-                              </Link>
-                            </motion.div>
-                            );
-                          })}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                                {item.desc ? <div className="text-xs text-gray-500 mt-0.5">{item.desc}</div> : null}
+                              </div>
+                              {isActive(item.href) ? <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#E8A020] mt-2" /> : null}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
               );
             })}
           </div>
 
           <div className="hidden lg:flex items-center gap-2 group/header-actions">
-            <LanguageSwitcher compact />
+            <LanguageSwitcher compact label={labels.language} locale={locale} onLocaleChange={setLocale} />
 
             <button
-              aria-label={`${t('common.search')} KWIN City (Cmd+K)`}
+              aria-label={`${labels.search} KWIN City (Cmd+K)`}
               onClick={() => setSearchOpen(true)}
               className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm text-gray-500 hover:text-gray-800 border border-gray-200 hover:border-amber-300 bg-white hover:bg-amber-50 transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
-              <span className="hidden xl:inline text-xs font-medium text-gray-400">{t('common.search')}</span>
+              <span className="hidden xl:inline text-xs font-medium text-gray-400">{labels.search}</span>
               <kbd className="hidden xl:inline text-[10px] font-mono bg-gray-100 border border-gray-200 rounded px-1.5 py-0.5 text-gray-400">Cmd+K</kbd>
             </button>
 
             <div className="w-0 overflow-hidden opacity-0 group-hover/header-actions:w-9 group-focus-within/header-actions:w-9 group-hover/header-actions:opacity-100 group-focus-within/header-actions:opacity-100 transition-all duration-200">
               <Link
                 href="/about"
-                aria-label={t('common.exploreKwin')}
-                title={t('common.exploreKwin')}
+                aria-label={labels.exploreKwin}
+                title={labels.exploreKwin}
                 className="inline-flex items-center justify-center w-9 h-9 rounded-xl text-gray-500 hover:text-[#A96A00] border border-gray-200 hover:border-amber-300 bg-white hover:bg-amber-50 transition-all duration-150"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -210,7 +213,7 @@ export default function Header({
 
             <button
               onClick={onToggleTrustBanner}
-              aria-label={trustBannerVisible ? t('common.hideTrustBar') : t('common.showTrustBar')}
+              aria-label={trustBannerVisible ? labels.hideTrustBar : labels.showTrustBar}
               aria-pressed={trustBannerVisible}
               className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 ${
                 trustBannerVisible
@@ -221,14 +224,14 @@ export default function Header({
               <svg className="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill={trustBannerVisible ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
               </svg>
-              <span className="hidden xl:inline">{t('common.trust')}</span>
+              <span className="hidden xl:inline">{labels.trust}</span>
             </button>
 
             {currentUser ? (
               <Link
                 href="/account"
                 className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 border border-slate-200 bg-white hover:bg-slate-50 transition-colors"
-                title={`${t('common.signedIn')}: ${currentUser.email}`}
+                title={`${labels.signedIn}: ${currentUser.email}`}
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
                 <span className="max-w-[140px] truncate">{currentUser.name}</span>
@@ -238,7 +241,7 @@ export default function Header({
 
           <div className="lg:hidden flex items-center gap-2">
             <button
-              aria-label={t('common.search')}
+              aria-label={labels.search}
               onClick={() => setSearchOpen(true)}
               className="flex items-center justify-center w-8 h-8 rounded-lg border border-gray-200 text-gray-500 hover:text-gray-800 hover:border-amber-300 transition-colors"
             >
@@ -247,12 +250,12 @@ export default function Header({
               </svg>
             </button>
 
-            <LanguageSwitcher compact />
+            <LanguageSwitcher compact label={labels.language} locale={locale} onLocaleChange={setLocale} />
 
 
             <button
               onClick={onToggleTrustBanner}
-              title={trustBannerVisible ? t('common.hideTrustBar') : t('common.showTrustBar')}
+              title={trustBannerVisible ? labels.hideTrustBar : labels.showTrustBar}
               className={`flex items-center justify-center w-8 h-8 rounded-lg border transition-all duration-200 ${
                 trustBannerVisible
                   ? 'bg-cyan-50 text-cyan-700 border-cyan-200'
@@ -265,7 +268,7 @@ export default function Header({
             </button>
 
             <button
-              aria-label={t('common.toggleMenu')}
+              aria-label={labels.toggleMenu}
               aria-expanded={mobileMenuOpen}
               className="flex flex-col gap-[5px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 rounded p-1"
               onClick={() => {
@@ -282,16 +285,8 @@ export default function Header({
           </div>
         </nav>
 
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              key="mobile-menu"
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
-              className="lg:hidden bg-white backdrop-blur-xl border-b border-gray-200 shadow-2xl"
-            >
+        {mobileMenuOpen ? (
+          <div className="lg:hidden bg-white backdrop-blur-xl border-b border-gray-200 shadow-2xl">
               <div className="container py-5 flex flex-col gap-1">
                 {currentUser ? (
                   <Link
@@ -303,14 +298,14 @@ export default function Header({
                     }}
                   >
                     <div className="min-w-0">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t('common.signedIn')}</p>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{labels.signedIn}</p>
                       <p className="text-sm font-bold text-slate-800 truncate">{currentUser.name}</p>
                     </div>
-                    <span className="text-xs font-medium text-slate-600">{t('common.account')}</span>
+                    <span className="text-xs font-medium text-slate-600">{labels.account}</span>
                   </Link>
                 ) : null}
 
-                {HIGH_LEVEL_MENUS.map((group) => {
+                {menuGroups.map((group) => {
                   const isOpen = mobileOpenGroup === group.label;
 
                   return (
@@ -321,23 +316,15 @@ export default function Header({
                           isGroupActive(group) ? 'text-[#E8A020] bg-amber-50' : 'text-gray-700 hover:bg-gray-50'
                         }`}
                       >
-                        {translatedGroupLabel(group.label)}
+                        {group.label}
                         <svg className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                       </button>
 
-                      <AnimatePresence>
-                        {isOpen && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.2 }}
-                            className="overflow-hidden pl-3 border-l-2 border-amber-200 ml-1"
-                          >
-                            {group.items.map((rawItem) => {
-                              const item = translateNavItem(t, rawItem);
+                      {isOpen ? (
+                        <div className="overflow-hidden pl-3 border-l-2 border-amber-200 ml-1">
+                            {group.items.map((item) => {
                               return (
                               <Link
                                 key={item.href}
@@ -358,9 +345,8 @@ export default function Header({
                               </Link>
                               );
                             })}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
+                        </div>
+                      ) : null}
                     </div>
                   );
                 })}
@@ -373,15 +359,14 @@ export default function Header({
                     setMobileOpenGroup(null);
                   }}
                 >
-                  {t('common.exploreKwin')}
+                  {labels.exploreKwin}
                 </Link>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+          </div>
+        ) : null}
       </header>
 
-      <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
+      {searchOpen ? <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} locale={locale} /> : null}
     </>
   );
 }

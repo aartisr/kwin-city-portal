@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
 
   // ── Optional: forward via Resend ────────────────────────────────────────────
   const resendKey = process.env.RESEND_API_KEY;
-  const notifyEmail = process.env.CONTACT_EMAIL ?? 'ravikumar.raman@gmail.com';
+  const notifyEmail = process.env.CONTACT_EMAIL ?? 'hello@kwin-city.com';
   if (resendKey) {
     try {
       await fetch('https://api.resend.com/emails', {

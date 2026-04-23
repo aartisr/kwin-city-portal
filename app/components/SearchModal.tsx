@@ -15,18 +15,18 @@ import {
   getPopularEntries,
   CATEGORY_COLORS,
 } from '@/lib/search-index';
-import { useI18n } from '@/lib/i18n/I18nProvider';
-import { pickLocalizedValue } from '@/lib/i18n/messages';
+import { pickLocalizedValue, type Locale } from '@/lib/i18n/messages';
 import { useSearchNavigation } from '@/components/search-modal/useSearchNavigation';
 
 export default function SearchModal({
   open,
   onClose,
+  locale,
 }: {
   open: boolean;
   onClose: () => void;
+  locale: Locale;
 }) {
-  const { locale } = useI18n();
   const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);

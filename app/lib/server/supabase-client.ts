@@ -1,4 +1,7 @@
-export type SupabaseClient = any;
+import type { SupabaseClient as BaseSupabaseClient } from '@supabase/supabase-js';
+import type { Database } from './models';
+
+export type SupabaseClient = BaseSupabaseClient<Database>;
 
 let supabaseClient: SupabaseClient | null = null;
 let supabaseInitError: string | null = null;
@@ -20,7 +23,11 @@ export function initSupabase(): SupabaseClient | null {
     const runtimeRequire = eval('require') as NodeRequire;
     const moduleName = '@supabase/' + 'supabase-js';
     const { createClient } = runtimeRequire(moduleName) as {
-      createClient: (url: string, key: string, options?: Record<string, unknown>) => SupabaseClient;
+      createClient: (
+        url: string,
+        key: string,
+        options?: Record<string, unknown>
+      ) => SupabaseClient;
     };
 
     supabaseClient = createClient(url, anonKey, {

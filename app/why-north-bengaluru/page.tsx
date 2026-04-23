@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import SiteFrame from '@/components/SiteFrame';
+import LazyStrategicLocationMap from '@/components/LazyStrategicLocationMap';
 import PageIntro from '@/components/PageIntro';
 import WhyNorthBengaluru from '@/components/WhyNorthBengaluru';
-import StrategicLocationMap from '@/components/StrategicLocationMap';
 import JsonLd from '@/components/JsonLd';
 import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 
@@ -130,7 +130,7 @@ export default async function WhyNorthBengaluruPage() {
                 })}
               </p>
             </div>
-            <StrategicLocationMap />
+            <LazyStrategicLocationMap />
           </div>
         </section>
 
