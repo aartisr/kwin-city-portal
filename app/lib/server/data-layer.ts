@@ -1,20 +1,53 @@
 import { getSupabase } from './supabase-client';
 import { readJsonFile, writeJsonFile } from './store';
-import type { UserRecord, UserPreference, PreferencesStore, DiscussionPost, DiscussionReply } from './models';
+import type {
+  UserRecord,
+  UserPreference,
+  PreferencesStore,
+  DiscussionPost,
+  DiscussionReply,
+  DatabaseUserRow,
+  DatabaseDiscussionPostRow,
+  DatabaseDiscussionReplyRow,
+} from './models';
 
 /**
  * Unified data layer that abstracts between Supabase and file-based storage.
  * If Supabase is configured, it uses it. Otherwise, falls back to the file-based system.
  */
 
-function mapUserRowToRecord(row: any): UserRecord {
+function mapUserRowToRecord(row: DatabaseUserRow): UserRecord {
   return {
     id: row.id,
     name: row.name,
     email: row.email,
-    passwordHash: row.passwordHash ?? row.password_hash,
-    passwordSalt: row.passwordSalt ?? row.password_salt,
-    createdAt: row.createdAt ?? row.created_at,
+    passwordHash: row.password_hash ?? '',
+    passwordSalt: row.password_salt ?? '',
+    createdAt: row.created_at,
+  };
+}
+
+function mapReplyRow(row: DatabaseDiscussionReplyRow): DiscussionReply {
+  return {
+    id: row.id,
+    author: row.author,
+    text: row.text,
+    createdAt: row.created_at,
+  };
+}
+
+function mapPostRow(
+  row: DatabaseDiscussionPostRow,
+  replies: DatabaseDiscussionReplyRow[] = []
+): DiscussionPost {
+  return {
+    id: row.id,
+    author: row.author,
+    title: row.title,
+    text: row.text,
+    likes: row.likes ?? 0,
+    createdAt: row.created_at,
+    replies: replies.map(mapReplyRow),
   };
 }
 
@@ -230,20 +263,7 @@ export async function getAllPosts(): Promise<DiscussionPost[]> {
             console.error('Supabase getReplies error:', repliesError);
           }
 
-          postsWithReplies.push({
-            id: post.id,
-            author: post.author,
-            title: post.title,
-            text: post.text,
-            likes: post.likes || 0,
-            createdAt: post.created_at,
-            replies: (replies || []).map((r: any) => ({
-              id: r.id,
-              author: r.author,
-              text: r.text,
-              createdAt: r.created_at,
-            })),
-          });
+          postsWithReplies.push(mapPostRow(post, replies || []));
         }
 
         return postsWithReplies;
@@ -283,20 +303,7 @@ export async function getPostById(postId: string): Promise<DiscussionPost | null
           console.error('Supabase getReplies error:', repliesError);
         }
 
-        return {
-          id: post.id,
-          author: post.author,
-          title: post.title,
-          text: post.text,
-          likes: post.likes || 0,
-          createdAt: post.created_at,
-          replies: (replies || []).map((r: any) => ({
-            id: r.id,
-            author: r.author,
-            text: r.text,
-            createdAt: r.created_at,
-          })),
-        };
+        return mapPostRow(post, replies || []);
       }
     } catch (err) {
       console.error('Supabase getPostById exception:', err);
@@ -345,7 +352,7 @@ export async function updatePost(postId: string, updates: Partial<DiscussionPost
 
   if (supabase) {
     try {
-      const updateData: Record<string, any> = {};
+      const updateData: Partial<DatabaseDiscussionPostRow> = {};
       if (updates.title !== undefined) updateData.title = updates.title;
       if (updates.text !== undefined) updateData.text = updates.text;
       if (updates.likes !== undefined) updateData.likes = updates.likes;

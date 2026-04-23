@@ -1,7 +1,8 @@
 'use client';
 
-import { createContext, useContext, useMemo, useState } from 'react';
-import { getLocaleDefinition, normalizeLocale, translate, type Locale } from '@/lib/i18n/messages';
+import { createContext, useContext, useMemo } from 'react';
+import { translate, type Locale } from '@/lib/i18n/messages';
+import { LocaleProvider, useLocale } from '@/lib/i18n/locale-context';
 
 type I18nContextValue = {
   locale: Locale;
@@ -18,21 +19,20 @@ export default function I18nProvider({
   initialLocale?: string;
   children: React.ReactNode;
 }) {
-  const [locale, setLocaleState] = useState<Locale>(normalizeLocale(initialLocale));
+  return (
+    <LocaleProvider initialLocale={initialLocale}>
+      <I18nProviderInner>{children}</I18nProviderInner>
+    </LocaleProvider>
+  );
+}
 
-  const setLocale = (nextLocale: Locale) => {
-    const normalized = normalizeLocale(nextLocale);
-    setLocaleState(normalized);
-    document.documentElement.lang = getLocaleDefinition(normalized).htmlLang;
-    localStorage.setItem('kwin-locale', normalized);
-    document.cookie = `kwin_locale=${normalized}; path=/; max-age=31536000; samesite=lax`;
-  };
-
+function I18nProviderInner({ children }: { children: React.ReactNode }) {
+  const { locale, setLocale } = useLocale();
   const value = useMemo<I18nContextValue>(() => {
     const t = (key: string): string => translate(locale, key);
 
     return { locale, setLocale, t };
-  }, [locale]);
+  }, [locale, setLocale]);
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }

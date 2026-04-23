@@ -3,10 +3,7 @@ import { cookies } from 'next/headers';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { SkipLink } from '@/components/SkipLink';
-import PwaRegistration from '@/components/PwaRegistration';
-import PwaInstallPrompt from '@/components/PwaInstallPrompt';
-import PageAnalytics from '@/components/PageAnalytics';
-import ClarityInit from '@/components/ClarityInit';
+import ClientEnhancements from '@/components/ClientEnhancements';
 import I18nProvider from '@/lib/i18n/I18nProvider';
 import { SITE_CONFIG } from '@/config/site.config';
 import { getLocaleDefinition, normalizeLocale } from '@/lib/i18n/messages';
@@ -204,10 +201,7 @@ export default async function RootLayout({
       <body className={`${inter.variable} bg-white text-gray-900 overflow-x-hidden`}>
         <I18nProvider initialLocale={locale}>
           <SkipLink />
-          <PwaRegistration />
-          <PwaInstallPrompt />
-          <PageAnalytics />
-          <ClarityInit />
+          <ClientEnhancements />
           {children}
         </I18nProvider>
         <Analytics />

@@ -2,12 +2,24 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { useI18n } from '@/lib/i18n/I18nProvider';
-import { pickLocalizedValue } from '@/lib/i18n/messages';
 
-export default function TrustBanner({ visible }: { visible: boolean }) {
-  const { locale, t } = useI18n();
-  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
+type TrustBannerProps = {
+  visible: boolean;
+  protocolLabel: string;
+  bodyText: string;
+  trustLabel: string;
+  sourcesLabel: string;
+  newsIntelligenceLabel: string;
+};
+
+export default function TrustBanner({
+  visible,
+  protocolLabel,
+  bodyText,
+  trustLabel,
+  sourcesLabel,
+  newsIntelligenceLabel,
+}: TrustBannerProps) {
   const [isScrollHidden, setIsScrollHidden] = useState(false);
   const lastY = useRef(0);
 
@@ -45,23 +57,18 @@ export default function TrustBanner({ visible }: { visible: boolean }) {
       >
         <div className="container py-2.5 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
           <p className="text-xs md:text-sm text-slate-700 leading-6">
-            <span className="font-bold text-slate-900">{l({ en: 'Trust Protocol:', kn: 'ವಿಶ್ವಾಸ ಪ್ರೋಟೋಕಾಲ್:', hi: 'ट्रस्ट प्रोटोकॉल:', ta: 'நம்பிக்கை நெறிமுறை:' })}</span>{' '}
-            {l({
-              en: 'every major claim must be source-linked, status-labeled, and reviewable for what it can and cannot prove.',
-              kn: 'ಪ್ರತಿಯೊಂದು ಪ್ರಮುಖ ಹೇಳಿಕೆಯೂ ಮೂಲ-ಲಿಂಕ್, ಸ್ಥಿತಿ-ಲೇಬಲ್ ಹೊಂದಿರಬೇಕು ಮತ್ತು ಅದು ಏನು ಸಾಬೀತು ಮಾಡಬಹುದು/ಮಾಡಲಾರದು ಎಂಬುದಕ್ಕೆ ವಿಮರ್ಶಿಸಬಹುದಾಗಿರಬೇಕು.',
-              hi: 'हर प्रमुख दावे को स्रोत-लिंक, स्थिति-लेबल के साथ प्रस्तुत किया जाना चाहिए और वह क्या सिद्ध कर सकता है/नहीं कर सकता, इसकी समीक्षा संभव होनी चाहिए।',
-              ta: 'ஒவ்வொரு முக்கிய கூற்றும் மூல இணைப்பு, நிலை குறிச்சொல் உடன் இருக்க வேண்டும்; அது எதை நிரூபிக்க முடியும்/முடியாது என்பதை ஆய்வு செய்யக்கூடியதாக இருக்க வேண்டும்.',
-            })}
+            <span className="font-bold text-slate-900">{protocolLabel}</span>{' '}
+            {bodyText}
           </p>
           <div className="flex items-center gap-2 text-xs font-semibold">
             <Link href="/trust" className="rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-slate-700 hover:bg-slate-50">
-              {t('header.items./trust.label')}
+              {trustLabel}
             </Link>
             <Link href="/sources" className="rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-slate-700 hover:bg-slate-50">
-              {t('header.items./sources.label')}
+              {sourcesLabel}
             </Link>
             <Link href="/news-intelligence" className="rounded-md bg-slate-900 px-2.5 py-1.5 text-white hover:bg-slate-800">
-              {t('header.items./news-intelligence.label')}
+              {newsIntelligenceLabel}
             </Link>
           </div>
         </div>

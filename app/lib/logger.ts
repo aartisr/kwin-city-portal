@@ -4,6 +4,7 @@
  */
 
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error';
+export type LogContext = Record<string, unknown>;
 
 export interface LogEntry {
   level: LogLevel;
@@ -11,12 +12,21 @@ export interface LogEntry {
   message: string;
   requestId?: string;
   userId?: string;
-  context?: Record<string, any>;
+  context?: LogContext;
   error?: {
     message: string;
     stack?: string;
     code?: string;
   };
+}
+
+function getErrorCode(error: Error): string | undefined {
+  if (!('code' in error)) {
+    return undefined;
+  }
+
+  const code = (error as Error & { code?: unknown }).code;
+  return typeof code === 'string' ? code : undefined;
 }
 
 class Logger {
@@ -60,7 +70,7 @@ class Logger {
 
   debug(
     message: string,
-    context?: Record<string, any>,
+    context?: LogContext,
     requestId?: string
   ): void {
     this.output({
@@ -74,7 +84,7 @@ class Logger {
 
   info(
     message: string,
-    context?: Record<string, any>,
+    context?: LogContext,
     requestId?: string
   ): void {
     this.output({
@@ -88,7 +98,7 @@ class Logger {
 
   warn(
     message: string,
-    context?: Record<string, any>,
+    context?: LogContext,
     requestId?: string
   ): void {
     this.output({
@@ -103,7 +113,7 @@ class Logger {
   error(
     message: string,
     error?: Error | null,
-    context?: Record<string, any>,
+    context?: LogContext,
     requestId?: string
   ): void {
     this.output({
@@ -115,7 +125,7 @@ class Logger {
         ? {
             message: error.message,
             stack: this.isDevelopment ? error.stack : undefined,
-            code: (error as any).code,
+            code: getErrorCode(error),
           }
         : undefined,
       timestamp: new Date().toISOString(),
@@ -189,7 +199,7 @@ class Logger {
    */
   logSecurity(
     event: 'rate-limit' | 'csrf-fail' | 'xss-attempt' | 'auth-fail',
-    context?: Record<string, any>
+    context?: LogContext
   ): void {
     this.warn(`Security: ${event}`, { ...context, event });
   }

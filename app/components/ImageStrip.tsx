@@ -1,9 +1,6 @@
-'use client';
-
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { useI18n } from '@/lib/i18n/I18nProvider';
-import { pickLocalizedValue } from '@/lib/i18n/messages';
+import { getServerLocale } from '@/lib/i18n/server';
+import { pickLocalizedValue, type LocalizedValue } from '@/lib/i18n/messages';
 
 const images = [
   {
@@ -47,8 +44,7 @@ const images = [
     label: { en: 'Electronic City', kn: 'ಎಲೆಕ್ಟ್ರಾನಿಕ್ ಸಿಟಿ', hi: 'इलेक्ट्रॉनिक सिटी', ta: 'எலக்ட்ரானிக் சிட்டி' },
     credit: 'Sundar',
     license: 'CC BY-SA 3.0',
-    source:
-      'https://commons.wikimedia.org/wiki/File:InfosysHQFrontView.jpg',
+    source: 'https://commons.wikimedia.org/wiki/File:InfosysHQFrontView.jpg',
   },
   {
     id: 'knowledge-infra',
@@ -62,55 +58,29 @@ const images = [
     label: { en: 'Knowledge Infrastructure', kn: 'ಜ್ಞಾನ ಮೂಲಸೌಕರ್ಯ', hi: 'ज्ञान अवसंरचना', ta: 'அறிவு அடிக்கட்டு' },
     credit: 'Sayantan Mondal',
     license: 'CC BY-SA 4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Main_Building,_Indian_Institute_of_Science,_Bangalore,_Karnataka,_India_(2017).jpg',
-  },
-  {
-    id: 'urban-green-core',
-    src: 'https://upload.wikimedia.org/wikipedia/commons/6/64/Lalbagh_%28Lal_Baugh%29_Botanical_Garden_in_Bangalore_%28now_Bengaluru%29_1.jpg',
-    alt: {
-      en: 'Lalbagh Botanical Garden in Bengaluru',
-      kn: 'ಬೆಂಗಳೂರು ಲಾಲ್‌ಬಾಗ್ ಸಸ್ಯೋದ್ಯಾನ',
-      hi: 'बेंगलुरु का लालबाग बॉटनिकल गार्डन',
-      ta: 'பெங்களூருவின் லால்பாக் தாவரவியல் பூங்கா',
-    },
-    label: { en: 'Urban Green Core', kn: 'ನಗರ ಹಸಿರು ಕೇಂದ್ರ', hi: 'शहरी हरित केंद्र', ta: 'நகர் பசுமை மையம்' },
-    credit: 'CreativoCamaal (Lens Naayak Photography)',
-    license: 'CC BY-SA 4.0',
     source:
-      'https://commons.wikimedia.org/wiki/File:Lalbagh_(Lal_Baugh)_Botanical_Garden_in_Bangalore_(now_Bengaluru)_1.jpg',
+      'https://commons.wikimedia.org/wiki/File:Main_Building,_Indian_Institute_of_Science,_Bangalore,_Karnataka,_India_(2017).jpg',
   },
 ];
 
 const LICENSE_LINKS: Record<string, string> = {
-  'CC BY-SA 3.0': 'https://creativecommons.org/licenses/by-sa/3.0/',
   'CC BY-SA 4.0': 'https://creativecommons.org/licenses/by-sa/4.0/',
-  'CC BY 4.0': 'https://creativecommons.org/licenses/by/4.0/',
-  'CC BY 3.0': 'https://creativecommons.org/licenses/by/3.0/',
-  CC0: 'https://creativecommons.org/publicdomain/zero/1.0/',
+  'CC BY-SA 3.0': 'https://creativecommons.org/licenses/by-sa/3.0/',
 };
 
-export default function ImageStrip() {
-  const { locale } = useI18n();
-  const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
+export default async function ImageStrip() {
+  const locale = await getServerLocale();
+  const l = <T,>(values: LocalizedValue<T>) => pickLocalizedValue(locale, values);
 
   return (
     <div className="bg-[#040714] py-2 overflow-hidden">
-      {/* Mobile: horizontal scroll strip; sm+: equal-width flex row */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="flex gap-2 px-2 overflow-x-auto snap-x snap-mandatory scrollbar-none sm:overflow-x-visible"
-        style={{ WebkitOverflowScrolling: 'touch' }}
+      <div
+        className="flex gap-2 px-2 overflow-x-auto snap-x snap-mandatory scrollbar-none sm:overflow-x-visible kwin-fade-in"
+        style={{ WebkitOverflowScrolling: 'touch', animationDelay: '180ms' }}
       >
         {images.map((img, idx) => (
-          <motion.div
+          <div
             key={img.id}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: idx * 0.07 }}
-            viewport={{ once: true }}
             className="group relative shrink-0 sm:flex-1 sm:shrink overflow-hidden rounded-xl snap-start"
             style={{ width: 'min(72vw, 260px)', aspectRatio: '16/10' }}
           >
@@ -118,16 +88,18 @@ export default function ImageStrip() {
               src={img.src}
               alt={l(img.alt)}
               fill
+              priority={idx === 0}
+              sizes="(max-width: 640px) 72vw, (max-width: 1024px) 50vw, 25vw"
               className="object-cover transition-transform duration-700 group-hover:scale-105 brightness-75 group-hover:brightness-90"
-                          sizes="(max-width: 640px) 72vw, 20vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
             <span className="absolute bottom-3 left-3 text-[10px] font-semibold tracking-[0.15em] uppercase text-white/80">
               {l(img.label)}
             </span>
-          </motion.div>
+          </div>
         ))}
-      </motion.div>
+      </div>
+
       <div className="mt-2 px-4 pb-1">
         <details className="group rounded-md border border-slate-800/70 bg-[#0b1220]/80 px-3 py-2">
           <summary className="cursor-pointer select-none text-center text-[10px] text-[#64748B] list-none">

@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import SiteFrame from '@/components/SiteFrame';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import { pickLocalizedValue } from '@/lib/i18n/messages';
 import {
@@ -66,66 +65,65 @@ export default function SearchPageClient() {
   const totalCount = filtered.length;
 
   return (
-    <SiteFrame>
-      <main className="min-h-screen bg-gradient-to-br from-white via-gray-50/60 to-white">
+    <main className="min-h-screen bg-gradient-to-br from-white via-gray-50/60 to-white">
 
-        {/* Search hero */}
-        <section className="pt-28 pb-10 border-b border-gray-100">
-          <div className="container">
-            <p className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600 mb-4">Search</p>
-            <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
-              {l({ en: 'Find anything in KWIN City', kn: 'KWIN City ನಲ್ಲಿ ಯಾವುದನ್ನಾದರೂ ಹುಡುಕಿ', hi: 'KWIN City में कुछ भी खोजें', ta: 'KWIN City இல் எதையும் தேடுங்கள்' })}
-            </h1>
+      {/* Search hero */}
+      <section className="pt-28 pb-10 border-b border-gray-100">
+        <div className="container">
+          <p className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600 mb-4">Search</p>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
+            {l({ en: 'Find anything in KWIN City', kn: 'KWIN City ನಲ್ಲಿ ಯಾವುದನ್ನಾದರೂ ಹುಡುಕಿ', hi: 'KWIN City में कुछ भी खोजें', ta: 'KWIN City இல் எதையும் தேடுங்கள்' })}
+          </h1>
 
-            {/* Search bar */}
-            <div className="relative max-w-2xl">
-              <div className="flex items-center gap-3 bg-white border-2 border-gray-200 focus-within:border-amber-400 rounded-2xl px-5 py-4 shadow-sm transition-all duration-200">
-                <svg
-                  className="w-5 h-5 text-gray-400 shrink-0"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-                <input
-                  ref={inputRef}
-                  type="search"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder={l({ en: 'Search pages, sectors, timeline, FAQ…', kn: 'ಪುಟಗಳು, ಕ್ಷೇತ್ರಗಳು, ಕಾಲರೇಖೆ, FAQ ಹುಡುಕಿ…', hi: 'पेज, सेक्टर, टाइमलाइन, FAQ खोजें…', ta: 'பக்கங்கள், துறைகள், காலவரிசை, FAQ தேடுங்கள்…' })}
-                  className="flex-1 bg-transparent text-gray-900 placeholder-gray-400 text-lg outline-none"
-                  autoFocus
-                  autoComplete="off"
+          {/* Search bar */}
+          <div className="relative max-w-2xl">
+            <div className="flex items-center gap-3 bg-white border-2 border-gray-200 focus-within:border-amber-400 rounded-2xl px-5 py-4 shadow-sm transition-all duration-200">
+              <svg
+                className="w-5 h-5 text-gray-400 shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                 />
-                {query && (
-                  <button
-                    onClick={() => { setQuery(''); inputRef.current?.focus(); }}
-                    className="text-gray-400 hover:text-gray-600 transition-colors"
-                    aria-label="Clear"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                )}
-              </div>
+              </svg>
+              <input
+                ref={inputRef}
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={l({ en: 'Search pages, sectors, timeline, FAQ…', kn: 'ಪುಟಗಳು, ಕ್ಷೇತ್ರಗಳು, ಕಾಲರೇಖೆ, FAQ ಹುಡುಕಿ…', hi: 'पेज, सेक्टर, टाइमलाइन, FAQ खोजें…', ta: 'பக்கங்கள், துறைகள், காலவரிசை, FAQ தேடுங்கள்…' })}
+                className="flex-1 bg-transparent text-gray-900 placeholder-gray-400 text-lg outline-none"
+                autoFocus
+                autoComplete="off"
+              />
+              {query && (
+                <button
+                  onClick={() => { setQuery(''); inputRef.current?.focus(); }}
+                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                  aria-label="Clear"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
             </div>
-
-            {/* Summary */}
-            <p className="mt-4 text-sm text-gray-500">
-              {debouncedQuery.trim()
-                ? `${totalCount} result${totalCount !== 1 ? 's' : ''} for "${debouncedQuery}"`
-                : `Showing ${totalCount} popular items — start typing to search all ${SEARCH_INDEX.length}+ entries`}
-            </p>
           </div>
-        </section>
+
+          {/* Summary */}
+          <p className="mt-4 text-sm text-gray-500">
+            {debouncedQuery.trim()
+              ? `${totalCount} result${totalCount !== 1 ? 's' : ''} for "${debouncedQuery}"`
+              : `Showing ${totalCount} popular items — start typing to search all ${SEARCH_INDEX.length}+ entries`}
+          </p>
+        </div>
+      </section>
 
         {/* Category filter chips */}
         {rawResults.length > 0 && (
@@ -235,7 +233,6 @@ export default function SearchPageClient() {
             )}
           </div>
         </section>
-      </main>
-    </SiteFrame>
+    </main>
   );
 }

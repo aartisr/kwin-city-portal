@@ -12,6 +12,14 @@ type RateEntry = {
   resetAt: number;
 };
 
+export type RateLimitResult = {
+  limited: boolean;
+  limit: number;
+  remaining: number;
+  resetAt: number;
+  retryAfterSeconds: number;
+};
+
 const rateMap = new Map<string, RateEntry>();
 
 export const CSRF_COOKIE = 'kwin_csrf';
@@ -21,7 +29,15 @@ export function createCsrfToken() {
   return crypto.randomBytes(24).toString('hex');
 }
 
-function getClientIp(req: NextRequest) {
+function purgeExpiredRateEntries(now: number) {
+  for (const [key, entry] of rateMap.entries()) {
+    if (now > entry.resetAt) {
+      rateMap.delete(key);
+    }
+  }
+}
+
+export function getClientIp(req: NextRequest) {
   return (
     req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
     req.headers.get('x-real-ip') ||
@@ -29,22 +45,55 @@ function getClientIp(req: NextRequest) {
   );
 }
 
-export function isRateLimited(req: NextRequest, config: RateLimitConfig) {
+export function checkRateLimit(req: NextRequest, config: RateLimitConfig): RateLimitResult {
   const key = `${config.scope}:${getClientIp(req)}`;
   const now = Date.now();
+  purgeExpiredRateEntries(now);
   const current = rateMap.get(key);
 
   if (!current || now > current.resetAt) {
-    rateMap.set(key, { count: 1, resetAt: now + config.windowMs });
-    return false;
+    const resetAt = now + config.windowMs;
+    rateMap.set(key, { count: 1, resetAt });
+    return {
+      limited: false,
+      limit: config.limit,
+      remaining: Math.max(config.limit - 1, 0),
+      resetAt,
+      retryAfterSeconds: Math.ceil(config.windowMs / 1000),
+    };
   }
 
   if (current.count >= config.limit) {
-    return true;
+    return {
+      limited: true,
+      limit: config.limit,
+      remaining: 0,
+      resetAt: current.resetAt,
+      retryAfterSeconds: Math.max(Math.ceil((current.resetAt - now) / 1000), 1),
+    };
   }
 
   current.count += 1;
-  return false;
+  return {
+    limited: false,
+    limit: config.limit,
+    remaining: Math.max(config.limit - current.count, 0),
+    resetAt: current.resetAt,
+    retryAfterSeconds: Math.max(Math.ceil((current.resetAt - now) / 1000), 1),
+  };
+}
+
+export function isRateLimited(req: NextRequest, config: RateLimitConfig) {
+  return checkRateLimit(req, config).limited;
+}
+
+export function getRateLimitHeaders(result: RateLimitResult): Record<string, string> {
+  return {
+    'X-RateLimit-Limit': String(result.limit),
+    'X-RateLimit-Remaining': String(result.remaining),
+    'X-RateLimit-Reset': String(Math.floor(result.resetAt / 1000)),
+    'Retry-After': String(result.retryAfterSeconds),
+  };
 }
 
 export function isSameOrigin(req: NextRequest) {

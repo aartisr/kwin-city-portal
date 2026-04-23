@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import SiteFrame from '@/components/SiteFrame';
-import DataInsightsHub from '@/components/DataInsightsHub';
-import { OPENCITY_DATASETS } from '@/components/DataInsightsHub';
+import LazyDataInsightsHub from '@/components/LazyDataInsightsHub';
+import { OPENCITY_DATASETS } from '@/lib/data-insights-datasets';
 import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -139,7 +139,7 @@ export default async function DataInsightsPage() {
         {/* Main chart grid */}
         <section className="section bg-[linear-gradient(160deg,#040714_0%,#07101A_100%)]">
           <div className="container">
-            <DataInsightsHub />
+            <LazyDataInsightsHub />
           </div>
         </section>
 
