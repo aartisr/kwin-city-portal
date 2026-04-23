@@ -51,7 +51,7 @@ export default function TrustBanner({
       />
 
       <section
-        className={`fixed left-0 right-0 top-[70px] z-40 border-b border-cyan-100 shadow-[0_10px_24px_rgba(15,23,42,0.08)] bg-[linear-gradient(90deg,rgba(236,254,255,0.96)_0%,rgba(248,250,252,0.96)_45%,rgba(255,251,235,0.96)_100%)] backdrop-blur-xl transition-all duration-300 ${
+        className={`fixed left-0 right-0 top-[88px] z-40 border-b border-cyan-100 shadow-[0_10px_24px_rgba(15,23,42,0.08)] bg-[linear-gradient(90deg,rgba(236,254,255,0.96)_0%,rgba(248,250,252,0.96)_45%,rgba(255,251,235,0.96)_100%)] backdrop-blur-xl transition-all duration-300 ${
           visible && !isScrollHidden ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
         }`}
       >

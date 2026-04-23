@@ -7,6 +7,7 @@ import { normalizeLocale, pickLocalizedValue, translate } from '@/lib/i18n/messa
 
 function getTranslatedMenus(locale: ReturnType<typeof normalizeLocale>): NavGroup[] {
   return HIGH_LEVEL_MENUS.map((group) => ({
+    key: group.key,
     label: translate(locale, `header.groups.${group.label}`),
     items: group.items.map((item) => ({
       ...item,

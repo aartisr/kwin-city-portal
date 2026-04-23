@@ -290,6 +290,91 @@ a:hover { color: #1D4ED8; }
   will-change: transform;
 }
 
+@keyframes footerGlowSweep {
+  0% { transform: translate3d(-18%, 0, 0) rotate(0.001deg); opacity: 0; }
+  20% { opacity: 0.08; }
+  100% { transform: translate3d(18%, 0, 0) rotate(0.001deg); opacity: 0; }
+}
+
+@keyframes footerChipFloat {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -2px, 0); }
+}
+
+.footer-panel {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.footer-panel::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(120deg, transparent 12%, rgba(255,255,255,0.08) 42%, transparent 72%);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-18%, 0, 0);
+}
+
+.footer-panel:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,0.16);
+  box-shadow: 0 20px 48px rgba(2, 6, 23, 0.28);
+}
+
+.footer-panel:hover::before {
+  animation: footerGlowSweep 1.15s ease;
+}
+
+.footer-nav-link {
+  position: relative;
+}
+
+.footer-nav-link:hover {
+  transform: translateX(4px);
+}
+
+.footer-nav-link-dot,
+.footer-nav-link-label,
+.footer-action-arrow,
+.footer-brand-mark {
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.footer-nav-link:hover .footer-nav-link-dot {
+  transform: scale(1.3);
+}
+
+.footer-nav-link:hover .footer-nav-link-label {
+  transform: translateX(2px);
+}
+
+.footer-action-link:hover .footer-action-arrow {
+  transform: translateX(4px);
+}
+
+.footer-brand-mark {
+  animation: footerChipFloat 5.5s ease-in-out infinite;
+}
+
+.footer-chip {
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.footer-chip:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.08);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-orb-a,
   .hero-orb-b,
@@ -298,9 +383,24 @@ a:hover { color: #1D4ED8; }
   .kwin-fade-in,
   .hero-scroll-indicator,
   .animate-pulse,
-  .animate-floatY {
+  .animate-floatY,
+  .footer-brand-mark {
     animation: none !important;
     opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .footer-panel::before {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  .footer-panel:hover,
+  .footer-nav-link:hover,
+  .footer-nav-link:hover .footer-nav-link-dot,
+  .footer-nav-link:hover .footer-nav-link-label,
+  .footer-action-link:hover .footer-action-arrow,
+  .footer-chip:hover {
     transform: none !important;
   }
 }
