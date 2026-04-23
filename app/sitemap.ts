@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { SITE_CONFIG } from '@/config/site.config';
+import { getUpdateEntries, getUpdatePath } from '@/lib/updates/content';
 
 const SITE_URL = 'https://kwin-city.com';
 
@@ -16,6 +17,7 @@ const SITE_URL = 'https://kwin-city.com';
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date(`${SITE_CONFIG.lastUpdatedISO}T00:00:00+05:30`).toISOString();
+  const updateEntries = getUpdateEntries();
 
   return [
     // ── Tier 1: Homepage ───────────────────────────────────────────────────
@@ -81,6 +83,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
+    ...updateEntries.map((entry) => ({
+      url: `${SITE_URL}${getUpdatePath(entry.id)}`,
+      lastModified: new Date(`${entry.date}T00:00:00+05:30`).toISOString(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.75,
+    })),
     {
       url: `${SITE_URL}/download`,
       lastModified,

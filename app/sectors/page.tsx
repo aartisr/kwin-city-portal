@@ -32,12 +32,12 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
     title: pickByLocale(locale, {
-      en: 'Industry Sectors | Semiconductors · Aerospace · Health-tech · Renewables',
+      en: 'KWIN City Sectors | Semiconductors, Aerospace, Health-tech, ICT & Renewables',
       kn: 'ಕೈಗಾರಿಕಾ ಕ್ಷೇತ್ರಗಳು | ಸೆಮಿಕಂಡಕ್ಟರ್ · ಏರೋಸ್ಪೇಸ್ · ಹೆಲ್ತ್-ಟೆಕ್ · ನವೀಕರಿಸಬಹುದಾದ ಶಕ್ತಿ',
       hi: 'उद्योग क्षेत्र | सेमीकंडक्टर · एयरोस्पेस · हेल्थ-टेक · नवीकरणीय ऊर्जा',
     }),
     description: pickByLocale(locale, {
-      en: 'KWIN City targets five high-growth sectors: semiconductors, aerospace & defence, health-tech, ICT & deep tech, and renewable energy. Explore the investment thesis and evidence behind each cluster in North Bengaluru.',
+      en: 'Explore the five sector bets behind KWIN City: semiconductors, aerospace and defence, health-tech, ICT and deep tech, and renewable energy in North Bengaluru.',
       kn: 'KWIN City ಐದು ವೇಗವಾಗಿ ಬೆಳೆಯುವ ಕ್ಷೇತ್ರಗಳನ್ನು ಗುರಿಯಾಗಿಸಿದೆ. ಪ್ರತಿ ಕ್ಷೇತ್ರದ ಹಿಂದೆ ಇರುವ ಸಾಕ್ಷ್ಯಾಧಾರವನ್ನು ಇಲ್ಲಿ ನೋಡಿ.',
       hi: 'KWIN City पांच उच्च-विकास क्षेत्रों पर केंद्रित है। प्रत्येक क्लस्टर के पीछे के प्रमाण यहां देखें।',
     }),
@@ -54,12 +54,12 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: { canonical: 'https://kwin-city.com/sectors' },
     openGraph: {
       title: pickByLocale(locale, {
-        en: 'KWIN City Industry Sectors — Semiconductors, Aerospace, Health-tech, Renewables',
+        en: 'KWIN City Sectors — The Five Clusters Behind the Project’s Investment Thesis',
         kn: 'KWIN City ಕೈಗಾರಿಕಾ ಕ್ಷೇತ್ರಗಳು — ಸೆಮಿಕಂಡಕ್ಟರ್, ಏರೋಸ್ಪೇಸ್, ಹೆಲ್ತ್-ಟೆಕ್, ನವೀಕರಿಸಬಹುದಾದ ಶಕ್ತಿ',
         hi: 'KWIN City उद्योग क्षेत्र — सेमीकंडक्टर, एयरोस्पेस, हेल्थ-टेक, नवीकरणीय ऊर्जा',
       }),
       description: pickByLocale(locale, {
-        en: 'Five high-growth sector clusters driving KWIN City investment: semiconductors, aerospace, health-tech, ICT, and renewables.',
+        en: 'A sharper look at the five sector clusters KWIN City is built around, and why they fit North Bengaluru.',
         kn: 'KWIN City ಹೂಡಿಕೆಯನ್ನು ಮುನ್ನಡೆಸುವ ಐದು ವೇಗದ ಕ್ಷೇತ್ರಗಳು.',
         hi: 'KWIN City निवेश को आगे बढ़ाने वाले पांच उच्च-विकास क्षेत्र।',
       }),

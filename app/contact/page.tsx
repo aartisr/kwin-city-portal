@@ -7,18 +7,18 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
     title: pickByLocale(locale, {
-      en: 'Contact Us', kn: 'ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ', hi: 'संपर्क करें'
+      en: 'Contact KWIN City | Investor, Research, Media and Resident Enquiries', kn: 'ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ', hi: 'संपर्क करें'
     }),
     description: pickByLocale(locale, {
-      en: "Get in touch with the KWIN City team. For investors, residents, researchers, journalists, and anyone curious about North Bengaluru's proposed knowledge township.",
+      en: "Contact the KWIN City team for investor questions, research requests, media enquiries, partnership conversations, or general questions about North Bengaluru's proposed knowledge township.",
       kn: 'KWIN City ತಂಡವನ್ನು ಸಂಪರ್ಕಿಸಿ.',
       hi: 'KWIN City टीम से संपर्क करें।',
     }),
     alternates: { canonical: 'https://kwin-city.com/contact' },
     openGraph: {
-      title: pickByLocale(locale, { en: 'Contact KWIN City', kn: 'KWIN City ಸಂಪರ್ಕ', hi: 'KWIN City संपर्क' }),
+      title: pickByLocale(locale, { en: 'Contact KWIN City — Investor, Media, Research and Resident Enquiries', kn: 'KWIN City ಸಂಪರ್ಕ', hi: 'KWIN City संपर्क' }),
       description: pickByLocale(locale, {
-        en: 'Reach the KWIN City team — investors, residents, researchers, journalists welcome.',
+        en: 'Reach the KWIN City team for investor, research, media, resident, or partnership enquiries.',
         kn: 'KWIN City ತಂಡವನ್ನು ಸಂಪರ್ಕಿಸಿ — ಹೂಡಿಕೆದಾರರು, ನಿವಾಸಿಗಳು, ಸಂಶೋಧಕರು, ಪತ್ರಕರ್ತರು ಎಲ್ಲರೂ ಸ್ವಾಗತ.',
         hi: 'KWIN City टीम से संपर्क करें — निवेशक, निवासी, शोधकर्ता और पत्रकार सभी स्वागत योग्य हैं।',
       }),
@@ -28,9 +28,9 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: pickByLocale(locale, { en: 'Contact KWIN City', kn: 'KWIN City ಸಂಪರ್ಕ', hi: 'KWIN City संपर्क' }),
+      title: pickByLocale(locale, { en: 'Contact KWIN City — Investor, Media, Research and Resident Enquiries', kn: 'KWIN City ಸಂಪರ್ಕ', hi: 'KWIN City संपर्क' }),
       description: pickByLocale(locale, {
-        en: 'Reach the KWIN City team — investors, residents, researchers, journalists welcome.',
+        en: 'Reach the KWIN City team for investor, research, media, resident, or partnership enquiries.',
         kn: 'KWIN City ತಂಡವನ್ನು ಸಂಪರ್ಕಿಸಿ — ಹೂಡಿಕೆದಾರರು, ನಿವಾಸಿಗಳು, ಸಂಶೋಧಕರು, ಪತ್ರಕರ್ತರು ಎಲ್ಲರೂ ಸ್ವಾಗತ.',
         hi: 'KWIN City टीम से संपर्क करें — निवेशक, निवासी, शोधकर्ता और पत्रकार सभी स्वागत योग्य हैं।',
       }),

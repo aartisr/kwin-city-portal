@@ -8,13 +8,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
     title: pickByLocale(locale, {
-      en: 'Data Insights Lab | Live Charts · Regional Analytics · Open Data',
+      en: 'KWIN Data Insights Lab | North Bengaluru Charts, Open Data & Regional Analytics',
       kn: 'ಡೇಟಾ ಒಳನೋಟ ಪ್ರಯೋಗಾಲಯ | ಲೈವ್ ಚಾರ್ಟ್‌ಗಳು · ಪ್ರಾದೇಶಿಕ ವಿಶ್ಲೇಷಣೆ · ಮುಕ್ತ ಡೇಟಾ',
       hi: 'डेटा इनसाइट्स लैब | लाइव चार्ट · क्षेत्रीय विश्लेषण · ओपन डेटा',
       ta: 'தரவு நுண்ணறிவு ஆய்வகம் | நேரடி வரைபடங்கள் · பிராந்திய பகுப்பாய்வு · திறந்த தரவு',
     }),
     description: pickByLocale(locale, {
-      en: 'Live charts generated from verified Karnataka government open data: airport connectivity growth, STRR corridor development, groundwater resilience, lake governance, and KWIN sector projections.',
+      en: 'Interactive charts from Karnataka open data and KWIN datasets covering airport growth, STRR corridors, groundwater, lakes, ecology, and sector projections.',
       kn: 'ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ದೃಢೀಕೃತ ಮುಕ್ತ ಡೇಟಾದಿಂದ ರಚಿಸಲಾದ ಲೈವ್ ಚಾರ್ಟ್‌ಗಳು: ವಿಮಾನ ನಿಲ್ದಾಣ ಸಂಪರ್ಕ ಬೆಳವಣಿಗೆ, STRR ಕಾರಿಡಾರ್ ಅಭಿವೃದ್ಧಿ, ಭೂಗತಜಲ ಸ್ಥೈರ್ಯ, ಸರೋವರ ಆಡಳಿತ ಮತ್ತು KWIN ಕ್ಷೇತ್ರ ಅಂದಾಜುಗಳು.',
       hi: 'कर्नाटक सरकार के सत्यापित ओपन डेटा से बने लाइव चार्ट: एयरपोर्ट कनेक्टिविटी वृद्धि, STRR कॉरिडोर विकास, भूजल लचीलापन, झील प्रशासन और KWIN सेक्टर प्रक्षेपण।',
       ta: 'கர்நாடக அரசு உறுதிப்படுத்திய திறந்த தரவிலிருந்து உருவாகும் நேரடி வரைபடங்கள்: விமான நிலைய இணைப்பு வளர்ச்சி, STRR வழித்தட மேம்பாடு, நிலத்தடி நீர் தாங்குத்திறன், ஏரி நிர்வாகம் மற்றும் KWIN துறை முன்னறிவிப்புகள்.',
@@ -28,13 +28,13 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: { canonical: 'https://kwin-city.com/data-insights' },
     openGraph: {
       title: pickByLocale(locale, {
-        en: 'KWIN City Data Insights Lab — Live Regional Analytics from Government Open Data',
+        en: 'KWIN Data Insights Lab — Interactive Regional Charts from Open Data',
         kn: 'KWIN City ಡೇಟಾ ಒಳನೋಟ ಪ್ರಯೋಗಾಲಯ — ಸರ್ಕಾರದ ಮುಕ್ತ ಡೇಟಾದಿಂದ ಲೈವ್ ವಿಶ್ಲೇಷಣೆ',
         hi: 'KWIN City डेटा इनसाइट्स लैब — सरकारी ओपन डेटा से लाइव क्षेत्रीय विश्लेषण',
         ta: 'KWIN City தரவு நுண்ணறிவு ஆய்வகம் — அரசு திறந்த தரவிலிருந்து நேரடி பகுப்பாய்வு',
       }),
       description: pickByLocale(locale, {
-        en: 'Interactive charts powered by Karnataka open data: airport growth, corridors, groundwater, and sector projections.',
+        en: 'Explore North Bengaluru through interactive charts built from government open data and project-linked datasets.',
         kn: 'ಕರ್ನಾಟಕ ಮುಕ್ತ ಡೇಟಾದಿಂದ ಚಾಲಿತ ಸಂವಾದಾತ್ಮಕ ಚಾರ್ಟ್‌ಗಳು: ವಿಮಾನ ನಿಲ್ದಾಣ ಬೆಳವಣಿಗೆ, ಕಾರಿಡಾರ್‌ಗಳು, ಭೂಗತಜಲ ಮತ್ತು ಕ್ಷೇತ್ರ ಅಂದಾಜುಗಳು.',
         hi: 'कर्नाटक ओपन डेटा से संचालित इंटरैक्टिव चार्ट: एयरपोर्ट वृद्धि, कॉरिडोर, भूजल और सेक्टर प्रक्षेपण।',
         ta: 'கர்நாடக திறந்த தரவால் இயங்கும் இணையாடல் வரைபடங்கள்: விமான நிலைய வளர்ச்சி, வழித்தடங்கள், நிலத்தடி நீர், துறை முன்னறிவிப்புகள்.',

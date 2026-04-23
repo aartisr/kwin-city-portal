@@ -4,6 +4,10 @@ on:
   push:
     branches: [main, master]
     paths:
+      - app/layout.tsx
+      - app/opensearch.xml/route.ts
+      - app/updates/**
+      - app/lib/updates/**
       - app/content/pages/updates.json
       - app/sitemap.ts
       - public/robots.txt

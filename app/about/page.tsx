@@ -18,25 +18,25 @@ const breadcrumb = {
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   const title = pickByLocale(locale, {
-    en: 'About KWIN City | Knowledge · Wellbeing · Innovation Township',
+    en: 'About KWIN City | Project Overview, Scale, Vision & Verification Boundaries',
     kn: 'KWIN City ಬಗ್ಗೆ | ಜ್ಞಾನ · ಕ್ಷೇಮ · ನವೀನತೆ ಟೌನ್‌ಶಿಪ್',
     hi: 'KWIN City के बारे में | ज्ञान · कल्याण · नवाचार टाउनशिप',
     ta: 'KWIN City பற்றி | அறிவு · நல்வாழ்வு · புதுமை நகரம்',
   });
   const description = pickByLocale(locale, {
-    en: 'Learn about KWIN City — a proposed 465-acre knowledge-economy township in Doddaballapura, North Bengaluru. Built on three pillars: world-class research, genuine wellbeing infrastructure, and breakthrough industrial clusters.',
+    en: 'Understand what KWIN City is, where it is proposed, how large it is, what sectors it targets, and which claims are confirmed versus still awaiting primary verification.',
     kn: 'KWIN City ಕುರಿತು ತಿಳಿಯಿರಿ — ಉತ್ತರ ಬೆಂಗಳೂರಿನ ದೊಡ್ಡಬಳ್ಳಾಪುರದಲ್ಲಿ ಪ್ರಸ್ತಾಪಿತ 465 ಏಕರೆ ಜ್ಞಾನ-ಆರ್ಥಿಕ ಟೌನ್‌ಶಿಪ್.',
     hi: 'KWIN City के बारे में जानें — उत्तर बेंगलुरु के डोड्डाबल्लापुर में प्रस्तावित 465 एकड़ ज्ञान-आधारित टाउनशिप।',
     ta: 'KWIN City பற்றி அறியுங்கள் — வட பெங்களூருவின் டொಡ್ಡபள்ளாபுராவில் முன்மொழியப்பட்ட அறிவு-சார்ந்த நகரத் திட்டம்.',
   });
   const ogTitle = pickByLocale(locale, {
-    en: 'About KWIN City — Knowledge, Wellbeing, Innovation Township',
+    en: 'About KWIN City — What the Project Proposes and What the Evidence Supports',
     kn: 'KWIN City ಬಗ್ಗೆ — ಜ್ಞಾನ, ಕ್ಷೇಮ, ನವೀನತೆ ಟೌನ್‌ಶಿಪ್',
     hi: 'KWIN City के बारे में — ज्ञान, कल्याण, नवाचार टाउनशिप',
     ta: 'KWIN City பற்றி — அறிவு, நல்வாழ்வு, புதுமை நகரம்',
   });
   const ogDescription = pickByLocale(locale, {
-    en: 'Three pillars. One ambitious city. Learn what KWIN City proposes and what the evidence says.',
+    en: 'A clear overview of KWIN City’s scale, location, pillars, and verification status for investors, researchers, residents, and journalists.',
     kn: 'ಮೂರು ಸ್ತಂಭಗಳು. ಒಂದು ಮಹತ್ವಾಕಾಂಕ್ಷಿ ನಗರ. KWIN City ಏನು ಪ್ರಸ್ತಾಪಿಸುತ್ತದೆ ಎಂಬುದನ್ನು ನೋಡಿ.',
     hi: 'तीन स्तंभ। एक महत्वाकांक्षी शहर। KWIN City क्या प्रस्तावित करता है, जानिए।',
     ta: 'மூன்று தளங்கள். ஒரு உயர்வான நகரக் காட்சி. KWIN City என்ன முன்வைக்கிறது என்பதை அறியுங்கள்.',
