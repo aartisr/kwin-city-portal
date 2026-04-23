@@ -1,22 +1,5 @@
 import { SITE_CONFIG } from '@/config/site.config';
-import updatesData from '@/content/pages/updates.json';
-
-type UpdateLink = {
-  label: string;
-  href: string;
-};
-
-type UpdateEntry = {
-  id: string;
-  date: string;
-  title: string;
-  summary: string;
-  body: string;
-  category: string;
-  verificationTier: 'verified' | 'pending' | 'contextual';
-  tags: string[];
-  links: UpdateLink[];
-};
+import { getUpdateEntries, getUpdateUrl } from '@/lib/updates/content';
 
 function escapeXml(value: string): string {
   return value
@@ -29,13 +12,11 @@ function escapeXml(value: string): string {
 
 export async function GET() {
   const siteUrl = SITE_CONFIG.url;
-  const entries = [...(updatesData.entries as UpdateEntry[])].sort((a, b) =>
-    new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
+  const entries = getUpdateEntries();
 
   const items = entries
     .map((entry) => {
-      const url = `${siteUrl}/updates#${entry.id}`;
+      const url = getUpdateUrl(entry.id);
       const relatedLinks = entry.links
         .map((link) => {
           const href = link.href.startsWith('http') ? link.href : `${siteUrl}${link.href}`;

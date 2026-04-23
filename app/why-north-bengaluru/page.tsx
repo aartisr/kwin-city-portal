@@ -38,12 +38,12 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
     title: pickByLocale(locale, {
-      en: 'Why North Bengaluru | Airport City · STRR Corridor · Fastest-Growing Region',
+      en: 'Why North Bengaluru | Airport, STRR, Growth Corridor & Regional Advantage',
       kn: 'ಉತ್ತರ ಬೆಂಗಳೂರು ಯಾಕೆ | ಏರ್‌ಪೋರ್ಟ್ ಸಿಟಿ · STRR ಕಾರಿಡಾರ್ · ವೇಗವಾಗಿ ಬೆಳೆಯುತ್ತಿರುವ ಪ್ರದೇಶ',
       hi: 'नॉर्थ बेंगलुरु क्यों | एयरपोर्ट सिटी · STRR कॉरिडोर · सबसे तेज़ी से बढ़ता क्षेत्र',
     }),
     description: pickByLocale(locale, {
-      en: 'North Bengaluru is India\'s most compelling urban canvas: adjacent to Kempegowda International Airport, integrated into the STRR corridor, and at the heart of Karnataka\'s fastest-growing northern belt. Explore the evidence.',
+      en: 'See why North Bengaluru matters: airport adjacency, STRR connectivity, industrial momentum, water realities, and the regional evidence behind KWIN City’s proposed location.',
       kn: 'ಉತ್ತರ ಬೆಂಗಳೂರು ಭಾರತದ ಅತ್ಯಂತ ತಾಕತ್ತಿನ ನಗರ ಪ್ರದೇಶಗಳಲ್ಲಿ ಒಂದು. ಸಾಕ್ಷ್ಯಾಧಾರಗಳನ್ನು ಇಲ್ಲಿ ನೋಡಿ.',
       hi: 'नॉर्थ बेंगलुरु भारत का एक अत्यंत रणनीतिक शहरी क्षेत्र है। प्रमाण यहां देखें।',
     }),
@@ -60,12 +60,12 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: { canonical: 'https://kwin-city.com/why-north-bengaluru' },
     openGraph: {
       title: pickByLocale(locale, {
-        en: 'Why North Bengaluru — Airport City, STRR Corridor, India\'s Fastest-Growing Region',
+        en: 'Why North Bengaluru — Airport Access, STRR, Infrastructure and Growth Signals',
         kn: 'ಉತ್ತರ ಬೆಂಗಳೂರು ಯಾಕೆ — ಏರ್‌ಪೋರ್ಟ್ ಸಿಟಿ, STRR ಕಾರಿಡಾರ್',
         hi: 'नॉर्थ बेंगलुरु क्यों — एयरपोर्ट सिटी, STRR कॉरिडोर',
       }),
       description: pickByLocale(locale, {
-        en: 'The strategic case for North Bengaluru as India\'s next knowledge-economy hub — backed by aviation data, infrastructure maps, and Karnataka economic evidence.',
+        en: 'A data-backed regional case for North Bengaluru with aviation, corridor, infrastructure, and economic-growth evidence.',
         kn: 'ವಿಮಾನಯಾನ ಮತ್ತು ಮೂಲಸೌಕರ್ಯ ಡೇಟಾದ ಆಧಾರದಿಂದ ಉತ್ತರ ಬೆಂಗಳೂರುಗಾಗಿ ತಂತ್ರಾತ್ಮಕ ವಿಶ್ಲೇಷಣೆ.',
         hi: 'एविएशन और इंफ्रास्ट्रक्चर डेटा के आधार पर नॉर्थ बेंगलुरु का रणनीतिक विश्लेषण।',
       }),

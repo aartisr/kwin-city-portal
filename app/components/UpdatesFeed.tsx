@@ -18,6 +18,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import data from '@/content/pages/updates.json';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import { type Locale, getIntlLocale, pickLocalizedValue } from '@/lib/i18n/messages';
+import { getUpdatePath } from '@/lib/updates/content';
 
 type VerificationTier = 'verified' | 'pending' | 'contextual';
 
@@ -100,7 +101,11 @@ function UpdateCard({ entry, catMeta, locale }: { entry: UpdateEntry; catMeta: U
         </div>
 
         {/* Title */}
-        <h3 className="text-lg font-extrabold text-gray-900 mb-2 leading-snug">{entry.title}</h3>
+        <h3 className="text-lg font-extrabold text-gray-900 mb-2 leading-snug">
+          <Link href={getUpdatePath(entry.id)} className="hover:text-amber-700 transition-colors">
+            {entry.title}
+          </Link>
+        </h3>
 
         {/* Summary */}
         <p className="text-sm text-gray-600 leading-relaxed mb-4">{entry.summary}</p>
@@ -126,6 +131,12 @@ function UpdateCard({ entry, catMeta, locale }: { entry: UpdateEntry; catMeta: U
         <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-gray-100">
           {/* Related links */}
           <div className="flex flex-wrap gap-1.5">
+            <Link
+              href={getUpdatePath(entry.id)}
+              className="text-xs font-semibold text-amber-700 hover:text-amber-900 underline-offset-2 hover:underline transition-colors"
+            >
+              {l({ en: 'Permanent link', kn: 'ಶಾಶ್ವತ ಲಿಂಕ್', hi: 'स्थायी लिंक', ta: 'நிரந்தர இணைப்பு' })} →
+            </Link>
             {entry.links.map((link) => (
               <Link
                 key={link.label}

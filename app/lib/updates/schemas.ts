@@ -1,19 +1,7 @@
-import updatesData from '@/content/pages/updates.json';
 import { SITE_CONFIG } from '@/config/site.config';
+import { getUpdateEntries, getUpdateUrl } from './content';
 
 const SITE_LOGO = `${SITE_CONFIG.url}/icon`;
-
-type UpdateEntry = {
-  id: string;
-  date: string;
-  title: string;
-  summary: string;
-  body: string;
-  category: string;
-  verificationTier: 'verified' | 'pending' | 'contextual';
-  tags: string[];
-  links: Array<{ label: string; href: string }>;
-};
 
 function toAbsoluteUrl(pathOrUrl: string): string {
   if (pathOrUrl.startsWith('http://') || pathOrUrl.startsWith('https://')) {
@@ -23,9 +11,7 @@ function toAbsoluteUrl(pathOrUrl: string): string {
 }
 
 export function getUpdatesSchemas() {
-  const entries = [...(updatesData.entries as UpdateEntry[])].sort((a, b) =>
-    new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
+  const entries = getUpdateEntries();
 
   const itemListSchema = {
     '@context': 'https://schema.org',
@@ -36,7 +22,7 @@ export function getUpdatesSchemas() {
     itemListElement: entries.map((entry, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      url: `${SITE_CONFIG.url}/updates#${entry.id}`,
+      url: getUpdateUrl(entry.id),
       name: entry.title,
     })),
   };
@@ -44,7 +30,7 @@ export function getUpdatesSchemas() {
   const newsArticleSchemas = entries.map((entry) => ({
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
-    '@id': `${SITE_CONFIG.url}/updates#${entry.id}`,
+    '@id': `${getUpdateUrl(entry.id)}#article`,
     headline: entry.title,
     description: entry.summary,
     datePublished: `${entry.date}T00:00:00+05:30`,
@@ -53,8 +39,8 @@ export function getUpdatesSchemas() {
     articleBody: entry.body,
     inLanguage: 'en-IN',
     keywords: entry.tags,
-    mainEntityOfPage: `${SITE_CONFIG.url}/updates`,
-    url: `${SITE_CONFIG.url}/updates#${entry.id}`,
+    mainEntityOfPage: getUpdateUrl(entry.id),
+    url: getUpdateUrl(entry.id),
     author: {
       '@type': 'Organization',
       name: 'KWIN City Research Team',
@@ -69,7 +55,7 @@ export function getUpdatesSchemas() {
         url: SITE_LOGO,
       },
     },
-    image: [`${SITE_CONFIG.url}/updates/opengraph-image`],
+    image: [`${SITE_CONFIG.url}/updates/${entry.id}/opengraph-image`],
     citation: entry.links.map((link) => toAbsoluteUrl(link.href)),
     about: [
       {

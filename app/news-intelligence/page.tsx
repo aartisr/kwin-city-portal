@@ -125,12 +125,12 @@ const PROTOCOL = [
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   const title = pickByLocale(locale, {
-    en: 'News Intelligence',
+    en: 'KWIN City News Intelligence | Source-Mapped Media Monitoring',
     kn: 'ಸುದ್ದಿ ಇಂಟೆಲಿಜೆನ್ಸ್',
     hi: 'न्यूज़ इंटेलिजेंस',
   });
   const description = pickByLocale(locale, {
-    en: 'A credibility-first news intelligence dashboard for KWIN City with explicit attribution, verification tiers, and downloadable OPML feeds.',
+    en: 'Track KWIN City coverage with source-mapped news feeds, verification framing, OPML downloads, and transparent attribution across publisher and filtered streams.',
     kn: 'KWIN Cityಗಾಗಿ ವಿಶ್ವಾಸಾರ್ಹ ಸುದ್ದಿ ಇಂಟೆಲಿಜೆನ್ಸ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್.',
     hi: 'KWIN City के लिए विश्वसनीय न्यूज़ इंटेलिजेंस डैशबोर्ड।',
   });
@@ -139,7 +139,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description,
     alternates: { canonical: PAGE_URL },
     openGraph: {
-      title: `${title} | KWIN City`,
+      title: 'KWIN City News Intelligence — Source-Mapped Monitoring, Not Rumor Tracking',
       description,
       url: PAGE_URL,
       type: 'website',
@@ -147,7 +147,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${title} | KWIN City`,
+      title: 'KWIN City News Intelligence — Source-Mapped Monitoring, Not Rumor Tracking',
       description,
       images: [OG_IMAGE],
     },

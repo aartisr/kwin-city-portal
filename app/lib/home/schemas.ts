@@ -1,51 +1,9 @@
 import { SITE_CONFIG } from '@/config/site.config';
 
 const SITE_URL = SITE_CONFIG.url;
-const SITE_LOGO = `${SITE_URL}/icon`;
 const LAST_UPDATED = `${SITE_CONFIG.lastUpdatedISO}T00:00:00+05:30`;
 
 export function getHomeSchemas() {
-  const organizationSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'KWIN City',
-    alternateName: 'Knowledge Wellbeing Innovation City',
-    url: SITE_URL,
-    logo: SITE_LOGO,
-    description:
-      'KWIN City is presented on this portal as a proposed knowledge-economy township in Doddaballapura, North Bengaluru, with project materials emphasizing semiconductors, aerospace, health-tech, ICT, and renewables.',
-    dateModified: LAST_UPDATED,
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Doddaballapura',
-      addressRegion: 'Karnataka',
-      addressCountry: 'IN',
-    },
-    areaServed: {
-      '@type': 'Place',
-      name: 'North Bengaluru, Karnataka, India',
-    },
-    sameAs: ['https://www.kiadb.in'],
-  };
-
-  const webSiteSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'KWIN City Portal',
-    url: SITE_URL,
-    description:
-      'Evidence-first research portal for KWIN City — a proposed knowledge, wellbeing, and innovation township in North Bengaluru.',
-    dateModified: LAST_UPDATED,
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
-      },
-      'query-input': 'required name=search_term_string',
-    },
-  };
-
   const realEstateProjectSchema = {
     '@context': 'https://schema.org',
     '@type': 'Place',
@@ -66,6 +24,34 @@ export function getHomeSchemas() {
       postalCode: '561203',
       addressCountry: 'IN',
     },
+  };
+
+  const collectionPageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${SITE_URL}/#knowledge-hub`,
+    url: SITE_URL,
+    name: 'KWIN City Knowledge Hub',
+    description:
+      'Evidence-first navigation hub for KWIN City research, updates, news intelligence, sources, data insights, and trust documentation.',
+    dateModified: LAST_UPDATED,
+    isPartOf: {
+      '@id': `${SITE_URL}/#website`,
+    },
+    about: {
+      '@type': 'Thing',
+      name: 'KWIN City',
+    },
+    hasPart: [
+      `${SITE_URL}/updates`,
+      `${SITE_URL}/news-intelligence`,
+      `${SITE_URL}/data-insights`,
+      `${SITE_URL}/evidence`,
+      `${SITE_URL}/sources`,
+      `${SITE_URL}/timeline`,
+      `${SITE_URL}/faq`,
+      `${SITE_URL}/trust`,
+    ],
   };
 
   const faqSchema = {
@@ -122,5 +108,5 @@ export function getHomeSchemas() {
     itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL }],
   };
 
-  return [organizationSchema, webSiteSchema, realEstateProjectSchema, faqSchema, breadcrumbSchema];
+  return [realEstateProjectSchema, collectionPageSchema, faqSchema, breadcrumbSchema];
 }

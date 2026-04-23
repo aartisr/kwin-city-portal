@@ -79,7 +79,7 @@ const baseConfig = {
       },
       // Sitemap and robots.txt must never be cached so crawlers always get fresh data
       {
-        source: '/(sitemap.xml|robots.txt)',
+        source: '/(sitemap.xml|robots.txt|llms.txt|ai.txt|opensearch.xml)',
         headers: [{ key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' }],
       },
       // Cache static assets (JS, CSS) for 1 year (they have hash in filename)
