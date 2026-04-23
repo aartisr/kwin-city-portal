@@ -8,6 +8,7 @@ import I18nProvider from '@/lib/i18n/I18nProvider';
 import { SITE_CONFIG } from '@/config/site.config';
 import { getLocaleDefinition, normalizeLocale } from '@/lib/i18n/messages';
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -227,6 +228,7 @@ export default async function RootLayout({
           {children}
         </I18nProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
