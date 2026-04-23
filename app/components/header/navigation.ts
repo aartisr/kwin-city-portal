@@ -1,15 +1,16 @@
 import type { NavGroup } from '@/components/header/types';
 
 export const NAV_TONES = {
-  active: 'text-[#A96A00] font-extrabold bg-amber-50/95 ring-1 ring-amber-200',
-  idleScrolled: 'text-gray-600 hover:text-gray-900 font-semibold',
-  idleTop: 'text-slate-700 hover:text-slate-900 font-semibold',
+  active: 'text-[#8A5400] font-bold bg-amber-50 ring-1 ring-amber-200',
+  idleScrolled: 'text-slate-800 hover:text-slate-950 font-medium',
+  idleTop: 'text-slate-800 hover:text-slate-950 font-medium',
   dropdownActive: 'text-[#A96A00]',
-  dropdownIdle: 'text-gray-800',
+  dropdownIdle: 'text-slate-900',
 } as const;
 
 export const HIGH_LEVEL_MENUS: NavGroup[] = [
   {
+    key: 'discover',
     label: 'Discover',
     items: [
       { label: 'About KWIN', href: '/about', desc: 'Mission, pillars, and framework' },
@@ -20,6 +21,7 @@ export const HIGH_LEVEL_MENUS: NavGroup[] = [
     ],
   },
   {
+    key: 'ecosystem',
     label: 'Ecosystem',
     items: [
       { label: 'Sectors', href: '/sectors', desc: 'Industry depth and opportunities' },
@@ -27,6 +29,7 @@ export const HIGH_LEVEL_MENUS: NavGroup[] = [
     ],
   },
   {
+    key: 'research',
     label: 'Research',
     items: [
       { label: 'Data Insights', href: '/data-insights', desc: 'Live evidence dashboards' },
@@ -37,6 +40,7 @@ export const HIGH_LEVEL_MENUS: NavGroup[] = [
     ],
   },
   {
+    key: 'intelligence',
     label: 'Intelligence',
     items: [
       { label: 'News Intelligence', href: '/news-intelligence', desc: 'Attribution-first media observatory' },
@@ -47,6 +51,7 @@ export const HIGH_LEVEL_MENUS: NavGroup[] = [
     ],
   },
   {
+    key: 'audiences',
     label: 'Audiences',
     items: [
       { label: 'Account & Preferences', href: '/account', icon: '👤', desc: 'Sign in and save your interests' },

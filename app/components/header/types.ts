@@ -6,6 +6,7 @@ export type NavItem = {
 };
 
 export type NavGroup = {
+  key: string;
   label: string;
   items: NavItem[];
 };
