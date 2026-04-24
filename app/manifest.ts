@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: 'KWIN City',
     description:
       'Knowledge-economy intelligence portal for North Bengaluru\'s 465-acre KWIN City township. Data-first, source-verified, built for investors, residents, and researchers.',
-    start_url: '/?source=pwa',
+    start_url: '/',
     id: '/',
     display: 'standalone',
     background_color: '#040714',
@@ -57,7 +57,7 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     screenshots: [
       {
-        src: '/og-image.png',
+        src: '/opengraph-image',
         sizes: '1200x630',
         type: 'image/png',
         // @ts-ignore - label is valid per spec

@@ -16,6 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
       kn: 'KWIN Cityಗಾಗಿ ನಿಮ್ಮ ಉಳಿಸಿದ ಆದ್ಯತೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ.',
       hi: 'KWIN City के लिए अपनी सहेजी गई प्राथमिकताएँ प्रबंधित करें।',
     }),
+    alternates: { canonical: 'https://kwin-city.com/account' },
     robots: { index: false },
   };
 }

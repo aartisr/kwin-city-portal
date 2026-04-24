@@ -31,6 +31,12 @@ export default function Sectors() {
             Employment and investment figures are planning targets from the brief.{' '}
             <InlineSourceBadges sourceIds={SECTORS_SOURCE_IDS} />
           </p>
+          <a
+            href="/sectors/comparison"
+            className="mt-5 inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-800 hover:border-blue-500 hover:text-blue-700"
+          >
+            Compare the pillars side by side
+          </a>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

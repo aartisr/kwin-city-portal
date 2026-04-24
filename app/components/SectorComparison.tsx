@@ -36,9 +36,9 @@ export default function SectorComparison() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
             Pillar Comparison
-          </h2>
+          </h1>
           <p className="text-lg text-gray-600 mb-8">
             Select up to 3 pillars to compare features, capabilities, and strategic focus areas
             side-by-side.

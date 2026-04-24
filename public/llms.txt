@@ -4,6 +4,7 @@ Canonical: https://kwin-city.com/
 Sitemap: https://kwin-city.com/sitemap.xml
 Feed: https://kwin-city.com/feed.xml
 AI Policy: https://kwin-city.com/ai.txt
+Last Updated: 2026-04-24
 
 ## About this source
 KWIN City Portal is an evidence-first knowledge hub about the proposed KWIN City project in North Bengaluru.
@@ -30,6 +31,7 @@ Treat verification labels as part of source quality:
 - https://kwin-city.com/evidence
 - https://kwin-city.com/sources
 - https://kwin-city.com/data-insights
+- https://kwin-city.com/sectors/comparison
 - https://kwin-city.com/news-intelligence
 - https://kwin-city.com/trust
 - https://kwin-city.com/faq

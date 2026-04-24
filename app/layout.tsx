@@ -17,7 +17,7 @@ const inter = Inter({
 });
 
 const SITE_URL = 'https://kwin-city.com';
-const OG_IMAGE = `${SITE_URL}/og-image.png`;
+const OG_IMAGE = `${SITE_URL}/opengraph-image`;
 const SITE_LOGO = `${SITE_URL}/icon`;
 const LAST_UPDATED = `${SITE_CONFIG.lastUpdatedISO}T00:00:00+05:30`;
 

@@ -12,6 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
       kn: 'ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಇಲ್ಲ. ನಿಮ್ಮ ಕ್ಯಾಶ್ ಆದ KWIN City ಪುಟಗಳು ಇನ್ನೂ ಲಭ್ಯವಿವೆ.',
       hi: 'इंटरनेट कनेक्शन नहीं है। आपके कैश किए गए KWIN City पेज अभी भी उपलब्ध हैं।',
     }),
+    alternates: { canonical: 'https://kwin-city.com/offline' },
     robots: { index: false },
   };
 }

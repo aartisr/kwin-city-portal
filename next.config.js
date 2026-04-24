@@ -77,9 +77,9 @@ const baseConfig = {
           { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
         ],
       },
-      // Sitemap and robots.txt must never be cached so crawlers always get fresh data
+      // Discovery, policy, and verification files stay fresh for crawlers.
       {
-        source: '/(sitemap.xml|robots.txt|llms.txt|ai.txt|opensearch.xml)',
+        source: '/(sitemap.xml|robots.txt|feed.xml|llms.txt|ai.txt|opensearch.xml|57AA00BD-4FE7-48FB-932C-A0EBDB93354B.txt)',
         headers: [{ key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' }],
       },
       // Cache static assets (JS, CSS) for 1 year (they have hash in filename)
@@ -100,9 +100,21 @@ const baseConfig = {
     ];
   },
   
-  // Redirects for old URLs (if needed)
+  // Consolidate host variants onto the canonical apex domain.
   redirects: async () => {
-    return [];
+    return [
+      {
+        source: '/og-image.png',
+        destination: '/opengraph-image',
+        permanent: true,
+      },
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.kwin-city.com' }],
+        destination: 'https://kwin-city.com/:path*',
+        permanent: true,
+      },
+    ];
   },
   
   // Rewrites for API routes

@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { SITE_CONFIG } from '@/config/site.config';
 import { getUpdateEntries, getUpdateUrl } from '@/lib/updates/content';
 
@@ -51,11 +52,14 @@ export async function GET() {
   ${items}
 </channel>
 </rss>`;
+  const etag = `"${createHash('sha256').update(rss).digest('base64url')}"`;
 
   return new Response(rss, {
     headers: {
       'Content-Type': 'application/rss+xml; charset=utf-8',
-      'Cache-Control': 'public, max-age=1800, s-maxage=1800, stale-while-revalidate=86400',
+      'Cache-Control': 'public, max-age=0, must-revalidate',
+      ETag: etag,
+      'Last-Modified': lastBuildDate,
     },
   });
 }

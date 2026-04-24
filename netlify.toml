@@ -8,6 +8,18 @@
 [context.production.environment]
   NEXT_PUBLIC_ENVIRONMENT = "production"
 
+[[redirects]]
+  from = "https://www.kwin-city.com/*"
+  to = "https://kwin-city.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/og-image.png"
+  to = "/opengraph-image"
+  status = 301
+  force = true
+
 # ── Security & Trust Headers ──────────────────────────────────────────────────
 # Targeting A+ on securityheaders.com and Mozilla Observatory.
 # Also satisfies HSTS preload requirements (hstspreload.org).
@@ -50,3 +62,39 @@
   for = "/BingSiteAuth.xml"
   [headers.values]
     Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/feed.xml"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/llms.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/ai.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/opensearch.xml"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/57AA00BD-4FE7-48FB-932C-A0EBDB93354B.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Content-Type = "text/plain; charset=utf-8"

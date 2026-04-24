@@ -17,6 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
       hi: 'KWIN City रिसर्च पोर्टल के लिए उपयोग की शर्तें, कॉपीराइट और अनुमत उपयोग नियम।',
       ta: 'KWIN City ஆய்வு தளத்திற்கான பயன்பாட்டு விதிமுறைகள், பதிப்புரிமை மற்றும் அனுமதிக்கப்பட்ட பயன்பாட்டு நெறிமுறைகள்.',
     }),
+    alternates: { canonical: 'https://kwin-city.com/terms' },
   };
 }
 
