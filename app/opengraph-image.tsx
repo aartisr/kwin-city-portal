@@ -5,7 +5,7 @@ export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 /**
- * Dynamic Open Graph image served at /og-image.png.
+ * Dynamic Open Graph image served at /opengraph-image.
  * Used by every page's meta og:image tag, Twitter card, and WhatsApp previews.
  * Renders in ~50ms via the Edge runtime.
  */

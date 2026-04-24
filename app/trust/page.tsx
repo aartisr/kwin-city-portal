@@ -7,7 +7,7 @@ import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 
 const SITE_URL = 'https://kwin-city.com';
 const PAGE_URL = `${SITE_URL}/trust`;
-const OG_IMAGE = `${SITE_URL}/og-image.png`;
+const OG_IMAGE = `${SITE_URL}/opengraph-image`;
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();

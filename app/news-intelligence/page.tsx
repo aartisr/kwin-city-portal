@@ -7,7 +7,7 @@ import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 
 const SITE_URL = 'https://kwin-city.com';
 const PAGE_URL = `${SITE_URL}/news-intelligence`;
-const OG_IMAGE = `${SITE_URL}/og-image.png`;
+const OG_IMAGE = `${SITE_URL}/opengraph-image`;
 
 const FEED_GROUPS = [
   {

@@ -10,7 +10,7 @@ export const SITE_CONFIG = {
   url: 'https://kwin-city.com',
   locale: 'en_IN',
   // Canonical content refresh date used in sitemap, schema, and UI labels.
-  lastUpdatedISO: '2026-03-26',
+  lastUpdatedISO: '2026-04-24',
 } as const;
 
 /**
@@ -177,7 +177,7 @@ export const SEO_CONFIG = {
   author: 'Aarti S Ravikumar',
   creator: 'BAJA Associates',
   canonical: 'https://kwin-city.com',
-  ogImage: '/og-image.png',
+  ogImage: '/opengraph-image',
   twitterHandle: '@kwincity',
 } as const;
 

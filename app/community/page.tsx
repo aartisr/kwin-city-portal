@@ -12,6 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
       kn: 'ಚರ್ಚೆ ಮತ್ತು ಸಾಕ್ಷ್ಯ ವಿನಂತಿಗಳಿಗಾಗಿ ಸಮುದಾಯ ವೇದಿಕೆ',
       hi: 'चर्चा और प्रमाण अनुरोधों के लिए सामुदायिक मंच',
     }),
+    alternates: { canonical: 'https://kwin-city.com/community' },
     robots: { index: false },
   };
 }

@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { SITE_CONFIG } from '@/config/site.config';
 import { getUpdateEntries, getUpdatePath } from '@/lib/updates/content';
 
-const SITE_URL = 'https://kwin-city.com';
+const SITE_URL = SITE_CONFIG.url;
 
 /**
  * Dynamic XML sitemap — automatically discovered by Google Search Console,
@@ -39,6 +39,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/sectors/comparison`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.75,
     },
     {
       url: `${SITE_URL}/sustainability`,
@@ -161,12 +167,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${SITE_URL}/faq`,
       lastModified,
       changeFrequency: 'monthly',
-      priority: 0.6,
-    },
-    {
-      url: `${SITE_URL}/community`,
-      lastModified,
-      changeFrequency: 'weekly',
       priority: 0.6,
     },
     {
