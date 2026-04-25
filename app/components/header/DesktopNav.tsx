@@ -32,7 +32,7 @@ export default function DesktopNav({
   onCloseMenu,
 }: DesktopNavProps) {
   return (
-    <div className="hidden min-w-0 items-center justify-center min-[1440px]:flex">
+    <div className="hidden min-w-0 items-center justify-center min-[1200px]:flex">
       <div ref={desktopNavRef as RefObject<HTMLDivElement>} className="relative z-[320] flex min-w-0 max-w-[648px] flex-1 justify-center">
         <div className="flex items-center gap-1 rounded-full border border-slate-300/90 bg-white/95 px-1 py-1 shadow-[0_12px_28px_rgba(15,23,42,0.06)] backdrop-blur-xl">
           {menuGroups.map((group) => {

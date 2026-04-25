@@ -125,7 +125,7 @@ export default function Header({
               }`}
             />
 
-            <nav className="grid h-[72px] grid-cols-[minmax(11rem,auto)_auto] items-center gap-3 px-3 md:px-4 min-[1440px]:grid-cols-[minmax(11rem,auto)_minmax(0,1fr)_auto]">
+            <nav className="grid h-[72px] grid-cols-[minmax(11rem,auto)_auto] items-center gap-3 px-3 md:px-4 min-[1200px]:grid-cols-[minmax(11rem,auto)_minmax(0,1fr)_auto]">
               <BrandLockup />
               <DesktopNav
                 menuGroups={menuGroups}
