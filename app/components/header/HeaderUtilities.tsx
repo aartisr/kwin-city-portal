@@ -24,7 +24,7 @@ export default function HeaderUtilities({
   currentUser,
 }: HeaderUtilitiesProps) {
   return (
-    <div className="hidden items-center justify-end gap-2 min-[1440px]:flex">
+    <div className="hidden items-center justify-end gap-2 min-[1200px]:flex">
       <LanguageSwitcher compact hideLabelVisually label={labels.language} locale={locale} onLocaleChange={setLocale} />
 
       <button
