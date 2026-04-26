@@ -136,6 +136,7 @@ export function buildFooterContent(locale: Locale): FooterContentModel {
       links: [
         { href: '/news-intelligence', label: t('header.items./news-intelligence.label') },
         { href: '/news-reader', label: t('header.items./news-reader.label') },
+        { href: '/instagram', label: l({ en: 'Instagram Hub', kn: 'Instagram ಹಬ್', hi: 'Instagram हब', ta: 'Instagram மையம்' }) },
         { href: '/search', label: t('common.search') },
         { href: '/downloads', label: t('header.items./downloads.label') },
         { href: '/contact', label: t('common.contact') },
