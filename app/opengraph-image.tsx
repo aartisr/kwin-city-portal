@@ -18,9 +18,9 @@ export default function OpenGraphImage() {
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'flex-end',
+          justifyContent: 'space-between',
           padding: '64px',
-          background: 'linear-gradient(150deg, #040714 0%, #0D1640 50%, #07131F 100%)',
+          background: 'linear-gradient(150deg, #040714 0%, #07131F 55%, #04120F 100%)',
           fontFamily: 'sans-serif',
         }}
       >
@@ -36,71 +36,80 @@ export default function OpenGraphImage() {
           }}
         />
 
-        {/* Pillar badges */}
-        <div style={{ display: 'flex', gap: '12px', marginBottom: '32px' }}>
-          {[
-            { label: 'Knowledge', color: '#3B82F6' },
-            { label: 'Wellbeing', color: '#22C55E' },
-            { label: 'Innovation', color: '#F59E0B' },
-          ].map(({ label, color }) => (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
             <div
-              key={label}
               style={{
-                padding: '6px 16px',
-                borderRadius: '999px',
-                background: `${color}22`,
-                border: `1px solid ${color}55`,
-                color,
-                fontSize: '14px',
-                fontWeight: 700,
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
+                width: '72px',
+                height: '72px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: '#F5A623',
+                color: '#040714',
+                fontSize: '38px',
+                fontWeight: 950,
               }}
             >
-              {label}
+              K
             </div>
-          ))}
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ color: '#FFFFFF', fontSize: '30px', fontWeight: 900 }}>KWIN City</div>
+              <div style={{ color: '#94A3B8', fontSize: '18px', fontWeight: 700 }}>
+                Knowledge · Wellbeing · Innovation
+              </div>
+            </div>
+          </div>
+          <div
+            style={{
+              fontSize: '18px',
+              color: '#F5C050',
+              fontWeight: 800,
+            }}
+          >
+            kwin-city.com
+          </div>
         </div>
 
-        {/* Main heading */}
-        <div
-          style={{
-            fontSize: '72px',
-            fontWeight: 900,
-            color: '#FFFFFF',
-            lineHeight: 1.05,
-            letterSpacing: '-0.02em',
-            marginBottom: '20px',
-          }}
-        >
-          KWIN City
-        </div>
-
-        {/* Subtitle */}
-        <div
-          style={{
-            fontSize: '24px',
-            color: '#94A3B8',
-            lineHeight: 1.4,
-            maxWidth: '800px',
-          }}
-        >
-          A 465-acre knowledge-economy township in Doddaballapura, North Bengaluru.
-          Evidence-first · Net-zero · KIADB
-        </div>
-
-        {/* URL */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '64px',
-            right: '64px',
-            fontSize: '18px',
-            color: '#64748B',
-            fontWeight: 600,
-          }}
-        >
-          kwin-city.com
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div
+            style={{
+              display: 'flex',
+              padding: '10px 18px',
+              border: '1px solid rgba(245, 198, 80, 0.45)',
+              color: '#F5C050',
+              fontSize: '18px',
+              fontWeight: 900,
+              letterSpacing: 0,
+              textTransform: 'uppercase',
+              marginBottom: '26px',
+            }}
+          >
+            465-acre proposal · Source-linked
+          </div>
+          <div
+            style={{
+              fontSize: '76px',
+              fontWeight: 950,
+              color: '#FFFFFF',
+              lineHeight: 0.96,
+              letterSpacing: 0,
+              maxWidth: '980px',
+            }}
+          >
+            North Bengaluru&apos;s knowledge city, explained in 60 seconds.
+          </div>
+          <div
+            style={{
+              fontSize: '28px',
+              color: '#C9D8E8',
+              lineHeight: 1.35,
+              maxWidth: '860px',
+              marginTop: '24px',
+            }}
+          >
+            Share the brief, inspect the sources, and follow the evidence trail behind KWIN City.
+          </div>
         </div>
       </div>
     ),

@@ -38,6 +38,7 @@ export const defaultMessages = {
       '/downloads': { label: 'Document Downloads', desc: 'Reports, briefs & open datasets' },
       '/news-intelligence': { label: 'News Intelligence', desc: 'Attribution-first media observatory' },
       '/news-reader': { label: 'Live News Reader', desc: 'On-demand OPML summary reader' },
+      '/share': { label: 'Share Kit', desc: '60-second brief and launch assets' },
       '/community': { label: 'Community Discussion', desc: 'Open stakeholder threads and replies' },
       '/trust': { label: 'Trust Center', desc: 'Authenticity and originality protocol' },
       '/download': { label: 'Get the App', desc: 'Install on Android & iOS - free' },

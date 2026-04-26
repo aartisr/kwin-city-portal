@@ -54,6 +54,12 @@ export default function manifest(): MetadataRoute.Manifest {
         url: '/why-north-bengaluru',
         description: 'Regional strategic case',
       },
+      {
+        name: 'Share Kit',
+        short_name: 'Share',
+        url: '/share',
+        description: '60-second brief and launch assets',
+      },
     ],
     screenshots: [
       {
