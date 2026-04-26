@@ -194,7 +194,7 @@ export default async function NewsIntelligencePage() {
     <SiteFrame>
       <JsonLd data={pageSchemas} />
       <main className="bg-gradient-to-b from-[#f8fafc] via-white to-[#f8fafc]">
-        <section className="pt-28 pb-16 border-b border-gray-200">
+        <section className="kwin-page-top pb-16 border-b border-gray-200">
           <div className="container">
             <div className="rounded-3xl border border-[#dbe3ef] bg-[radial-gradient(1200px_500px_at_10%_0%,rgba(14,116,144,0.08),transparent_65%),radial-gradient(900px_400px_at_100%_20%,rgba(234,179,8,0.08),transparent_65%),linear-gradient(180deg,#ffffff,rgba(248,250,252,0.95))] p-8 md:p-12">
               <p className="text-xs font-bold tracking-[0.22em] uppercase text-cyan-700 mb-4">{pickByLocale(locale, { en: 'News Intelligence Desk', kn: 'ಸುದ್ದಿ ಇಂಟೆಲಿಜೆನ್ಸ್ ಡೆಸ್ಕ್', hi: 'न्यूज़ इंटेलिजेंस डेस्क' })}</p>

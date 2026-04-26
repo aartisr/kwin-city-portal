@@ -129,7 +129,7 @@ export default function InstagramHubPage() {
     <SiteFrame>
       <JsonLd data={socialSchema} />
       <main id="main-content" role="main" className="bg-[#F8FAFC]">
-        <section className="relative overflow-hidden bg-[#040714] pt-28 text-white md:pt-32">
+        <section className="kwin-page-top-roomy relative overflow-hidden bg-[#040714] text-white">
           <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#F5A623] via-[#38BDF8] to-[#10B981]" />
           <div aria-hidden="true" className="absolute inset-0 opacity-[0.16]">
             <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(245,166,35,0.28)_1px,transparent_1px),linear-gradient(180deg,rgba(6,182,212,0.20)_1px,transparent_1px)] bg-[length:72px_72px]" />

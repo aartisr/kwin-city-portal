@@ -200,7 +200,7 @@ export default async function RootLayout({
     <html lang={getLocaleDefinition(locale).htmlLang}>
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <link rel="alternate" type="application/rss+xml" title="KWIN City Updates Feed" href={`${SITE_URL}/feed.xml`} />
         <link rel="alternate" type="text/plain" title="LLM Usage Policy" href={`${SITE_URL}/llms.txt`} />
         <link rel="alternate" type="text/plain" title="AI Crawling Policy" href={`${SITE_URL}/ai.txt`} />

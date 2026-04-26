@@ -68,7 +68,7 @@ export default function SearchPageClient() {
     <main className="min-h-screen bg-gradient-to-br from-white via-gray-50/60 to-white">
 
       {/* Search hero */}
-      <section className="pt-28 pb-10 border-b border-gray-100">
+      <section className="kwin-page-top pb-10 border-b border-gray-100">
         <div className="container">
           <p className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600 mb-4">Search</p>
           <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
@@ -127,7 +127,7 @@ export default function SearchPageClient() {
 
         {/* Category filter chips */}
         {rawResults.length > 0 && (
-          <section className="sticky top-[70px] z-10 bg-white/90 backdrop-blur-md border-b border-gray-100">
+          <section className="sticky top-[var(--kwin-fixed-top-offset)] z-10 bg-white/90 backdrop-blur-md border-b border-gray-100">
             <div className="container py-3">
               <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
                 <button

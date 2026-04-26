@@ -82,7 +82,7 @@ export default function SearchModal({
             role="dialog"
             aria-modal="true"
             aria-label={l({ en: 'Site search', kn: 'ಸೈಟ್ ಹುಡುಕಾಟ', hi: 'साइट खोज', ta: 'தளத் தேடல்' })}
-            className="fixed inset-x-0 top-[90px] z-[210] mx-auto max-w-2xl px-4"
+            className="fixed inset-x-0 top-[calc(var(--kwin-fixed-top-offset)_+_0.75rem)] z-[210] mx-auto max-w-2xl px-4"
           >
             <div className="overflow-hidden rounded-2xl bg-white shadow-2xl border border-gray-100/80 ring-1 ring-black/5">
 

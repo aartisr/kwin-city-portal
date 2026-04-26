@@ -48,10 +48,13 @@ export default async function Hero() {
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,7,20,0.20)_0%,rgba(4,7,20,0.78)_100%)]" />
       </div>
 
-      <div className="container relative z-10 pt-32 pb-10 md:pt-36 lg:pt-40">
+      <div className="container kwin-page-top-hero relative z-10 pb-10">
         <div className="grid gap-9 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
           <div className="max-w-4xl">
-            <p className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/14 bg-white/[0.08] px-4 py-2 text-[11px] font-bold uppercase tracking-normal text-[#D8E7F7] backdrop-blur-md">
+            <p
+              data-testid="hero-location-badge"
+              className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/14 bg-white/[0.08] px-4 py-2 text-[11px] font-bold uppercase tracking-normal text-[#D8E7F7] backdrop-blur-md"
+            >
               <span className="h-1.5 w-1.5 rounded-full bg-[#F5A623]" aria-hidden="true" />
               {pickByLocale(locale, {
                 en: 'Doddaballapura, North Bengaluru',

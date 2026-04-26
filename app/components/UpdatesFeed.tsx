@@ -192,7 +192,7 @@ export default function UpdatesFeed() {
     <main className="min-h-screen bg-gradient-to-br from-white via-slate-50/30 to-white">
 
       {/* Hero */}
-      <section className="pt-28 pb-12 border-b border-gray-100">
+      <section className="kwin-page-top pb-12 border-b border-gray-100">
         <div className="container">
           <p className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600 mb-4">{l({ en: 'Project Record', kn: 'ಯೋಜನೆ ದಾಖಲಾತಿ', hi: 'परियोजना अभिलेख', ta: 'திட்ட பதிவுகள்' })}</p>
           <div className="flex flex-col lg:flex-row lg:items-end gap-8">
@@ -221,7 +221,7 @@ export default function UpdatesFeed() {
       </section>
 
       {/* Category filter */}
-      <section className="sticky top-[70px] z-10 bg-white/90 backdrop-blur-md border-b border-gray-100">
+      <section className="sticky top-[var(--kwin-fixed-top-offset)] z-10 bg-white/90 backdrop-blur-md border-b border-gray-100">
         <div className="container py-3">
           <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
             <button

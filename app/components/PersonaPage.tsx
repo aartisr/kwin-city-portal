@@ -49,7 +49,7 @@ export default function PersonaPage({
   return (
     <SiteFrame>
       <main>
-        <section className="pt-28 pb-12 bg-[linear-gradient(150deg,#040714_0%,#0D1640_45%,#07131F_100%)]">
+        <section className="kwin-page-top pb-12 bg-[linear-gradient(150deg,#040714_0%,#0D1640_45%,#07131F_100%)]">
           <div className="container">
             <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 items-center">
               <div>

@@ -77,7 +77,7 @@ export default async function DownloadPage() {
       <main className="bg-[linear-gradient(180deg,#040714_0%,#061027_60%,#040714_100%)] text-white min-h-screen">
 
         {/* ── Hero ─────────────────────────────────────────── */}
-        <section className="relative pt-28 pb-20 overflow-hidden">
+        <section className="kwin-page-top relative pb-20 overflow-hidden">
           {/* Ambient glows */}
           <div aria-hidden className="absolute top-20 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full blur-[130px] bg-amber-500/10 pointer-events-none" />
           <div aria-hidden className="absolute top-1/2 left-10 w-[400px] h-[400px] rounded-full blur-[100px] bg-cyan-500/8 pointer-events-none" />

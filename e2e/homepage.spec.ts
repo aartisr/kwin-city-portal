@@ -28,6 +28,73 @@ test.describe('Homepage - Navigation & Discovery', () => {
     await expect(h1).toContainText('KWIN City', { ignoreCase: true });
   });
 
+  test('should keep mobile hero content below fixed header chrome', async ({
+    page,
+  }: any) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.waitForFunction(() => {
+      const value = Number.parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue('--kwin-header-height'),
+      );
+      return Number.isFinite(value) && value > 80;
+    });
+
+    const closedChrome = await page.evaluate(() => {
+      const header = document.querySelector('[data-testid="site-header"]');
+      const badge = document.querySelector('[data-testid="hero-location-badge"]');
+      const title = document.querySelector('#home-hero-title');
+
+      if (!header || !badge || !title) {
+        throw new Error('Missing header or hero elements for overlap check');
+      }
+
+      const headerRect = header.getBoundingClientRect();
+      const badgeRect = badge.getBoundingClientRect();
+      const titleRect = title.getBoundingClientRect();
+
+      return {
+        headerBottom: headerRect.bottom,
+        badgeTop: badgeRect.top,
+        titleTop: titleRect.top,
+      };
+    });
+
+    expect(closedChrome.badgeTop).toBeGreaterThanOrEqual(closedChrome.headerBottom + 24);
+    expect(closedChrome.titleTop).toBeGreaterThan(closedChrome.headerBottom);
+
+    await page.evaluate(() => localStorage.setItem('kwin-trust-banner-visible', 'true'));
+    await page.reload();
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.waitForFunction(() => {
+      const value = Number.parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue('--kwin-trust-banner-height'),
+      );
+      return Number.isFinite(value) && value > 0;
+    });
+
+    const openChrome = await page.evaluate(() => {
+      const header = document.querySelector('[data-testid="site-header"]');
+      const banner = document.querySelector('[data-testid="trust-banner"]');
+      const badge = document.querySelector('[data-testid="hero-location-badge"]');
+
+      if (!header || !banner || !badge) {
+        throw new Error('Missing fixed chrome or hero badge for overlap check');
+      }
+
+      const obstructionBottom = Math.max(
+        header.getBoundingClientRect().bottom,
+        banner.getBoundingClientRect().bottom,
+      );
+
+      return {
+        obstructionBottom,
+        badgeTop: badge.getBoundingClientRect().top,
+      };
+    });
+
+    expect(openChrome.badgeTop).toBeGreaterThanOrEqual(openChrome.obstructionBottom + 24);
+  });
+
   test('should have functional navigation from home to major sections', async ({
     page,
     checkA11yOnPage,
