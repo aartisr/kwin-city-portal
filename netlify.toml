@@ -4,6 +4,7 @@
 
 [build.environment]
   NODE_VERSION = "20.19.0"
+  NEXT_PUBLIC_CLARITY_PROJECT_ID = "w90fdbtt4x"
 
 [context.production.environment]
   NEXT_PUBLIC_ENVIRONMENT = "production"
@@ -44,7 +45,7 @@
     # Content Security Policy
     # Next.js App Router requires unsafe-inline/unsafe-eval for hydration scripts;
     # frame-ancestors 'none' still prevents clickjacking regardless.
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://api.resend.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.clarity.ms https://scripts.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https: https://*.clarity.ms; connect-src 'self' https://api.resend.com https://*.clarity.ms; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
 
     # Cross-Origin policies for resource isolation
     Cross-Origin-Opener-Policy = "same-origin"

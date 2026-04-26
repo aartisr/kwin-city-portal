@@ -89,6 +89,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
+    {
+      url: `${SITE_URL}/instagram`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.75,
+    },
     ...updateEntries.map((entry) => ({
       url: `${SITE_URL}${getUpdatePath(entry.id)}`,
       lastModified: new Date(`${entry.date}T00:00:00+05:30`).toISOString(),
