@@ -229,6 +229,15 @@ export default function Footer({ locale }: { locale: Locale }) {
               <Link href="/sources" className="text-[#91A8C0] hover:text-white transition-colors">{t('common.sources')}</Link>
               <span className="h-1 w-1 rounded-full bg-white/20" />
               <Link href="/contact" className="text-[#91A8C0] hover:text-white transition-colors">{t('common.contact')}</Link>
+              <span className="h-1 w-1 rounded-full bg-white/20" />
+              <a
+                href="https://www.facebook.com/kwincity"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#91A8C0] hover:text-white transition-colors"
+              >
+                Facebook
+              </a>
             </div>
           </div>
         </div>
