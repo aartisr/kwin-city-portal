@@ -16,6 +16,7 @@ Welcome! This guide helps you understand the KWIN City Portal—its architecture
 | Build or modify UI components | [Component Reference](COMPONENTS.md) | 20 min |
 | Add/update data (timeline, sectors, etc.) | [Data Model Reference](DATA_MODEL.md) | 15 min |
 | Understand the evidence system | [Evidence System](EVIDENCE_SYSTEM.md) | 20 min |
+| Run Instagram/Facebook publishing | [Social Media Content Automation](social-media-content-automation.md) | 30 min |
 | Query data via API | [API Reference](API.md) | 10 min |
 | Contribute code to the project | [Contributing Guide](../CONTRIBUTING.md) | 10 min |
 | Check project quality standards | [Quality Standards](../QUALITY_STANDARDS.md) | 20 min |
@@ -38,6 +39,7 @@ Welcome! This guide helps you understand the KWIN City Portal—its architecture
 - **[HOW_TO Guide](../HOW_TO.md)** — Practical step-by-step guides for common tasks ⭐ START HERE
 - **[Data Model Reference](DATA_MODEL.md)** — TypeScript interfaces, data constants, structured data guide
 - **[Evidence System Guide](EVIDENCE_SYSTEM.md)** — How claims are verified, source registry, evidence tiers
+- **[Social Media Content Automation](social-media-content-automation.md)** — Instagram/Facebook content calendar, caption templates, and daily automation strategy
 
 ### **Component & UI Development**
 - **[Component Reference](COMPONENTS.md)** — All 25+ components: purpose, props, usage examples
