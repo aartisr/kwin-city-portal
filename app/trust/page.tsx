@@ -116,7 +116,7 @@ export default async function TrustPage() {
     <SiteFrame>
       <JsonLd data={pageSchemas} />
       <main className="bg-[linear-gradient(180deg,#f8fafc_0%,#ffffff_35%,#f8fafc_100%)]">
-        <section className="pt-28 pb-14 border-b border-slate-200">
+        <section className="kwin-page-top pb-14 border-b border-slate-200">
           <div className="container">
             <p className="text-xs font-bold tracking-[0.24em] uppercase text-cyan-700 mb-4">{l({ en: 'Trust Center', kn: 'ವಿಶ್ವಾಸ ಕೇಂದ್ರ', hi: 'ट्रस्ट सेंटर', ta: 'நம்பிக்கை மையம்' })}</p>
             <h1 className="text-4xl md:text-6xl font-black text-slate-900 max-w-5xl leading-tight">

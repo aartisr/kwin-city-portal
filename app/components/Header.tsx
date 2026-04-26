@@ -18,6 +18,8 @@ const SearchModal = dynamic(() => import('@/components/SearchModal'), {
   ssr: false,
 });
 
+const MIN_HEADER_CHROME_HEIGHT = 92;
+
 export default function Header({
   trustBannerVisible,
   onToggleTrustBanner,
@@ -37,7 +39,50 @@ export default function Header({
   const currentUser = useHeaderSession();
   const pathname = usePathname();
   const { locale, setLocale } = useLocale();
+  const headerRef = useRef<HTMLElement>(null);
+  const headerFrameRef = useRef<HTMLDivElement>(null);
+  const headerBarRef = useRef<HTMLDivElement>(null);
   const desktopNavRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let frameId = 0;
+
+    const updateHeaderHeight = () => {
+      window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(() => {
+        const header = headerRef.current;
+        const frame = headerFrameRef.current;
+        const bar = headerBarRef.current;
+
+        if (!header || !frame || !bar) return;
+
+        const frameStyles = window.getComputedStyle(frame);
+        const headerStyles = window.getComputedStyle(header);
+        const frameBottomPadding = Number.parseFloat(frameStyles.paddingBottom) || 0;
+        const safeAreaTop = Number.parseFloat(headerStyles.paddingTop) || 0;
+        const measuredHeight =
+          bar.getBoundingClientRect().bottom - header.getBoundingClientRect().top + frameBottomPadding;
+        const height = Math.ceil(Math.max(measuredHeight, safeAreaTop + MIN_HEADER_CHROME_HEIGHT));
+
+        if (height > 0) {
+          document.documentElement.style.setProperty('--kwin-header-height', `${height}px`);
+        }
+      });
+    };
+
+    updateHeaderHeight();
+
+    const observer = 'ResizeObserver' in window ? new ResizeObserver(updateHeaderHeight) : null;
+    if (observer && headerBarRef.current) observer.observe(headerBarRef.current);
+    if (observer && headerFrameRef.current) observer.observe(headerFrameRef.current);
+    window.addEventListener('resize', updateHeaderHeight);
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      observer?.disconnect();
+      window.removeEventListener('resize', updateHeaderHeight);
+    };
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 18);
@@ -101,9 +146,14 @@ export default function Header({
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-[300]">
-        <div className="container py-2.5">
+      <header
+        ref={headerRef}
+        data-testid="site-header"
+        className="fixed inset-x-0 top-0 z-[300] pt-[var(--kwin-safe-area-top)]"
+      >
+        <div ref={headerFrameRef} className="container py-2.5">
           <div
+            ref={headerBarRef}
             className={`relative isolate overflow-visible rounded-[28px] border transition-all duration-500 ${
               scrolled
                 ? 'border-slate-200/80 bg-white/92 shadow-[0_18px_60px_rgba(2,6,23,0.12)] backdrop-blur-2xl'

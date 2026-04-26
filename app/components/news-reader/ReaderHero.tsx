@@ -40,7 +40,7 @@ export function ReaderHero({
   onDeletePreset,
 }: ReaderHeroProps) {
   return (
-    <section className="pt-28 pb-12 border-b border-slate-200">
+    <section className="kwin-page-top pb-12 border-b border-slate-200">
       <div className="container">
         <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-700 mb-4">
           {l({ en: 'News Reader', kn: 'ಸುದ್ದಿ ಓದುಗ', hi: 'न्यूज़ रीडर', ta: 'செய்தி வாசிப்பான்' })}

@@ -12,7 +12,7 @@ export default function PageIntro({
   sourceIds: string[];
 }) {
   return (
-    <section className="pt-28 pb-10 bg-gradient-to-br from-white via-gray-50 to-white border-b border-gray-200">
+    <section className="kwin-page-top pb-10 bg-gradient-to-br from-white via-gray-50 to-white border-b border-gray-200">
       <div className="container">
         <div className="max-w-4xl">
           <div className="text-xs font-semibold tracking-[0.2em] text-blue-600 uppercase mb-4">{eyebrow}</div>

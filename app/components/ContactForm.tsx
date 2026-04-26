@@ -74,7 +74,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(150deg,#040714_0%,#0D1640_45%,#07131F_100%)] pt-28 pb-20 px-4">
+    <div className="kwin-page-top min-h-screen bg-[linear-gradient(150deg,#040714_0%,#0D1640_45%,#07131F_100%)] pb-20 px-4">
       <div className="max-w-xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 16 }}

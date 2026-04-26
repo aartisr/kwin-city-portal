@@ -53,7 +53,7 @@ export default async function DataInsightsPage() {
     <SiteFrame>
       <main id="main-content" role="main">
         {/* Hero */}
-        <section className="pt-28 pb-14 bg-[linear-gradient(150deg,#040714_0%,#0D1640_45%,#07131F_100%)]">
+        <section className="kwin-page-top pb-14 bg-[linear-gradient(150deg,#040714_0%,#0D1640_45%,#07131F_100%)]">
           <div className="container">
             <div className="max-w-3xl">
               <div className="eyebrow text-[#F5A623] mb-4">{l({ en: 'Data Insights Lab', kn: 'ಡೇಟಾ ಒಳನೋಟ ಪ್ರಯೋಗಾಲಯ', hi: 'डेटा इनसाइट्स लैब', ta: 'தரவு நுண்ணறிவு ஆய்வகம்' })}</div>

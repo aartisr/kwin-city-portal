@@ -27,6 +27,14 @@
   --shadow-card: 0 1px 4px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.04);
   --shadow-card-hover: 0 4px 16px rgba(0,0,0,0.08), 0 20px 48px rgba(0,0,0,0.06);
   --shadow-gold: 0 8px 32px rgba(232,160,32,0.28);
+
+  /* Fixed app chrome. Header.tsx and TrustBanner.tsx update these from real layout measurements. */
+  --kwin-safe-area-top: env(safe-area-inset-top, 0px);
+  --kwin-header-height: calc(92px + var(--kwin-safe-area-top));
+  --kwin-trust-banner-height: 0px;
+  --kwin-fixed-top-offset: calc(var(--kwin-header-height) + var(--kwin-trust-banner-height));
+  --kwin-page-top-gap: 1.25rem;
+  --kwin-hero-top-gap: 2.75rem;
 }
 
 * {
@@ -37,6 +45,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--kwin-fixed-top-offset) + 1rem);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -94,6 +103,34 @@ a:hover { color: #1D4ED8; }
 @media (max-width: 767px) {
   .section     { padding: 3.5rem 0; }
   .section-sm  { padding: 2.5rem 0; }
+}
+
+.kwin-page-top {
+  padding-top: calc(var(--kwin-header-height) + var(--kwin-page-top-gap));
+}
+
+.kwin-page-top-roomy {
+  padding-top: calc(var(--kwin-header-height) + var(--kwin-page-top-gap));
+}
+
+.kwin-page-top-hero {
+  padding-top: calc(var(--kwin-header-height) + var(--kwin-hero-top-gap));
+}
+
+@media (min-width: 768px) {
+  :root {
+    --kwin-hero-top-gap: 3.25rem;
+  }
+
+  .kwin-page-top-roomy {
+    padding-top: calc(var(--kwin-header-height) + 2.25rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --kwin-hero-top-gap: 4.25rem;
+  }
 }
 
 /* === BUTTON SYSTEM === */

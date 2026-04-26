@@ -146,7 +146,7 @@ export default function SharePage() {
     <SiteFrame>
       <JsonLd data={shareSchema} />
       <main id="main-content" role="main" className="bg-[#F6F8FB]">
-        <section className="relative overflow-hidden bg-[#04120F] pt-28 text-white md:pt-32">
+        <section className="kwin-page-top-roomy relative overflow-hidden bg-[#04120F] text-white">
           <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#F5A623,#06B6D4,#10B981)]" />
           <div className="container relative pb-12 md:pb-16">
             <div className="grid gap-9 lg:grid-cols-[0.94fr_1.06fr] lg:items-center">

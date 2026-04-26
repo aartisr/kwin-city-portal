@@ -151,7 +151,7 @@ export default async function UpdateDetailPage({ params }: PageProps) {
   return (
     <SiteFrame>
       <JsonLd data={pageSchemas} />
-      <main className="bg-[linear-gradient(180deg,#f8fafc_0%,#ffffff_35%,#f8fafc_100%)] pt-28 pb-16">
+      <main className="kwin-page-top bg-[linear-gradient(180deg,#f8fafc_0%,#ffffff_35%,#f8fafc_100%)] pb-16">
         <div className="container max-w-4xl">
           <nav aria-label="Breadcrumb" className="mb-6 text-sm text-slate-500">
             <div className="flex flex-wrap items-center gap-2">

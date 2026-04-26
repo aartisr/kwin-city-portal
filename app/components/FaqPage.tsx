@@ -200,7 +200,7 @@ export default function FaqPage() {
       <main className="min-h-screen bg-gradient-to-br from-white via-gray-50/40 to-white">
 
         {/* Hero */}
-        <section className="pt-28 pb-12 border-b border-gray-100">
+        <section className="kwin-page-top pb-12 border-b border-gray-100">
           <div className="container">
             <p className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600 mb-4">{l({ en: 'Help Centre', kn: 'ಸಹಾಯ ಕೇಂದ್ರ', hi: 'सहायता केंद्र', ta: 'உதவி மையம்' })}</p>
             <div className="flex flex-col lg:flex-row lg:items-end gap-8">
