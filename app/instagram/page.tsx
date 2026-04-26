@@ -159,7 +159,7 @@ export default function InstagramHubPage() {
                       </div>
                       <div>
                         <p className="font-extrabold text-white">KWIN City</p>
-                        <p className="text-xs text-[#8FA4BC]">@kwincity</p>
+                        <p className="text-xs text-[#8FA4BC]">@hellokwincityconnect</p>
                       </div>
                     </div>
                     <span className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1 text-xs font-bold text-cyan-200">

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 import DeferredNewsletterSignup from '@/components/DeferredNewsletterSignup';
 import FooterNavLink from '@/components/footer/FooterNavLink';
 import { buildFooterContent } from '@/components/footer/content';
@@ -7,6 +8,56 @@ import {
   translate,
   type Locale,
 } from '@/lib/i18n/messages';
+
+function FacebookIcon() {
+  return (
+    <svg className="h-3.5 w-3.5 flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path
+        fill="currentColor"
+        d="M13.6 22v-8.1h2.7l.4-3.2h-3.1V8.7c0-.9.3-1.6 1.6-1.6h1.7V4.2c-.8-.1-1.6-.2-2.4-.2-2.5 0-4.2 1.5-4.2 4.3v2.4H7.5v3.2h2.8V22h3.3Z"
+      />
+    </svg>
+  );
+}
+
+function InstagramIcon() {
+  return (
+    <svg
+      className="h-3.5 w-3.5 flex-shrink-0"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" strokeWidth="1.8" />
+      <circle cx="12" cy="12" r="4.1" stroke="currentColor" strokeWidth="1.8" />
+      <circle cx="17.1" cy="6.9" r="1.1" fill="currentColor" />
+    </svg>
+  );
+}
+
+function SocialFooterLink({
+  href,
+  label,
+  children,
+}: {
+  href: string;
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`KWIN City on ${label}`}
+      className="inline-flex items-center gap-1.5 text-[#91A8C0] transition-colors hover:text-white"
+    >
+      {children}
+      <span>{label}</span>
+    </a>
+  );
+}
 
 export default function Footer({ locale }: { locale: Locale }) {
   const t = (key: string) => translate(locale, key);
@@ -230,14 +281,13 @@ export default function Footer({ locale }: { locale: Locale }) {
               <span className="h-1 w-1 rounded-full bg-white/20" />
               <Link href="/contact" className="text-[#91A8C0] hover:text-white transition-colors">{t('common.contact')}</Link>
               <span className="h-1 w-1 rounded-full bg-white/20" />
-              <a
-                href="https://www.facebook.com/kwincity"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#91A8C0] hover:text-white transition-colors"
-              >
-                Facebook
-              </a>
+              <SocialFooterLink href="https://www.facebook.com/kwincity" label="Facebook">
+                <FacebookIcon />
+              </SocialFooterLink>
+              <span className="h-1 w-1 rounded-full bg-white/20" />
+              <SocialFooterLink href="https://www.instagram.com/hellokwincityconnect" label="Instagram">
+                <InstagramIcon />
+              </SocialFooterLink>
             </div>
           </div>
         </div>
