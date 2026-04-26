@@ -158,7 +158,7 @@ const GLOBAL_DISCOVERY_SCHEMA = [
       'Industrial infrastructure',
       'Research and innovation districts',
     ],
-    sameAs: ['https://www.kiadb.in'],
+    sameAs: ['https://www.kiadb.in', 'https://www.facebook.com/kwincity'],
     dateModified: LAST_UPDATED,
   },
   {
