@@ -101,6 +101,15 @@ const PAGES: SearchEntry[] = [
     tags: ['news', 'media', 'journalism', 'press', 'articles', 'coverage'],
   },
   {
+    id: 'page-share',
+    title: 'Share Kit',
+    description: 'Copy the 60-second brief, send social-ready angles, and open the KWIN City launch carousel.',
+    category: 'Page',
+    href: '/share',
+    icon: '↗',
+    tags: ['share', 'social', 'brief', 'launch carousel', 'instagram'],
+  },
+  {
     id: 'page-for',
     title: 'Audience Hubs',
     description: 'Tailored content pathways for investors, residents, researchers, journalists, and citizens.',

@@ -44,6 +44,7 @@ export function getHomeSchemas() {
     },
     hasPart: [
       `${SITE_URL}/updates`,
+      `${SITE_URL}/share`,
       `${SITE_URL}/news-intelligence`,
       `${SITE_URL}/data-insights`,
       `${SITE_URL}/evidence`,

@@ -1,0 +1,127 @@
+'use client';
+
+import { useState } from 'react';
+
+type ShareActionsProps = {
+  title: string;
+  text: string;
+  url?: string;
+  copyLabel?: string;
+  copiedLabel?: string;
+  shareLabel?: string;
+  className?: string;
+  tone?: 'light' | 'dark';
+};
+
+const DEFAULT_SHARE_URL = 'https://kwin-city.com/share';
+
+function CopyIcon() {
+  return (
+    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+      <path
+        d="M8 8.5A2.5 2.5 0 0 1 10.5 6h7A2.5 2.5 0 0 1 20 8.5v9a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 8 17.5v-9Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+      />
+      <path
+        d="M5.5 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v.5"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function ShareIcon() {
+  return (
+    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+      <path
+        d="M8.8 10.7 15.3 7M8.8 13.3l6.5 3.7"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+      />
+      <path
+        d="M7 14.8a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6ZM17 8.8a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6ZM17 20.8a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6Z"
+        stroke="currentColor"
+        strokeWidth="1.9"
+      />
+    </svg>
+  );
+}
+
+async function copyText(value: string) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(value);
+    return;
+  }
+
+  const textarea = document.createElement('textarea');
+  textarea.value = value;
+  textarea.setAttribute('readonly', 'true');
+  textarea.style.position = 'fixed';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand('copy');
+  textarea.remove();
+}
+
+export default function ShareActions({
+  title,
+  text,
+  url = DEFAULT_SHARE_URL,
+  copyLabel = 'Copy',
+  copiedLabel = 'Copied',
+  shareLabel = 'Share',
+  className,
+  tone = 'light',
+}: ShareActionsProps) {
+  const [copied, setCopied] = useState(false);
+  const shareText = `${text}\n${url}`;
+  const buttonClass =
+    tone === 'dark'
+      ? 'border-white/12 bg-white/[0.06] text-white hover:border-white/24 hover:bg-white/[0.10]'
+      : 'border-slate-200 bg-white text-slate-900 hover:border-slate-300 hover:bg-slate-50';
+
+  const handleCopy = async () => {
+    await copyText(shareText);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1800);
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({ title, text, url });
+        return;
+      } catch {
+        return;
+      }
+    }
+
+    await handleCopy();
+  };
+
+  return (
+    <div className={`flex flex-wrap items-center gap-2 ${className ?? ''}`} aria-live="polite">
+      <button
+        type="button"
+        onClick={handleCopy}
+        className={`inline-flex items-center gap-2 border px-3.5 py-2 text-xs font-bold transition ${buttonClass}`}
+      >
+        <CopyIcon />
+        {copied ? copiedLabel : copyLabel}
+      </button>
+      <button
+        type="button"
+        onClick={handleShare}
+        className={`inline-flex items-center gap-2 border px-3.5 py-2 text-xs font-bold transition ${buttonClass}`}
+      >
+        <ShareIcon />
+        {shareLabel}
+      </button>
+    </div>
+  );
+}

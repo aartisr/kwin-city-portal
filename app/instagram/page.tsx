@@ -31,6 +31,12 @@ const priorityLinks = [
     body: 'Every major public claim should be traceable, status-labeled, and reviewable.',
     accent: 'from-[#A78BFA] to-[#6366F1]',
   },
+  {
+    href: '/share',
+    label: 'Share the 60-second brief',
+    body: 'Copy a social-ready KWIN City angle, open launch carousel visuals, and send people back to the evidence.',
+    accent: 'from-[#FB7185] to-[#E8A020]',
+  },
 ];
 
 const storyTracks = [
