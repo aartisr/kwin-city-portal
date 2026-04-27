@@ -29,11 +29,12 @@ function getVerificationLabel(tier: 'verified' | 'pending' | 'contextual') {
 function getShareLinks(url: string, title: string) {
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
+  const encodedXHandle = encodeURIComponent(SITE_CONFIG.xHandle.replace(/^@/, ''));
 
   return [
     {
       label: 'Share on X',
-      href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+      href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}&via=${encodedXHandle}`,
     },
     {
       label: 'Share on LinkedIn',

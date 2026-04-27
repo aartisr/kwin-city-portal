@@ -9,9 +9,9 @@ export const SITE_CONFIG = {
   description: 'Knowledge, Wellbeing, Innovation City',
   url: 'https://kwin-city.com',
   locale: 'en_IN',
-  xHandle: '@kwincity',
+  xHandle: '@KwinPortal',
   socialLinks: {
-    x: 'https://x.com/kwincity',
+    x: 'https://x.com/KwinPortal',
     facebook: 'https://www.facebook.com/kwincity',
     instagram: 'https://www.instagram.com/hellokwincityconnect',
   },
