@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { SITE_CONFIG } from '@/config/site.config';
 
 type ShareActionsProps = {
   title: string;
@@ -9,11 +10,14 @@ type ShareActionsProps = {
   copyLabel?: string;
   copiedLabel?: string;
   shareLabel?: string;
+  xLabel?: string;
   className?: string;
   tone?: 'light' | 'dark';
 };
 
 const DEFAULT_SHARE_URL = 'https://kwin-city.com/share';
+const X_INTENT_URL = 'https://twitter.com/intent/tweet';
+const X_HANDLE = SITE_CONFIG.xHandle.replace(/^@/, '');
 
 function CopyIcon() {
   return (
@@ -51,6 +55,17 @@ function ShareIcon() {
   );
 }
 
+function XIcon() {
+  return (
+    <svg className="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path
+        fill="currentColor"
+        d="m13.9 10.5 7.4-8.5h-1.8l-6.4 7.4L8 2H2.1l7.8 11.3L2.1 22h1.8l6.8-7.7 5.4 7.7H22l-8.1-11.5Zm-2.4 2.7-.8-1.1L4.5 3.3h2.6l5 7.1.8 1.1 6.6 9.3h-2.6l-5.4-7.6Z"
+      />
+    </svg>
+  );
+}
+
 async function copyText(value: string) {
   if (navigator.clipboard?.writeText) {
     await navigator.clipboard.writeText(value);
@@ -75,11 +90,13 @@ export default function ShareActions({
   copyLabel = 'Copy',
   copiedLabel = 'Copied',
   shareLabel = 'Share',
+  xLabel = 'Post to X',
   className,
   tone = 'light',
 }: ShareActionsProps) {
   const [copied, setCopied] = useState(false);
   const shareText = `${text}\n${url}`;
+  const xIntentHref = `${X_INTENT_URL}?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}&via=${encodeURIComponent(X_HANDLE)}`;
   const buttonClass =
     tone === 'dark'
       ? 'border-white/12 bg-white/[0.06] text-white hover:border-white/24 hover:bg-white/[0.10]'
@@ -122,6 +139,15 @@ export default function ShareActions({
         <ShareIcon />
         {shareLabel}
       </button>
+      <a
+        href={xIntentHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`inline-flex items-center gap-2 border px-3.5 py-2 text-xs font-bold transition ${buttonClass}`}
+      >
+        <XIcon />
+        {xLabel}
+      </a>
     </div>
   );
 }
