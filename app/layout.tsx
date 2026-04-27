@@ -97,8 +97,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@kwincity',
-    creator: '@kwincity',
+    site: SITE_CONFIG.xHandle,
+    creator: SITE_CONFIG.xHandle,
     title: 'KWIN City | Knowledge · Wellbeing · Innovation | North Bengaluru',
     description:
       'A 465-acre knowledge township in Doddaballapura, North Bengaluru. Evidence-first portal for investors, residents, and researchers.',
@@ -160,8 +160,9 @@ const GLOBAL_DISCOVERY_SCHEMA = [
     ],
     sameAs: [
       'https://www.kiadb.in',
-      'https://www.facebook.com/kwincity',
-      'https://www.instagram.com/hellokwincityconnect',
+      SITE_CONFIG.socialLinks.x,
+      SITE_CONFIG.socialLinks.facebook,
+      SITE_CONFIG.socialLinks.instagram,
     ],
     dateModified: LAST_UPDATED,
   },

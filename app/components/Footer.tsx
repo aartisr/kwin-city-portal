@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import DeferredNewsletterSignup from '@/components/DeferredNewsletterSignup';
+import { SITE_CONFIG } from '@/config/site.config';
 import FooterNavLink from '@/components/footer/FooterNavLink';
 import { buildFooterContent } from '@/components/footer/content';
 import {
@@ -32,6 +33,17 @@ function InstagramIcon() {
       <rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" strokeWidth="1.8" />
       <circle cx="12" cy="12" r="4.1" stroke="currentColor" strokeWidth="1.8" />
       <circle cx="17.1" cy="6.9" r="1.1" fill="currentColor" />
+    </svg>
+  );
+}
+
+function XIcon() {
+  return (
+    <svg className="h-3.5 w-3.5 flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path
+        fill="currentColor"
+        d="m13.9 10.5 7.4-8.5h-1.8l-6.4 7.4L8 2H2.1l7.8 11.3L2.1 22h1.8l6.8-7.7 5.4 7.7H22l-8.1-11.5Zm-2.4 2.7-.8-1.1L4.5 3.3h2.6l5 7.1.8 1.1 6.6 9.3h-2.6l-5.4-7.6Z"
+      />
     </svg>
   );
 }
@@ -281,11 +293,15 @@ export default function Footer({ locale }: { locale: Locale }) {
               <span className="h-1 w-1 rounded-full bg-white/20" />
               <Link href="/contact" className="text-[#91A8C0] hover:text-white transition-colors">{t('common.contact')}</Link>
               <span className="h-1 w-1 rounded-full bg-white/20" />
-              <SocialFooterLink href="https://www.facebook.com/kwincity" label="Facebook">
+              <SocialFooterLink href={SITE_CONFIG.socialLinks.x} label="X">
+                <XIcon />
+              </SocialFooterLink>
+              <span className="h-1 w-1 rounded-full bg-white/20" />
+              <SocialFooterLink href={SITE_CONFIG.socialLinks.facebook} label="Facebook">
                 <FacebookIcon />
               </SocialFooterLink>
               <span className="h-1 w-1 rounded-full bg-white/20" />
-              <SocialFooterLink href="https://www.instagram.com/hellokwincityconnect" label="Instagram">
+              <SocialFooterLink href={SITE_CONFIG.socialLinks.instagram} label="Instagram">
                 <InstagramIcon />
               </SocialFooterLink>
             </div>

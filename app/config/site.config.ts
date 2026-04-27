@@ -9,6 +9,12 @@ export const SITE_CONFIG = {
   description: 'Knowledge, Wellbeing, Innovation City',
   url: 'https://kwin-city.com',
   locale: 'en_IN',
+  xHandle: '@kwincity',
+  socialLinks: {
+    x: 'https://x.com/kwincity',
+    facebook: 'https://www.facebook.com/kwincity',
+    instagram: 'https://www.instagram.com/hellokwincityconnect',
+  },
   // Canonical content refresh date used in sitemap, schema, and UI labels.
   lastUpdatedISO: '2026-04-24',
 } as const;
@@ -178,7 +184,7 @@ export const SEO_CONFIG = {
   creator: 'BAJA Associates',
   canonical: 'https://kwin-city.com',
   ogImage: '/opengraph-image',
-  twitterHandle: '@kwincity',
+  twitterHandle: SITE_CONFIG.xHandle,
 } as const;
 
 /**

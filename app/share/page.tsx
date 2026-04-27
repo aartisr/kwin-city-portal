@@ -5,6 +5,7 @@ import SiteFrame from '@/components/SiteFrame';
 import JsonLd from '@/components/JsonLd';
 import InlineSourceBadges from '@/components/InlineSourceBadges';
 import ShareActions from '@/components/share/ShareActions';
+import { SITE_CONFIG } from '@/config/site.config';
 
 const SITE_URL = 'https://kwin-city.com';
 const PAGE_URL = `${SITE_URL}/share`;
@@ -73,7 +74,7 @@ const socialLinks = [
   },
   {
     label: 'X',
-    href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(heroShareText)}&url=${encodeURIComponent(PAGE_URL)}`,
+    href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(heroShareText)}&url=${encodeURIComponent(PAGE_URL)}&via=${encodeURIComponent(SITE_CONFIG.xHandle.replace(/^@/, ''))}`,
   },
   {
     label: 'Email',
@@ -110,6 +111,11 @@ const shareSchema = [
       contentUrl: `${SITE_URL}${slide.src}`,
       name: `KWIN City launch carousel slide ${slide.number}`,
     })),
+    accountablePerson: {
+      '@type': 'Organization',
+      name: 'KWIN City',
+      sameAs: SITE_CONFIG.socialLinks.x,
+    },
   },
 ];
 
