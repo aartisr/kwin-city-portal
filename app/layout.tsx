@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: '%s | KWIN City',
   },
   description:
-    'KWIN City is a proposed 465-acre knowledge-economy township in Doddaballapura, North Bengaluru. Semiconductors, aerospace, health-tech, renewables and world-class R&D — designed net-zero and evidence-first.',
+    SITE_CONFIG.description,
   keywords: [
     'KWIN City',
     'Knowledge Wellbeing Innovation City',

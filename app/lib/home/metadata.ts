@@ -12,7 +12,7 @@ export async function generateHomeMetadata(): Promise<Metadata> {
     hi: 'KWIN City | ज्ञान · कल्याण · नवाचार | नॉर्थ बेंगलुरु',
   });
   const description = pickByLocale(locale, {
-    en: 'Explore and share KWIN City in North Bengaluru through a 60-second brief, verified sources, project updates, sector analysis, regional data, and evidence-first research on the proposed 465-acre township.',
+    en: 'Explore KWIN City in North Bengaluru: a source-linked guide to the proposed 465-acre knowledge township, regional evidence, updates, data, and share kit.',
     kn: 'KWIN City ಉತ್ತರ ಬೆಂಗಳೂರಿನ ದೊಡ್ಡಬಳ್ಳಾಪುರದಲ್ಲಿ ಪ್ರಸ್ತಾಪಿತ 465 ಏಕರೆ ಜ್ಞಾನ-ಆರ್ಥಿಕ ಟೌನ್‌ಶಿಪ್.',
     hi: 'KWIN City नॉर्थ बेंगलुरु के डोड्डाबल्लापुर में प्रस्तावित 465 एकड़ ज्ञान-आर्थिक टाउनशिप है।',
   });
