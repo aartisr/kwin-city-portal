@@ -8,7 +8,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: pickByLocale(locale, { en: 'Community Discussion', kn: 'ಸಮುದಾಯ ಚರ್ಚೆ', hi: 'समुदाय चर्चा' }),
     description: pickByLocale(locale, {
-      en: 'Community thread for discussion and evidence requests',
+      en: 'Private community discussion thread for KWIN City questions, evidence requests, corrections, and moderated feedback from residents, researchers, investors, and media users.',
       kn: 'ಚರ್ಚೆ ಮತ್ತು ಸಾಕ್ಷ್ಯ ವಿನಂತಿಗಳಿಗಾಗಿ ಸಮುದಾಯ ವೇದಿಕೆ',
       hi: 'चर्चा और प्रमाण अनुरोधों के लिए सामुदायिक मंच',
     }),

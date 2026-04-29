@@ -18,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: pickByLocale(locale, { en: 'Contact KWIN City — Investor, Media, Research and Resident Enquiries', kn: 'KWIN City ಸಂಪರ್ಕ', hi: 'KWIN City संपर्क' }),
       description: pickByLocale(locale, {
-        en: 'Reach the KWIN City team for investor, research, media, resident, or partnership enquiries.',
+        en: 'Reach the KWIN City team for investor questions, research requests, media enquiries, resident feedback, partnership ideas, or corrections to source-linked project information.',
         kn: 'KWIN City ತಂಡವನ್ನು ಸಂಪರ್ಕಿಸಿ — ಹೂಡಿಕೆದಾರರು, ನಿವಾಸಿಗಳು, ಸಂಶೋಧಕರು, ಪತ್ರಕರ್ತರು ಎಲ್ಲರೂ ಸ್ವಾಗತ.',
         hi: 'KWIN City टीम से संपर्क करें — निवेशक, निवासी, शोधकर्ता और पत्रकार सभी स्वागत योग्य हैं।',
       }),
@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: 'summary_large_image',
       title: pickByLocale(locale, { en: 'Contact KWIN City — Investor, Media, Research and Resident Enquiries', kn: 'KWIN City ಸಂಪರ್ಕ', hi: 'KWIN City संपर्क' }),
       description: pickByLocale(locale, {
-        en: 'Reach the KWIN City team for investor, research, media, resident, or partnership enquiries.',
+        en: 'Reach the KWIN City team for investor questions, research requests, media enquiries, resident feedback, partnership ideas, or corrections to source-linked project information.',
         kn: 'KWIN City ತಂಡವನ್ನು ಸಂಪರ್ಕಿಸಿ — ಹೂಡಿಕೆದಾರರು, ನಿವಾಸಿಗಳು, ಸಂಶೋಧಕರು, ಪತ್ರಕರ್ತರು ಎಲ್ಲರೂ ಸ್ವಾಗತ.',
         hi: 'KWIN City टीम से संपर्क करें — निवेशक, निवासी, शोधकर्ता और पत्रकार सभी स्वागत योग्य हैं।',
       }),

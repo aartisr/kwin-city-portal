@@ -18,7 +18,8 @@ const itemListSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   name: 'KWIN City Industry Sectors',
-  description: 'Five high-growth sector clusters in KWIN City, North Bengaluru',
+  description:
+    'Five high-growth KWIN City sector clusters in North Bengaluru: semiconductors, aerospace and defence, health-tech, ICT and deep tech, and renewable energy.',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Semiconductors & Advanced Manufacturing' },
     { '@type': 'ListItem', position: 2, name: 'Aerospace & Defence' },
@@ -59,7 +60,7 @@ export async function generateMetadata(): Promise<Metadata> {
         hi: 'KWIN City उद्योग क्षेत्र — सेमीकंडक्टर, एयरोस्पेस, हेल्थ-टेक, नवीकरणीय ऊर्जा',
       }),
       description: pickByLocale(locale, {
-        en: 'A sharper look at the five sector clusters KWIN City is built around, and why they fit North Bengaluru.',
+        en: 'Review the five KWIN City sector clusters, the regional logic behind them, and how semiconductors, aerospace, health-tech, ICT, and renewables fit North Bengaluru.',
         kn: 'KWIN City ಹೂಡಿಕೆಯನ್ನು ಮುನ್ನಡೆಸುವ ಐದು ವೇಗದ ಕ್ಷೇತ್ರಗಳು.',
         hi: 'KWIN City निवेश को आगे बढ़ाने वाले पांच उच्च-विकास क्षेत्र।',
       }),
@@ -75,7 +76,7 @@ export async function generateMetadata(): Promise<Metadata> {
         hi: 'KWIN City उद्योग क्षेत्र — सेमीकंडक्टर, एयरोस्पेस, हेल्थ-टेक, नवीकरणीय ऊर्जा',
       }),
       description: pickByLocale(locale, {
-        en: 'Five high-growth sector clusters driving KWIN City investment: semiconductors, aerospace, health-tech, ICT, and renewables.',
+        en: 'Compare five KWIN City investment clusters: semiconductors, aerospace, health-tech, ICT, renewables, and the evidence behind their North Bengaluru fit.',
         kn: 'KWIN City ಹೂಡಿಕೆಯನ್ನು ಮುನ್ನಡೆಸುವ ಐದು ವೇಗದ ಕ್ಷೇತ್ರಗಳು.',
         hi: 'KWIN City निवेश को आगे बढ़ाने वाले पांच उच्च-विकास क्षेत्र।',
       }),

@@ -32,7 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
         hi: 'KWIN City डेवलपमेंट टाइमलाइन — 2024 से 2030',
       }),
       description: pickByLocale(locale, {
-        en: 'Five phases. One extraordinary ambition. The KWIN City roadmap, labeled with evidence.',
+        en: 'Review the KWIN City 2024 to 2030 roadmap across five phases, with each milestone labeled by source confidence, verification status, and project context.',
         kn: 'ಐದು ಹಂತಗಳು. ಒಂದು ಮಹತ್ವಾಕಾಂಕ್ಷೆ. ಸಾಕ್ಷ್ಯಾಧಾರಗಳೊಂದಿಗೆ KWIN ಮಾರ್ಗನಕ್ಷೆ.',
         hi: 'पांच चरण। एक महत्वाकांक्षा। प्रमाण के साथ KWIN रोडमैप।',
       }),
@@ -48,7 +48,7 @@ export async function generateMetadata(): Promise<Metadata> {
         hi: 'KWIN City डेवलपमेंट टाइमलाइन — 2024 से 2030',
       }),
       description: pickByLocale(locale, {
-        en: 'Five phases. One extraordinary ambition. The KWIN City roadmap, labeled with evidence.',
+        en: 'Review the KWIN City 2024 to 2030 roadmap across five phases, with each milestone labeled by source confidence, verification status, and project context.',
         kn: 'ಐದು ಹಂತಗಳು. ಒಂದು ಮಹತ್ವಾಕಾಂಕ್ಷೆ. ಸಾಕ್ಷ್ಯಾಧಾರಗಳೊಂದಿಗೆ KWIN ಮಾರ್ಗನಕ್ಷೆ.',
         hi: 'पांच चरण। एक महत्वाकांक्षा। प्रमाण के साथ KWIN रोडमैप।',
       }),

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'KWIN City Sector Comparison — Knowledge, Wellbeing, Innovation',
     description:
-      'A side-by-side comparison of KWIN City pillars, focus areas, and strategic drivers.',
+      'Compare KWIN City\'s Knowledge, Wellbeing, and Innovation pillars side by side, including focus areas, lead actors, sector logic, and strategic development drivers.',
     url: PAGE_URL,
     type: 'website',
     images: [{ url: 'https://kwin-city.com/sectors/opengraph-image' }],
@@ -20,7 +20,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'KWIN City Sector Comparison',
-    description: 'Compare the Knowledge, Wellbeing, and Innovation pillars side by side.',
+    description:
+      'Compare KWIN City\'s Knowledge, Wellbeing, and Innovation pillars side by side, including focus areas, lead actors, sector logic, and strategic development drivers.',
     images: ['https://kwin-city.com/sectors/opengraph-image'],
   },
 };

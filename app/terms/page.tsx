@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
       ta: 'பயன்பாட்டு விதிமுறைகள் | ஆய்வு தளம்',
     }),
     description: pickByLocale(locale, {
-      en: 'Terms of use, copyright, and permitted use rules for the KWIN City Research Portal.',
+      en: 'Review the KWIN City Research Portal terms of use, copyright ownership, permitted sharing rules, source accuracy disclaimer, external link policy, and contact path for legal questions.',
       kn: 'KWIN City ಸಂಶೋಧನಾ ಪೋರ್ಟಲ್‌ಗಾಗಿ ಬಳಕೆ ನಿಯಮಗಳು, ಕಾಪಿರೈಟ್ ಮತ್ತು ಅನುಮತಿತ ಬಳಕೆ ನಿಯಮಗಳು.',
       hi: 'KWIN City रिसर्च पोर्टल के लिए उपयोग की शर्तें, कॉपीराइट और अनुमत उपयोग नियम।',
       ta: 'KWIN City ஆய்வு தளத்திற்கான பயன்பாட்டு விதிமுறைகள், பதிப்புரிமை மற்றும் அனுமதிக்கப்பட்ட பயன்பாட்டு நெறிமுறைகள்.',

@@ -8,7 +8,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: pickByLocale(locale, { en: 'OPML News Reader', kn: 'OPML ಸುದ್ದಿ ಓದುಗ', hi: 'OPML न्यूज़ रीडर' }),
     description: pickByLocale(locale, {
-      en: 'On-demand OPML news reader with summary-first cards and direct links to original sources.',
+      en: 'Use the KWIN City OPML news reader to scan source-attributed feeds, summary-first story cards, and direct publisher links for Bengaluru and KWIN-related updates.',
       kn: 'ಸಂಗ್ರಹ ಆಧಾರಿತ OPML ಸುದ್ದಿ ಓದುಗ ಮತ್ತು ಮೂಲಗಳಿಗೆ ನೇರ ಲಿಂಕ್‌ಗಳು.',
       hi: 'सारांश-आधारित OPML न्यूज़ रीडर और मूल स्रोतों के सीधे लिंक।',
     }),

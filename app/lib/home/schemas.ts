@@ -55,59 +55,11 @@ export function getHomeSchemas() {
     ],
   };
 
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    dateModified: LAST_UPDATED,
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What is KWIN City?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'KWIN City stands for Knowledge, Wellbeing, and Innovation City. It is presented on this portal as a proposed knowledge-economy township in Doddaballapura, North Bengaluru. Project materials describe major investment and jobs ambitions, and readers should verify critical figures against primary institutional records.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Where is KWIN City located?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'KWIN City is located in Doddaballapura, North Bengaluru, Karnataka, India — approximately 33 km from Bengaluru city centre and adjacent to Kempegowda International Airport (KIAL).',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'What industries will be in KWIN City?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Project materials describe five target sectors for KWIN City: semiconductors, aerospace and defence, health-tech and life sciences, ICT and deep tech, and renewable energy. The portal treats these as proposal-level sector priorities unless confirmed by primary records.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Is KWIN City a sustainable township?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'KWIN City is described as a sustainability-led proposal with ambitions such as net-zero operations, green cover, solar systems, and water resilience. Those sustainability features should be read as proposal intent unless and until implementation records confirm delivery.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Who is developing KWIN City?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Project materials cited on this portal associate KWIN City with KIADB, the Karnataka Industrial Areas Development Board. Readers should verify the current development and implementation status against primary institutional records.',
-        },
-      },
-    ],
-  };
-
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL }],
   };
 
-  return [realEstateProjectSchema, collectionPageSchema, faqSchema, breadcrumbSchema];
+  return [realEstateProjectSchema, collectionPageSchema, breadcrumbSchema];
 }

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'KWIN City FAQ — Clear Answers on Status, Location, Sectors and Evidence',
     description:
-      'A fast way to understand KWIN City through concise answers on project facts, verification, sustainability, and research methods.',
+      'Find concise KWIN City answers on project status, location, sectors, sustainability, evidence standards, investment pathways, and source-verification methods.',
     url: 'https://kwin-city.com/faq',
     type: 'website',
     images: [{ url: 'https://kwin-city.com/faq/opengraph-image' }],
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'KWIN City FAQ — Clear Answers on Status, Location, Sectors and Evidence',
     description:
-      'A fast way to understand KWIN City through concise answers on project facts, verification, sustainability, and research methods.',
+      'Find concise KWIN City answers on project status, location, sectors, sustainability, evidence standards, investment pathways, and source-verification methods.',
     images: ['https://kwin-city.com/faq/opengraph-image'],
   },
 };

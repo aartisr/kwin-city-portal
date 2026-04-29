@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
       hi: 'दस्तावेज़ डाउनलोड | संसाधन पुस्तकालय',
     }),
     description: pickByLocale(locale, {
-      en: 'Official reports, policy briefs, open datasets, and project documents for KWIN City — all sourced, verified, and downloadable.',
+      en: 'Download KWIN City reports, policy briefs, open datasets, methodology notes, and project documents from a transparent library with source and verification context.',
       kn: 'KWIN Cityಗಾಗಿ ಅಧಿಕೃತ ವರದಿಗಳು, ನೀತಿ ಸಂಕ್ಷಿಪ್ತಗಳು ಮತ್ತು ಡೇಟಾಸೆಟ್‌ಗಳು.',
       hi: 'KWIN City के लिए आधिकारिक रिपोर्ट, नीति सार और डेटासेट।',
     }),
@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
         hi: 'KWIN City दस्तावेज़ पुस्तकालय — रिपोर्ट, नीति और ओपन डेटा',
       }),
       description: pickByLocale(locale, {
-        en: 'Transparent, tiered document library covering everything from official KIADB notifications to open datasets.',
+        en: 'Browse a transparent, tiered KWIN City document library covering KIADB notifications, project briefs, open datasets, methodology notes, and policy context.',
         kn: 'ಅಧಿಕೃತ KIADB ಸೂಚನೆಗಳಿಂದ ಓಪನ್ ಡೇಟಾಸೆಟ್‌ಗಳವರೆಗೆ ಪಾರದರ್ಶಕ ದಸ್ತಾವೇಜು ಗ್ರಂಥಾಲಯ.',
         hi: 'आधिकारिक KIADB नोटिस से ओपन डेटासेट तक पारदर्शी दस्तावेज़ पुस्तकालय।',
       }),

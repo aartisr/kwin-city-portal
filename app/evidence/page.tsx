@@ -43,7 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
         hi: 'KWIN City एविडेंस वॉल्ट — जिम्मेदार शहरी विकास के लिए सत्यापित शोध',
       }),
       description: pickByLocale(locale, {
-        en: 'Seven verified government datasets powering KWIN City\'s evidence-first research portal.',
+        en: 'Review seven curated government and open-data evidence layers that explain what each dataset can and cannot prove about KWIN City and North Bengaluru.',
         kn: 'KWIN City ಸಂಶೋಧನೆಗೆ ಬೆಂಬಲಿಸುವ ಪರಿಶೀಲಿತ ಸರ್ಕಾರದ ಡೇಟಾಸೆಟ್‌ಗಳು.',
         hi: 'KWIN City शोध पोर्टल को समर्थित करने वाले सत्यापित सरकारी डेटासेट।',
       }),

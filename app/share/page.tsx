@@ -122,7 +122,7 @@ const shareSchema = [
 export const metadata: Metadata = {
   title: 'Share KWIN City | 60-Second Brief, Social Prompts and Launch Carousel',
   description:
-    'Copy a source-linked KWIN City brief, send a social-ready angle, or open the launch carousel for North Bengaluru audiences.',
+    'Copy a source-linked KWIN City brief, share social-ready angles, and open the launch carousel for North Bengaluru audiences, journalists, investors, and community groups.',
   alternates: { canonical: PAGE_URL },
   keywords: [
     'KWIN City share kit',
@@ -134,7 +134,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Share KWIN City in 10 seconds',
     description:
-      'A source-linked 60-second brief, social prompts, and launch carousel for North Bengaluru audiences.',
+      'Share a source-linked 60-second KWIN City brief with social prompts, carousel visuals, and fast paths back to evidence for North Bengaluru audiences.',
     url: PAGE_URL,
     type: 'website',
     images: [{ url: `${PAGE_URL}/opengraph-image`, width: 1200, height: 630 }],
@@ -142,7 +142,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Share KWIN City in 10 seconds',
-    description: 'Copy the 60-second brief, send a social angle, or open the launch carousel.',
+    description:
+      'Share a source-linked 60-second KWIN City brief with social prompts, carousel visuals, and fast paths back to evidence for North Bengaluru audiences.',
     images: [`${PAGE_URL}/opengraph-image`],
   },
 };

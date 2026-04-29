@@ -11,7 +11,7 @@ export async function generateMetadata() {
       ta: '404 - பக்கம் கிடைக்கவில்லை',
     }),
     description: pickByLocale(locale, {
-      en: 'The page you are looking for could not be found.',
+      en: 'The KWIN City page you requested could not be found. Use search or the main navigation to reach project overviews, evidence, sources, sectors, and updates.',
       kn: 'ನೀವು ಹುಡುಕುತ್ತಿರುವ ಪುಟ ಕಂಡುಬಂದಿಲ್ಲ.',
       hi: 'आप जिस पेज की तलाश कर रहे हैं, वह नहीं मिला।',
       ta: 'நீங்கள் தேடும் பக்கம் கிடைக்கவில்லை.',

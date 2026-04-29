@@ -32,7 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
         hi: 'KWIN City निवेशकों के लिए — नॉर्थ बेंगलुरु में ₹40,000 करोड़ अवसर',
       }),
       description: pickByLocale(locale, {
-        en: 'Evidence-first investment briefing: five sector clusters, risk framework, and due diligence checklist for KWIN City.',
+        en: 'Read an evidence-first investor briefing on KWIN City sector clusters, regional momentum, risk conditions, due diligence questions, and North Bengaluru opportunity signals.',
         kn: 'ಸಾಕ್ಷ್ಯಾಧಾರಿತ ಹೂಡಿಕೆ ಮಾರ್ಗದರ್ಶಿ: ಕ್ಷೇತ್ರಗಳು, ಅಪಾಯ ಚೌಕಟ್ಟು ಮತ್ತು ಪರಿಶೀಲನಾ ಪಟ್ಟಿಗಳು.',
         hi: 'प्रमाण-आधारित निवेश गाइड: सेक्टर, जोखिम ढांचा और जांच सूची।',
       }),

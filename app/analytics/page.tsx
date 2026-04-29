@@ -4,7 +4,8 @@ import AnalyticsDashboard from '@/components/AnalyticsDashboard';
 
 export const metadata: Metadata = {
   title: 'Analytics Dashboard',
-  description: 'On-device page tracking dashboard for KWIN City',
+  description:
+    'Private on-device analytics dashboard for KWIN City page views, route activity, engagement signals, and operational checks without exposing the report to search indexes.',
   alternates: { canonical: 'https://kwin-city.com/analytics' },
   robots: { index: false },
 };

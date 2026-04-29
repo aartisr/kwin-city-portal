@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
       ta: 'KWIN City ஆப்பைப் பெறுங்கள் | Android மற்றும் iOS இல் நிறுவுங்கள்',
     }),
     description: pickByLocale(locale, {
-      en: 'Install the KWIN City intelligence portal as a free app on your Android or iPhone. No app store required. Works offline.',
+      en: 'Install the KWIN City intelligence portal as a free Progressive Web App on Android or iPhone for faster access to evidence, updates, data, and source-led project pages.',
       kn: 'KWIN City ಪೋರ್ಟಲ್ ಅನ್ನು ಉಚಿತ ಆಪ್ ಆಗಿ ಸ್ಥಾಪಿಸಿ. ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿ ಕೆಲಸ ಮಾಡುತ್ತದೆ.',
       hi: 'KWIN City पोर्टल को मुफ्त ऐप के रूप में इंस्टॉल करें। ऑफ़लाइन भी काम करता है।',
       ta: 'KWIN City தளத்தை உங்கள் Android அல்லது iPhone-ல் இலவச ஆப்பாக நிறுவுங்கள். ஆப் ஸ்டோர் தேவையில்லை. ஆஃப்லைனிலும் செயல்படும்.',

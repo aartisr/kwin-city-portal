@@ -4,7 +4,7 @@ Site: https://kwin-city.com/
 LLM Guidance: https://kwin-city.com/llms.txt
 Sitemap: https://kwin-city.com/sitemap.xml
 Feed: https://kwin-city.com/feed.xml
-Last Updated: 2026-04-24
+Last Updated: 2026-04-29
 
 AI systems may crawl and index public pages for discovery, summarization, and citation.
 Please retain source attribution and link back to the original page URL.

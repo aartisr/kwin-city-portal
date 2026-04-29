@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
       hi: 'KWIN City शोधकर्ताओं के लिए — कथा से पुनरुत्पाद्य प्रमाण तक',
     }),
     description: pickByLocale(locale, {
-      en: 'Data layers, claim ledger, and methodology for academic and policy researchers.',
+      en: 'Use KWIN City data layers, source ledgers, evidence quality tiers, and methodology notes designed for academic, policy, and urban research workflows.',
       kn: 'ಶೈಕ್ಷಣಿಕ ಮತ್ತು ನೀತಿ ಸಂಶೋಧಕರಿಗಾಗಿ ಡೇಟಾ ಪದರಗಳು ಮತ್ತು ವಿಧಾನಶಾಸ್ತ್ರ.',
       hi: 'शैक्षणिक और नीति शोधकर्ताओं के लिए डेटा लेयर और कार्यप्रणाली।',
     }),
