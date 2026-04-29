@@ -12,6 +12,8 @@ describe('home/metadata', () => {
 
     expect(metadata.title).toBeTruthy();
     expect(metadata.description).toBeTruthy();
+    expect(String(metadata.description).length).toBeGreaterThanOrEqual(25);
+    expect(String(metadata.description).length).toBeLessThanOrEqual(160);
     expect(metadata.alternates?.canonical).toBe('https://kwin-city.com');
   });
 });

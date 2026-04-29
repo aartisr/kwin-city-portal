@@ -38,7 +38,7 @@ export default async function Hero() {
       <div className="absolute inset-0" aria-hidden="true">
         <Image
           src={heroImage.src}
-          alt=""
+          alt="Kempegowda International Airport near North Bengaluru's KWIN City corridor"
           fill
           priority
           sizes="100vw"

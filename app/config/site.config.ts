@@ -7,7 +7,7 @@
 export const SITE_CONFIG = {
   name: 'KWIN City',
   description:
-    'Evidence-first KWIN City portal for North Bengaluru, covering the proposed knowledge, wellbeing, and innovation township through source-linked research, data, sectors, and updates.',
+    'KWIN City is a source-linked guide to the proposed 465-acre knowledge township in Doddaballapura, North Bengaluru, with evidence, data, and updates.',
   url: 'https://kwin-city.com',
   locale: 'en_IN',
   xHandle: '@KwinPortal',
