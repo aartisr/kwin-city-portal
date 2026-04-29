@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: pickByLocale(locale, { en: 'Search KWIN City | Find Anything', kn: 'KWIN City ಹುಡುಕಿ | ಯಾವುದನ್ನಾದರೂ ಕಂಡುಹಿಡಿಯಿರಿ', hi: 'KWIN City खोजें | कुछ भी ढूंढें' }),
     description: pickByLocale(locale, {
-      en: 'Search across all KWIN City content — pages, sectors, timeline phases, FAQ answers, documents, and updates.',
+      en: 'Search the KWIN City portal across project pages, sector explainers, timeline phases, FAQ answers, source records, documents, updates, and evidence summaries.',
       kn: 'KWIN City ನ ಎಲ್ಲಾ ವಿಷಯಗಳಲ್ಲಿ ಹುಡುಕಿ.',
       hi: 'KWIN City की सभी सामग्री में खोजें।',
     }),

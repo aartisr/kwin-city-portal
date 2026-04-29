@@ -128,7 +128,6 @@ export function buildFooterContent(locale: Locale): FooterContentModel {
         { href: '/evidence', label: t('header.items./evidence.label') },
         { href: '/sources', label: t('header.items./sources.label'), accent: true },
         { href: '/trust', label: t('header.items./trust.label') },
-        { href: '/evidence-library', label: l({ en: 'Evidence Library', kn: 'ಸಾಕ್ಷ್ಯ ಗ್ರಂಥಾಲಯ', hi: 'एविडेंस लाइब्रेरी', ta: 'ஆதார நூலகம்' }) },
       ],
     },
     {
@@ -138,7 +137,6 @@ export function buildFooterContent(locale: Locale): FooterContentModel {
         { href: '/news-reader', label: t('header.items./news-reader.label') },
         { href: '/share', label: l({ en: 'Share Kit', kn: 'ಹಂಚಿಕೆ ಕಿಟ್', hi: 'शेयर किट', ta: 'பகிர்வு கிட்' }), accent: true },
         { href: '/instagram', label: l({ en: 'Instagram Hub', kn: 'Instagram ಹಬ್', hi: 'Instagram हब', ta: 'Instagram மையம்' }) },
-        { href: '/search', label: t('common.search') },
         { href: '/downloads', label: t('header.items./downloads.label') },
         { href: '/contact', label: t('common.contact') },
       ],

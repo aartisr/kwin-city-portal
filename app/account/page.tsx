@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
       hi: 'खाता और प्राथमिकताएँ',
     }),
     description: pickByLocale(locale, {
-      en: 'Sign in and manage saved user preferences for KWIN City',
+      en: 'Sign in to KWIN City to manage saved preferences, newsletter choices, profile details, and personalized portal settings across research, investor, resident, and media workflows.',
       kn: 'KWIN Cityಗಾಗಿ ನಿಮ್ಮ ಉಳಿಸಿದ ಆದ್ಯತೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ.',
       hi: 'KWIN City के लिए अपनी सहेजी गई प्राथमिकताएँ प्रबंधित करें।',
     }),

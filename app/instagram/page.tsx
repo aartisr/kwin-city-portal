@@ -111,7 +111,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'KWIN City Instagram Hub',
     description:
-      'A mobile-first path from Instagram curiosity to verified KWIN City evidence, data, sectors, and updates.',
+      'Move from Instagram curiosity to verified KWIN City evidence with mobile-first links to the visual brief, data dashboards, source ledger, sectors, and updates.',
     url: PAGE_URL,
     type: 'website',
     images: [{ url: `${PAGE_URL}/opengraph-image` }],
@@ -119,7 +119,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'KWIN City Instagram Hub',
-    description: 'From Instagram curiosity to KWIN City evidence, data, sectors, and source-linked context.',
+    description:
+      'Move from Instagram curiosity to verified KWIN City evidence with mobile-first links to the visual brief, data dashboards, source ledger, sectors, and updates.',
     images: [`${PAGE_URL}/opengraph-image`],
   },
 };

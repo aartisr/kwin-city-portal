@@ -34,7 +34,6 @@ export const HIGH_LEVEL_MENUS: NavGroup[] = [
     items: [
       { label: 'Data Insights', href: '/data-insights', desc: 'Live evidence dashboards' },
       { label: 'Evidence Vault', href: '/evidence', desc: 'What each dataset can prove' },
-      { label: 'Analytics Dashboard', href: '/analytics', icon: '📊', desc: 'On-device page tracking insights' },
       { label: 'Sources & Claims', href: '/sources', desc: 'Full claim-to-source ledger' },
       { label: 'Document Downloads', href: '/downloads', icon: '📥', desc: 'Reports, briefs & open datasets' },
     ],
@@ -46,7 +45,6 @@ export const HIGH_LEVEL_MENUS: NavGroup[] = [
       { label: 'News Intelligence', href: '/news-intelligence', desc: 'Attribution-first media observatory' },
       { label: 'Live News Reader', href: '/news-reader', desc: 'On-demand OPML summary reader' },
       { label: 'Share Kit', href: '/share', icon: '↗', desc: '60-second brief and launch assets' },
-      { label: 'Community Discussion', href: '/community', icon: '💬', desc: 'Open stakeholder threads and replies' },
       { label: 'Trust Center', href: '/trust', desc: 'Authenticity and originality protocol' },
       { label: 'Get the App', href: '/download', icon: '📱', desc: 'Install on Android & iOS - free' },
     ],
@@ -55,7 +53,6 @@ export const HIGH_LEVEL_MENUS: NavGroup[] = [
     key: 'audiences',
     label: 'Audiences',
     items: [
-      { label: 'Account & Preferences', href: '/account', icon: '👤', desc: 'Sign in and save your interests' },
       { label: 'Investor', href: '/for/investor', icon: '📈', desc: 'Opportunity & risk briefing' },
       { label: 'Resident', href: '/for/resident', icon: '🏡', desc: 'Livability & community' },
       { label: 'Researcher', href: '/for/researcher', icon: '🔬', desc: 'Data & methodology' },

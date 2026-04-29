@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
       hi: 'KWIN City सरल व्याख्या — बिना जार्गन, सिर्फ तथ्य',
     }),
     description: pickByLocale(locale, {
-      en: 'What is KWIN City? What is confirmed, what is proposed? A plain-language guide for everyone.',
+      en: 'Understand what KWIN City is, what is confirmed, what remains proposed, and how to follow the North Bengaluru township story through plain-language source links.',
       kn: 'KWIN City ಏನು? ಏನು ದೃಢೀಕೃತ, ಏನು ಪ್ರಸ್ತಾಪಿತ? ಎಲ್ಲರಿಗೂ ಸರಳ ಮಾರ್ಗದರ್ಶಿ.',
       hi: 'KWIN City क्या है? क्या पुष्ट है, क्या प्रस्तावित है? सभी के लिए सरल गाइड।',
     }),

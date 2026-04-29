@@ -3,6 +3,11 @@ Allow: /
 Allow: /57AA00BD-4FE7-48FB-932C-A0EBDB93354B.txt
 Disallow: /api/
 
+User-Agent: bingbot
+Allow: /
+Allow: /57AA00BD-4FE7-48FB-932C-A0EBDB93354B.txt
+Disallow: /api/
+
 User-Agent: OAI-SearchBot
 Allow: /
 Disallow: /api/
@@ -29,6 +34,7 @@ Disallow: /api/
 
 Host: kwin-city.com
 Sitemap: https://kwin-city.com/sitemap.xml
+Sitemap: https://kwin-city.com/feed.xml
 # Feed discovery
 # https://kwin-city.com/feed.xml
 

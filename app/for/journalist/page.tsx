@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
       hi: 'KWIN City पत्रकारों के लिए — सत्यापित स्टोरी एंगल और प्राथमिक स्रोत',
     }),
     description: pickByLocale(locale, {
-      en: 'File faster with stronger sourcing. Verified claims, quote-ready frames, and primary source pathways.',
+      en: 'Report on KWIN City with verified story angles, quote-safe claim language, source pathways, and responsible context for North Bengaluru’s proposed knowledge township.',
       kn: 'ಬಲವಾದ ಮೂಲಾಧಾರದಿಂದ ವೇಗವಾಗಿ ವರದಿ ಮಾಡಿ.',
       hi: 'मजबूत स्रोत आधार के साथ तेज़ और विश्वसनीय रिपोर्टिंग करें।',
     }),

@@ -65,7 +65,7 @@ export async function generateMetadata(): Promise<Metadata> {
         hi: 'नॉर्थ बेंगलुरु क्यों — एयरपोर्ट सिटी, STRR कॉरिडोर',
       }),
       description: pickByLocale(locale, {
-        en: 'A data-backed regional case for North Bengaluru with aviation, corridor, infrastructure, and economic-growth evidence.',
+        en: 'Explore the data-backed case for North Bengaluru with airport growth, STRR corridor context, infrastructure signals, water realities, and regional economic evidence.',
         kn: 'ವಿಮಾನಯಾನ ಮತ್ತು ಮೂಲಸೌಕರ್ಯ ಡೇಟಾದ ಆಧಾರದಿಂದ ಉತ್ತರ ಬೆಂಗಳೂರುಗಾಗಿ ತಂತ್ರಾತ್ಮಕ ವಿಶ್ಲೇಷಣೆ.',
         hi: 'एविएशन और इंफ्रास्ट्रक्चर डेटा के आधार पर नॉर्थ बेंगलुरु का रणनीतिक विश्लेषण।',
       }),
@@ -81,7 +81,7 @@ export async function generateMetadata(): Promise<Metadata> {
         hi: 'नॉर्थ बेंगलुरु क्यों — एयरपोर्ट सिटी, STRR कॉरिडोर',
       }),
       description: pickByLocale(locale, {
-        en: 'The strategic case for North Bengaluru as India\'s next knowledge-economy hub — backed by aviation data, infrastructure maps, and Karnataka economic evidence.',
+        en: 'Understand North Bengaluru\'s strategic role in KWIN City through aviation data, infrastructure maps, STRR corridor context, water evidence, and Karnataka growth signals.',
         kn: 'ವಿಮಾನಯಾನ ಮತ್ತು ಮೂಲಸೌಕರ್ಯ ಡೇಟಾದ ಆಧಾರದಿಂದ ಉತ್ತರ ಬೆಂಗಳೂರುಗಾಗಿ ತಂತ್ರಾತ್ಮಕ ವಿಶ್ಲೇಷಣೆ.',
         hi: 'एविएशन और इंफ्रास्ट्रक्चर डेटा के आधार पर नॉर्थ बेंगलुरु का रणनीतिक विश्लेषण।',
       }),

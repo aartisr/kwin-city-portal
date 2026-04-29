@@ -6,7 +6,8 @@
 
 export const SITE_CONFIG = {
   name: 'KWIN City',
-  description: 'Knowledge, Wellbeing, Innovation City',
+  description:
+    'Evidence-first KWIN City portal for North Bengaluru, covering the proposed knowledge, wellbeing, and innovation township through source-linked research, data, sectors, and updates.',
   url: 'https://kwin-city.com',
   locale: 'en_IN',
   xHandle: '@KwinPortal',
@@ -16,7 +17,7 @@ export const SITE_CONFIG = {
     instagram: 'https://www.instagram.com/hellokwincityconnect',
   },
   // Canonical content refresh date used in sitemap, schema, and UI labels.
-  lastUpdatedISO: '2026-04-24',
+  lastUpdatedISO: '2026-04-29',
 } as const;
 
 /**

@@ -8,7 +8,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: pickByLocale(locale, { en: 'You Are Offline', kn: 'ನೀವು ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿ ಇದ್ದೀರಿ', hi: 'आप ऑफ़लाइन हैं' }),
     description: pickByLocale(locale, {
-      en: 'No internet connection. Your cached KWIN City pages are still available.',
+      en: 'You are offline, but recently cached KWIN City pages may still be available for reading until your connection returns. Reconnect to refresh data, charts, and updates.',
       kn: 'ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಇಲ್ಲ. ನಿಮ್ಮ ಕ್ಯಾಶ್ ಆದ KWIN City ಪುಟಗಳು ಇನ್ನೂ ಲಭ್ಯವಿವೆ.',
       hi: 'इंटरनेट कनेक्शन नहीं है। आपके कैश किए गए KWIN City पेज अभी भी उपलब्ध हैं।',
     }),

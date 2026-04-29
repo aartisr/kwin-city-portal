@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
       hi: 'KWIN City निवासियों के लिए — जीवन गुणवत्ता, स्वास्थ्य और हरित समुदाय',
     }),
     description: pickByLocale(locale, {
-      en: 'What daily life in KWIN City may look like — evidence-first, jargon-free.',
+      en: 'Explore what future daily life in KWIN City may look like through evidence on access, healthcare, education, green cover, mobility, and neighborhood quality.',
       kn: 'KWIN City ಯ ದೈನಂದಿನ ಜೀವನ ಹೇಗಿರಬಹುದು — ಸರಳ ಮತ್ತು ಸಾಕ್ಷ್ಯಾಧಾರಿತ ಪರಿಚಯ.',
       hi: 'KWIN City में दैनिक जीवन कैसा हो सकता है — सरल और प्रमाण-आधारित परिचय।',
     }),

@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: pickByLocale(locale, { en: 'KWIN City Updates — Canonical Project Milestones and Official Signals', kn: 'KWIN City ನವೀಕರಣಗಳು — ಮೈಲಿಗಲ್ಲುಗಳು, ಡೇಟಾ ಮತ್ತು ಪೋರ್ಟಲ್ ಸುದ್ದಿ', hi: 'KWIN City अपडेट्स — माइलस्टोन, डेटा और पोर्टल समाचार' }),
       description: pickByLocale(locale, {
-        en: 'A verification-first updates hub with permanent pages for major KWIN City milestones, releases, and project signals.',
+        en: 'Follow KWIN City updates with verification-first labels, permanent URLs, source-linked context, and project milestones for North Bengaluru\'s proposed knowledge township.',
         kn: 'KWIN City ಅಭಿವೃದ್ಧಿ ಮತ್ತು ಪೋರ್ಟಲ್ ಸುಧಾರಣೆಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡುವ ಪಾರದರ್ಶಕ ಚೇಂಜ್‌ಲಾಗ್.',
         hi: 'KWIN City विकास और पोर्टल सुधारों को ट्रैक करने वाला पारदर्शी चेंजलॉग।',
       }),
@@ -31,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: 'summary_large_image',
       title: pickByLocale(locale, { en: 'KWIN City Updates — Canonical Project Milestones and Official Signals', kn: 'KWIN City ನವೀಕರಣಗಳು — ಮೈಲಿಗಲ್ಲುಗಳು, ಡೇಟಾ ಮತ್ತು ಪೋರ್ಟಲ್ ಸುದ್ದಿ', hi: 'KWIN City अपडेट्स — माइलस्टोन, डेटा और पोर्टल समाचार' }),
       description: pickByLocale(locale, {
-        en: 'Official KWIN City updates with verification-first labels, permanent URLs, and source-linked context.',
+        en: 'Follow KWIN City updates with verification-first labels, permanent URLs, source-linked context, and project milestones for North Bengaluru\'s proposed knowledge township.',
         kn: 'ಪರಿಶೀಲನೆ-ಮೊದಲು KWIN City ಅಧಿಕೃತ ನವೀಕರಣಗಳು.',
         hi: 'सत्यापन-प्रथम KWIN City आधिकारिक अपडेट्स।',
       }),

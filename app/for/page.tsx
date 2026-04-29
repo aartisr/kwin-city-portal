@@ -31,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
         hi: 'KWIN City एक्सप्लोर करें — निवेशक, निवासी, शोधकर्ता और अधिक',
       }),
       description: pickByLocale(locale, {
-        en: 'Tailored KWIN City briefings for investors, residents, researchers, journalists, and curious citizens.',
+        en: 'Choose the right KWIN City briefing for investors, residents, researchers, journalists, and curious citizens, each with role-specific evidence and next steps.',
         kn: 'ಹೂಡಿಕೆದಾರರು, ನಿವಾಸಿಗಳು, ಸಂಶೋಧಕರು, ಪತ್ರಕರ್ತರು ಮತ್ತು ಕುತೂಹಲಕರ ನಾಗರಿಕರಿಗಾಗಿ ವಿಶೇಷ ಮಾರ್ಗದರ್ಶಿ.',
         hi: 'निवेशकों, निवासियों, शोधकर्ताओं, पत्रकारों और जिज्ञासु नागरिकों के लिए विशेष गाइड।',
       }),

@@ -44,7 +44,7 @@ export async function generateMetadata(): Promise<Metadata> {
         hi: 'KWIN City सस्टेनेबिलिटी — नेट-ज़ीरो · सौर · 40% ग्रीन कवर',
       }),
       description: pickByLocale(locale, {
-        en: 'KWIN City is designed net-zero from Day 1. Explore solar, water, green cover, and resilience evidence.',
+        en: 'Explore KWIN City\'s net-zero, solar, water, green-cover, waste, and resilience ambitions alongside public evidence for North Bengaluru\'s environmental realities.',
         kn: 'KWIN City ಆರಂಭದಿಂದಲೇ ನೆಟ್-ಶೂನ್ಯ ದೃಷ್ಟಿಯಿಂದ ವಿನ್ಯಾಸಗೊಂಡಿದೆ.',
         hi: 'KWIN City को शुरुआत से ही नेट-ज़ीरो दृष्टिकोण से डिज़ाइन किया गया है।',
       }),
@@ -60,7 +60,7 @@ export async function generateMetadata(): Promise<Metadata> {
         hi: 'KWIN City सस्टेनेबिलिटी — नेट-ज़ीरो · सौर · 40% ग्रीन कवर',
       }),
       description: pickByLocale(locale, {
-        en: 'KWIN City is designed net-zero from Day 1. Explore solar, water, green cover, and resilience evidence.',
+        en: 'Explore KWIN City\'s net-zero, solar, water, green-cover, waste, and resilience ambitions alongside public evidence for North Bengaluru\'s environmental realities.',
         kn: 'KWIN City ಆರಂಭದಿಂದಲೇ ನೆಟ್-ಶೂನ್ಯ ದೃಷ್ಟಿಯಿಂದ ವಿನ್ಯಾಸಗೊಂಡಿದೆ.',
         hi: 'KWIN City को शुरुआत से ही नेट-ज़ीरो दृष्टिकोण से डिज़ाइन किया गया है।',
       }),

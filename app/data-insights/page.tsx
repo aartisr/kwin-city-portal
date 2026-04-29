@@ -34,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
         ta: 'KWIN City தரவு நுண்ணறிவு ஆய்வகம் — அரசு திறந்த தரவிலிருந்து நேரடி பகுப்பாய்வு',
       }),
       description: pickByLocale(locale, {
-        en: 'Explore North Bengaluru through interactive charts built from government open data and project-linked datasets.',
+        en: 'Explore North Bengaluru through interactive charts built from government open data, KWIN datasets, airport traffic, water resilience, ecology, and sector projections.',
         kn: 'ಕರ್ನಾಟಕ ಮುಕ್ತ ಡೇಟಾದಿಂದ ಚಾಲಿತ ಸಂವಾದಾತ್ಮಕ ಚಾರ್ಟ್‌ಗಳು: ವಿಮಾನ ನಿಲ್ದಾಣ ಬೆಳವಣಿಗೆ, ಕಾರಿಡಾರ್‌ಗಳು, ಭೂಗತಜಲ ಮತ್ತು ಕ್ಷೇತ್ರ ಅಂದಾಜುಗಳು.',
         hi: 'कर्नाटक ओपन डेटा से संचालित इंटरैक्टिव चार्ट: एयरपोर्ट वृद्धि, कॉरिडोर, भूजल और सेक्टर प्रक्षेपण।',
         ta: 'கர்நாடக திறந்த தரவால் இயங்கும் இணையாடல் வரைபடங்கள்: விமான நிலைய வளர்ச்சி, வழித்தடங்கள், நிலத்தடி நீர், துறை முன்னறிவிப்புகள்.',
