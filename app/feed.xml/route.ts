@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import { SITE_CONFIG } from '@/config/site.config';
+import { getLatestSeoAgencyRun } from '@/lib/seo-agency/store';
 import { getUpdateEntries, getUpdateUrl } from '@/lib/updates/content';
 
 function escapeXml(value: string): string {
@@ -14,6 +15,7 @@ function escapeXml(value: string): string {
 export async function GET() {
   const siteUrl = SITE_CONFIG.url;
   const entries = getUpdateEntries();
+  const agencyRun = await getLatestSeoAgencyRun();
 
   const items = entries
     .map((entry) => {
@@ -37,8 +39,20 @@ export async function GET() {
 </item>`;
     })
     .join('\n');
+  const agencyItem = agencyRun
+    ? `<item>
+  <title>${escapeXml(agencyRun.dailyArticle.title)}</title>
+  <link>${escapeXml(agencyRun.dailyArticle.canonicalUrl)}</link>
+  <guid isPermaLink="true">${escapeXml(agencyRun.dailyArticle.canonicalUrl)}</guid>
+  <pubDate>${new Date(agencyRun.dailyArticle.publishedAt).toUTCString()}</pubDate>
+  <description><![CDATA[<p>${escapeXml(agencyRun.dailyArticle.dek)}</p><p><strong>Primary keyword:</strong> ${escapeXml(agencyRun.dailyBrief.primaryKeyword)}</p><p><strong>Evidence:</strong> ${escapeXml(agencyRun.dailyArticle.evidenceStatus)}</p>]]></description>
+  <category>seo-agency</category>
+</item>`
+    : '';
 
-  const lastBuildDate = entries.length > 0 ? new Date(entries[0].date).toUTCString() : new Date().toUTCString();
+  const newestEntryDate = entries.length > 0 ? new Date(entries[0].date).getTime() : Date.now();
+  const agencyDate = agencyRun ? new Date(agencyRun.generatedAt).getTime() : 0;
+  const lastBuildDate = new Date(Math.max(newestEntryDate, agencyDate)).toUTCString();
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -49,6 +63,7 @@ export async function GET() {
   <language>en-IN</language>
   <lastBuildDate>${lastBuildDate}</lastBuildDate>
   <atom:link href="${escapeXml(`${siteUrl}/feed.xml`)}" rel="self" type="application/rss+xml" />
+  ${agencyItem}
   ${items}
 </channel>
 </rss>`;

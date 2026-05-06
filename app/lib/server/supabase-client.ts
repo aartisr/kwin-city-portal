@@ -5,6 +5,21 @@ export type SupabaseClient = BaseSupabaseClient<Database>;
 
 let supabaseClient: SupabaseClient | null = null;
 let supabaseInitError: string | null = null;
+let supabaseAdminClient: SupabaseClient | null = null;
+let supabaseAdminInitError: string | null = null;
+
+function loadCreateClient() {
+  const runtimeRequire = eval('require') as NodeRequire;
+  const moduleName = '@supabase/' + 'supabase-js';
+  const { createClient } = runtimeRequire(moduleName) as {
+    createClient: (
+      url: string,
+      key: string,
+      options?: Record<string, unknown>
+    ) => SupabaseClient;
+  };
+  return createClient;
+}
 
 export function initSupabase(): SupabaseClient | null {
   if (supabaseClient !== null) return supabaseClient;
@@ -20,16 +35,7 @@ export function initSupabase(): SupabaseClient | null {
 
   try {
     // Runtime-only load so missing dependency doesn't break startup/build.
-    const runtimeRequire = eval('require') as NodeRequire;
-    const moduleName = '@supabase/' + 'supabase-js';
-    const { createClient } = runtimeRequire(moduleName) as {
-      createClient: (
-        url: string,
-        key: string,
-        options?: Record<string, unknown>
-      ) => SupabaseClient;
-    };
-
+    const createClient = loadCreateClient();
     supabaseClient = createClient(url, anonKey, {
       auth: { persistSession: false },
     });
@@ -42,6 +48,34 @@ export function initSupabase(): SupabaseClient | null {
 
 export function getSupabase(): SupabaseClient | null {
   return initSupabase();
+}
+
+export function initSupabaseAdmin(): SupabaseClient | null {
+  if (supabaseAdminClient !== null) return supabaseAdminClient;
+  if (supabaseAdminInitError !== null) return null;
+
+  const url = process.env.KWIN_SUPABASE_URL;
+  const serviceRoleKey = process.env.KWIN_SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!url || !serviceRoleKey) {
+    supabaseAdminInitError = 'Supabase service role is not configured.';
+    return null;
+  }
+
+  try {
+    const createClient = loadCreateClient();
+    supabaseAdminClient = createClient(url, serviceRoleKey, {
+      auth: { persistSession: false },
+    });
+    return supabaseAdminClient;
+  } catch (error) {
+    supabaseAdminInitError = `Supabase admin initialization failed: ${error}.`;
+    return null;
+  }
+}
+
+export function getSupabaseAdmin(): SupabaseClient | null {
+  return initSupabaseAdmin();
 }
 
 export function isSupabaseConfigured(): boolean {

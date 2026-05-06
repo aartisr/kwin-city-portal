@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS users (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 
 -- User Preferences table
 CREATE TABLE IF NOT EXISTS user_preferences (
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS user_preferences (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX idx_user_preferences_email ON user_preferences(email);
+CREATE INDEX IF NOT EXISTS idx_user_preferences_email ON user_preferences(email);
 
 -- Discussion Posts table
 CREATE TABLE IF NOT EXISTS discussion_posts (
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS discussion_posts (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX idx_discussion_posts_created_at ON discussion_posts(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_discussion_posts_created_at ON discussion_posts(created_at DESC);
 
 -- Discussion Replies table
 CREATE TABLE IF NOT EXISTS discussion_replies (
@@ -54,8 +54,21 @@ CREATE TABLE IF NOT EXISTS discussion_replies (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX idx_discussion_replies_post_id ON discussion_replies(post_id);
-CREATE INDEX idx_discussion_replies_created_at ON discussion_replies(created_at ASC);
+CREATE INDEX IF NOT EXISTS idx_discussion_replies_post_id ON discussion_replies(post_id);
+CREATE INDEX IF NOT EXISTS idx_discussion_replies_created_at ON discussion_replies(created_at ASC);
+
+-- SEO Agency Runs table
+-- Stores the daily Vercel Cron output for /seo-agency. Writes should use
+-- KWIN_SUPABASE_SERVICE_ROLE_KEY from server-side code only.
+CREATE TABLE IF NOT EXISTS seo_agency_runs (
+  id TEXT PRIMARY KEY,
+  run_date DATE UNIQUE NOT NULL,
+  generated_at TIMESTAMP WITH TIME ZONE NOT NULL,
+  payload JSONB NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_seo_agency_runs_generated_at ON seo_agency_runs(generated_at DESC);
 
 -- Function to increment post likes (called by increment_post_likes RPC)
 CREATE OR REPLACE FUNCTION increment_post_likes(post_id TEXT)
@@ -83,6 +96,21 @@ ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_preferences ENABLE ROW LEVEL SECURITY;
 ALTER TABLE discussion_posts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE discussion_replies ENABLE ROW LEVEL SECURITY;
+ALTER TABLE seo_agency_runs ENABLE ROW LEVEL SECURITY;
+
+-- Keep policy setup re-runnable in Supabase SQL editor.
+DROP POLICY IF EXISTS "Enable read access for all users" ON discussion_posts;
+DROP POLICY IF EXISTS "Enable read access for all users" ON discussion_replies;
+DROP POLICY IF EXISTS "Enable insert for all users" ON discussion_posts;
+DROP POLICY IF EXISTS "Enable insert for all users" ON discussion_replies;
+DROP POLICY IF EXISTS "Enable like updates" ON discussion_posts;
+DROP POLICY IF EXISTS "Enable read access for users" ON users;
+DROP POLICY IF EXISTS "Enable insert access for users" ON users;
+DROP POLICY IF EXISTS "Enable update access for users" ON users;
+DROP POLICY IF EXISTS "Enable read access for preferences" ON user_preferences;
+DROP POLICY IF EXISTS "Enable insert access for preferences" ON user_preferences;
+DROP POLICY IF EXISTS "Enable update access for preferences" ON user_preferences;
+DROP POLICY IF EXISTS "Enable read access for SEO agency runs" ON seo_agency_runs;
 
 -- Public read access for posts and replies
 CREATE POLICY "Enable read access for all users" ON discussion_posts
@@ -123,6 +151,10 @@ CREATE POLICY "Enable insert access for preferences" ON user_preferences
 
 CREATE POLICY "Enable update access for preferences" ON user_preferences
   FOR UPDATE USING (true) WITH CHECK (true);
+
+-- Public read access for the generated SEO agency dashboard.
+CREATE POLICY "Enable read access for SEO agency runs" ON seo_agency_runs
+  FOR SELECT USING (true);
 
 -- Seed data (optional - you can comment this out if you prefer to keep it empty)
 INSERT INTO discussion_posts (id, author, title, text, likes, created_at)
