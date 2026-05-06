@@ -34,6 +34,7 @@ export const MAIN_NAVIGATION = [
   { label: 'Data Insights', href: '/data-insights', icon: '📊' },
   { label: 'Trust', href: '/trust', icon: '🛡️' },
   { label: 'News Intel', href: '/news-intelligence', icon: '🗞️' },
+  { label: 'SEO Desk', href: '/seo-agency', icon: '📈' },
   { label: 'Evidence', href: '/evidence', icon: '✓' },
   { label: 'Sources', href: '/sources', icon: '📚' },
 ] as const;

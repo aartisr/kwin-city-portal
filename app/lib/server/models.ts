@@ -69,6 +69,14 @@ export type DatabaseDiscussionPostRow = {
   created_at: string;
 };
 
+export type DatabaseSeoAgencyRunRow = {
+  id: string;
+  run_date: string;
+  generated_at: string;
+  payload: unknown;
+  created_at?: string;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -94,6 +102,12 @@ export type Database = {
         Row: DatabaseDiscussionReplyRow;
         Insert: DatabaseDiscussionReplyRow;
         Update: Partial<DatabaseDiscussionReplyRow>;
+        Relationships: [];
+      };
+      seo_agency_runs: {
+        Row: DatabaseSeoAgencyRunRow;
+        Insert: Omit<DatabaseSeoAgencyRunRow, 'created_at'> & { created_at?: string };
+        Update: Partial<DatabaseSeoAgencyRunRow>;
         Relationships: [];
       };
     };

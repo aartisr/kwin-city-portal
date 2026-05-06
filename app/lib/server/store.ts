@@ -5,8 +5,8 @@ function resolveDataDir() {
   const explicitDir = process.env.KWIN_DATA_DIR;
   if (explicitDir) return explicitDir;
 
-  // Netlify functions can write only to /tmp at runtime.
-  if (process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+  // Serverless functions can write only to /tmp at runtime.
+  if (process.env.NETLIFY || process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME) {
     return path.join('/tmp', 'kwin-city-portal', '.data');
   }
 

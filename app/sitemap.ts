@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { SITE_CONFIG } from '@/config/site.config';
+import { getLatestSeoAgencyRun } from '@/lib/seo-agency/store';
 import { getUpdateEntries, getUpdatePath } from '@/lib/updates/content';
 
 const SITE_URL = SITE_CONFIG.url;
@@ -15,9 +16,10 @@ const SITE_URL = SITE_CONFIG.url;
  *   0.7 — persona pages
  *   0.6 — about / terms
  */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date(`${SITE_CONFIG.lastUpdatedISO}T00:00:00+05:30`).toISOString();
   const updateEntries = getUpdateEntries();
+  const agencyRun = await getLatestSeoAgencyRun();
 
   return [
     // ── Tier 1: Homepage ───────────────────────────────────────────────────
@@ -83,6 +85,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'daily',
       priority: 0.8,
     },
+    {
+      url: `${SITE_URL}/seo-agency`,
+      lastModified,
+      changeFrequency: 'daily',
+      priority: 0.85,
+    },
+    ...(agencyRun
+      ? [
+          {
+            url: agencyRun.dailyArticle.canonicalUrl,
+            lastModified: agencyRun.dailyArticle.updatedAt,
+            changeFrequency: 'daily' as const,
+            priority: 0.82,
+          },
+        ]
+      : []),
     {
       url: `${SITE_URL}/updates`,
       lastModified,

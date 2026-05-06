@@ -346,6 +346,61 @@ INSTAGRAM_BUSINESS_ACCOUNT_ID
 SOCIAL_PUBLISHING_ENABLED=false
 ```
 
+Implemented automation:
+
+```text
+Daily Vercel Cron path: /api/cron/kwin-seo-agency
+Public dashboard: /seo-agency
+Latest JSON endpoint: /api/seo-agency/latest
+Vercel schedule: 0 3 * * * (daily UTC; Vercel Hobby allows once per day)
+Durable storage table: seo_agency_runs
+```
+
+The job scans the OPML feeds in `public/feeds/kwin-city-news-feeds.opml`,
+scores KWIN relevance, creates a full daily article at
+`/seo-agency/articles/[slug]`, prepares social platform drafts that point to
+that article, and generates daily, weekly, monthly, and yearly snapshots. Direct
+publishing stays disabled unless these are explicitly enabled in Vercel:
+
+The plug-and-play configuration lives in:
+
+```text
+app/lib/seo-agency/config.ts
+```
+
+Use that file to add topics, change article paths, update platform formats,
+change hashtags, or add required environment variables. Publishing readiness is
+reported on `/seo-agency`, `/api/seo-agency/latest`, and the cron response.
+
+```text
+SOCIAL_PUBLISHING_ENABLED=true
+SOCIAL_AUTO_APPROVE=true
+```
+
+Facebook Page publishing also requires:
+
+```text
+META_PAGE_ID
+META_PAGE_ACCESS_TOKEN
+```
+
+Instagram publishing also requires a public reviewed media asset:
+
+```text
+INSTAGRAM_BUSINESS_ACCOUNT_ID
+SOCIAL_DEFAULT_IMAGE_URL
+```
+
+`SOCIAL_DEFAULT_IMAGE_URL` is optional when the daily article image route is
+publicly reachable. By default, each article exposes a square image at:
+
+```text
+/seo-agency/articles/[slug]/instagram-image
+```
+
+Set `SOCIAL_DEFAULT_IMAGE_URL` only when you want every Instagram post to use a
+pre-approved brand image instead of the generated daily article visual.
+
 Vercel-friendly daily job shape:
 
 ```text
