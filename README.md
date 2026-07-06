@@ -1,409 +1,181 @@
 # KWIN City Portal
 
-> **Knowledge · Wellbeing · Innovation**  
-> *An evidence-first research portal for India's next-generation knowledge city.*
+A public knowledge platform for Bengaluru, built with one promise:
+truth before hype.
 
-<!-- Tech Stack -->
-[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?logo=typescript)](https://typescriptlang.org)
-[![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.4-38bdf8?logo=tailwindcss)](https://tailwindcss.com)
-[![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red)](LICENSE)
-[![Canonical](https://img.shields.io/badge/Site-kwin--city.com-6366f1)](https://kwin-city.com)
+KWIN stands for Knowledge, Wellbeing, and Innovation. This portal exists to help people understand the proposed KWIN City initiative with clarity, evidence, and civic respect.
 
-<!-- Deployment & CI -->
-[![Netlify Status](https://img.shields.io/netlify/REPLACE_WITH_NETLIFY_SITE_ID?label=Netlify)](https://app.netlify.com/sites/REPLACE_WITH_NETLIFY_SITE_NAME/deploys)
-[![GitHub last commit](https://img.shields.io/github/last-commit/aartisr/kwin-city-portal?logo=github)](https://github.com/aartisr/kwin-city-portal/commits/main)
-[![Project size](https://img.shields.io/github/repo-size/aartisr/kwin-city-portal)](https://github.com/aartisr/kwin-city-portal)
+## Why This Project Exists
 
-<!-- Security & Validation -->
-[![Security Headers](https://img.shields.io/security-headers?url=https%3A%2F%2Fkwin-city.com&label=Security%20Headers)](https://securityheaders.com/?q=kwin-city.com)
-[![Mozilla Observatory](https://img.shields.io/mozilla-observatory/grade/kwin-city.com?publish=true&label=Mozilla%20Observatory)](https://observatory.mozilla.org/analyze/kwin-city.com)
-[![W3C Validation](https://img.shields.io/w3c-validation/html?targetUrl=https%3A%2F%2Fkwin-city.com&label=W3C%20HTML)](https://validator.w3.org/nu/?doc=https%3A%2F%2Fkwin-city.com)
-[![HSTS Preload](https://img.shields.io/hsts/preload/kwin-city.com?label=HSTS%20Preload)](https://hstspreload.org/?domain=kwin-city.com)
+Cities are too important to be explained with marketing language alone.
+People deserve source-linked facts, honest uncertainty, and clear distinctions between:
 
----
+- what is verified
+- what is plausible but unconfirmed
+- what is aspiration
 
-## Table of Contents
+This project is rooted in Bengaluru's civic spirit: curious, practical, collaborative, and accountable to community outcomes.
 
-- [What Is This?](#what-is-this)
-- [Claim Verification Tiers](#claim-verification-tiers)
-- [What Is KWIN City?](#what-is-kwin-city)
-- [Site Map](#site-map)
-- [Getting Started](#getting-started)
-- [Available Scripts](#available-scripts)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [The Evidence System](#the-evidence-system)
-- [Data Sources (S1–S9)](#data-sources-s1s9)
-- [Documentation](#documentation)
-- [Contributing](#contributing)
-- [License](#license)
+## Our Community Promise (Bengaluru First)
 
----
+This portal is designed for the people who live, work, build, report, study, and care in and around Bengaluru:
 
-## What Is This?
+- residents who want understandable, plain-language answers
+- researchers who need traceable evidence and methodology
+- journalists who need claim status and source lineage
+- investors and operators who need context without spin
+- students and civic contributors who want to learn and participate
 
-The **KWIN City Portal** is the official public research and information platform for **KWIN City** — a proposed multi-phase knowledge-economy township in Doddaballapura, North Bengaluru, India, operated by KIADB (Karnataka Industrial Areas Development Board).
+We are explicit about one value system:
+research, honesty, integrity, kindness, and proof.
 
-**KWIN** stands for **K**nowledge · **W**ellbeing · **I**nnovation.
+## Evidence Covenant
 
-The portal's defining principle is **radical epistemic transparency**: every claim on every page is explicitly labeled with its verification status and linked to its source. Nothing is presented as established fact unless backed by a primary institutional document.
+Every serious claim should be traceable to a source.
+When proof is incomplete, we say so.
 
-> *"We don't just present the vision. We show you the evidence — and we're honest about what the evidence can and cannot prove."*
+### Verification Tiers
 
----
+| Marker | Tier | Meaning |
+| --- | --- | --- |
+| `Confirmed Context` | Verified | Backed by official/public institutional evidence |
+| `Pending Verification` | In Progress | Needs primary source confirmation |
+| `Contextual Evidence` | Regional | Useful context, not project-specific proof |
 
-## Claim Verification Tiers
+The portal links claims to source records so readers can inspect, disagree, verify, and contribute better questions.
 
-| Symbol | Tier | Meaning |
-|--------|------|---------|
-| ✅ | **Confirmed Context** | Sourced from a verified official document or government record |
-| 🔍 | **Pending Verification** | Requires primary source confirmation from KIADB or a government agency |
-| ⚪ | **Contextual / Regional Evidence** | Legitimate public data providing regional context, not project-specific proof |
+## Narrative Ethos
 
-These tiers appear as colored inline badges (S1–S9) next to every claim on the site. Click any badge to navigate to the full source record at `/sources`.
+If a sentence cannot survive scrutiny, it does not belong here.
+If a claim affects public trust, it must carry evidence.
+If data is unclear, we choose transparency over certainty theater.
 
----
+This is not just content design; it is civic design.
 
-## What Is KWIN City?
+## What You Can Explore
 
-KWIN City is a multi-phase urban development project in **Doddaballapura, North Bengaluru** — approximately 40 km from the city center, adjacent to Bengaluru International Airport.
+- Bengaluru and North Bengaluru context
+- KWIN pillars: Knowledge, Wellbeing, Innovation
+- timeline-oriented project interpretation
+- sector-level analysis
+- sustainability and urban systems perspective
+- evidence and sources registry
+- persona-based pathways (`/for/*`) for different audiences
 
-### The Three Pillars 🔍
+## Product Principles
 
-| Pillar | Colour | Focus |
-|--------|--------|-------|
-| **Knowledge** | Blue | Research institutions, universities, innovation labs |
-| **Wellbeing** | Green | Healthcare, green infrastructure, sustainable communities |
-| **Innovation** | Amber | Semiconductor parks, aerospace, renewable energy, ICT |
+- Evidence-first by default
+- Human-readable before jargon-heavy
+- Accessibility and performance are non-negotiable quality gates
+- Community trust is treated as a measurable product outcome
+- Precision over virality
 
-### Key Project Stats 🔍 *(Pending Verification — sourced from project brief)*
+## Technology Foundation
 
-| Metric | Figure |
-|--------|--------|
-| Location | Doddaballapura, North Bengaluru |
-| Site Area | 465+ acres |
-| Investment Target | ₹40,000 Crore |
-| Projected Employment | 100,000+ high-skill jobs |
-| Timeline | 2024 inauguration → 2030 full operations |
-| Operator | Karnataka Industrial Areas Development Board (KIADB) |
+- Next.js 15 (App Router)
+- React 18 + TypeScript 5
+- Tailwind CSS
+- Vitest + Playwright
+- Recharts and map components for data storytelling
 
-### Development Timeline 🔍
-
-| Phase | Year | Status |
-|-------|------|--------|
-| Phase 0 | 2024 | ✅ Completed (100%) — Inauguration & Land Acquisition |
-| Phase 1 | 2025 | 🔄 In Progress (35%) — Infrastructure & Connectivity |
-| Phase 2 | 2026 | 📋 Planned — Institutional & Knowledge District |
-| Phase 3 | 2027 | 📋 Planned — Industrial & Revenue Generation |
-| Phase 4 | 2028 | 📋 Planned — Wellbeing & Sustainability |
-| Phase 5 | 2030 | 📋 Planned — Full Operational Status |
-
----
-
-## Site Map
-
-| Route | Page | Purpose |
-|-------|------|---------|
-| `/` | Home | Hero, trust snapshot, persona hub, evidence preview |
-| `/about` | About KWIN | Three pillars deep-dive |
-| `/why-north-bengaluru` | Why North Bengaluru | Regional evidence case |
-| `/timeline` | Timeline | Interactive development phases |
-| `/sectors` | Sectors | Five economic sector targets |
-| `/sustainability` | Sustainability | Metrics + infrastructure highlights |
-| `/data-insights` | Data Insights | Live charts from OpenCity CKAN |
-| `/evidence` | Evidence Vault | All seven OpenCity sources with supports/cannot-prove |
-| `/sources` | Claim Ledger | Every claim mapped to its source(s) |
-| `/for` | By Persona | Hub for five audience-specific paths |
-| `/for/investor` | Investor | Investment case with sourced projections |
-| `/for/resident` | Resident | Living, sustainability, community |
-| `/for/researcher` | Researcher | Data access, evidence methodology |
-| `/for/journalist` | Journalist | Verified/pending breakdown for reporting |
-| `/for/curious-citizens` | Curious Citizens | Accessible overview |
-| `/terms` | Terms | Legal notice (effective 25 March 2026) |
-
----
-
-## Getting Started
+## Quick Start
 
 ### Prerequisites
 
-| Tool | Minimum Version |
-|------|----------------|
-| Node.js | 18.x LTS |
-| Yarn | 1.22.x |
-| Git | 2.x |
+- Node.js 20.x
+- Yarn 1.22.x
 
-No database, Docker, or cloud credentials are needed. The only external service (OpenCity CKAN API) is public and requires no key.
-
-### Installation
+### Install
 
 ```bash
-# Clone the project source
-git clone <source-url>
-cd kwin-city-portal
-
-# Install dependencies
 yarn install
 ```
 
-### Start the Development Server
+### Run locally
 
 ```bash
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open:
 
-### Open in VS Code (Recommended)
+```text
+http://localhost:3000
+```
 
-Use the provided workspace file for proper project isolation:
+## Developer Commands
 
 ```bash
-code kwin-city-portal.code-workspace
+yarn dev              # start dev server
+yarn build            # production build
+yarn start            # run production server
+yarn lint             # lint checks
+yarn test             # unit/integration tests (Vitest)
+yarn type-check       # TypeScript validation
+yarn e2e              # Playwright end-to-end tests
+yarn format           # format codebase
+yarn format:check     # check formatting only
 ```
 
-This prevents accidental multi-root workspace coupling with other local projects.
+## Quality and Trust Gates
 
----
+This project values technical quality because technical debt can become trust debt.
 
-## Available Scripts
+Representative checks include:
 
-| Script | Command | What it does |
-|--------|---------|-------------|
-| **Dev server** | `yarn dev` | Start dev server on port 3000 |
-| **Production build** | `yarn build` | Build for production (outputs to `.next/`) |
-| **Production server** | `yarn start` | Serve the production build |
-| **Lint** | `yarn lint` | Run ESLint |
-| **Test** | `yarn test` | Run Vitest test suite |
-| **Type check** | `yarn type-check` | TypeScript compiler (no emit) |
-| **Format** | `yarn format` | Prettier — write all files |
-| **Format check** | `yarn format:check` | Prettier — check only (CI-safe) |
-| **Clean** | `yarn clean:next` | Delete `.next/` and `.next-dev/` |
-| **Android release tag** | `yarn release:android 1.2.3` | Create and push `v1.2.3` tag (triggers signed APK/AAB build) |
+- type safety and linting
+- unit and component tests
+- route and accessibility smoke tests
+- evidence labeling and source traceability discipline
 
-## Operational Trust
+## Project Structure (High Level)
 
-The contact intake path is intentionally defensive:
-
-- same-origin requests only
-- per-IP rate limiting with response headers
-- structured request logging with request IDs
-- server-side sanitization before email rendering
-
----
-
-## Android Release (Signed)
-
-This project includes a production Android release workflow at `.github/workflows/build-android.yml`.
-
-### 1. Add GitHub Actions Secrets
-
-Set these in **GitHub → Settings → Secrets and variables → Actions**:
-
-- `ANDROID_KEYSTORE_BASE64`
-- `ANDROID_KEYSTORE_PASSWORD`
-- `ANDROID_KEY_ALIAS`
-- `ANDROID_KEY_PASSWORD`
-
-Tip to create `ANDROID_KEYSTORE_BASE64` locally:
-
-```bash
-base64 -i android/kwin-release.jks | pbcopy
+```text
+app/                  Next.js routes, components, API handlers
+app/content/          Structured content and narrative data
+app/config/           Site-level configuration
+app/lib/              Data, utilities, content/evidence logic
+e2e/                  End-to-end test suites
+docs/                 Architecture and system documentation
+scripts/              Operational helper scripts
+public/               Static assets, robots, feeds, web verification files
 ```
-
-### 2. Trigger Release in One Command
-
-```bash
-yarn release:android 1.2.3
-```
-
-This will:
-
-1. Create and push tag `v1.2.3`
-2. Trigger GitHub Actions
-3. Build **signed** `APK` and `AAB`
-4. Publish both under GitHub Releases
-
-### 3. Keep TWA Verification in Sync
-
-Update these with your **release keystore SHA-256 fingerprint**:
-
-- `public/.well-known/assetlinks.json`
-- `android/app/src/main/res/values/strings.xml`
-
----
-
-## Tech Stack
-
-| Layer | Technology | Version | Purpose |
-|-------|-----------|---------|---------|
-| Framework | Next.js (App Router) | 15 | SSR, file-based routing, API routes |
-| Language | TypeScript | 5.3 | Type safety |
-| Styling | Tailwind CSS | 3.4 | Utility-first CSS |
-| Animation | Framer Motion | 11 | Entrances, stagger effects |
-| Charts | Recharts | 3 | Live data visualization |
-| Maps | Mapbox GL JS + react-map-gl | 3.6 / 7 | Future spatial visualization |
-| State | Zustand | 4 | Client-side global state |
-| Testing | Vitest | — | Unit/component tests |
-| HTTP | Axios | 1.6 | HTTP utilities |
-| Formatting | Prettier | 3 | Code style consistency |
-
----
-
-## Project Structure
-
-```
-kwin-city-portal/
-│
-├── app/                          # Next.js App Router root
-│   ├── layout.tsx                ← Root layout: font, SEO metadata, body
-│   ├── page.tsx                  ← Home page
-│   ├── globals.css               ← Tailwind base + CSS variables
-│   │
-│   ├── about/                    ← /about
-│   ├── why-north-bengaluru/      ← /why-north-bengaluru
-│   ├── timeline/                 ← /timeline
-│   ├── sectors/                  ← /sectors
-│   ├── sustainability/           ← /sustainability
-│   ├── data-insights/            ← /data-insights
-│   ├── evidence/                 ← /evidence
-│   ├── sources/                  ← /sources (Claim Ledger)
-│   ├── terms/                    ← /terms
-│   │
-│   ├── for/                      ← Persona routes
-│   │   ├── page.tsx
-│   │   ├── investor/
-│   │   ├── resident/
-│   │   ├── researcher/
-│   │   ├── journalist/
-│   │   └── curious-citizens/
-│   │
-│   ├── api/
-│   │   └── opencity/route.ts     ← GET /api/opencity — CKAN proxy
-│   │
-│   ├── components/               ← All UI components (25 files)
-│   ├── data/
-│   │   └── constants.ts          ← Single source of truth for all data
-│   └── types/
-│       └── kwin.ts               ← All TypeScript interface definitions
-│
-├── docs/                         ← In-depth documentation
-│   ├── ARCHITECTURE.md
-│   ├── API.md
-│   ├── COMPONENTS.md
-│   ├── DATA_MODEL.md
-│   ├── DEVELOPMENT.md
-│   └── EVIDENCE_SYSTEM.md
-│
-├── CONTRIBUTING.md
-├── next.config.js
-├── tailwind.config.js
-├── tsconfig.json
-└── package.json
-```
-
----
-
-## The Evidence System
-
-The Evidence System is what makes this portal different from typical promotional content.
-
-### How it works
-
-1. **Every claim has a badge.** Numbers, projections, and attributions are followed by small circular badges (S1, S2, …S9) linked to their source.
-
-2. **Every source is registered.** The Source Registry in `app/data/constants.ts` defines what each source is, who published it, and its verification status.
-
-3. **Every claim is mapped.** The Claim Ledger at `/sources` lists every substantive claim on the site and the sources that back it.
-
-4. **"Cannot prove" lists.** The Evidence Vault at `/evidence` shows not just what each source supports, but what it **cannot prove** — a deliberate reminder of the limits of contextual evidence.
-
-### Why this matters
-
-Urban development projects at this scale attract investors, residents, journalists, and researchers who all need different things from the same data. The transparency system means:
-
-- **Investors** see which projections are verified vs. aspirational.
-- **Journalists** can immediately distinguish confirmed facts from claims pending verification.
-- **Researchers** can see exactly which OpenCity datasets underpin regional context claims.
-- **Residents** can trust that the portal doesn't overstate what is known.
-
-See [docs/EVIDENCE_SYSTEM.md](docs/EVIDENCE_SYSTEM.md) for the complete documentation.
-
----
-
-## Data Sources (S1–S9)
-
-| Label | Key | Source | Publisher | Status |
-|-------|-----|--------|-----------|--------|
-| **S1** | `brief` | KWIN City Project Brief | BAJA Associates / KIADB | 🔍 Pending |
-| **S2** | `kiadb` | KIADB Official Portal | Karnataka Government | ✅ Verified |
-| **S3** | `aviation` | Bengaluru Aviation Traffic | OpenCity / AAI | ⚪ Contextual |
-| **S4** | `economicSurvey` | Economic Survey Karnataka 2025–26 | OpenCity / GoK | ⚪ Contextual |
-| **S5** | `strr` | STRR Documents | OpenCity / BDA | ⚪ Contextual |
-| **S6** | `irr` | BDA IRR Documents | OpenCity / BDA | ⚪ Contextual |
-| **S7** | `rainfall` | Karnataka Annual Rainfall | OpenCity / KSNDMC | ⚪ Contextual |
-| **S8** | `groundwater` | Taluk-wise Groundwater Depth | OpenCity / CGWB | ⚪ Contextual |
-| **S9** | `lakes` | Bengaluru Lakes & Maintainers | OpenCity / BBMP | ⚪ Contextual |
-
----
 
 ## Documentation
 
-The `docs/` directory contains in-depth guides for every major system:
+Core documents:
 
-| Document | Read it when… |
-|----------|--------------|
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | You want to understand how the project is structured and how systems interact |
-| [docs/API.md](docs/API.md) | You're working with the OpenCity data API or adding a new dataset |
-| [docs/COMPONENTS.md](docs/COMPONENTS.md) | You're building or modifying a UI component |
-| [docs/DATA_MODEL.md](docs/DATA_MODEL.md) | You're adding or updating data in `constants.ts` |
-| [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) | You're setting up the project or troubleshooting |
-| [docs/EVIDENCE_SYSTEM.md](docs/EVIDENCE_SYSTEM.md) | You're adding claims, sources, or updating the Claim Ledger |
+- `ARCHITECTURE.md`
+- `DOCUMENTATION.md`
+- `E2E_TESTING.md`
+- `QUALITY_STANDARDS.md`
+- `CONTRIBUTING.md`
+- `docs/README.md`
 
----
+## Contribution Philosophy
 
-## KWIN News Feed Import
+Contributions are welcome when they improve one or more of the following:
 
-Use the prebuilt OPML file to monitor KWIN City and related Bengaluru updates in feed readers.
+- factual clarity
+- evidence rigor
+- accessibility
+- maintainability
+- community usefulness
 
-- OPML file: [docs/kwin-city-news-feeds.opml](docs/kwin-city-news-feeds.opml)
+Please avoid:
 
-### Feedly
+- unverifiable claims
+- manipulative framing
+- certainty where the evidence is incomplete
 
-1. Open Feedly and go to **Organize Sources**.
-2. Select **Import OPML**.
-3. Upload `docs/kwin-city-news-feeds.opml`.
-4. Review and move feeds into your preferred collections.
+## A Note to Bengaluru
 
-### Inoreader
+This portal is made with respect for the city and its people.
+Bengaluru deserves ambitious thinking, but also disciplined truth.
 
-1. Open Inoreader and go to **Preferences → Import/Export**.
-2. Select **Import OPML**.
-3. Upload `docs/kwin-city-news-feeds.opml`.
-4. Adjust folder names and notification rules.
-
-### Suggested Alert Rules
-
-- High priority: `KWIN City`, `KHIR City`, `MB Patil`
-- Medium priority: `Doddaballapura`, `KIADB`, `foreign universities Karnataka`
-- Recommended cadence: immediate alerts for high priority, digest mode for medium priority
-
----
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the full contribution guide.
-
-The short version: every new claim needs a source badge, every new source needs a registry entry, and every figure needs a Claim Ledger mapping. The evidence system is not optional.
-
----
+If you spot an error, missing context, or weak evidence trail, open an issue or contribute a correction.
+Public trust is built line by line.
 
 ## License
 
-Proprietary. All content is the intellectual property of BAJA Associates / Aarti S Ravikumar.  
-Multiple claims on this site are pending primary source verification — see the [Claim Ledger](https://kwin-city.com/sources) for current status.
-
----
-
-*Last updated: 25 March 2026 · Version 0.1.0 · Built with Next.js 15 + TypeScript*
+Private / Proprietary.

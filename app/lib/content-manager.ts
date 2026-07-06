@@ -30,7 +30,7 @@ export interface ContentBlock {
     href: string;
     variant?: 'primary' | 'secondary' | 'outline';
   };
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface ContentItem {
@@ -41,7 +41,7 @@ export interface ContentItem {
   image?: string;
   url?: string;
   tags?: string[];
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface PageContent {
@@ -62,13 +62,13 @@ export interface PageContent {
  * Content Loader - Thread-safe, with caching
  */
 class ContentManager {
-  private cache = new Map<string, any>();
+  private cache = new Map<string, unknown>();
   private contentDir = path.join(process.cwd(), 'app', 'content');
 
   /**
    * Load content file with caching
    */
-  async loadContent<T = any>(filePath: string, useCache = true): Promise<T> {
+  async loadContent<T = unknown>(filePath: string, useCache = true): Promise<T> {
     const cacheKey = filePath;
 
     // Return cached content if available and caching enabled
@@ -109,7 +109,7 @@ class ContentManager {
   /**
    * Load all items of a type (e.g., all sectors)
    */
-  async loadCollection<T = any>(collectionName: string): Promise<T[]> {
+  async loadCollection<T = unknown>(collectionName: string): Promise<T[]> {
     return this.loadContent(`collections/${collectionName}.json`);
   }
 
@@ -166,7 +166,7 @@ export function filterContent<T extends ContentItem>(
 /**
  * Helper: Enrich content with computed fields
  */
-export function enrichContent<T extends Record<string, any>>(
+export function enrichContent<T extends Record<string, unknown>>(
   item: T,
   enricher: (item: T) => Partial<T>
 ): T {
@@ -176,7 +176,7 @@ export function enrichContent<T extends Record<string, any>>(
 /**
  * Helper: Validate content structure
  */
-export function validateContent(content: any): boolean {
+export function validateContent(content: unknown): boolean {
   // Basic validation - can be extended with Zod/Joi
   return typeof content === 'object' && content !== null;
 }

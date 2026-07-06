@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 interface FilterAndExportProps {
-  data: any[];
+  data: Array<Record<string, unknown>>;
   dataType: 'evidence' | 'timeline' | 'sectors';
   title: string;
 }

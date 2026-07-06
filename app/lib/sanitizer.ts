@@ -73,7 +73,7 @@ export function sanitizeUrl(input: string): string | null {
     if (url.protocol === 'http:' || url.protocol === 'https:') {
       return url.toString();
     }
-  } catch (e) {
+  } catch {
     // Invalid URL
   }
 
@@ -145,7 +145,7 @@ export function sanitizeTitle(
 ): string | null {
   if (!input) return null;
 
-  let cleaned = sanitizeHtml(input.trim());
+  const cleaned = sanitizeHtml(input.trim());
 
   if (cleaned.length < minLength || cleaned.length > maxLength) {
     return null;
@@ -160,7 +160,7 @@ export function sanitizeTitle(
 export function sanitizeBody(input: string, minLength = 10, maxLength = 5000): string | null {
   if (!input) return null;
 
-  let cleaned = sanitizeCommunityPost(input, maxLength);
+  const cleaned = sanitizeCommunityPost(input, maxLength);
 
   if (cleaned.length < minLength) {
     return null;
