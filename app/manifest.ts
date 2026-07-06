@@ -66,7 +66,6 @@ export default function manifest(): MetadataRoute.Manifest {
         src: '/opengraph-image',
         sizes: '1200x630',
         type: 'image/png',
-        // @ts-ignore - label is valid per spec
         label: 'KWIN City Portal home screen',
         form_factor: 'wide',
       },

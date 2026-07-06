@@ -1,8 +1,13 @@
 'use client';
 
 import { Suspense } from 'react';
+import type { ComponentType } from 'react';
 import dynamic from 'next/dynamic';
 import { ContentBlock } from '@/lib/content-manager';
+
+type BlockComponentProps = {
+  data: ContentBlock;
+} & Record<string, unknown>;
 
 /**
  * Component Registry
@@ -58,7 +63,9 @@ export default function GenericPageBuilder({
  * Handles individual block rendering with suspense and error handling
  */
 function RenderBlock({ block }: { block: ContentBlock }) {
-  const Component = componentRegistry[block.type as BlockType] as any;
+  const Component = componentRegistry[block.type as BlockType] as
+    | ComponentType<BlockComponentProps>
+    | undefined;
 
   if (!Component) {
     console.warn(`Block type "${block.type}" not registered`);
@@ -90,7 +97,7 @@ function BlockNotFound({ type }: { type: string }) {
   return (
     <div className="py-12 px-4 bg-yellow-50 border-l-4 border-yellow-400">
       <p className="text-yellow-700">
-        Component type "<strong>{type}</strong>" not registered in componentRegistry
+        Component type &quot;<strong>{type}</strong>&quot; not registered in componentRegistry
       </p>
     </div>
   );
@@ -102,9 +109,10 @@ function BlockNotFound({ type }: { type: string }) {
  */
 export function registerComponent(
   type: BlockType,
-  component: React.ComponentType<any>
+  component: ComponentType<BlockComponentProps>
 ) {
-  (componentRegistry as any)[type] = component;
+  (componentRegistry as unknown as Record<string, ComponentType<BlockComponentProps>>)[type] =
+    component;
 }
 
 /**
