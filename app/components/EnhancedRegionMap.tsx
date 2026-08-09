@@ -40,7 +40,7 @@ const layerControls: MapLayer[] = [
 
 const initialSelectedLayers: LayerId[] = ['base', 'zones', 'infrastructure', 'green', 'poi'];
 
-const OVERLAY_BOUNDS = new mapboxgl.LngLatBounds([77.52, 13.08], [77.72, 13.23]);
+const INITIAL_MAP_PADDING = { top: 56, right: 56, bottom: 56, left: 56 };
 
 const pointOfInterestItems: PoiListItem[] = KWIN_GEOGRAPHIC_LOCATIONS.map((location) => ({
   id: location.id,
@@ -242,12 +242,42 @@ const poiSource: FeatureCollection<Point> = {
 };
 
 const layerIdMap: Record<LayerId, string[]> = {
-  base: ['regional-frame-fill', 'regional-frame-line'],
-  zones: ['zones-fill', 'zones-line'],
+  base: ['regional-frame-fill', 'regional-frame-line', 'regional-frame-labels'],
+  zones: ['zones-fill', 'zones-line', 'zones-labels'],
   infrastructure: ['infrastructure-line', 'infrastructure-labels'],
-  green: ['green-systems-fill', 'green-systems-line'],
+  green: ['green-systems-fill', 'green-systems-line', 'green-systems-labels'],
   poi: ['poi-circles', 'poi-labels'],
 };
+
+function extendBoundsWithCoordinates(bounds: mapboxgl.LngLatBounds, coordinates: [number, number][]) {
+  for (const coordinate of coordinates) {
+    bounds.extend(coordinate);
+  }
+}
+
+function getInitialBounds() {
+  const bounds = new mapboxgl.LngLatBounds();
+
+  extendBoundsWithCoordinates(bounds, pointOfInterestItems.map((poi) => poi.coordinates));
+
+  for (const feature of regionalFrameSource.features) {
+    extendBoundsWithCoordinates(bounds, feature.geometry.coordinates[0] as [number, number][]);
+  }
+
+  for (const feature of zonesSource.features) {
+    extendBoundsWithCoordinates(bounds, feature.geometry.coordinates[0] as [number, number][]);
+  }
+
+  for (const feature of greenSystemsSource.features) {
+    extendBoundsWithCoordinates(bounds, feature.geometry.coordinates[0] as [number, number][]);
+  }
+
+  for (const feature of infrastructureSource.features) {
+    extendBoundsWithCoordinates(bounds, feature.geometry.coordinates as [number, number][]);
+  }
+
+  return bounds;
+}
 
 function applyLayerVisibility(map: mapboxgl.Map, selectedLayers: LayerId[]) {
   for (const [groupId, mapLayerIds] of Object.entries(layerIdMap) as [LayerId, string[]][]) {
@@ -379,6 +409,24 @@ export default function EnhancedRegionMap() {
         });
 
         map.addLayer({
+          id: 'regional-frame-labels',
+          type: 'symbol',
+          source: 'regional-frame',
+          layout: {
+            'text-field': ['get', 'name'],
+            'text-size': 11,
+            'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+            'text-allow-overlap': true,
+            'text-ignore-placement': true,
+          },
+          paint: {
+            'text-color': '#1e293b',
+            'text-halo-color': '#ffffff',
+            'text-halo-width': 1.5,
+          },
+        });
+
+        map.addLayer({
           id: 'zones-fill',
           type: 'fill',
           source: 'zones',
@@ -420,6 +468,8 @@ export default function EnhancedRegionMap() {
             'text-field': ['get', 'name'],
             'text-size': 11,
             'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+            'text-allow-overlap': true,
+            'text-ignore-placement': true,
           },
           paint: {
             'text-color': '#111827',
@@ -445,6 +495,24 @@ export default function EnhancedRegionMap() {
           paint: {
             'line-color': '#15803d',
             'line-width': 3,
+          },
+        });
+
+        map.addLayer({
+          id: 'green-systems-labels',
+          type: 'symbol',
+          source: 'green-systems',
+          layout: {
+            'text-field': ['get', 'name'],
+            'text-size': 11,
+            'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+            'text-allow-overlap': true,
+            'text-ignore-placement': true,
+          },
+          paint: {
+            'text-color': '#166534',
+            'text-halo-color': '#ffffff',
+            'text-halo-width': 1.5,
           },
         });
 
@@ -486,6 +554,8 @@ export default function EnhancedRegionMap() {
             'text-field': ['get', 'name'],
             'text-size': 11,
             'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+            'text-allow-overlap': true,
+            'text-ignore-placement': true,
           },
           paint: {
             'text-color': '#0f172a',
@@ -529,6 +599,8 @@ export default function EnhancedRegionMap() {
             'text-offset': [0, 1.2],
             'text-size': 11,
             'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+            'text-allow-overlap': true,
+            'text-ignore-placement': true,
           },
           paint: {
             'text-color': '#0f172a',
@@ -543,8 +615,9 @@ export default function EnhancedRegionMap() {
         map.on('mouseenter', 'poi-circles', handlePoiMouseEnter);
         map.on('mouseleave', 'poi-circles', handlePoiMouseLeave);
 
-        map.fitBounds(OVERLAY_BOUNDS, {
-          padding: { top: 60, right: 60, bottom: 60, left: 60 },
+        map.fitBounds(getInitialBounds(), {
+          padding: INITIAL_MAP_PADDING,
+          maxZoom: 11.2,
           duration: 0,
         });
         map.resize();
