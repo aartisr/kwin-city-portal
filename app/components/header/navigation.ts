@@ -1,10 +1,10 @@
 import type { NavGroup } from '@/components/header/types';
 
 export const NAV_TONES = {
-  active: 'text-[#8A5400] font-bold bg-amber-50 ring-1 ring-amber-200',
+  active: 'text-[#6F3F00] font-bold bg-amber-50 ring-1 ring-amber-200',
   idleScrolled: 'text-slate-800 hover:text-slate-950 font-medium',
   idleTop: 'text-slate-800 hover:text-slate-950 font-medium',
-  dropdownActive: 'text-[#A96A00]',
+  dropdownActive: 'text-[#6F3F00]',
   dropdownIdle: 'text-slate-900',
 } as const;
 

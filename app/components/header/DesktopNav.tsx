@@ -91,11 +91,11 @@ export default function DesktopNav({
                 <div className={`relative overflow-hidden border-b border-slate-200 lg:border-b-0 lg:border-r ${desktopStory.accent}`}>
                   <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.78),rgba(255,255,255,0.94))]" aria-hidden="true" />
                   <div className="relative px-5 pt-5 pb-4 lg:px-6 lg:pt-6 lg:pb-5">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A96A00]">{desktopStory.eyebrow}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6F3F00]">{desktopStory.eyebrow}</p>
                     <h3 className="mt-2.5 max-w-sm text-[1.5rem] font-extrabold leading-tight tracking-tight text-slate-950">
                       {desktopStory.title}
                     </h3>
-                    <p className="mt-2.5 max-w-md text-[0.92rem] leading-6 text-slate-700">
+                    <p className="mt-2.5 max-w-md text-[0.92rem] leading-6 text-slate-800">
                       {desktopStory.body}
                     </p>
 
@@ -111,7 +111,7 @@ export default function DesktopNav({
                             {item.icon ? <span aria-hidden="true">{item.icon}</span> : null}
                             <span>{item.label}</span>
                           </div>
-                          {item.desc ? <p className="mt-1 text-xs leading-5 text-slate-600">{item.desc}</p> : null}
+                          {item.desc ? <p className="mt-1 text-xs leading-5 text-slate-700">{item.desc}</p> : null}
                         </Link>
                       ))}
                     </div>
@@ -123,8 +123,8 @@ export default function DesktopNav({
                     <div className="grid gap-2.5 lg:grid-cols-2">
                       {toolIntentSections.map((section) => (
                         <section key={section.key} className="rounded-[18px] border border-slate-200 bg-slate-50 p-3">
-                          <h4 className="text-[0.82rem] font-extrabold uppercase tracking-[0.14em] text-[#8A5400]">{section.title}</h4>
-                          <p className="mt-1 text-[0.74rem] leading-5 text-slate-600">{section.summary}</p>
+                          <h4 className="text-[0.82rem] font-extrabold uppercase tracking-[0.14em] text-[#6F3F00]">{section.title}</h4>
+                          <p className="mt-1 text-[0.74rem] leading-5 text-slate-700">{section.summary}</p>
                           <div className="mt-2.5 space-y-1.5">
                             {section.items.map((item) => (
                               <Link
@@ -148,7 +148,7 @@ export default function DesktopNav({
                                   <div className={`text-[0.9rem] font-bold leading-5 ${isActive(item.href) ? NAV_TONES.dropdownActive : NAV_TONES.dropdownIdle}`}>
                                     {item.label}
                                   </div>
-                                  {item.desc ? <div className="mt-0.5 text-[0.72rem] leading-5 text-slate-600">{item.desc}</div> : null}
+                                  {item.desc ? <div className="mt-0.5 text-[0.72rem] leading-5 text-slate-700">{item.desc}</div> : null}
                                 </div>
                               </Link>
                             ))}
@@ -182,7 +182,7 @@ export default function DesktopNav({
                                 <div className={`text-[0.95rem] font-bold leading-5 ${isActive(item.href) ? NAV_TONES.dropdownActive : NAV_TONES.dropdownIdle}`}>
                                   {item.label}
                                 </div>
-                                {item.desc ? <div className="mt-0.5 text-[0.76rem] leading-5 text-slate-600">{item.desc}</div> : null}
+                                {item.desc ? <div className="mt-0.5 text-[0.76rem] leading-5 text-slate-700">{item.desc}</div> : null}
                               </div>
                             </Link>
                           ))}

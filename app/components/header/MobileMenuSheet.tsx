@@ -34,10 +34,10 @@ export default function MobileMenuSheet({
 }: MobileMenuSheetProps) {
   return (
     <div className="px-1 pt-3 md:flex md:justify-end xl:hidden">
-      <div className="max-h-[calc(100vh_-_var(--kwin-header-height)_-_1rem)] overflow-y-auto rounded-[30px] border border-slate-200/80 bg-white/96 p-4 shadow-[0_28px_80px_rgba(2,6,23,0.18)] backdrop-blur-2xl md:w-[min(620px,100%)]">
-        <div className="rounded-[24px] border border-slate-200 bg-[linear-gradient(135deg,rgba(245,166,35,0.10),rgba(6,182,212,0.08))] p-4">
-          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#A96A00]">Navigation</p>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
+      <div className="max-h-[calc(100vh_-_var(--kwin-header-height)_-_1rem)] overflow-y-auto rounded-[30px] border border-slate-200/90 bg-white/98 p-4 shadow-[0_28px_80px_rgba(2,6,23,0.18)] backdrop-blur-2xl md:w-[min(620px,100%)]">
+        <div className="rounded-[24px] border border-slate-300/90 bg-[linear-gradient(135deg,rgba(255,247,237,0.98),rgba(240,249,255,0.98))] p-4 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">
+          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#6F3F00]">Navigation</p>
+          <p className="mt-2 text-sm font-medium leading-6 text-slate-900">
             A clearer route structure, inspired by the strongest current web headers: fewer decisions up front, richer context after the first click.
           </p>
 
@@ -74,10 +74,10 @@ export default function MobileMenuSheet({
             onClick={onCloseMenu}
           >
             <div className="min-w-0">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">{labels.signedIn}</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600">{labels.signedIn}</p>
               <p className="mt-1 truncate text-sm font-bold text-slate-900">{currentUser.name}</p>
             </div>
-            <span className="text-xs font-semibold text-slate-600">{labels.account}</span>
+            <span className="text-xs font-semibold text-slate-700">{labels.account}</span>
           </Link>
         ) : null}
 
@@ -100,9 +100,9 @@ export default function MobileMenuSheet({
                   className="flex w-full items-start justify-between gap-4 px-4 py-4 text-left"
                 >
                   <div className="min-w-0">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A96A00]">{groupStory.eyebrow}</p>
-                    <p className={`mt-1 truncate text-sm font-bold ${isGroupActive(group) ? 'text-[#A96A00]' : 'text-slate-950'}`}>{group.label}</p>
-                    <p className="mt-1 text-xs leading-5 text-slate-600">{groupStory.title}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6F3F00]">{groupStory.eyebrow}</p>
+                    <p className={`mt-1 truncate text-sm font-bold ${isGroupActive(group) ? 'text-[#6F3F00]' : 'text-slate-950'}`}>{group.label}</p>
+                    <p className="mt-1 text-xs leading-5 text-slate-700">{groupStory.title}</p>
                   </div>
                   <svg className={`mt-1 h-4 w-4 flex-shrink-0 text-slate-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -115,15 +115,15 @@ export default function MobileMenuSheet({
                       <div className="space-y-2.5">
                         {toolIntentSections.map((section) => (
                           <section key={section.key} className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-                            <h4 className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#8A5400]">{section.title}</h4>
-                            <p className="mt-1 text-xs leading-5 text-slate-600">{section.summary}</p>
+                            <h4 className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#6F3F00]">{section.title}</h4>
+                            <p className="mt-1 text-xs leading-5 text-slate-700">{section.summary}</p>
                             <div className="mt-2 space-y-1">
                               {section.items.map((item) => (
                                 <Link
                                   key={item.href}
                                   href={item.href}
                                   className={`flex items-start gap-3 rounded-2xl px-3 py-3 transition-colors ${
-                                    isActive(item.href) ? 'bg-amber-50 text-[#A96A00]' : 'bg-white hover:bg-slate-100'
+                                    isActive(item.href) ? 'bg-amber-50 text-[#6F3F00]' : 'bg-white hover:bg-slate-100 text-slate-900'
                                   }`}
                                   onClick={onCloseMenu}
                                 >
@@ -136,7 +136,7 @@ export default function MobileMenuSheet({
                                   )}
                                   <span className="min-w-0">
                                     <span className="block text-sm font-semibold">{item.label}</span>
-                                    {item.desc ? <span className="mt-1 block text-xs leading-5 text-slate-500">{item.desc}</span> : null}
+                                    {item.desc ? <span className="mt-1 block text-xs leading-5 text-slate-700">{item.desc}</span> : null}
                                   </span>
                                 </Link>
                               ))}
@@ -151,7 +151,7 @@ export default function MobileMenuSheet({
                             key={item.href}
                             href={item.href}
                             className={`flex items-start gap-3 rounded-2xl px-3 py-3 transition-colors ${
-                              isActive(item.href) ? 'bg-amber-50 text-[#A96A00]' : 'hover:bg-white'
+                              isActive(item.href) ? 'bg-amber-50 text-[#6F3F00]' : 'hover:bg-white text-slate-900'
                             }`}
                             onClick={onCloseMenu}
                           >
@@ -164,7 +164,7 @@ export default function MobileMenuSheet({
                             )}
                             <span className="min-w-0">
                               <span className="block text-sm font-semibold">{item.label}</span>
-                              {item.desc ? <span className="mt-1 block text-xs leading-5 text-slate-500">{item.desc}</span> : null}
+                              {item.desc ? <span className="mt-1 block text-xs leading-5 text-slate-700">{item.desc}</span> : null}
                             </span>
                           </Link>
                         ))}
