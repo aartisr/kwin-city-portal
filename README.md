@@ -78,6 +78,14 @@ This is not just content design; it is civic design.
 - Vitest + Playwright
 - Recharts and map components for data storytelling
 
+## Optional Analytics Providers
+
+- Vercel Analytics (enabled)
+- Microsoft Clarity (enabled)
+- PostHog (plug-and-play, environment-gated)
+
+PostHog docs: `docs/POSTHOG_INTEGRATION.md`
+
 ## Quick Start
 
 ### Prerequisites
