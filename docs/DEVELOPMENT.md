@@ -56,6 +56,16 @@ touch .env.local
 echo "NEXT_PUBLIC_MAPBOX_TOKEN=your_token_here" >> .env.local
 ```
 
+### Optional: PostHog analytics
+
+```bash
+echo "NEXT_PUBLIC_POSTHOG_ENABLED=true" >> .env.local
+echo "NEXT_PUBLIC_POSTHOG_KEY=phc_your_project_key" >> .env.local
+echo "NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com" >> .env.local
+```
+
+When `NEXT_PUBLIC_POSTHOG_ENABLED` is not `true`, PostHog stays fully disabled.
+
 ### VS Code workspace
 
 Open the project using the provided workspace file to keep it isolated from other local projects:

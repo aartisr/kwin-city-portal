@@ -7,6 +7,7 @@ const PwaRegistration = dynamic(() => import('@/components/PwaRegistration'), { 
 const PwaInstallPrompt = dynamic(() => import('@/components/PwaInstallPrompt'), { ssr: false });
 const PageAnalytics = dynamic(() => import('@/components/PageAnalytics'), { ssr: false });
 const ClarityInit = dynamic(() => import('@/components/ClarityInit'), { ssr: false });
+const PostHogInit = dynamic(() => import('@/components/PostHogInit'), { ssr: false });
 
 export default function ClientEnhancements() {
   const [shouldEnhance, setShouldEnhance] = useState(false);
@@ -37,6 +38,7 @@ export default function ClientEnhancements() {
       <PwaInstallPrompt />
       <PageAnalytics />
       <ClarityInit />
+      <PostHogInit />
     </>
   );
 }
