@@ -157,10 +157,10 @@ export default function Header({
             ref={headerBarRef}
             className={`relative isolate overflow-visible rounded-[28px] border transition-all duration-500 ${
               scrolled
-                ? 'border-slate-200/80 bg-white/92 shadow-[0_18px_60px_rgba(2,6,23,0.12)] backdrop-blur-2xl'
+                ? 'border-slate-200/90 bg-white/97 shadow-[0_18px_60px_rgba(2,6,23,0.12)] backdrop-blur-2xl'
                 : trustBannerVisible
-                ? 'border-slate-200/70 bg-white/88 shadow-[0_18px_54px_rgba(2,6,23,0.10)] backdrop-blur-2xl'
-                : 'border-white/65 bg-white/82 shadow-[0_18px_52px_rgba(2,6,23,0.09)] backdrop-blur-2xl'
+                ? 'border-slate-200/80 bg-white/95 shadow-[0_18px_54px_rgba(2,6,23,0.10)] backdrop-blur-2xl'
+                : 'border-white/75 bg-white/94 shadow-[0_18px_52px_rgba(2,6,23,0.09)] backdrop-blur-2xl'
             }`}
           >
             <div
