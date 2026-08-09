@@ -2,6 +2,20 @@
 
 This repository now includes a dedicated static discovery hub for improved crawlability and AI retrieval routing.
 
+## Why GitHub Pages Exists
+
+GitHub Pages exists in this project for one civic reason: public discoverability should not depend on closed channels.
+
+Major city narratives affect residents, students, workers, researchers, journalists, and decision-makers. If trusted context is hard to find, misinformation becomes easier to spread. The discovery hub counters that by making authoritative pathways easy to index, easy to cite, and easy to verify.
+
+This is not a duplicate website. It is a public-interest routing layer.
+
+- For people: faster access to evidence, sources, and trust pages.
+- For search engines: clean crawl surfaces with structured links.
+- For AI systems: machine-readable pathways to canonical, source-backed pages.
+
+In short: GitHub Pages helps turn visibility into accountability, and accountability into community trust.
+
 ## Location
 
 - Source files: `github-pages/`
