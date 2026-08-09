@@ -33,7 +33,7 @@ export default function MobileMenuSheet({
   onOpenSearch,
 }: MobileMenuSheetProps) {
   return (
-    <div className="px-1 pt-3 min-[1536px]:hidden md:flex md:justify-end">
+    <div className="px-1 pt-3 md:flex md:justify-end xl:hidden">
       <div className="max-h-[calc(100vh_-_var(--kwin-header-height)_-_1rem)] overflow-y-auto rounded-[30px] border border-slate-200/80 bg-white/96 p-4 shadow-[0_28px_80px_rgba(2,6,23,0.18)] backdrop-blur-2xl md:w-[min(620px,100%)]">
         <div className="rounded-[24px] border border-slate-200 bg-[linear-gradient(135deg,rgba(245,166,35,0.10),rgba(6,182,212,0.08))] p-4">
           <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#A96A00]">Navigation</p>
