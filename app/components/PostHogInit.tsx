@@ -9,6 +9,15 @@ export default function PostHogInit() {
   const searchParams = useSearchParams();
   const lastTrackedUrlRef = useRef<string>('');
 
+  const trackCurrentPageview = (currentUrl: string) => {
+    lastTrackedUrlRef.current = currentUrl;
+    capturePostHogEvent('$pageview', {
+      $current_url: window.location.href,
+      pathname,
+      query: searchParams?.toString() || null,
+    });
+  };
+
   useEffect(() => {
     let cancelled = false;
 
@@ -19,7 +28,13 @@ export default function PostHogInit() {
 
     const initialize = () => {
       if (!cancelled) {
-        initPostHog();
+        if (initPostHog()) {
+          const query = searchParams?.toString();
+          const currentUrl = query ? `${pathname}?${query}` : pathname;
+          if (currentUrl && lastTrackedUrlRef.current !== currentUrl) {
+            trackCurrentPageview(currentUrl);
+          }
+        }
       }
     };
 
@@ -36,22 +51,17 @@ export default function PostHogInit() {
       cancelled = true;
       browser.clearTimeout(timeoutId);
     };
-  }, []);
+  }, [pathname, searchParams]);
 
   useEffect(() => {
     const query = searchParams?.toString();
     const currentUrl = query ? `${pathname}?${query}` : pathname;
 
-    if (!currentUrl || lastTrackedUrlRef.current === currentUrl) {
+    if (!currentUrl || lastTrackedUrlRef.current === currentUrl || !window.__kwinPosthogInitialized) {
       return;
     }
 
-    lastTrackedUrlRef.current = currentUrl;
-    capturePostHogEvent('$pageview', {
-      $current_url: window.location.href,
-      pathname,
-      query: query || null,
-    });
+    trackCurrentPageview(currentUrl);
   }, [pathname, searchParams]);
 
   return null;
