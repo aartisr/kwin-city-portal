@@ -29,7 +29,7 @@ Slide 1:
 What is KWIN City?
 
 Slide 2:
-A proposed 465-acre knowledge-economy township in Doddaballapura, North Bengaluru.
+A proposed 5,800-acre knowledge-economy township in Doddaballapura, North Bengaluru.
 
 Slide 3:
 Knowledge:

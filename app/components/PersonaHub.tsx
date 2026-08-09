@@ -15,10 +15,12 @@ const personas = [
     description:
       'Sector allocations, ROI benchmarks, KIADB regulatory framework, and why the early-mover window in KWIN is open now.',
     href: '/for/investor',
-    image: '/social/kwin-launch/kwin-launch-slide-01.png',
-    imageSource: '/instagram',
-    imageCredit: 'KWIN City launch deck',
-    imageLicense: 'Internal portal artifact',
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Kempegowda_International_Airport%2C_Bengaluru_%28Ank_Kumar%2C_Infosys%29_01.jpg/1920px-Kempegowda_International_Airport%2C_Bengaluru_%28Ank_Kumar%2C_Infosys%29_01.jpg',
+    imageSource:
+      'https://commons.wikimedia.org/wiki/File:Kempegowda_International_Airport,_Bengaluru_(Ank_Kumar,_Infosys)_01.jpg',
+    imageCredit: 'Ank Kumar',
+    imageLicense: 'CC BY-SA 4.0',
     overlayFrom: 'rgba(92,53,0,0.88)',
     overlayTo: 'rgba(0,0,0,0.45)',
     accent: '#F5A623',
@@ -35,10 +37,11 @@ const personas = [
     description:
       'Green cover, interconnected lakes, schools, healthcare, and connectivity — the complete quality-of-life picture.',
     href: '/for/resident',
-    image: '/social/kwin-launch/kwin-launch-slide-02.png',
-    imageSource: '/instagram',
-    imageCredit: 'KWIN City launch deck',
-    imageLicense: 'Internal portal artifact',
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/b/b0/Cubbon_Park_%2848186335396%29.jpg',
+    imageSource: 'https://commons.wikimedia.org/wiki/File:Cubbon_Park_(48186335396).jpg',
+    imageCredit: 'Abhiman Singh',
+    imageLicense: 'CC0',
     overlayFrom: 'rgba(5,60,35,0.88)',
     overlayTo: 'rgba(0,0,0,0.45)',
     accent: '#10B981',
@@ -55,10 +58,10 @@ const personas = [
     description:
       "Lab facilities, IP policy, industry-academia nexus, and grants inside KWIN's knowledge district.",
     href: '/for/researcher',
-    image: '/social/kwin-launch/kwin-launch-slide-03.png',
-    imageSource: '/instagram',
-    imageCredit: 'KWIN City launch deck',
-    imageLicense: 'Internal portal artifact',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/1/13/IIMB_Campus.jpg',
+    imageSource: 'https://commons.wikimedia.org/wiki/File:IIMB_Campus.jpg',
+    imageCredit: 'Magentic Manifestations',
+    imageLicense: 'CC BY-SA 3.0',
     overlayFrom: 'rgba(25,18,80,0.88)',
     overlayTo: 'rgba(0,0,0,0.50)',
     accent: '#6366F1',
@@ -75,10 +78,11 @@ const personas = [
     description:
       'Press kit, verified facts sheet, claim-status tracker, and media contacts — the most accurate story starts here.',
     href: '/for/journalist',
-    image: '/social/kwin-launch/kwin-launch-slide-04.png',
-    imageSource: '/instagram',
-    imageCredit: 'KWIN City launch deck',
-    imageLicense: 'Internal portal artifact',
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Vidhana_Soudha%2C_front_%2801%29.jpg/1920px-Vidhana_Soudha%2C_front_%2801%29.jpg',
+    imageSource: 'https://commons.wikimedia.org/wiki/File:Vidhana_Soudha,_front_(01).jpg',
+    imageCredit: 'Moheen Reeyad',
+    imageLicense: 'CC BY-SA 4.0',
     overlayFrom: 'rgba(3,55,70,0.88)',
     overlayTo: 'rgba(0,0,0,0.50)',
     accent: '#06B6D4',
@@ -95,10 +99,10 @@ const personas = [
     description:
       "What KWIN is, who decides what, how you can participate, and where to dig deeper — zero jargon.",
     href: '/for/curious-citizens',
-    image: '/social/kwin-launch/kwin-launch-slide-05.png',
-    imageSource: '/instagram',
-    imageCredit: 'KWIN City launch deck',
-    imageLicense: 'Internal portal artifact',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/4/41/InfosysHQFrontView.jpg',
+    imageSource: 'https://commons.wikimedia.org/wiki/File:InfosysHQFrontView.jpg',
+    imageCredit: 'Sundar',
+    imageLicense: 'CC BY-SA 3.0',
     overlayFrom: 'rgba(70,5,35,0.85)',
     overlayTo: 'rgba(0,0,0,0.50)',
     accent: '#EC4899',
@@ -108,15 +112,6 @@ const personas = [
     borderClass: 'hover:border-pink-500/40',
   },
 ];
-
-const LICENSE_LINKS: Record<string, string> = {
-  'CC BY-SA 3.0': 'https://creativecommons.org/licenses/by-sa/3.0/',
-  'CC BY-SA 4.0': 'https://creativecommons.org/licenses/by-sa/4.0/',
-  'CC BY 4.0': 'https://creativecommons.org/licenses/by/4.0/',
-  'CC BY 3.0': 'https://creativecommons.org/licenses/by/3.0/',
-  CC0: 'https://creativecommons.org/publicdomain/zero/1.0/',
-  'Internal portal artifact': '/instagram',
-};
 
 export default function PersonaHub() {
   const { locale } = useI18n();
@@ -203,41 +198,7 @@ export default function PersonaHub() {
           <PersonaCard persona={localizedPersonas[4]} idx={4} />
         </div>
 
-        <div className="mt-6">
-          <details className="group rounded-md border border-slate-800/70 bg-[#0b1220]/80 px-3 py-2">
-            <summary className="cursor-pointer select-none text-center text-[11px] text-[#64748B] list-none">
-              <span className="group-open:hidden sm:hidden">Show credits</span>
-              <span className="group-open:hidden hidden sm:inline">Show Persona Image Credits & Licenses</span>
-              <span className="hidden group-open:inline sm:hidden">Hide credits</span>
-              <span className="hidden group-open:inline sm:inline">Hide Persona Image Credits & Licenses</span>
-            </summary>
-            <div className="mt-2 flex flex-wrap justify-center gap-x-3 gap-y-1 text-[10px] text-[#64748B]">
-              {localizedPersonas.map((persona) => (
-                <span key={persona.id}>
-                  {persona.title}:{' '}
-                  <a
-                    href={persona.imageSource}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline hover:text-[#94A3B8]"
-                  >
-                    source
-                  </a>{' '}
-                  ·{' '}
-                  <a
-                    href={LICENSE_LINKS[persona.imageLicense]}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline hover:text-[#94A3B8]"
-                  >
-                    {persona.imageLicense}
-                  </a>{' '}
-                  · {persona.imageCredit}
-                </span>
-              ))}
-            </div>
-          </details>
-        </div>
+
       </div>
     </section>
   );

@@ -7,7 +7,7 @@ export const KWIN_INFRASTRUCTURE: InfrastructureItem[] = [
     description:
       'Dedicated renewable energy generation facility designed for sustainability [Details pending verification]',
     status: 'planned',
-    capacity: '~465 acres [pending verification]',
+    capacity: 'TBD [pending verification]',
     certifications: ['ISO 50001 (projected)', 'Net-Zero Energy Target'],
   },
   {

@@ -7,6 +7,30 @@ type ExportJobRecord = ExportJob & {
   filters?: Record<string, string | number | boolean>;
 };
 
+type SupabaseErrorLike = { code?: string } | null;
+
+type ExportJobRow = {
+  id: string;
+  status: ExportJob['status'];
+  export_type: ExportJob['exportType'];
+  created_at: string;
+  expires_at: string | null;
+  file_url: string | null;
+};
+
+type ExportJobsTableClient = {
+  insert: (values: unknown[]) => Promise<{ error: SupabaseErrorLike }>;
+  select: (columns: string) => {
+    eq: (column: string, value: string) => {
+      single: () => Promise<{ data: ExportJobRow | null; error: SupabaseErrorLike }>;
+    };
+  };
+};
+
+type ExportSupabaseLooseClient = {
+  from: (table: 'value_add_export_jobs') => ExportJobsTableClient;
+};
+
 const STORE_FILE = 'value-add-export-jobs.json';
 const TTL_MS = 1000 * 60 * 60;
 
@@ -27,7 +51,7 @@ export async function createExportJob(request: ExportJobRequest): Promise<Export
   const supabase = getSupabase();
   if (supabase) {
     try {
-      const client = supabase as any;
+      const client = supabase as unknown as ExportSupabaseLooseClient;
       const payload = {
         id,
         export_type: request.exportType,
@@ -62,7 +86,7 @@ export async function findExportJob(jobId: string): Promise<ExportJob | null> {
   const supabase = getSupabase();
   if (supabase) {
     try {
-      const client = supabase as any;
+      const client = supabase as unknown as ExportSupabaseLooseClient;
       const { data, error } = await client
         .from('value_add_export_jobs')
         .select('*')

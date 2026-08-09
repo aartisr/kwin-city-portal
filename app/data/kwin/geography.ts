@@ -8,7 +8,7 @@ export const KWIN_GEOGRAPHIC_LOCATIONS: GeographicLocation[] = [
     name: 'KWIN City (Proposed)',
     coordinates: [77.6045, 13.1939], // Doddaballapura, North Bengaluru
     type: 'kwin-site',
-    description: '465+ acres | Knowledge, Wellbeing, Innovation Township',
+    description: '5,800 acres (Phase 1: 2,000 acres) | Knowledge, Wellbeing, Innovation Township',
     sourceId: 'verified',
   },
   {

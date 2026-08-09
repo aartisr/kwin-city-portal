@@ -3,80 +3,56 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import InlineSourceBadges from '@/components/InlineSourceBadges';
+import { LAUNCH_DECK_THEMES } from '@/data/kwin/launch-deck-themes';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import { pickLocalizedValue } from '@/lib/i18n/messages';
 
-const pillars = [
+const PILLAR_TITLES = {
+  'vidhana-soudha': {
+    en: 'Policy & Governance Signals',
+    kn: 'ನೀತಿ ಮತ್ತು ಆಡಳಿತ ಸೂಚನೆಗಳು',
+    hi: 'नीति और शासन संकेत',
+    ta: 'கொள்கை மற்றும் ஆட்சி சுட்டுக்கள்',
+  },
+  'airport-corridor': {
+    en: 'Airport-led Regional Connectivity',
+    kn: 'ವಿಮಾನ ನಿಲ್ದಾಣ ಚಾಲಿತ ಪ್ರಾದೇಶಿಕ ಸಂಪರ್ಕ',
+    hi: 'एयरपोर्ट-आधारित क्षेत्रीय कनेक्टिविटी',
+    ta: 'விமானநிலைய அடிப்படையிலான பிராந்திய இணைப்பு',
+  },
+  'electronic-city': {
+    en: 'Technology Ecosystem Momentum',
+    kn: 'ತಂತ್ರಜ್ಞಾನ ಪರಿಸರ ವೇಗ',
+    hi: 'प्रौद्योगिकी पारितंत्र की गति',
+    ta: 'தொழில்நுட்ப சூழல் முன்னேற்றம்',
+  },
+  'knowledge-infrastructure': {
+    en: 'Knowledge & Research Base',
+    kn: 'ಜ್ಞಾನ ಮತ್ತು ಸಂಶೋಧನಾ ಆಧಾರ',
+    hi: 'ज्ञान और अनुसंधान आधार',
+    ta: 'அறிவு மற்றும் ஆராய்ச்சி அடித்தளம்',
+  },
+} as const;
+
+const launchThemeVisuals = [
   {
-    id: 'silicon-valley',
-    icon: '🌐',
-    title: {
-      en: "India's Silicon Valley",
-      kn: 'ಭಾರತದ ಸಿಲಿಕಾನ್ ವ್ಯಾಲಿ',
-      hi: 'भारत की सिलिकॉन वैली',
-      ta: 'இந்தியாவின் சிலிகான் பள்ளத்தாக்கு',
-    },
-    body: {
-      en: 'Bengaluru is the undisputed technology capital of India, home to the highest density of global tech companies, R&D centres, and startup unicorns on the subcontinent. KWIN City is proposed in this orbit.',
-      kn: 'ಬೆಂಗಳೂರು ಭಾರತத்தின் ತಂತ್ರಜ್ಞಾನ ರಾಜಧಾನಿ. ಜಾಗತಿಕ ತಂತ್ರಜ್ಞಾನ ಕಂಪನಿಗಳು, ಸಂಶೋಧನೆ ಮತ್ತು ಅಭಿವೃದ್ಧಿ ಕೇಂದ್ರಗಳು ಹಾಗೂ ಸ್ಟಾರ್ಟ್‌ಅಪ್ ಯೂನಿಕೋನ್‌ಗಳ ಅತ್ಯಧಿಕ ಸಾಂದ್ರತೆ ಇಲ್ಲಿ ಇದೆ. KWIN City ಈ ವಲಯದಲ್ಲೇ ಪ್ರಸ್ತಾಪಿತವಾಗಿದೆ.',
-      hi: 'बेंगलुरु भारत की निर्विवाद तकनीकी राजधानी है। यहां वैश्विक टेक कंपनियों, आर एंड डी केंद्रों और स्टार्टअप यूनिकॉर्न की उच्चतम सघनता है। KWIN City इसी क्षेत्रीय परिप्रेक्ष्य में प्रस्तावित है।',
-      ta: 'பெங்களூரு இந்தியாவின் முன்னணி தொழில்நுட்பத் தலைநகரம். உலகளாவிய தொழில்நுட்ப நிறுவனங்கள், ஆராய்ச்சி மையங்கள், ஸ்டார்ட்அப் யூனிகார்ன்கள் மிக அதிகமாக உள்ள பகுதியாக இது திகழ்கிறது. KWIN City இந்த வளையத்திலேயே முன்மொழியப்பட்டுள்ளது.',
-    },
-    sourceIds: ['economicSurvey'],
+    id: 'vidhana-soudha',
+    icon: '🏛️',
     iconBgClass: 'bg-[#F5A623]/20 border border-[#F5A623]/30',
   },
   {
-    id: 'connectivity',
+    id: 'airport-corridor',
     icon: '✈️',
-    title: {
-      en: 'World-Class Connectivity',
-      kn: 'ವಿಶ್ವಮಟ್ಟದ ಸಂಪರ್ಕ',
-      hi: 'विश्वस्तरीय कनेक्टिविटी',
-      ta: 'உலகத்தர இணைப்பு',
-    },
-    body: {
-      en: "Kempegowda International Airport is one of India's busiest and fastest-growing gateways. North Bengaluru's airport corridor is already one of the most sought-after investment zones in South Asia.",
-      kn: 'ಕೆಂಪೇಗೌಡ ಅಂತರರಾಷ್ಟ್ರೀಯ ವಿಮಾನ ನಿಲ್ದಾಣ ಭಾರತದಲ್ಲಿ ಅತಿ ಬ್ಯುಸಿ ಮತ್ತು ವೇಗವಾಗಿ ಬೆಳೆಯುತ್ತಿರುವ ಪ್ರವೇಶ ದ್ವಾರಗಳಲ್ಲಿ ಒಂದು. ಉತ್ತರ ಬೆಂಗಳೂರಿನ ವಿಮಾನ ನಿಲ್ದಾಣ ಕಾರಿಡಾರ್ ಈಗಾಗಲೇ ದಕ್ಷಿಣ ಏಷ್ಯಾದ ಅತ್ಯಂತ ಬೇಡಿಕೆಯ ಹೂಡಿಕೆ ವಲಯಗಳಲ್ಲಿ ಒಂದು.',
-      hi: 'केम्पेगौड़ा अंतरराष्ट्रीय हवाई अड्डा भारत के सबसे व्यस्त और तेज़ी से बढ़ते प्रवेश द्वारों में से एक है। नॉर्थ बेंगलुरु का एयरपोर्ट कॉरिडोर दक्षिण एशिया के सबसे आकर्षक निवेश क्षेत्रों में गिना जाता है।',
-      ta: 'கெம்பேகவுடா சர்வதேச விமானநிலையம் இந்தியாவின் மிகப் பரபரப்பான மற்றும் வேகமாக வளர்கின்ற நுழைவாயில்களில் ஒன்று. வட பெங்களூரு விமானநிலைய காரிடார் ஏற்கனவே தென் ஆசியாவின் மிக விரும்பப்படும் முதலீட்டு மண்டலங்களில் ஒன்றாக உள்ளது.',
-    },
-    sourceIds: ['aviation'],
     iconBgClass: 'bg-[#06B6D4]/20 border border-[#06B6D4]/30',
   },
   {
-    id: 'infrastructure',
-    icon: '🛣️',
-    title: {
-      en: 'Infrastructure in Motion',
-      kn: 'ಚಲನೆಯಲ್ಲಿರುವ ಮೂಲಸೌಕರ್ಯ',
-      hi: 'गतिशील अवसंरचना',
-      ta: 'முன்னேறும் அடிக்கட்டு',
-    },
-    body: {
-      en: "The Satellite Town Ring Road (STRR) and Inner Ring Road (IRR) projects represent Karnataka's serious commitment to orbital and radial connectivity that frames KWIN's region as a planned node.",
-      kn: 'ಸ್ಯಾಟಲೈಟ್ ಟೌನ್ ರಿಂಗ್ ರೋಡ್ (STRR) ಮತ್ತು ಇನರ್ ರಿಂಗ್ ರೋಡ್ (IRR) ಯೋಜನೆಗಳು ಕರ್ನಾಟಕದ ವಲಯ ಮತ್ತು ರೇಡಿಯಲ್ ಸಂಪರ್ಕದ ಗಂಭೀರ ಬದ್ಧತೆಯನ್ನು ತೋರಿಸುತ್ತವೆ. ಇದು KWIN ಪ್ರದೇಶವನ್ನು ಯೋಜಿತ ನೋಡ್ ಆಗಿ ರೂಪಿಸುತ್ತದೆ.',
-      hi: 'सैटेलाइट टाउन रिंग रोड (STRR) और इनर रिंग रोड (IRR) परियोजनाएं कर्नाटक की ऑर्बिटल और रेडियल कनेक्टिविटी के प्रति गंभीर प्रतिबद्धता को दर्शाती हैं, जो KWIN क्षेत्र को एक नियोजित नोड के रूप में स्थापित करती हैं।',
-      ta: 'சாட்டிலைட் டவுன் ரிங் ரோடு (STRR) மற்றும் இன்னர் ரிங் ரோடு (IRR) திட்டங்கள், வளைய மற்றும் ஆரை இணைப்பிற்கான கர்நாடகத்தின் உறுதியான முதலீட்டை காட்டுகின்றன. இது KWIN பகுதியை திட்டமிட்ட மையமாக உருவாக்குகிறது.',
-    },
-    sourceIds: ['strr', 'irr'],
+    id: 'electronic-city',
+    icon: '💻',
     iconBgClass: 'bg-[#10B981]/20 border border-[#10B981]/30',
   },
   {
-    id: 'economic-ambition',
-    icon: '📈',
-    title: {
-      en: 'Economic Ambition at Scale',
-      kn: 'ವಿಶಾಲ ಮಟ್ಟದ ಆರ್ಥಿಕ ಮಹತ್ವಾಕಾಂಕ್ಷೆ',
-      hi: 'व्यापक पैमाने पर आर्थिक महत्वाकांक्षा',
-      ta: 'பரந்த அளவிலான பொருளாதார முனைவு',
-    },
-    body: {
-      en: "Karnataka's economic survey documents a state actively investing in industrial expansion, knowledge infrastructure, and global capital attraction. The macroeconomic backdrop is as strong as it has ever been.",
-      kn: 'ಕರ್ನಾಟಕದ ಆರ್ಥಿಕ ಸಮೀಕ್ಷೆಯು ಕೈಗಾರಿಕಾ ವಿಸ್ತರಣೆ, ಜ್ಞಾನ ಮೂಲಸೌಕರ್ಯ ಮತ್ತು ಜಾಗತಿಕ ಬಂಡವಾಳ ಆಕರ್ಷಣೆಯಲ್ಲಿ ಸಕ್ರಿಯವಾಗಿ ಹೂಡಿಕೆ ಮಾಡುತ್ತಿರುವ ರಾಜ್ಯವನ್ನು ದಾಖಲಿಸುತ್ತದೆ. ಸಮಗ್ರ ಆರ್ಥಿಕ ಹಿನ್ನೆಲೆ ಅತ್ಯಂತ ಬಲವಾಗಿದೆ.',
-      hi: 'कर्नाटक की आर्थिक सर्वेक्षण रिपोर्ट एक ऐसे राज्य को दिखाती है जो औद्योगिक विस्तार, ज्ञान अवसंरचना और वैश्विक पूंजी आकर्षण में सक्रिय निवेश कर रहा है। व्यापक आर्थिक परिदृश्य अत्यंत मजबूत है।',
-      ta: 'கர்நாடகாவின் பொருளாதார ஆய்வு, தொழில் விரிவாக்கம், அறிவு அடிக்கட்டு, உலகளாவிய முதலீட்டு ஈர்ப்பு போன்ற துறைகளில் மாநிலம் செயற்படுவதை காட்டுகிறது. பரந்த பொருளாதார பின்னணி மிகவும் வலுவாக உள்ளது.',
-    },
-    sourceIds: ['economicSurvey'],
+    id: 'knowledge-infrastructure',
+    icon: '🔬',
     iconBgClass: 'bg-[#8B5CF6]/20 border border-[#8B5CF6]/30',
   },
 ];
@@ -84,6 +60,19 @@ const pillars = [
 export default function BengaluruPride() {
   const { locale } = useI18n();
   const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
+
+  const pillars = LAUNCH_DECK_THEMES.map((theme) => {
+    const visuals = launchThemeVisuals.find((item) => item.id === theme.id);
+
+    return {
+      id: theme.id,
+      icon: visuals?.icon ?? '•',
+      title: PILLAR_TITLES[theme.id],
+      body: theme.summary,
+      sourceIds: theme.sourceIds,
+      iconBgClass: visuals?.iconBgClass ?? 'bg-slate-700/40 border border-slate-600/50',
+    };
+  });
 
   return (
     <section

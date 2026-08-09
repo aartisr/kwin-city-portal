@@ -1,71 +1,7 @@
 import Image from 'next/image';
+import { LAUNCH_DECK_THEMES } from '@/data/kwin/launch-deck-themes';
 import { getServerLocale } from '@/lib/i18n/server';
 import { pickLocalizedValue, type LocalizedValue } from '@/lib/i18n/messages';
-
-const images = [
-  {
-    id: 'vidhana-soudha',
-    src: '/social/kwin-launch/kwin-launch-slide-03.png',
-    alt: {
-      en: 'Vidhana Soudha in Bengaluru, Karnataka',
-      kn: 'ಕರ್ನಾಟಕ, ಬೆಂಗಳೂರಿನ ವಿಧಾನಸೌಧ',
-      hi: 'बेंगलुरु, कर्नाटक में विधान सौधा',
-      ta: 'கர்நாடகா, பெங்களூருவில் விதான சௌதா',
-    },
-    label: { en: 'Vidhana Soudha', kn: 'ವಿಧಾನಸೌಧ', hi: 'विधान सौधा', ta: 'விதான சௌதா' },
-    credit: 'KWIN City launch deck',
-    license: 'Internal portal artifact',
-    source: '/instagram',
-  },
-  {
-    id: 'airport-corridor',
-    src: '/social/kwin-launch/kwin-launch-slide-04.png',
-    alt: {
-      en: 'Kempegowda International Airport in Bengaluru',
-      kn: 'ಬೆಂಗಳೂರು ಕೆಂಪೇಗೌಡ ಅಂತರರಾಷ್ಟ್ರೀಯ ವಿಮಾನ ನಿಲ್ದಾಣ',
-      hi: 'बेंगलुरु में केम्पेगौड़ा अंतरराष्ट्रीय हवाई अड्डा',
-      ta: 'பெங்களூருவில் கெம்பேகவுடா சர்வதேச விமானநிலையம்',
-    },
-    label: { en: 'Airport Corridor', kn: 'ವಿಮಾನ ನಿಲ್ದಾಣ ಕಾರಿಡಾರ್', hi: 'एयरपोर्ट कॉरिडोर', ta: 'விமானநிலைய வழித்தடம்' },
-    credit: 'KWIN City launch deck',
-    license: 'Internal portal artifact',
-    source: '/instagram',
-  },
-  {
-    id: 'electronic-city',
-    src: '/social/kwin-launch/kwin-launch-slide-05.png',
-    alt: {
-      en: 'Infosys headquarters front view in Electronic City, Bengaluru',
-      kn: 'ಬೆಂಗಳೂರು ಎಲೆಕ್ಟ್ರಾನಿಕ್ ಸಿಟಿಯ ಇನ್ಫೋಸಿಸ್ ಮುಖ್ಯ ಕಚೇರಿ ಮುಂಭಾಗ',
-      hi: 'बेंगलुरु के इलेक्ट्रॉनिक सिटी में इंफोसिस मुख्यालय का दृश्य',
-      ta: 'பெங்களூரு எலக்ட்ரானிக் சிட்டியில் உள்ள இன்போசிஸ் தலைமையக முன்புறம்',
-    },
-    label: { en: 'Electronic City', kn: 'ಎಲೆಕ್ಟ್ರಾನಿಕ್ ಸಿಟಿ', hi: 'इलेक्ट्रॉनिक सिटी', ta: 'எலக்ட்ரானிக் சிட்டி' },
-    credit: 'KWIN City launch deck',
-    license: 'Internal portal artifact',
-    source: '/instagram',
-  },
-  {
-    id: 'knowledge-infra',
-    src: '/social/kwin-launch/kwin-launch-slide-06.png',
-    alt: {
-      en: 'Main Building of the Indian Institute of Science in Bengaluru',
-      kn: 'ಬೆಂಗಳೂರು ಭಾರತೀಯ ವಿಜ್ಞಾನ ಸಂಸ್ಥೆಯ ಮುಖ್ಯ ಕಟ್ಟಡ',
-      hi: 'बेंगलुरु में भारतीय विज्ञान संस्थान की मुख्य इमारत',
-      ta: 'பெங்களூருவில் உள்ள இந்திய அறிவியல் நிறுவனத்தின் முதன்மை கட்டிடம்',
-    },
-    label: { en: 'Knowledge Infrastructure', kn: 'ಜ್ಞಾನ ಮೂಲಸೌಕರ್ಯ', hi: 'ज्ञान अवसंरचना', ta: 'அறிவு அடிக்கட்டு' },
-    credit: 'KWIN City launch deck',
-    license: 'Internal portal artifact',
-    source: '/instagram',
-  },
-];
-
-const LICENSE_LINKS: Record<string, string> = {
-  'CC BY-SA 4.0': 'https://creativecommons.org/licenses/by-sa/4.0/',
-  'CC BY-SA 3.0': 'https://creativecommons.org/licenses/by-sa/3.0/',
-  'Internal portal artifact': '/instagram',
-};
 
 export default async function ImageStrip() {
   const locale = await getServerLocale();
@@ -75,9 +11,12 @@ export default async function ImageStrip() {
     <div className="bg-[#040714] py-2 overflow-hidden">
       <div
         className="flex gap-2 px-2 overflow-x-auto snap-x snap-mandatory scrollbar-none sm:overflow-x-visible kwin-fade-in"
+        tabIndex={0}
+        role="region"
+        aria-label="Launch deck image strip"
         style={{ WebkitOverflowScrolling: 'touch', animationDelay: '180ms' }}
       >
-        {images.map((img, idx) => (
+        {LAUNCH_DECK_THEMES.map((img, idx) => (
           <div
             key={img.id}
             className="group relative shrink-0 sm:flex-1 sm:shrink overflow-hidden rounded-xl snap-start"
@@ -92,48 +31,11 @@ export default async function ImageStrip() {
               className="object-cover transition-transform duration-700 group-hover:scale-105 brightness-75 group-hover:brightness-90"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-            <span className="absolute bottom-3 left-3 text-[10px] font-semibold tracking-[0.15em] uppercase text-white/80">
-              {l(img.label)}
-            </span>
           </div>
         ))}
       </div>
 
-      <div className="mt-2 px-4 pb-1">
-        <details className="group rounded-md border border-slate-800/70 bg-[#0b1220]/80 px-3 py-2">
-          <summary className="cursor-pointer select-none text-center text-[10px] text-[#64748B] list-none">
-            <span className="group-open:hidden sm:hidden">{l({ en: 'Show credits', kn: 'ಕ್ರೆಡಿಟ್ಸ್ ತೋರಿಸಿ', hi: 'क्रेडिट्स दिखाएं', ta: 'கிரெடிட்ஸை காட்டு' })}</span>
-            <span className="group-open:hidden hidden sm:inline">{l({ en: 'Show Image Credits & Licenses', kn: 'ಚಿತ್ರ ಕ್ರೆಡಿಟ್ಸ್ ಮತ್ತು ಪರವಾನಗಿಗಳನ್ನು ತೋರಿಸಿ', hi: 'इमेज क्रेडिट्स और लाइसेंस दिखाएं', ta: 'பட கிரெடிட்ஸ் மற்றும் உரிமங்களை காட்டு' })}</span>
-            <span className="hidden group-open:inline sm:hidden">{l({ en: 'Hide credits', kn: 'ಕ್ರೆಡಿಟ್ಸ್ ಮರೆಮಾಡಿ', hi: 'क्रेडिट्स छिपाएं', ta: 'கிரெடிட்ஸை மறை' })}</span>
-            <span className="hidden group-open:inline sm:inline">{l({ en: 'Hide Image Credits & Licenses', kn: 'ಚಿತ್ರ ಕ್ರೆಡಿಟ್ಸ್ ಮತ್ತು ಪರವಾನಗಿಗಳನ್ನು ಮರೆಮಾಡಿ', hi: 'इमेज क्रेडिट्स और लाइसेंस छिपाएं', ta: 'பட கிரெடிட்ஸ் மற்றும் உரிமங்களை மறை' })}</span>
-          </summary>
-          <div className="mt-2 flex flex-wrap justify-center gap-x-3 gap-y-1 text-[10px] text-[#475569]">
-            {images.map((img) => (
-              <span key={img.id}>
-                {l(img.label)}:{' '}
-                <a
-                  href={img.source}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline hover:text-[#94A3B8]"
-                >
-                  {l({ en: 'source', kn: 'ಮೂಲ', hi: 'स्रोत', ta: 'மூலம்' })}
-                </a>{' '}
-                ·{' '}
-                <a
-                  href={LICENSE_LINKS[img.license]}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline hover:text-[#94A3B8]"
-                >
-                  {img.license}
-                </a>{' '}
-                · {img.credit}
-              </span>
-            ))}
-          </div>
-        </details>
-      </div>
+
     </div>
   );
 }

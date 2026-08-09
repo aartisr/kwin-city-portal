@@ -10,7 +10,7 @@ const priorityLinks = [
   {
     href: '/about',
     label: 'Start with the KWIN City brief',
-    body: 'A fast overview of the proposed 465-acre knowledge, wellbeing, and innovation township in North Bengaluru.',
+    body: 'A fast overview of the proposed 5,800-acre knowledge, wellbeing, and innovation township in North Bengaluru.',
     accent: 'from-[#F5A623] to-[#FACC15]',
   },
   {
@@ -75,7 +75,7 @@ const launchPosts = [
   { title: 'What is KWIN City?', href: '/about' },
   { title: 'Why Doddaballapura?', href: '/why-north-bengaluru' },
   { title: 'Knowledge + Wellbeing + Innovation', href: '/about' },
-  { title: 'The 465-acre question', href: '/about' },
+  { title: 'The 5,800-acre question', href: '/about' },
   { title: 'Sectors to watch', href: '/sectors' },
   { title: 'How this portal verifies claims', href: '/trust' },
 ];
@@ -175,8 +175,8 @@ export default function InstagramHubPage() {
                   </div>
                   <div className="mt-5 grid grid-cols-3 gap-3 text-center">
                     <div className="rounded-xl bg-white/[0.06] p-3">
-                      <p className="text-xl font-black text-white">465</p>
-                      <p className="mt-1 text-[11px] uppercase text-[#8FA4BC]">acres proposed</p>
+                      <p className="text-xl font-black text-white">5,800</p>
+                      <p className="mt-1 text-[11px] uppercase text-[#8FA4BC]">acres program</p>
                     </div>
                     <div className="rounded-xl bg-white/[0.06] p-3">
                       <p className="text-xl font-black text-white">3</p>

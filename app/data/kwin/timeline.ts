@@ -51,7 +51,7 @@ export const KWIN_TIMELINE_PHASES: TimelinePhase[] = [
     milestones: [
       'Semiconductor park land release',
       'Aerospace cluster infrastructure setup',
-      'Solar farm construction (465 acres) [pending verification]',
+      'Solar farm construction [capacity and footprint pending verification]',
       'Industrial land allotments commence',
     ],
     status: 'planned',

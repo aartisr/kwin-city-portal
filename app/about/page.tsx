@@ -25,8 +25,8 @@ export async function generateMetadata(): Promise<Metadata> {
   });
   const description = pickByLocale(locale, {
     en: 'Understand what KWIN City is, where it is proposed, how large it is, what sectors it targets, and which claims are confirmed versus still awaiting primary verification.',
-    kn: 'KWIN City ಕುರಿತು ತಿಳಿಯಿರಿ — ಉತ್ತರ ಬೆಂಗಳೂರಿನ ದೊಡ್ಡಬಳ್ಳಾಪುರದಲ್ಲಿ ಪ್ರಸ್ತಾಪಿತ 465 ಏಕರೆ ಜ್ಞಾನ-ಆರ್ಥಿಕ ಟೌನ್‌ಶಿಪ್.',
-    hi: 'KWIN City के बारे में जानें — उत्तर बेंगलुरु के डोड्डाबल्लापुर में प्रस्तावित 465 एकड़ ज्ञान-आधारित टाउनशिप।',
+    kn: 'KWIN City ಕುರಿತು ತಿಳಿಯಿರಿ — ಉತ್ತರ ಬೆಂಗಳೂರಿನ ದೊಡ್ಡಬಳ್ಳಾಪುರದಲ್ಲಿ ಪ್ರಸ್ತಾಪಿತ 5,800 ಏಕರೆ (ಹಂತ 1: 2,000 ಏಕರೆ) ಜ್ಞಾನ-ಆರ್ಥಿಕ ಟೌನ್‌ಶಿಪ್.',
+    hi: 'KWIN City के बारे में जानें — उत्तर बेंगलुरु के डोड्डाबल्लापुर में प्रस्तावित 5,800 एकड़ (चरण 1: 2,000 एकड़) ज्ञान-आधारित टाउनशिप।',
     ta: 'KWIN City பற்றி அறியுங்கள் — வட பெங்களூருவின் டொಡ್ಡபள்ளாபுராவில் முன்மொழியப்பட்ட அறிவு-சார்ந்த நகரத் திட்டம்.',
   });
   const ogTitle = pickByLocale(locale, {

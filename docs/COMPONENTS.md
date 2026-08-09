@@ -336,14 +336,14 @@ interface PersonaPageProps {
 **Features:**
 - **Interactive Mapbox GL JS map** centered on Doddaballapura, North Bengaluru (13.1939°N, 77.6045°E)
 - **Location markers** for:
-  - KWIN City (465-acre proposed site)
+  - KWIN City (5,800-acre proposed site)
   - Bengaluru International Airport (~12 km adjacent)
   - City center landmark (~40 km south)
   - Satellite Town Ring Road (STRR) connectivity corridor
   - Whitefield Tech Corridor (~35 km south)
   - Electronic City (~50 km south)
   - Intermediate Ring Road (IRR) node
-- **Site boundary visualization** showing approximate 465-acre KWIN footprint
+- **Site boundary visualization** showing approximate 5,800-acre KWIN footprint
 - **Authenticated data sources** with clickable references to OpenCity datasets
 - **Graceful fallback** if Mapbox token is not configured (static information card)
 

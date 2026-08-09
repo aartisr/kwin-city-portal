@@ -127,7 +127,7 @@ export default function HomeTrustSnapshot() {
           viewport={{ once: true }}
           className="max-w-3xl mb-12"
         >
-          <div className="eyebrow text-[#E8A020] mb-3">
+          <div className="eyebrow text-[#92400E] mb-3">
             {l({ en: 'Our Commitment to You', kn: 'ನಿಮಗೆ ನಮ್ಮ ಬದ್ಧತೆ', hi: 'आपके प्रति हमारी प्रतिबद्धता', ta: 'உங்களுக்கான எங்கள் உறுதி' })}
           </div>
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-5 leading-tight">

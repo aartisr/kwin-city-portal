@@ -26,7 +26,7 @@ export function SkipLink() {
     <a
       href="#main-content"
       onClick={handleSkip}
-      className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-amber-600 focus:text-white focus:rounded-lg focus:font-bold focus:outline-2 focus:outline-offset-2 focus:outline-white"
+      className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-amber-700 focus:text-white focus:rounded-lg focus:font-bold focus:outline-2 focus:outline-offset-2 focus:outline-white"
     >
       Skip to main content
     </a>

@@ -21,7 +21,7 @@ test.describe('Value-Add Tools Smoke', () => {
       page.getByRole('button', { name: 'Run risk check' }).click(),
     ]);
 
-    await expect(page.getByText('Risk band')).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('Risk band', { exact: true })).toBeVisible({ timeout: 15000 });
     await expect(page.getByText(/Score/i)).toBeVisible();
     await expect(page.getByText('Evidence:')).toBeVisible();
   });
