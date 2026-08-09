@@ -28,7 +28,7 @@ type PoiListItem = {
 
 const MAP_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN?.trim() || '';
 const MAP_STYLE = 'mapbox://styles/mapbox/light-v11';
-const MAP_CENTER: [number, number] = [77.635, 13.11];
+const MAP_CENTER: [number, number] = [77.63, 13.17];
 
 const layerControls: MapLayer[] = [
   { id: 'base', name: 'Regional Frame', description: 'North Bengaluru context, KWIN footprint, and corridor frame' },
@@ -38,7 +38,9 @@ const layerControls: MapLayer[] = [
   { id: 'poi', name: 'Points of Interest', description: 'Clickable airport, city, corridor, and site markers' },
 ];
 
-const initialSelectedLayers: LayerId[] = ['base', 'zones', 'infrastructure', 'poi'];
+const initialSelectedLayers: LayerId[] = ['base', 'zones', 'infrastructure', 'green', 'poi'];
+
+const OVERLAY_BOUNDS = new mapboxgl.LngLatBounds([77.52, 13.08], [77.72, 13.23]);
 
 const pointOfInterestItems: PoiListItem[] = KWIN_GEOGRAPHIC_LOCATIONS.map((location) => ({
   id: location.id,
@@ -304,9 +306,9 @@ export default function EnhancedRegionMap() {
       container: mapContainerRef.current,
       style: MAP_STYLE,
       center: MAP_CENTER,
-      zoom: 9.6,
-      pitch: 28,
-      bearing: -8,
+      zoom: 10.7,
+      pitch: 14,
+      bearing: -6,
       attributionControl: true,
     });
 
@@ -346,9 +348,9 @@ export default function EnhancedRegionMap() {
             'fill-opacity': [
               'match',
               ['get', 'category'],
-              'region', 0.06,
-              'kwin', 0.18,
-              0.08,
+              'region', 0.12,
+              'kwin', 0.24,
+              0.1,
             ],
           },
         });
@@ -372,7 +374,7 @@ export default function EnhancedRegionMap() {
               'kwin', 3,
               2,
             ],
-            'line-opacity': 0.85,
+            'line-opacity': 0.95,
           },
         });
 
@@ -389,7 +391,7 @@ export default function EnhancedRegionMap() {
               'wellbeing', '#10b981',
               '#cbd5e1',
             ],
-            'fill-opacity': 0.28,
+            'fill-opacity': 0.4,
           },
         });
 
@@ -406,7 +408,23 @@ export default function EnhancedRegionMap() {
               'wellbeing', '#059669',
               '#64748b',
             ],
-            'line-width': 2.5,
+            'line-width': 3.5,
+          },
+        });
+
+        map.addLayer({
+          id: 'zones-labels',
+          type: 'symbol',
+          source: 'zones',
+          layout: {
+            'text-field': ['get', 'name'],
+            'text-size': 11,
+            'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+          },
+          paint: {
+            'text-color': '#111827',
+            'text-halo-color': '#ffffff',
+            'text-halo-width': 1.5,
           },
         });
 
@@ -416,7 +434,7 @@ export default function EnhancedRegionMap() {
           source: 'green-systems',
           paint: {
             'fill-color': '#22c55e',
-            'fill-opacity': 0.24,
+            'fill-opacity': 0.38,
           },
         });
 
@@ -426,7 +444,7 @@ export default function EnhancedRegionMap() {
           source: 'green-systems',
           paint: {
             'line-color': '#15803d',
-            'line-width': 2,
+            'line-width': 3,
           },
         });
 
@@ -450,11 +468,12 @@ export default function EnhancedRegionMap() {
             'line-width': [
               'match',
               ['get', 'kind'],
-              'strr', 5,
-              'connector', 4,
-              'utility', 3,
-              3,
+              'strr', 6,
+              'connector', 5,
+              'utility', 4,
+              4,
             ],
+            'line-opacity': 0.95,
           },
         });
 
@@ -483,10 +502,10 @@ export default function EnhancedRegionMap() {
             'circle-radius': [
               'match',
               ['get', 'type'],
-              'kwin-site', 10,
-              'airport', 9,
-              'connectivity', 8,
-              7,
+              'kwin-site', 11,
+              'airport', 10,
+              'connectivity', 9,
+              8,
             ],
             'circle-color': [
               'match',
@@ -519,6 +538,15 @@ export default function EnhancedRegionMap() {
         });
 
         applyLayerVisibility(map, initialSelectedLayers);
+
+        map.on('click', 'poi-circles', handlePoiClick);
+        map.on('mouseenter', 'poi-circles', handlePoiMouseEnter);
+        map.on('mouseleave', 'poi-circles', handlePoiMouseLeave);
+
+        map.fitBounds(OVERLAY_BOUNDS, {
+          padding: { top: 60, right: 60, bottom: 60, left: 60 },
+          duration: 0,
+        });
         map.resize();
       } catch {
         setMapState('error');
@@ -553,9 +581,6 @@ export default function EnhancedRegionMap() {
     };
 
     map.once('load', initializeLayers);
-    map.on('click', 'poi-circles', handlePoiClick);
-    map.on('mouseenter', 'poi-circles', handlePoiMouseEnter);
-    map.on('mouseleave', 'poi-circles', handlePoiMouseLeave);
     map.on('error', () => setMapState('error'));
 
     return () => {

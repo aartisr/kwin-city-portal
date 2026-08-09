@@ -53,6 +53,7 @@ const baseConfig = {
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.mapbox.com",
               "font-src 'self' https://fonts.gstatic.com https://api.mapbox.com",
               "img-src 'self' data: https: blob:",
+              "worker-src 'self' blob:",
               "media-src 'self' https:",
               "frame-src 'self' https:",
               "connect-src 'self' https: wss: https://*.clarity.ms https://va.vercel-scripts.com", // WebSockets for real-time features
