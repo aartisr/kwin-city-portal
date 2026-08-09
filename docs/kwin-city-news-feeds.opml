@@ -34,6 +34,198 @@
       />
     </outline>
 
+    <outline text="Official Government, State & Central Original-Source Signals" title="Official Government, State & Central Original-Source Signals">
+      <outline
+        type="rss"
+        text="Reserve Bank of India - Press Releases"
+        title="Reserve Bank of India - Press Releases"
+        xmlUrl="https://rbi.org.in/pressreleases_rss.xml"
+        htmlUrl="https://www.rbi.org.in/Scripts/rss.aspx"
+      />
+      <outline
+        type="rss"
+        text="Reserve Bank of India - Notifications"
+        title="Reserve Bank of India - Notifications"
+        xmlUrl="https://rbi.org.in/notifications_rss.xml"
+        htmlUrl="https://www.rbi.org.in/Scripts/rss.aspx"
+      />
+      <outline
+        type="rss"
+        text="Reserve Bank of India - Speeches"
+        title="Reserve Bank of India - Speeches"
+        xmlUrl="https://rbi.org.in/speeches_rss.xml"
+        htmlUrl="https://www.rbi.org.in/Scripts/rss.aspx"
+      />
+      <outline
+        type="rss"
+        text="Reserve Bank of India - Annual Reports"
+        title="Reserve Bank of India - Annual Reports"
+        xmlUrl="https://rbi.org.in/AnnualReportMain_rss.xml"
+        htmlUrl="https://www.rbi.org.in/Scripts/rss.aspx"
+      />
+      <outline
+        type="rss"
+        text="Reserve Bank of India - Publications"
+        title="Reserve Bank of India - Publications"
+        xmlUrl="https://rbi.org.in/Publication_rss.xml"
+        htmlUrl="https://www.rbi.org.in/Scripts/rss.aspx"
+      />
+      <outline
+        type="rss"
+        text="Government of Karnataka - Bengaluru"
+        title="Government of Karnataka - Bengaluru"
+        xmlUrl="https://news.google.com/rss/search?q=site:karnataka.gov.in%20Bengaluru&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://karnataka.gov.in/"
+      />
+      <outline
+        type="rss"
+        text="Chief Minister's Office Karnataka"
+        title="Chief Minister's Office Karnataka"
+        xmlUrl="https://news.google.com/rss/search?q=site:cm.karnataka.gov.in%20Karnataka&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://cm.karnataka.gov.in/"
+      />
+      <outline
+        type="rss"
+        text="Bengaluru Urban District Administration"
+        title="Bengaluru Urban District Administration"
+        xmlUrl="https://news.google.com/rss/search?q=site:bengaluruurban.nic.in%20Bengaluru&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://bengaluruurban.nic.in/"
+      />
+      <outline
+        type="rss"
+        text="KIADB Official Signals"
+        title="KIADB Official Signals"
+        xmlUrl="https://news.google.com/rss/search?q=site:kiadb.karnataka.gov.in%20KIADB%20OR%20industrial%20land&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://kiadb.karnataka.gov.in/"
+      />
+      <outline
+        type="rss"
+        text="Department of Industries & Commerce Karnataka"
+        title="Department of Industries & Commerce Karnataka"
+        xmlUrl="https://news.google.com/rss/search?q=site:industry.karnataka.gov.in%20Karnataka%20industries&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://industry.karnataka.gov.in/"
+      />
+      <outline
+        type="rss"
+        text="BBMP Official Signals"
+        title="BBMP Official Signals"
+        xmlUrl="https://news.google.com/rss/search?q=site:bbmp.gov.in%20Bengaluru&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://www.bbmp.gov.in/"
+      />
+      <outline
+        type="rss"
+        text="BMRCL / Namma Metro"
+        title="BMRCL / Namma Metro"
+        xmlUrl="https://news.google.com/rss/search?q=site:english.bmrc.co.in%20Bengaluru%20Metro&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://english.bmrc.co.in/"
+      />
+      <outline
+        type="rss"
+        text="KSPCB / Environment Signals"
+        title="KSPCB / Environment Signals"
+        xmlUrl="https://news.google.com/rss/search?q=site:kspcb.karnataka.gov.in%20Bengaluru%20environment&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://kspcb.karnataka.gov.in/"
+      />
+      <outline
+        type="rss"
+        text="Karnataka Transport Department"
+        title="Karnataka Transport Department"
+        xmlUrl="https://news.google.com/rss/search?q=site:transport.karnataka.gov.in%20Karnataka%20transport&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://transport.karnataka.gov.in/"
+      />
+      <outline
+        type="rss"
+        text="BMTC Official Signals"
+        title="BMTC Official Signals"
+        xmlUrl="https://news.google.com/rss/search?q=site:majestic.bmtc.co.in%20Bengaluru%20transport&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://majestic.bmtc.co.in/"
+      />
+      <outline
+        type="rss"
+        text="PIB Karnataka & Bengaluru"
+        title="PIB Karnataka & Bengaluru"
+        xmlUrl="https://news.google.com/rss/search?q=site:pib.gov.in%20Karnataka%20Bengaluru%20infrastructure&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://pib.gov.in/"
+      />
+      <outline
+        type="rss"
+        text="Ministry of Housing & Urban Affairs"
+        title="Ministry of Housing & Urban Affairs"
+        xmlUrl="https://news.google.com/rss/search?q=site:mohua.gov.in%20urban%20development%20India&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://mohua.gov.in/"
+      />
+      <outline
+        type="rss"
+        text="DPIIT / Industry Policy"
+        title="DPIIT / Industry Policy"
+        xmlUrl="https://news.google.com/rss/search?q=site:dpiit.gov.in%20investment%20policy%20India&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://dpiit.gov.in/"
+      />
+      <outline
+        type="rss"
+        text="National Highways Authority of India"
+        title="National Highways Authority of India"
+        xmlUrl="https://news.google.com/rss/search?q=site:nhai.gov.in%20Karnataka%20highway&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://nhai.gov.in/"
+      />
+      <outline
+        type="rss"
+        text="South Western Railway"
+        title="South Western Railway"
+        xmlUrl="https://news.google.com/rss/search?q=site:swr.indianrailways.gov.in%20Bengaluru%20rail&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://swr.indianrailways.gov.in/"
+      />
+      <outline
+        type="rss"
+        text="Central Pollution Control Board"
+        title="Central Pollution Control Board"
+        xmlUrl="https://news.google.com/rss/search?q=site:cpcb.nic.in%20Bengaluru%20environment&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://cpcb.nic.in/"
+      />
+      <outline
+        type="rss"
+        text="India Meteorological Department"
+        title="India Meteorological Department"
+        xmlUrl="https://news.google.com/rss/search?q=site:imd.gov.in%20Karnataka%20weather&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://imd.gov.in/"
+      />
+      <outline
+        type="rss"
+        text="Ministry of Road Transport & Highways"
+        title="Ministry of Road Transport & Highways"
+        xmlUrl="https://news.google.com/rss/search?q=site:morth.gov.in%20road%20transport%20India&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://morth.gov.in/"
+      />
+      <outline
+        type="rss"
+        text="Ministry of Railways"
+        title="Ministry of Railways"
+        xmlUrl="https://news.google.com/rss/search?q=site:indianrailways.gov.in%20Bengaluru%20rail&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://indianrailways.gov.in/"
+      />
+      <outline
+        type="rss"
+        text="Ministry of Environment, Forest and Climate Change"
+        title="Ministry of Environment, Forest and Climate Change"
+        xmlUrl="https://news.google.com/rss/search?q=site:moefcc.nic.in%20environment%20India&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://moefcc.nic.in/"
+      />
+      <outline
+        type="rss"
+        text="NITI Aayog"
+        title="NITI Aayog"
+        xmlUrl="https://news.google.com/rss/search?q=site:niti.gov.in%20policy%20India&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://niti.gov.in/"
+      />
+      <outline
+        type="rss"
+        text="Reserve Bank of India"
+        title="Reserve Bank of India"
+        xmlUrl="https://news.google.com/rss/search?q=site:rbi.org.in%20India%20economy&hl=en-IN&gl=IN&ceid=IN:en"
+        htmlUrl="https://rbi.org.in/"
+      />
+    </outline>
+
     <outline text="Publisher-Specific KWIN Filters" title="Publisher-Specific KWIN Filters">
       <outline
         type="rss"

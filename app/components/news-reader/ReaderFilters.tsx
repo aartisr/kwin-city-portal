@@ -5,12 +5,14 @@ type ReaderFiltersProps = {
   topicQuery: string;
   sourceFilter: string;
   domainFilter: string;
+  sourceMode: 'all' | 'official' | 'primary';
   timeWindow: TimeWindow;
   sourceOptions: string[];
   domainOptions: string[];
   onTopicQueryChange: (value: string) => void;
   onSourceFilterChange: (value: string) => void;
   onDomainFilterChange: (value: string) => void;
+  onSourceModeChange: (value: 'all' | 'official' | 'primary') => void;
   onTimeWindowChange: (value: TimeWindow) => void;
 };
 
@@ -19,17 +21,19 @@ export function ReaderFilters({
   topicQuery,
   sourceFilter,
   domainFilter,
+  sourceMode,
   timeWindow,
   sourceOptions,
   domainOptions,
   onTopicQueryChange,
   onSourceFilterChange,
   onDomainFilterChange,
+  onSourceModeChange,
   onTimeWindowChange,
 }: ReaderFiltersProps) {
   return (
     <div className="mb-5 rounded-2xl border border-slate-200 bg-white p-4">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
         <label className="flex flex-col gap-1.5">
           <span className="text-xs font-semibold tracking-[0.08em] uppercase text-slate-500">
             {l({ en: 'Topic Keyword', kn: 'ವಿಷಯ ಕೀವರ್ಡ್', hi: 'विषय कीवर्ड', ta: 'தலைப்பு முக்கியச்சொல்' })}
@@ -40,6 +44,21 @@ export function ReaderFilters({
             className="h-10 rounded-lg border border-slate-300 bg-white px-3 text-sm"
             placeholder="kwin"
           />
+        </label>
+
+        <label className="flex flex-col gap-1.5">
+          <span className="text-xs font-semibold tracking-[0.08em] uppercase text-slate-500">
+            {l({ en: 'Source Mode', kn: 'ಮೂಲ ವಿಧಾನ', hi: 'स्रोत मोड', ta: 'மூல முறை' })}
+          </span>
+          <select
+            value={sourceMode}
+            onChange={(event) => onSourceModeChange(event.target.value as 'all' | 'official' | 'primary')}
+            className="h-10 rounded-lg border border-slate-300 bg-white px-3 text-sm"
+          >
+            <option value="all">{l({ en: 'All sources', kn: 'ಎಲ್ಲಾ ಮೂಲಗಳು', hi: 'सभी स्रोत', ta: 'அனைத்து மூலங்கள்' })}</option>
+            <option value="official">{l({ en: 'Official sources only', kn: 'ಅಧಿಕೃತ ಮೂಲಗಳು ಮಾತ್ರ', hi: 'केवल आधिकारिक स्रोत', ta: 'அதிகாரப்பூர்வ மூலங்கள் மட்டும்' })}</option>
+            <option value="primary">{l({ en: 'Original sources only', kn: 'ಮೂಲ ಮೂಲಗಳು ಮಾತ್ರ', hi: 'केवल मूल स्रोत', ta: 'மூல மூலங்கள் மட்டும்' })}</option>
+          </select>
         </label>
 
         <label className="flex flex-col gap-1.5">

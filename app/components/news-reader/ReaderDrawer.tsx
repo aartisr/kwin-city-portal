@@ -1,6 +1,30 @@
 import { formatDate, getDomain } from './utils';
 import type { ReaderItem, ReaderLocale, ReaderText } from './types';
 
+function getSourceTierCopy(
+  l: ReaderText,
+  tier: ReaderItem['sourceTier'],
+): { label: string; className: string } {
+  if (tier === 'primary') {
+    return {
+      label: l({ en: 'Primary', kn: 'ಪ್ರಾಥಮಿಕ', hi: 'प्राथमिक', ta: 'முதன்மை' }),
+      className: 'border-emerald-200 bg-emerald-50 text-emerald-800',
+    };
+  }
+
+  if (tier === 'official') {
+    return {
+      label: l({ en: 'Official', kn: 'ಅಧಿಕೃತ', hi: 'आधिकारिक', ta: 'அதிகாரப்பூர்வ' }),
+      className: 'border-sky-200 bg-sky-50 text-sky-800',
+    };
+  }
+
+  return {
+    label: l({ en: 'Discovery', kn: 'ಅನ್ವೇಷಣೆ', hi: 'खोज', ta: 'கண்டுபிடிப்பு' }),
+    className: 'border-slate-200 bg-slate-100 text-slate-700',
+  };
+}
+
 type ReaderDrawerProps = {
   item: ReaderItem;
   locale: ReaderLocale;
@@ -24,8 +48,13 @@ export function ReaderDrawer({ item, locale, l, onClose }: ReaderDrawerProps) {
         className="fixed inset-y-0 right-0 z-50 flex w-full max-w-2xl flex-col bg-white shadow-2xl"
       >
         <div className="flex items-center justify-between gap-4 border-b border-slate-200 px-5 py-4">
-          <div className="flex items-center gap-2">
-            <span className="rounded-full border border-cyan-200 bg-cyan-50 px-2.5 py-1 text-[11px] font-bold tracking-[0.08em] uppercase text-cyan-800">
+          <div className="flex flex-wrap items-center gap-2">
+            <span
+              className={`rounded-full border px-2.5 py-1 text-[11px] font-bold tracking-[0.08em] uppercase ${getSourceTierCopy(l, item.sourceTier).className}`}
+            >
+              {getSourceTierCopy(l, item.sourceTier).label}
+            </span>
+            <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-semibold tracking-[0.06em] uppercase text-slate-600">
               {item.source}
             </span>
             <span className="text-[11px] text-slate-500">{formatDate(item.publishedAt, locale)}</span>
@@ -73,7 +102,9 @@ export function ReaderDrawer({ item, locale, l, onClose }: ReaderDrawerProps) {
 
         <div className="border-t border-slate-200 bg-slate-50 px-6 py-4 flex items-center justify-between gap-3">
           <span className="text-xs text-slate-500">
-            {l({ en: "Content from the publisher's RSS feed", kn: 'ಪ್ರಕಾಶಕರ RSS ಫೀಡ್‌ನ ವಿಷಯ', hi: 'प्रकाशक के RSS फ़ीड की सामग्री', ta: 'வெளியீட்டாளரின் RSS ஊட்ட உள்ளடக்கம்' })}{' '}
+            {l({ en: 'Trust tier', kn: 'ನಂಬಿಕೆ ಹಂತ', hi: 'विश्वास स्तर', ta: 'நம்பிக்கை நிலை' })}:{' '}
+            <span className="font-semibold text-slate-700">{getSourceTierCopy(l, item.sourceTier).label}</span>{' '}
+            ·{' '}
             · <span className="font-semibold">{item.source}</span>
           </span>
           <a
