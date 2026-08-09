@@ -13,6 +13,7 @@ declare global {
   interface Window {
     posthog?: PostHogLike;
     __kwinPosthogInitialized?: boolean;
+    __kwinPosthogDisabledNotified?: boolean;
   }
 }
 
@@ -111,6 +112,12 @@ export function initPostHog(): boolean {
 
   const config = readPostHogConfig();
   if (!config.enabled) {
+    if (process.env.NODE_ENV !== 'production' && !window.__kwinPosthogDisabledNotified) {
+      window.__kwinPosthogDisabledNotified = true;
+      console.info(
+        '[PostHog] Disabled: set NEXT_PUBLIC_POSTHOG_ENABLED=true and provide NEXT_PUBLIC_POSTHOG_KEY to enable analytics.',
+      );
+    }
     return false;
   }
 
