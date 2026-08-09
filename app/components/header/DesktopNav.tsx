@@ -36,8 +36,8 @@ export default function DesktopNav({
     activeDesktopMenu?.key === 'tools' ? getToolIntentSections(activeDesktopMenu.items) : [];
 
   return (
-    <div className="hidden min-w-0 items-center justify-center min-[1536px]:flex">
-      <div ref={desktopNavRef as RefObject<HTMLDivElement>} className="relative z-[320] flex min-w-0 max-w-[min(56vw,860px)] flex-1 justify-center">
+    <div className="hidden min-w-0 items-center justify-center xl:flex">
+      <div ref={desktopNavRef as RefObject<HTMLDivElement>} className="relative z-[320] flex min-w-0 max-w-[min(48vw,760px)] flex-1 justify-center 2xl:max-w-[min(56vw,860px)]">
         <div className="flex items-center gap-1 rounded-full border border-slate-300/90 bg-white/95 px-1 py-1 shadow-[0_12px_28px_rgba(15,23,42,0.06)] backdrop-blur-xl">
           {menuGroups.map((group) => {
             const isOpen = activeDesktopMenu?.key === group.key;
@@ -53,7 +53,7 @@ export default function DesktopNav({
                 aria-expanded={isOpen}
                 aria-haspopup="true"
                 aria-controls={menuId}
-                className={`group inline-flex h-9 items-center gap-1.5 rounded-full px-2.5 py-2 text-[0.84rem] whitespace-nowrap transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 min-[1536px]:px-3 min-[1536px]:text-[0.92rem] ${activeGroupLabel(group)} ${
+                className={`group inline-flex h-9 items-center gap-1.5 rounded-full px-2.5 py-2 text-[0.84rem] whitespace-nowrap transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 2xl:px-3 2xl:text-[0.92rem] ${activeGroupLabel(group)} ${
                   isOpen ? 'bg-slate-950 text-white shadow-[0_10px_22px_rgba(15,23,42,0.14)] ring-0 hover:text-white' : ''
                 }`}
               >
