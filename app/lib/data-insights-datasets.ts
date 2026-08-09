@@ -84,7 +84,7 @@ export const OPENCITY_DATASETS: DatasetConfig[] = [
   {
     id: 'kwin-phases',
     label: 'KWIN Construction Phase Progress',
-    description: 'Current completion % across the five project phases.',
+    description: 'Current completion % across Phase 0 plus five development phases.',
     tag: 'KWIN Plan',
     tagColor: '#F5A623',
     dataset: '__local__',

@@ -12,8 +12,8 @@
         {
           "id": "what-is-kwin",
           "question": "What exactly is KWIN City?",
-          "answer": "KWIN stands for Knowledge, Wellbeing, Innovation. It is a proposed integrated township in Doddaballapura, North Bengaluru, Karnataka — spanning approximately 465+ acres (pending primary source verification). The project is being developed under the aegis of the Karnataka Industrial Areas Development Board (KIADB) and aims to create a self-contained ecosystem combining education, healthcare, advanced manufacturing, and green living.",
-          "verificationNote": "The 465-acre figure is widely cited in secondary sources but awaits primary KIADB document confirmation.",
+          "answer": "KWIN stands for Knowledge, Wellbeing, Innovation. It is a proposed integrated township in Doddaballapura, North Bengaluru, Karnataka — spanning approximately 5,800 acres (Phase 1: 2,000 acres) (pending primary source verification). The project is being developed under the aegis of the Karnataka Industrial Areas Development Board (KIADB) and aims to create a self-contained ecosystem combining education, healthcare, advanced manufacturing, and green living.",
+          "verificationNote": "The 5,800-acre figure is widely cited in secondary sources but awaits primary KIADB document confirmation.",
           "relatedLinks": [{ "label": "About KWIN City", "href": "/about" }, { "label": "Timeline", "href": "/timeline" }]
         },
         {
@@ -26,7 +26,7 @@
         {
           "id": "when-complete",
           "question": "When will KWIN City be complete?",
-          "answer": "KWIN City is planned across five phases from 2024 to 2030. Phase 0 (inauguration and land acquisition) was completed in 2024. Phase 1 (infrastructure and connectivity) is in progress as of 2025. Phases 2–5 extend through 2026–2030. Full operational status is targeted for 2030, though specific timelines for individual phases are subject to change and are pending primary KIADB confirmation.",
+          "answer": "KWIN City is planned across Phase 0 plus five development phases from 2024 to 2030. Phase 0 (inauguration and land acquisition) was completed in 2024. Phase 1 (infrastructure and connectivity) is in progress as of 2025. Phases 2–5 extend through 2026–2030. Full operational status is targeted for 2030, though specific timelines for individual phases are subject to change and are pending primary KIADB confirmation.",
           "verificationNote": "Phase timelines are based on secondary sources and the project brief; not yet confirmed by a dated KIADB master schedule.",
           "relatedLinks": [{ "label": "Development Timeline", "href": "/timeline" }]
         },
@@ -40,7 +40,7 @@
         {
           "id": "where-located",
           "question": "Where exactly is KWIN City located?",
-          "answer": "KWIN City is located in Doddaballapura, North Bengaluru, Karnataka — at approximately 13°13′N 77°32′E. The site is strategically positioned near Kempegowda International Airport (~35 km), the proposed Satellite Town Ring Road (STRR) corridor, and the Bengaluru–Mumbai highway.",
+          "answer": "KWIN City is located in Doddaballapura, North Bengaluru, Karnataka — at approximately 13°13′N 77°32′E. The site is strategically positioned near Kempegowda International Airport (~12 km), the proposed Satellite Town Ring Road (STRR) corridor, and the Bengaluru–Mumbai highway.",
           "verificationNote": null,
           "relatedLinks": [{ "label": "Why North Bengaluru", "href": "/why-north-bengaluru" }]
         },
@@ -112,7 +112,7 @@
         {
           "id": "connectivity",
           "question": "How will KWIN City connect to Bengaluru city?",
-          "answer": "KWIN City is planned to connect to Bengaluru via the Satellite Town Ring Road (STRR), the NH-648 (Bengaluru–Mangaluru highway), and potential metro/rail expansion. The site is approximately 35 km from Kempegowda International Airport. STRR alignment details are pending final approval.",
+          "answer": "KWIN City is planned to connect to Bengaluru via the Satellite Town Ring Road (STRR), the NH-648 (Bengaluru–Mangaluru highway), and potential metro/rail expansion. The site is approximately 12 km from Kempegowda International Airport. STRR alignment details are pending final approval.",
           "verificationNote": "STRR connectivity is referenced in the project brief but final road alignment is not yet confirmed.",
           "relatedLinks": [{ "label": "Why North Bengaluru", "href": "/why-north-bengaluru" }]
         }
@@ -156,7 +156,7 @@
         {
           "id": "verified-stats",
           "question": "Which statistics has this portal independently verified?",
-          "answer": "Verified facts include: KWIN City's location in Doddaballapura (KIADB-confirmed); KIADB as the project operator (official); the multi-phase development structure (official); the three K-W-I pillars as the organizing framework (official brief). Pending-verification items include: the 465-acre area; ₹40,000 Crore investment target; 100,000+ jobs projection; specific university partnerships. See the full ledger at /sources.",
+          "answer": "Verified facts include: KWIN City's location in Doddaballapura (KIADB-confirmed); KIADB as the project operator (official); the multi-phase development structure (official); the three K-W-I pillars as the organizing framework (official brief). Pending-verification items include: the 5,800-acre area; ₹40,000 Crore investment target; 100,000+ jobs projection; specific university partnerships. See the full ledger at /sources.",
           "verificationNote": null,
           "relatedLinks": [{ "label": "Sources & Claims", "href": "/sources" }, { "label": "For Journalists", "href": "/for/journalist" }]
         },

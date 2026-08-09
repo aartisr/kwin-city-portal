@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
       hi: 'डेवलपमेंट टाइमलाइन | 2024–2030 रोडमैप',
     }),
     description: pickByLocale(locale, {
-      en: 'KWIN City\'s five-phase development roadmap from 2024 inauguration to full operations by 2030. Every milestone is labeled with its source and verification status.',
+      en: 'KWIN City\'s roadmap spans Phase 0 plus five development phases from 2024 inauguration to full operations by 2030. Every milestone is labeled with its source and verification status.',
       kn: '2024 ಉದ್ಘಾಟನೆದಿಂದ 2030 ಕಾರ್ಯಾಚರಣೆವರೆಗೆ KWIN City ಯ ಐದು ಹಂತಗಳ ಕಾಲರೇಖೆ.',
       hi: '2024 उद्घाटन से 2030 संचालन तक KWIN City की पांच-चरणीय टाइमलाइन।',
     }),
@@ -32,7 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
         hi: 'KWIN City डेवलपमेंट टाइमलाइन — 2024 से 2030',
       }),
       description: pickByLocale(locale, {
-        en: 'Review the KWIN City 2024 to 2030 roadmap across five phases, with each milestone labeled by source confidence, verification status, and project context.',
+        en: 'Review the KWIN City 2024 to 2030 roadmap across Phase 0 plus five development phases, with each milestone labeled by source confidence, verification status, and project context.',
         kn: 'ಐದು ಹಂತಗಳು. ಒಂದು ಮಹತ್ವಾಕಾಂಕ್ಷೆ. ಸಾಕ್ಷ್ಯಾಧಾರಗಳೊಂದಿಗೆ KWIN ಮಾರ್ಗನಕ್ಷೆ.',
         hi: 'पांच चरण। एक महत्वाकांक्षा। प्रमाण के साथ KWIN रोडमैप।',
       }),
@@ -48,7 +48,7 @@ export async function generateMetadata(): Promise<Metadata> {
         hi: 'KWIN City डेवलपमेंट टाइमलाइन — 2024 से 2030',
       }),
       description: pickByLocale(locale, {
-        en: 'Review the KWIN City 2024 to 2030 roadmap across five phases, with each milestone labeled by source confidence, verification status, and project context.',
+        en: 'Review the KWIN City 2024 to 2030 roadmap across Phase 0 plus five development phases, with each milestone labeled by source confidence, verification status, and project context.',
         kn: 'ಐದು ಹಂತಗಳು. ಒಂದು ಮಹತ್ವಾಕಾಂಕ್ಷೆ. ಸಾಕ್ಷ್ಯಾಧಾರಗಳೊಂದಿಗೆ KWIN ಮಾರ್ಗನಕ್ಷೆ.',
         hi: 'पांच चरण। एक महत्वाकांक्षा। प्रमाण के साथ KWIN रोडमैप।',
       }),
@@ -65,7 +65,7 @@ export default async function TimelinePage() {
         <PageIntro
           eyebrow={pickByLocale(locale, { en: 'Development Timeline', kn: 'ಅಭಿವೃದ್ಧಿ ಕಾಲರೇಖೆ', hi: 'डेवलपमेंट टाइमलाइन' })}
           title={pickByLocale(locale, {
-            en: 'Five phases. One extraordinary ambition.',
+            en: 'Phase 0 plus five development phases. One extraordinary ambition.',
             kn: 'ಐದು ಹಂತಗಳು. ಒಂದು ಅಸಾಧಾರಣ ಮಹತ್ವಾಕಾಂಕ್ಷೆ.',
             hi: 'पांच चरण। एक असाधारण महत्वाकांक्षा।',
           })}

@@ -13,7 +13,7 @@ const PAGES: SearchEntry[] = [
   {
     id: 'page-about',
     title: 'About KWIN City',
-    description: 'Mission, pillars, and development framework for the 465-acre township.',
+    description: 'Mission, pillars, and development framework for the 5,800-acre township.',
     category: 'Page',
     href: '/about',
     icon: 'ℹ️',
@@ -292,7 +292,7 @@ const FAQ_ENTRIES: SearchEntry[] = [
   {
     id: 'faq-what-is-kwin',
     title: 'What is KWIN City?',
-    description: 'KWIN stands for Knowledge, Wellbeing, and Innovation — a proposed 465-acre integrated township in Doddaballapura, North Bengaluru.',
+    description: 'KWIN stands for Knowledge, Wellbeing, and Innovation — a proposed 5,800-acre integrated township in Doddaballapura, North Bengaluru.',
     category: 'FAQ',
     href: '/faq#general',
     icon: '❓',
@@ -319,7 +319,7 @@ const FAQ_ENTRIES: SearchEntry[] = [
   {
     id: 'faq-when-complete',
     title: 'When will KWIN City be complete?',
-    description: 'Full operational status is targeted for 2030 across 5 development phases. Phase 0 (inauguration) was completed in 2024.',
+    description: 'Full operational status is targeted for 2030 across Phase 0 plus five development phases. Phase 0 (inauguration) was completed in 2024.',
     category: 'FAQ',
     href: '/faq#general',
     icon: '📅',
@@ -397,7 +397,7 @@ const SUSTAINABILITY_ENTRIES: SearchEntry[] = [
   {
     id: 'sus-energy',
     title: 'Renewable Energy — 100% operational target',
-    description: 'All operational energy to be sourced from renewables, anchored by the 465-acre solar farm.',
+    description: 'All operational energy to be sourced from renewables, anchored by a planned utility-scale solar program.',
     category: 'Sustainability',
     href: '/sustainability',
     icon: '☀️',
