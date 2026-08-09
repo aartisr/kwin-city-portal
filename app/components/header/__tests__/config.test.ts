@@ -8,6 +8,7 @@ describe('header/config', () => {
       'ecosystem',
       'research',
       'intelligence',
+      'tools',
       'audiences',
     ]);
   });

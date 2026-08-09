@@ -39,6 +39,9 @@ Welcome! This guide helps you understand the KWIN City Portal—its architecture
 - **[HOW_TO Guide](../HOW_TO.md)** — Practical step-by-step guides for common tasks ⭐ START HERE
 - **[Data Model Reference](DATA_MODEL.md)** — TypeScript interfaces, data constants, structured data guide
 - **[Evidence System Guide](EVIDENCE_SYSTEM.md)** — How claims are verified, source registry, evidence tiers
+- **[Generic Value-Add Platform Blueprint](GENERIC_VALUE_ADD_PLATFORM_BLUEPRINT.md)** — Reusable design and implementation guide derived from the KWIN value-add strategy source
+- **[KWIN Value-Add Implementation Plan](KWIN_VALUE_ADD_IMPLEMENTATION_PLAN.md)** — KWIN-specific execution plan with concrete routes, modules, schemas, rollout phases, and testing gates
+- **[KWIN Value-Add Execution Status](KWIN_VALUE_ADD_EXECUTION_STATUS.md)** — Persistent checkpoint log of completed work, current stage, and next actions for seamless continuation
 - **[Social Media Content Automation](social-media-content-automation.md)** — Instagram/Facebook content calendar, caption templates, and daily automation strategy
 
 ### **Component & UI Development**

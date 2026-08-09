@@ -21,6 +21,7 @@ export const defaultMessages = {
       Ecosystem: 'Ecosystem',
       Research: 'Research',
       Intelligence: 'Intelligence',
+      Tools: 'Tools',
       Audiences: 'Audiences',
     },
     items: {

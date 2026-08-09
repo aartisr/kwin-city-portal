@@ -1,6 +1,7 @@
 'use client';
 
 import { ContentBlock }  from '@/lib/content-manager';
+import Image from 'next/image';
 
 interface CardBlockProps {
   data: ContentBlock;
@@ -21,9 +22,11 @@ export default function CardBlock({ data }: CardBlockProps) {
           >
             {item.image && (
               <div className="h-40 bg-gray-200 overflow-hidden">
-                <img
+                <Image
                   src={item.image}
                   alt={item.title}
+                  width={640}
+                  height={320}
                   className="w-full h-full object-cover"
                 />
               </div>

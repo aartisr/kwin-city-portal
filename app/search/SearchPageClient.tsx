@@ -24,7 +24,7 @@ export default function SearchPageClient() {
   const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const searchParams = useSearchParams();
   const router = useRouter();
-  const initialQuery = searchParams.get('q') ?? '';
+  const initialQuery = searchParams?.get('q') ?? '';
   const [query, setQuery] = useState(initialQuery);
   const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
   const [activeCategory, setActiveCategory] = useState<SearchCategory | 'All'>('All');
@@ -34,7 +34,7 @@ export default function SearchPageClient() {
   useEffect(() => {
     const t = setTimeout(() => {
       setDebouncedQuery(query);
-      const params = new URLSearchParams(searchParams.toString());
+      const params = new URLSearchParams(searchParams?.toString() ?? '');
       if (query.trim()) params.set('q', query.trim());
       else params.delete('q');
       router.replace(`/search?${params.toString()}`, { scroll: false });

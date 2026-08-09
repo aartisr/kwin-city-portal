@@ -5,14 +5,32 @@ import { HIGH_LEVEL_MENUS } from '@/components/header/navigation';
 import type { NavGroup } from '@/components/header/types';
 import { normalizeLocale, pickLocalizedValue, translate } from '@/lib/i18n/messages';
 
+function withFallback(translated: string, key: string, fallback: string): string {
+  return translated === key ? fallback : translated;
+}
+
 function getTranslatedMenus(locale: ReturnType<typeof normalizeLocale>): NavGroup[] {
   return HIGH_LEVEL_MENUS.map((group) => ({
     key: group.key,
-    label: translate(locale, `header.groups.${group.label}`),
+    label: withFallback(
+      translate(locale, `header.groups.${group.label}`),
+      `header.groups.${group.label}`,
+      group.label
+    ),
     items: group.items.map((item) => ({
       ...item,
-      label: translate(locale, `header.items.${item.href}.label`),
-      desc: item.desc ? translate(locale, `header.items.${item.href}.desc`) : undefined,
+      label: withFallback(
+        translate(locale, `header.items.${item.href}.label`),
+        `header.items.${item.href}.label`,
+        item.label
+      ),
+      desc: item.desc
+        ? withFallback(
+            translate(locale, `header.items.${item.href}.desc`),
+            `header.items.${item.href}.desc`,
+            item.desc
+          )
+        : undefined,
     })),
   }));
 }

@@ -107,8 +107,9 @@ export default function Header({
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
+  const currentPath = pathname ?? '/';
   const isActive = (href: string) =>
-    href === '/' ? pathname === '/' : pathname.startsWith(href);
+    href === '/' ? currentPath === '/' : currentPath.startsWith(href);
 
   const isGroupActive = (group: NavGroup) =>
     group.items.some((item) => isActive(item.href));

@@ -44,6 +44,12 @@ export const GROUP_STORIES: Record<string, HeaderStory> = {
     body: 'The best headers make evolving information feel accessible without overwhelming people. This section concentrates news, trust, and community signals.',
     accent: 'from-violet-400/16 via-fuchsia-300/6 to-transparent',
   },
+  tools: {
+    eyebrow: 'Action',
+    title: 'Turn evidence into decisions.',
+    body: 'Utility-first pathways reduce ambiguity. This section concentrates practical tools for risk, access, regulation, and change monitoring.',
+    accent: 'from-emerald-400/18 via-cyan-300/8 to-transparent',
+  },
   audiences: {
     eyebrow: 'Pathways',
     title: 'Different visitors need different entry routes.',

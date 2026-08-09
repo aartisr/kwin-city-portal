@@ -26,6 +26,7 @@ export const localeMessageOverrides: Partial<Record<Locale, DeepPartial<MessageD
         Ecosystem: 'ಪರಿಸರ ವ್ಯವಸ್ಥೆ',
         Research: 'ಸಂಶೋಧನೆ',
         Intelligence: 'ಗುಪ್ತಜ್ಞಾನ',
+        Tools: 'ಉಪಕರಣಗಳು',
         Audiences: 'ಪ್ರೇಕ್ಷಕರು',
       },
       items: {
@@ -99,6 +100,7 @@ export const localeMessageOverrides: Partial<Record<Locale, DeepPartial<MessageD
         Ecosystem: 'इकोसिस्टम',
         Research: 'अनुसंधान',
         Intelligence: 'इंटेलिजेंस',
+        Tools: 'टूल्स',
         Audiences: 'दर्शक',
       },
       items: {
@@ -172,6 +174,7 @@ export const localeMessageOverrides: Partial<Record<Locale, DeepPartial<MessageD
         Ecosystem: 'சூழல் அமைப்பு',
         Research: 'ஆராய்ச்சி',
         Intelligence: 'நுண்ணறிவு',
+        Tools: 'கருவிகள்',
         Audiences: 'பார்வையாளர் குழுக்கள்',
       },
       items: {
@@ -245,6 +248,7 @@ export const localeMessageOverrides: Partial<Record<Locale, DeepPartial<MessageD
         Ecosystem: 'ఈకోసిస్టమ్',
         Research: 'పరిశోధన',
         Intelligence: 'గుప్తాంశం',
+        Tools: 'సాధనాలు',
         Audiences: 'ప్రేక్షకులు',
       },
       items: {
@@ -318,6 +322,7 @@ export const localeMessageOverrides: Partial<Record<Locale, DeepPartial<MessageD
         Ecosystem: 'Ecosistema',
         Research: 'Investigación',
         Intelligence: 'Inteligencia',
+        Tools: 'Herramientas',
         Audiences: 'Audiencias',
       },
       items: {

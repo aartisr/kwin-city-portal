@@ -15,3 +15,6 @@ export {
   addReplyToPost,
   incrementPostLikes,
 } from './data-layer/discussions';
+export { createAlertSubscription, disableAlertSubscription } from './data-layer/value-add-alerts';
+export { createExportJob, findExportJob } from './data-layer/value-add-exports';
+export { createOpportunityLeadRecord, listOpportunityLeadRecords } from './data-layer/value-add-opportunities';

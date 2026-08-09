@@ -2,6 +2,7 @@
 
 import { ContentBlock, ContentItem } from '@/lib/content-manager';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 interface ResponsiveGridProps {
   data: ContentBlock;
@@ -81,9 +82,11 @@ export default function ResponsiveGrid({
             )}
             {item.image && (
               <div className="mb-4 h-40 bg-gray-100 rounded-lg overflow-hidden">
-                <img
+                <Image
                   src={item.image}
                   alt={item.title}
+                  width={640}
+                  height={320}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 />
               </div>

@@ -6,11 +6,10 @@ import { HERO_SOURCE_IDS } from '@/data/constants';
 import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 
 const heroImage = {
-  src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Kempegowda_International_Airport%2C_Bengaluru_%28Ank_Kumar%2C_Infosys%29_01.jpg/1920px-Kempegowda_International_Airport%2C_Bengaluru_%28Ank_Kumar%2C_Infosys%29_01.jpg',
-  source:
-    'https://commons.wikimedia.org/wiki/File:Kempegowda_International_Airport,_Bengaluru_(Ank_Kumar,_Infosys)_01.jpg',
-  credit: 'Ank Kumar',
-  license: 'CC BY-SA 4.0',
+  src: '/social/kwin-launch/kwin-launch-slide-03.png',
+  source: '/instagram',
+  credit: 'KWIN City launch deck',
+  license: 'Internal portal artifact',
 };
 
 const stats = [
@@ -194,10 +193,10 @@ export default async function Hero() {
         <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-5 text-[11px] text-[#7890AA] md:flex-row md:items-center md:justify-between">
           <p>
             {pickByLocale(locale, {
-              en: 'Hero image: Kempegowda International Airport, Bengaluru.',
-              kn: 'ಹೀರೋ ಚಿತ್ರ: ಕೆಂಪೇಗೌಡ ಅಂತರರಾಷ್ಟ್ರೀಯ ವಿಮಾನ ನಿಲ್ದಾಣ, ಬೆಂಗಳೂರು.',
-              hi: 'हीरो छवि: केम्पेगौड़ा अंतरराष्ट्रीय हवाई अड्डा, बेंगलुरु.',
-              ta: 'முதன்மை படம்: கெம்பேகவுடா சர்வதேச விமானநிலையம், பெங்களூரு.',
+              en: 'Hero visual: KWIN City launch deck contextual artwork.',
+              kn: 'ಹೀರೋ ದೃಶ್ಯ: KWIN City ಲಾಂಚ್ ಡೆಕ್ ಸಾಂದರ್ಭಿಕ ಕಲಾಕೃತಿ.',
+              hi: 'हीरो विज़ुअल: KWIN City लॉन्च डेक का संदर्भित आर्टवर्क।',
+              ta: 'முதன்மை காட்சி: KWIN City தொடக்க டெக்கிலிருந்து சூழல் கலைப்படம்.',
             })}{' '}
             <a href={heroImage.source} target="_blank" rel="noopener noreferrer" className="text-[#BFD4EA] underline underline-offset-2 hover:text-white">
               {heroImage.credit}

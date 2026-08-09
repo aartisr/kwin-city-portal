@@ -63,6 +63,7 @@ export default async function ResidentPage() {
         hi: 'परिवारों, पेशेवरों और दीर्घकालिक निवासियों के लिए',
       })}
       quickActions={[
+        { label: pickByLocale(locale, { en: 'Check Accessibility', kn: 'ಪ್ರವೇಶ ಸುಲಭತೆ ಪರಿಶೀಲಿಸಿ', hi: 'एक्सेसिबिलिटी जांचें' }), href: '/tools/accessibility' },
         { label: pickByLocale(locale, { en: 'See Sustainability Plan', kn: 'ಸ್ಥಿರತಾ ಯೋಜನೆ ನೋಡಿ', hi: 'सस्टेनेबिलिटी प्लान देखें' }), href: '/sustainability' },
         { label: pickByLocale(locale, { en: 'Explore Regional Context', kn: 'ಪ್ರಾದೇಶಿಕ ಹಿನ್ನೆಲೆ ಅನ್ವೇಷಿಸಿ', hi: 'क्षेत्रीय संदर्भ देखें' }), href: '/why-north-bengaluru' },
         { label: pickByLocale(locale, { en: 'Review Sources', kn: 'ಮೂಲಗಳನ್ನು ಪರಿಶೀಲಿಸಿ', hi: 'स्रोत समीक्षा करें' }), href: '/sources' },
