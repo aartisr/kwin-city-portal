@@ -63,7 +63,7 @@ export function buildFooterContent(locale: Locale): FooterContentModel {
   const signalCards: FooterSignalCard[] = [
     {
       eyebrow: l({ en: 'Scale', kn: 'ಪ್ರಮಾಣ', hi: 'पैमाना', ta: 'அளவு' }),
-      title: l({ en: '465-acre proposed district', kn: '465 ಏಕರೆ ಪ್ರಸ್ತಾವಿತ ಜಿಲ್ಲೆ', hi: '465-एकड़ प्रस्तावित जिला', ta: '465 ஏக்கர் முன்மொழியப்பட்ட மாவட்டம்' }),
+      title: l({ en: '5,800-acre proposed district', kn: '5,800 ಏಕರೆ ಪ್ರಸ್ತಾವಿತ ಜಿಲ್ಲೆ', hi: '5,800-एकड़ प्रस्तावित जिला', ta: '5,800 ஏக்கர் முன்மொழியப்பட்ட மாவட்டம்' }),
       body: l({
         en: 'The footer should still orient people fast: where it is, what it is, and why it matters.',
         kn: 'ಫುಟರ್ ಕೂಡವೇ ವೇಗವಾಗಿ ದಿಕ್ಕು ತೋರಿಸಬೇಕು: ಇದು ಎಲ್ಲಿ, ಏನು, ಮತ್ತು ಏಕೆ ಮಹತ್ವದ್ದೆಂದು.',

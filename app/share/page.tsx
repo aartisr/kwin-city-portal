@@ -11,14 +11,14 @@ const SITE_URL = 'https://kwin-city.com';
 const PAGE_URL = `${SITE_URL}/share`;
 
 const heroShareText =
-  'KWIN City, North Bengaluru: a source-linked 60-second brief on the proposed 465-acre knowledge, wellbeing, and innovation city.';
+  'KWIN City, North Bengaluru: a source-linked 60-second brief on the proposed 5,800-acre knowledge, wellbeing, and innovation city.';
 
 const shareAngles = [
   {
     id: 'group-chat',
     label: 'Group chat opener',
-    title: 'What should a 465-acre knowledge city prove first?',
-    text: 'Bengaluru friends: if a 465-acre knowledge city is proposed near Doddaballapura, what should it prove first - jobs, water, mobility, or trust?',
+    title: 'What should a 5,800-acre knowledge city prove first?',
+    text: 'Bengaluru friends: if a 5,800-acre knowledge city is proposed near Doddaballapura, what should it prove first - jobs, water, mobility, or trust?',
     note: 'Best for WhatsApp, family groups, resident forums, and civic conversations.',
     sourceIds: ['brief', 'kiadb'],
   },

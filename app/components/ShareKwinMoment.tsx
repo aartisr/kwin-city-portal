@@ -10,9 +10,9 @@ const shareMoments = [
   {
     id: 'group-chat',
     eyebrow: 'Group chat opener',
-    title: 'What should a 465-acre knowledge city prove first?',
+    title: 'What should a 5,800-acre knowledge city prove first?',
     body: 'Jobs, water, mobility, and trust are the four questions that turn KWIN from a headline into a real civic conversation.',
-    text: 'Bengaluru friends: if a 465-acre knowledge city is proposed near Doddaballapura, what should it prove first - jobs, water, mobility, or trust?',
+    text: 'Bengaluru friends: if a 5,800-acre knowledge city is proposed near Doddaballapura, what should it prove first - jobs, water, mobility, or trust?',
     sourceIds: ['brief', 'kiadb'],
   },
   {
@@ -119,7 +119,7 @@ export default async function ShareKwinMoment() {
               <article key={moment.id} id={moment.id} className="border border-slate-200 bg-white p-5 shadow-sm">
                 <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                   <div className="max-w-2xl">
-                    <p className="text-[11px] font-bold uppercase tracking-normal text-[#E8A020]">
+                    <p className="text-[11px] font-bold uppercase tracking-normal text-[#92400E]">
                       {moment.eyebrow}
                     </p>
                     <h3 className="mt-2 text-2xl font-black leading-tight tracking-normal text-slate-950">

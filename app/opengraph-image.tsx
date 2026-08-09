@@ -85,7 +85,7 @@ export default function OpenGraphImage() {
               marginBottom: '26px',
             }}
           >
-            465-acre proposal · Source-linked
+            5,800-acre proposal · Source-linked
           </div>
           <div
             style={{

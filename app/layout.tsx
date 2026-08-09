@@ -74,7 +74,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'KWIN City | Knowledge · Wellbeing · Innovation | North Bengaluru',
     description:
-      'A 465-acre knowledge township in Doddaballapura, North Bengaluru. Evidence-first portal for investors, residents, researchers and urban-planning professionals.',
+      'A 5,800-acre knowledge township in Doddaballapura, North Bengaluru. Evidence-first portal for investors, residents, researchers and urban-planning professionals.',
     type: 'website',
     url: SITE_URL,
     siteName: 'KWIN City',
@@ -94,7 +94,7 @@ export const metadata: Metadata = {
     creator: SITE_CONFIG.xHandle,
     title: 'KWIN City | Knowledge · Wellbeing · Innovation | North Bengaluru',
     description:
-      'A 465-acre knowledge township in Doddaballapura, North Bengaluru. Evidence-first portal for investors, residents, and researchers.',
+      'A 5,800-acre knowledge township in Doddaballapura, North Bengaluru. Evidence-first portal for investors, residents, and researchers.',
     images: [OG_IMAGE],
   },
   appleWebApp: {
@@ -125,7 +125,7 @@ const GLOBAL_DISCOVERY_SCHEMA = [
     url: SITE_URL,
     logo: SITE_LOGO,
     description:
-      'KWIN City is presented on this portal as a proposed 465-acre knowledge-economy township in Doddaballapura, North Bengaluru, with KIADB cited in project materials.',
+      'KWIN City is presented on this portal as a proposed 5,800-acre knowledge-economy township in Doddaballapura, North Bengaluru, with KIADB cited in project materials.',
     foundingLocation: {
       '@type': 'Place',
       name: 'Doddaballapura, Karnataka, India',

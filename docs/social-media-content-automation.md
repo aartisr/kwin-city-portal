@@ -139,7 +139,7 @@ Good hooks:
 What is KWIN City in 30 seconds?
 Why is North Bengaluru getting this much attention?
 Which KWIN City claims are verified, and which are still pending?
-What does a 465-acre knowledge district actually mean?
+What does a 5,800-acre knowledge district actually mean?
 Why do airport corridors shape new city projects?
 ```
 

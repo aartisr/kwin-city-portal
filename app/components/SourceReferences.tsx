@@ -26,7 +26,7 @@ export default function SourceReferences({
   return (
     <div className={`rounded-2xl border border-gray-200 bg-white/80 ${compact ? 'p-4' : 'p-5'}`}>
       <div className="flex items-center justify-between gap-4 mb-4">
-        <h3 className={`${compact ? 'text-sm' : 'text-base'} font-semibold text-gray-900`}>{heading}</h3>
+        <p className={`${compact ? 'text-sm' : 'text-base'} font-semibold text-gray-900`}>{heading}</p>
         <span className="text-xs uppercase tracking-[0.18em] text-gray-400">Source basis</span>
       </div>
 

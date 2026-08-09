@@ -37,7 +37,7 @@ export function SourceAttribution() {
         ) : null}
         <p>
           <strong>Note:</strong> Location data is sourced from verified public records. Site boundary is approximate and based on
-          465-acre project specification. Exact Master Plan available via KIADB official channels.
+          5,800-acre project specification. Exact Master Plan available via KIADB official channels.
         </p>
       </div>
     </div>

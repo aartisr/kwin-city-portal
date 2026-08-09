@@ -216,7 +216,7 @@ export default function MyInteractiveComponent() {
 import InlineSourceBadges from '@/components/InlineSourceBadges';
 
 <p>
-  KWIN will cover 465+ acres.
+  KWIN will cover 5,800 acres (Phase 1: 2,000 acres).
   <InlineSourceBadges sourceIds={['brief']} />
 </p>
 ```

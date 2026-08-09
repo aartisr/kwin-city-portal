@@ -9,7 +9,7 @@ export function getHomeSchemas() {
     '@type': 'Place',
     name: 'KWIN City Township',
     description:
-      'A proposed 465-acre knowledge-economy township adjacent to Kempegowda International Airport in Doddaballapura, North Bengaluru.',
+      'A proposed 5,800-acre knowledge-economy township adjacent to Kempegowda International Airport in Doddaballapura, North Bengaluru.',
     url: SITE_URL,
     dateModified: LAST_UPDATED,
     geo: {

@@ -21,7 +21,7 @@ The Evidence System is the intellectual backbone of the KWIN City Portal. Every 
 
 ## 1. Philosophy: Radical Epistemic Transparency
 
-Urban development projects — especially at the scale of KWIN City (₹40,000 Cr, 465+ acres, 100,000+ projected jobs) — attract a wide range of stakeholders with different information needs and different tolerances for uncertainty. Investors, residents, journalists, and researchers all deserve to know **not just what is claimed, but how well-supported each claim actually is**.
+Urban development projects — especially at the scale of KWIN City (₹40,000 Cr, 5,800 acres (Phase 1: 2,000 acres), 100,000+ projected jobs) — attract a wide range of stakeholders with different information needs and different tolerances for uncertainty. Investors, residents, journalists, and researchers all deserve to know **not just what is claimed, but how well-supported each claim actually is**.
 
 The KWIN City Portal operationalizes this with four editorial guardrails:
 
@@ -131,7 +131,7 @@ The ledger is built from `KWIN_CLAIM_MAPPINGS` in `app/data/constants.ts`.
 | ID | Section | Claim (summary) | Sources | Status |
 |----|---------|-----------------|---------|--------|
 | `location` | Hero | KWIN is located in Doddaballapura, North Bengaluru | S1, S2 | 🔍 Pending |
-| `scope` | Hero | 465 acres; ₹40,000 Cr investment; 100,000 jobs | S1 | 🔍 Pending |
+| `scope` | Hero | 5,800 acres; ₹40,000 Cr investment; 100,000 jobs | S1 | 🔍 Pending |
 | `airport` | Regional Context | 37M+ annual passengers at Bengaluru Airport | S3 | ⚪ Contextual |
 | `corridor` | Regional Context | STRR and IRR improve North Bengaluru connectivity | S5, S6 | ⚪ Contextual |
 | `economic` | Regional Context | Karnataka GDP growing at 9%+ | S4 | ⚪ Contextual |

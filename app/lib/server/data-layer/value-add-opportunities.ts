@@ -5,6 +5,30 @@ import type { OpportunityLead, OpportunityRequest } from '@/types/value-add';
 
 const STORE_FILE = 'value-add-opportunity-leads.json';
 
+type OpportunityLeadRow = {
+  id: string;
+  role: OpportunityLead['role'];
+  requirement: string;
+  budget_band: string | null;
+  created_at: string;
+  status: OpportunityLead['status'];
+};
+
+type SupabaseErrorLike = { code?: string } | null;
+
+type OpportunityLeadsTableClient = {
+  insert: (values: unknown[]) => Promise<{ error: SupabaseErrorLike }>;
+  select: (columns: string) => {
+    order: (column: string, options: { ascending: boolean }) => {
+      limit: (count: number) => Promise<{ data: OpportunityLeadRow[] | null; error: SupabaseErrorLike }>;
+    };
+  };
+};
+
+type OpportunitiesSupabaseLooseClient = {
+  from: (table: 'value_add_opportunity_leads') => OpportunityLeadsTableClient;
+};
+
 export async function createOpportunityLeadRecord(input: OpportunityRequest): Promise<OpportunityLead> {
   const lead: OpportunityLead = {
     id: crypto.randomUUID(),
@@ -18,7 +42,7 @@ export async function createOpportunityLeadRecord(input: OpportunityRequest): Pr
   const supabase = getSupabase();
   if (supabase) {
     try {
-      const client = supabase as any;
+      const client = supabase as unknown as OpportunitiesSupabaseLooseClient;
       const payload = {
         id: lead.id,
         name: input.name,
@@ -53,7 +77,7 @@ export async function listOpportunityLeadRecords(limit: number): Promise<Opportu
   const supabase = getSupabase();
   if (supabase) {
     try {
-      const client = supabase as any;
+      const client = supabase as unknown as OpportunitiesSupabaseLooseClient;
       const { data, error } = await client
         .from('value_add_opportunity_leads')
         .select('*')
@@ -61,7 +85,7 @@ export async function listOpportunityLeadRecords(limit: number): Promise<Opportu
         .limit(normalizedLimit);
 
       if (!error && Array.isArray(data)) {
-        return data.map((row: any) => ({
+        return data.map((row) => ({
           id: row.id,
           role: row.role,
           requirement: row.requirement,

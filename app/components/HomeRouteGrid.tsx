@@ -17,7 +17,7 @@ const routes = [
       ta: 'உண்மைத்தன்மைக்கான பொது நெறிமுறை: சரிபார்ப்பு நிலைகள், மூலத்தன்மை வரம்புகள், மேற்கோள் தரநிலைகள் மற்றும் திறந்த ஆய்வுத் திறன்.',
     },
     iconBgClass: 'bg-[#14B8A6]/15',
-    linkClass: 'text-[#14B8A6]',
+    linkClass: 'text-[#0F766E]',
   },
   {
     id: 'news-intelligence',
@@ -31,7 +31,7 @@ const routes = [
       ta: 'KWIN க்கான நம்பகத்தன்மை மைய செய்தி கண்காணிப்பு அமைப்பு; தெளிவான மேற்கோள், சரிபார்ப்பு நிலைகள், குறிகாட்டி மற்றும் ஆதாரத்திற்கிடையேயான வெளிப்படையான எல்லைகளுடன்.',
     },
     iconBgClass: 'bg-[#0EA5E9]/15',
-    linkClass: 'text-[#0EA5E9]',
+    linkClass: 'text-[#0369A1]',
   },
   {
     id: 'about-kwin',
@@ -45,7 +45,7 @@ const routes = [
       ta: 'KWIN City யின் முழு படம்: அதன் மூன்று தூண்கள், நிறுவல் கட்டமைப்பு, இந்த தளம் முன்மொழிவை எப்படிப் புரிகிறது என்பதுடன்.',
     },
     iconBgClass: 'bg-[#F5A623]/15',
-    linkClass: 'text-[#F5A623]',
+    linkClass: 'text-[#B45309]',
   },
   {
     id: 'why-region',
@@ -59,7 +59,7 @@ const routes = [
       ta: 'விமான இணைப்பு, வளையச் சாலைகள், நீரியல் மற்றும் கர்நாடகாவின் பரந்த பொருளாதார திசை ஆகியவை வலுவான பிராந்திய ஆதாரத்தை வழங்குகின்றன.',
     },
     iconBgClass: 'bg-[#06B6D4]/15',
-    linkClass: 'text-[#06B6D4]',
+    linkClass: 'text-[#0E7490]',
   },
   {
     id: 'timeline',
@@ -73,7 +73,7 @@ const routes = [
       ta: 'திறப்புவிழாவிலிருந்து நகர அளவிலான செயல்பாடு வரை ஐந்து கட்டங்கள். பொதுமக்கள் ஆய்வுக்கு திறந்த பணிச்சரமாய் இந்த சாலைவரைபடத்தை பாருங்கள்.',
     },
     iconBgClass: 'bg-[#8B5CF6]/15',
-    linkClass: 'text-[#8B5CF6]',
+    linkClass: 'text-[#6D28D9]',
   },
   {
     id: 'sectors',
@@ -87,7 +87,7 @@ const routes = [
       ta: 'செமிகண்டக்டர், ஏரோஸ்பேஸ், ஹெல்த்-டெக், ICT, புதுப்பிக்கத்தக்க ஆற்றல் க்ளஸ்டர்கள் KWIN இன் தொழில் முனைப்பை வரையறுக்கின்றன.',
     },
     iconBgClass: 'bg-[#EC4899]/15',
-    linkClass: 'text-[#EC4899]',
+    linkClass: 'text-[#BE185D]',
   },
   {
     id: 'sustainability',
@@ -101,7 +101,7 @@ const routes = [
       ta: 'நீர், பசுமை மூடல், சோலார் மற்றும் சூழல் திட்டங்கள் வளர்ச்சி போக்கு, நிலத்தடி நீர், ஏரி நிர்வாகத் தரவுகளுடன் ஒப்பிட்டு ஆய்வு செய்யப்படுகின்றன.',
     },
     iconBgClass: 'bg-[#10B981]/15',
-    linkClass: 'text-[#10B981]',
+    linkClass: 'text-[#047857]',
   },
   {
     id: 'evidence',
@@ -115,7 +115,7 @@ const routes = [
       ta: 'பிராந்திய ஆதாரங்களின் முழு தொகுப்பு - தொகுக்கப்பட்டு குறிச்சொல்லிடப்பட்டதாக, ஒவ்வொரு தரவுத்தொகுப்பும் எதை நிரூபிக்க முடியும்/முடியாது என்பதை வெளிப்படையாகக் காட்டுகிறது.',
     },
     iconBgClass: 'bg-[#3B82F6]/15',
-    linkClass: 'text-[#3B82F6]',
+    linkClass: 'text-[#1D4ED8]',
   },
 ];
 
@@ -127,7 +127,7 @@ export default function HomeRouteGrid() {
     <section className="section bg-gray-50">
       <div className="container">
         <div className="max-w-3xl mb-12">
-          <div className="eyebrow text-[#E8A020] mb-3">
+          <div className="eyebrow text-[#92400E] mb-3">
             {l({ en: 'Explore the Portal', kn: 'ಪೋರ್ಟಲ್ ಅನ್ವೇಷಿಸಿ', hi: 'पोर्टल एक्सप्लोर करें', ta: 'தளத்தை ஆராயுங்கள்' })}
           </div>
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-5 leading-tight">

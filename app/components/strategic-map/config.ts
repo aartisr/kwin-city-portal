@@ -11,7 +11,7 @@ export const MAP_LEGEND_ITEMS = [
     icon: '🏢',
     gradient: 'radial-gradient(circle, #8b5cf6 0%, #8b5cf6dd 100%)',
     label: 'KWIN City',
-    description: '465+ acre township site',
+    description: '5,800-acre (Phase 1: 2,000-acre) township site',
   },
   {
     icon: '✈️',

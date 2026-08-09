@@ -30,8 +30,8 @@ const cards = [
     },
     sourceIds: ['brief', 'kiadb'],
     accentBarClass: 'bg-[#F5A623]',
-    numberClass: 'text-[#F5A623]/30',
-    ctaClass: 'text-[#F5A623]',
+    numberClass: 'text-[#92400E]',
+    ctaClass: 'text-[#92400E]',
   },
   {
     id: 'why-north-bengaluru',
@@ -57,8 +57,8 @@ const cards = [
     },
     sourceIds: ['aviation', 'strr', 'economicSurvey'],
     accentBarClass: 'bg-[#06B6D4]',
-    numberClass: 'text-[#06B6D4]/30',
-    ctaClass: 'text-[#06B6D4]',
+    numberClass: 'text-[#0C4A6E]',
+    ctaClass: 'text-[#0C4A6E]',
   },
   {
     id: 'trust-research',
@@ -84,8 +84,8 @@ const cards = [
     },
     sourceIds: ['brief', 'kiadb'],
     accentBarClass: 'bg-[#10B981]',
-    numberClass: 'text-[#10B981]/30',
-    ctaClass: 'text-[#10B981]',
+    numberClass: 'text-[#065F46]',
+    ctaClass: 'text-[#065F46]',
   },
 ];
 
@@ -97,7 +97,7 @@ export default function HomeSummary() {
     <section className="section bg-white">
       <div className="container">
         <div className="max-w-3xl mb-12">
-          <div className="eyebrow text-[#E8A020] mb-3">
+          <div className="eyebrow text-[#92400E] mb-3">
             {l({ en: 'Welcome', kn: 'ಸ್ವಾಗತ', hi: 'स्वागत', ta: 'வரவேற்பு' })}
           </div>
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-5 leading-tight">
@@ -150,7 +150,7 @@ export default function HomeSummary() {
                 {/* Stretched link covers the whole card; source badges sit above it */}
                 <Link
                   href={card.href}
-                  className="after:absolute after:inset-0 after:rounded-2xl focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:outline-current"
+                  className="text-current after:absolute after:inset-0 after:rounded-2xl focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:outline-current"
                 >
                   {l(card.cta)}
                 </Link>

@@ -74,9 +74,9 @@ export default function Sustainability() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               {
-                title: '465-Acre Solar Farm',
+                title: 'Utility-Scale Solar Program',
                 description:
-                  'Dedicated renewable energy generation facility providing 100% operational power [pending verification]',
+                  'Dedicated renewable energy generation program targeting 100% operational power [scope pending verification]',
                 icon: '☀️',
               },
               {

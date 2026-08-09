@@ -77,7 +77,7 @@ export default function StrategicLocationMap() {
             <div>
               <strong className="text-purple-900">Site Area:</strong>
               <br />
-              465+ acres | Operator: KIADB (Karnataka Industrial Areas Development Board)
+              5,800 acres (Phase 1: 2,000 acres) | Operator: KIADB (Karnataka Industrial Areas Development Board)
             </div>
             <div>
               <strong className="text-purple-900">Corridor Access:</strong>

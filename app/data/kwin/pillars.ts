@@ -49,9 +49,9 @@ export const KWIN_PILLARS: Pillar[] = [
     description: 'Specialized industrial clusters including semiconductor manufacturing, aerospace, renewable energy, and advanced R&D facilities [Details pending verification].',
     icon: '⚡',
     features: [
-      'Semiconductor Park [465 acres dedicated]',
+      'Semiconductor Park [land allocation details pending verification]',
       'Aerospace Cluster [pending verification]',
-      'Solar Farm (465 acres) [pending verification]',
+      'Solar Farm [capacity and footprint pending verification]',
       'Advanced Manufacturing Zones',
       'Digital Innovation Hubs',
       'Logistics and Supply Chain Centers',

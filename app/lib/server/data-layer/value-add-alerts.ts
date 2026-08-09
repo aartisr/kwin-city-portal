@@ -10,6 +10,24 @@ type AlertSubscriptionRecord = AlertSubscription & {
   updatedAt: string;
 };
 
+type SupabaseErrorLike = { code?: string } | null;
+
+type AlertSubscriptionsTableClient = {
+  insert: (values: unknown[]) => Promise<{ error: SupabaseErrorLike }>;
+  select: (columns: string) => {
+    eq: (column: string, value: string) => {
+      single: () => Promise<{ data: { id: string } | null; error: SupabaseErrorLike }>;
+    };
+  };
+  update: (values: Record<string, unknown>) => {
+    eq: (column: string, value: string) => Promise<{ error: SupabaseErrorLike }>;
+  };
+};
+
+type AlertSupabaseLooseClient = {
+  from: (table: 'value_add_alert_subscriptions') => AlertSubscriptionsTableClient;
+};
+
 const STORE_FILE = 'value-add-alert-subscriptions.json';
 
 export async function createAlertSubscription(input: AlertSubscription): Promise<AlertSubscriptionResponse> {
@@ -19,7 +37,7 @@ export async function createAlertSubscription(input: AlertSubscription): Promise
   const supabase = getSupabase();
   if (supabase) {
     try {
-      const client = supabase as any;
+      const client = supabase as unknown as AlertSupabaseLooseClient;
       const payload = {
         id,
         email: input.email,
@@ -68,7 +86,7 @@ export async function disableAlertSubscription(subscriptionId: string): Promise<
   const supabase = getSupabase();
   if (supabase) {
     try {
-      const client = supabase as any;
+      const client = supabase as unknown as AlertSupabaseLooseClient;
       const { data: existing, error: getError } = await client
         .from('value_add_alert_subscriptions')
         .select('id')

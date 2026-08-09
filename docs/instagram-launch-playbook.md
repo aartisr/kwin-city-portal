@@ -231,7 +231,7 @@ Publish these in order.
 | 1 | Carousel | What is KWIN City? | `/instagram` |
 | 2 | Reel | Knowledge + Wellbeing + Innovation in 20 seconds | `/about` |
 | 3 | Carousel | Why North Bengaluru? | `/why-north-bengaluru` |
-| 4 | Static | 465-acre proposed district: what that means | `/about` |
+| 4 | Static | 5,800-acre proposed district: what that means | `/about` |
 | 5 | Carousel | Sector map: semiconductors, aerospace, health-tech, renewables | `/sectors` |
 | 6 | Story | Ask: which pillar do you want explained next? | `/instagram` |
 | 7 | Carousel | Evidence-first publishing | `/trust` |

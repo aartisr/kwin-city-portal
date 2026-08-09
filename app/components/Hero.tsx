@@ -6,14 +6,14 @@ import { HERO_SOURCE_IDS } from '@/data/constants';
 import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 
 const heroImage = {
-  src: '/social/kwin-launch/kwin-launch-slide-03.png',
-  source: '/instagram',
-  credit: 'KWIN City launch deck',
-  license: 'Internal portal artifact',
+  src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Kempegowda_International_Airport%2C_Bengaluru_%28Ank_Kumar%2C_Infosys%29_01.jpg/1920px-Kempegowda_International_Airport%2C_Bengaluru_%28Ank_Kumar%2C_Infosys%29_01.jpg',
+  source: 'https://commons.wikimedia.org/wiki/File:Kempegowda_International_Airport,_Bengaluru_(Ank_Kumar,_Infosys)_01.jpg',
+  credit: 'Ank Kumar',
+  license: 'CC BY-SA 4.0',
 };
 
 const stats = [
-  { figure: '465+', label: 'Acres', detail: 'Proposed development area', sourceIds: ['brief', 'kiadb'] },
+  { figure: '5,800', label: 'Acres', detail: 'Program footprint (Phase 1: 2,000 acres)', sourceIds: ['brief', 'kiadb'] },
   { figure: '3', label: 'Pillars', detail: 'Knowledge, wellbeing, innovation', sourceIds: ['brief'] },
   { figure: '5', label: 'Phases', detail: 'Working rollout sequence', sourceIds: ['brief', 'kiadb'] },
   { figure: '1', label: 'Ledger', detail: 'Claims mapped to sources', sourceIds: ['brief', 'kiadb'] },
@@ -80,10 +80,10 @@ export default async function Hero() {
 
             <p className="mt-6 max-w-2xl text-lg leading-8 text-[#D5E4F2] md:text-xl">
               {pickByLocale(locale, {
-                en: 'A fast, source-linked guide to the 465-acre township proposal, the regional case behind it, and the questions every serious reader should ask next.',
-                kn: '465 ಏಕರೆ ಟೌನ್‌ಶಿಪ್ ಪ್ರಸ್ತಾವನೆ, ಅದರ ಪ್ರಾದೇಶಿಕ ಆಧಾರ ಮತ್ತು ಗಂಭೀರ ಓದುಗರು ಮುಂದೆ ಕೇಳಬೇಕಾದ ಪ್ರಶ್ನೆಗಳ ವೇಗದ, ಮೂಲ-ಲಿಂಕ್ ಮಾರ್ಗದರ್ಶಿ.',
-                hi: '465 एकड़ टाउनशिप प्रस्ताव, उसके क्षेत्रीय आधार और आगे पूछे जाने वाले जरूरी सवालों की तेज, स्रोत-लिंक्ड गाइड.',
-                ta: '465 ஏக்கர் டவுன்ஷிப் முன்மொழிவு, அதன் பிராந்திய ஆதாரம், அடுத்ததாக கேட்க வேண்டிய கேள்விகள் ஆகியவற்றுக்கான விரைவு, மூல இணைப்புள்ள வழிகாட்டி.',
+                en: 'A fast, source-linked guide to the 5,800-acre township proposal, the regional case behind it, and the questions every serious reader should ask next.',
+                kn: '5,800 ಏಕರೆ (ಹಂತ 1: 2,000 ಏಕರೆ) ಟೌನ್‌ಶಿಪ್ ಪ್ರಸ್ತಾವನೆ, ಅದರ ಪ್ರಾದೇಶಿಕ ಆಧಾರ ಮತ್ತು ಗಂಭೀರ ಓದುಗರು ಮುಂದೆ ಕೇಳಬೇಕಾದ ಪ್ರಶ್ನೆಗಳ ವೇಗದ, ಮೂಲ-ಲಿಂಕ್ ಮಾರ್ಗದರ್ಶಿ.',
+                hi: '5,800 एकड़ (चरण 1: 2,000 एकड़) टाउनशिप प्रस्ताव, उसके क्षेत्रीय आधार और आगे पूछे जाने वाले जरूरी सवालों की तेज, स्रोत-लिंक्ड गाइड.',
+                ta: '5,800 ஏக்கர் (கட்டம் 1: 2,000 ஏக்கர்) டவுன்ஷிப் முன்மொழிவு, அதன் பிராந்திய ஆதாரம், அடுத்ததாக கேட்க வேண்டிய கேள்விகள் ஆகியவற்றுக்கான விரைவு, மூல இணைப்புள்ள வழிகாட்டி.',
               })}
             </p>
 
@@ -193,10 +193,10 @@ export default async function Hero() {
         <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-5 text-[11px] text-[#7890AA] md:flex-row md:items-center md:justify-between">
           <p>
             {pickByLocale(locale, {
-              en: 'Hero visual: KWIN City launch deck contextual artwork.',
-              kn: 'ಹೀರೋ ದೃಶ್ಯ: KWIN City ಲಾಂಚ್ ಡೆಕ್ ಸಾಂದರ್ಭಿಕ ಕಲಾಕೃತಿ.',
-              hi: 'हीरो विज़ुअल: KWIN City लॉन्च डेक का संदर्भित आर्टवर्क।',
-              ta: 'முதன்மை காட்சி: KWIN City தொடக்க டெக்கிலிருந்து சூழல் கலைப்படம்.',
+              en: 'Hero visual: Kempegowda International Airport context image.',
+              kn: 'ಹೀರೋ ದೃಶ್ಯ: ಕೆಂಪೇಗೌಡ ಅಂತರರಾಷ್ಟ್ರೀಯ ವಿಮಾನ ನಿಲ್ದಾಣ ಸಂದರ್ಭ ಚಿತ್ರ.',
+              hi: 'हीरो विज़ुअल: केम्पेगौड़ा अंतरराष्ट्रीय हवाईअड्डा संदर्भ छवि।',
+              ta: 'முதன்மை காட்சி: கெம்பேகௌடா பன்னாட்டு விமானநிலைய சூழல் படம்.',
             })}{' '}
             <a href={heroImage.source} target="_blank" rel="noopener noreferrer" className="text-[#BFD4EA] underline underline-offset-2 hover:text-white">
               {heroImage.credit}
