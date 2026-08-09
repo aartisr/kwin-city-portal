@@ -1,4 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
+import {
+  classifyReaderSourceTier,
+  parseReaderFeedsFromOpml,
+  type ReaderSourceFeed,
+} from '@/components/news-reader/source-registry';
 
 type FeedItem = {
   title: string;
@@ -7,7 +12,19 @@ type FeedItem = {
   fullContent: string;
   source: string;
   sourceFeedUrl: string;
+  sourceTier: 'primary' | 'official' | 'contextual';
   publishedAt: string | null;
+};
+
+type FeedEntry = ReaderSourceFeed;
+
+type TierBuckets = Record<FeedItem['sourceTier'], FeedItem[]>;
+
+const TIER_ORDER: FeedItem['sourceTier'][] = ['contextual', 'official', 'primary'];
+const TIER_TARGET_SHARES: Record<FeedItem['sourceTier'], number> = {
+  contextual: 0.5,
+  official: 0.3,
+  primary: 0.2,
 };
 
 const DEFAULT_LIMIT = 36;
@@ -98,10 +115,112 @@ function parseDateMaybe(input: string): string | null {
   return d.toISOString();
 }
 
-function parseFeedItems(feedXml: string, sourceUrl: string, perFeedLimit: number): FeedItem[] {
+function compareByPublishedAtDesc(a: FeedItem, b: FeedItem): number {
+  const aTime = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+  const bTime = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+  return bTime - aTime;
+}
+
+function buildTierTargets(limit: number): Record<FeedItem['sourceTier'], number> {
+  const rawTargets = TIER_ORDER.map((tier) => {
+    const exact = limit * TIER_TARGET_SHARES[tier];
+    return {
+      tier,
+      floor: Math.floor(exact),
+      remainder: exact - Math.floor(exact),
+    };
+  });
+
+  const targets: Record<FeedItem['sourceTier'], number> = {
+    contextual: rawTargets.find((entry) => entry.tier === 'contextual')?.floor ?? 0,
+    official: rawTargets.find((entry) => entry.tier === 'official')?.floor ?? 0,
+    primary: rawTargets.find((entry) => entry.tier === 'primary')?.floor ?? 0,
+  };
+
+  let assigned = targets.contextual + targets.official + targets.primary;
+  const orderedRemainders = [...rawTargets].sort((a, b) => b.remainder - a.remainder || TIER_ORDER.indexOf(a.tier) - TIER_ORDER.indexOf(b.tier));
+
+  for (const entry of orderedRemainders) {
+    if (assigned >= limit) {
+      break;
+    }
+    targets[entry.tier] += 1;
+    assigned += 1;
+  }
+
+  if (limit > 0 && targets.contextual === 0) {
+    targets.contextual = 1;
+    if (targets.primary > 0) {
+      targets.primary -= 1;
+    } else if (targets.official > 0) {
+      targets.official -= 1;
+    }
+  }
+
+  const total = targets.contextual + targets.official + targets.primary;
+  if (total > limit) {
+    let overflow = total - limit;
+    for (const tier of ['primary', 'official', 'contextual'] as const) {
+      while (overflow > 0 && targets[tier] > 0) {
+        targets[tier] -= 1;
+        overflow -= 1;
+      }
+    }
+  }
+
+  return targets;
+}
+
+function selectBalancedStories(items: FeedItem[], limit: number): FeedItem[] {
+  const buckets: TierBuckets = {
+    primary: [],
+    official: [],
+    contextual: [],
+  };
+
+  for (const item of items) {
+    buckets[item.sourceTier].push(item);
+  }
+
+  for (const tier of TIER_ORDER) {
+    buckets[tier].sort(compareByPublishedAtDesc);
+  }
+
+  const selected: FeedItem[] = [];
+  const targets = buildTierTargets(limit);
+
+  for (const tier of TIER_ORDER) {
+    const take = Math.min(targets[tier], buckets[tier].length);
+    selected.push(...buckets[tier].splice(0, take));
+  }
+
+  while (selected.length < limit) {
+    let added = false;
+    for (const tier of TIER_ORDER) {
+      const item = buckets[tier].shift();
+      if (item) {
+        selected.push(item);
+        added = true;
+        if (selected.length >= limit) {
+          break;
+        }
+      }
+    }
+
+    if (!added) {
+      break;
+    }
+  }
+
+  return selected.sort(compareByPublishedAtDesc);
+}
+
+function parseFeedItems(feedXml: string, feedEntry: FeedEntry, perFeedLimit: number): FeedItem[] {
   const source =
     stripHtml(getTagValue(feedXml, ['channel>title', 'title'])) ||
-    new URL(sourceUrl).hostname.replace(/^www\./, '');
+    new URL(feedEntry.xmlUrl).hostname.replace(/^www\./, '');
+
+  const sourceTier = classifyReaderSourceTier(feedEntry);
 
   const rssItems = feedXml.match(/<item\b[\s\S]*?<\/item>/gi) ?? [];
   const atomEntries = feedXml.match(/<entry\b[\s\S]*?<\/entry>/gi) ?? [];
@@ -123,7 +242,8 @@ function parseFeedItems(feedXml: string, sourceUrl: string, perFeedLimit: number
       summary: summarize(summaryText),
       fullContent: fullText.length > 5000 ? `${fullText.slice(0, 5000)}…` : fullText,
       source,
-      sourceFeedUrl: sourceUrl,
+      sourceFeedUrl: feedEntry.xmlUrl,
+      sourceTier,
       publishedAt: published,
     });
   }
@@ -143,7 +263,8 @@ function parseFeedItems(feedXml: string, sourceUrl: string, perFeedLimit: number
       summary: summarize(summaryText),
       fullContent: fullText.length > 5000 ? `${fullText.slice(0, 5000)}…` : fullText,
       source,
-      sourceFeedUrl: sourceUrl,
+      sourceFeedUrl: feedEntry.xmlUrl,
+      sourceTier,
       publishedAt: published,
     });
   }
@@ -167,12 +288,6 @@ function isLocalOrPrivateHost(hostname: string): boolean {
     }
   }
   return false;
-}
-
-function extractOpmlFeedUrls(opmlXml: string): string[] {
-  const matches = [...opmlXml.matchAll(/xmlUrl=["']([^"']+)["']/gi)];
-  const urls = matches.map((m) => decodeEntities(m[1])).filter(Boolean);
-  return [...new Set(urls)].slice(0, MAX_FEEDS);
 }
 
 async function fetchTextWithTimeout(url: string): Promise<string> {
@@ -233,7 +348,8 @@ export async function GET(request: NextRequest) {
     }
 
     const opmlXml = await fetchTextWithTimeout(opmlUrl);
-    const feedUrls = extractOpmlFeedUrls(opmlXml);
+    const feedEntries = parseReaderFeedsFromOpml(opmlXml).slice(0, MAX_FEEDS);
+    const feedUrls = feedEntries.map((entry) => entry.xmlUrl);
 
     if (feedUrls.length === 0) {
       return NextResponse.json(
@@ -244,9 +360,9 @@ export async function GET(request: NextRequest) {
 
     const perFeedLimit = Math.max(4, Math.ceil(limit / Math.min(feedUrls.length, 8)));
     const settled = await Promise.allSettled(
-      feedUrls.map(async (feedUrl) => {
-        const feedXml = await fetchTextWithTimeout(feedUrl);
-        return parseFeedItems(feedXml, feedUrl, perFeedLimit);
+      feedEntries.map(async (feedEntry) => {
+        const feedXml = await fetchTextWithTimeout(feedEntry.xmlUrl);
+        return parseFeedItems(feedXml, feedEntry, perFeedLimit);
       })
     );
 
@@ -265,13 +381,7 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    const sorted = [...dedupedMap.values()]
-      .sort((a, b) => {
-        const aTime = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
-        const bTime = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
-        return bTime - aTime;
-      })
-      .slice(0, limit);
+    const sorted = selectBalancedStories([...dedupedMap.values()], limit);
 
     const payload: ReaderPayload = {
       opmlUrl,

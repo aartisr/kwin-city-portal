@@ -259,6 +259,18 @@ a:hover { color: #1D4ED8; }
   background: linear-gradient(to right, transparent, var(--color-border), transparent);
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* === ANIMATIONS === */
 @keyframes pulse {
   0%, 100% { opacity: 1; }

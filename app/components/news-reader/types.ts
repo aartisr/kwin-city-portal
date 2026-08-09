@@ -7,8 +7,11 @@ export type ReaderItem = {
   fullContent?: string;
   source: string;
   sourceFeedUrl: string;
+  sourceTier: ReaderSourceTier;
   publishedAt: string | null;
 };
+
+export type ReaderSourceTier = 'primary' | 'official' | 'contextual';
 
 export type ReaderResponse = {
   opmlUrl: string;
