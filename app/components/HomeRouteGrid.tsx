@@ -67,7 +67,7 @@ const routes = [
     title: { en: 'Development Timeline', kn: 'ಅಭಿವೃದ್ಧಿ ಕಾಲರೇಖೆ', hi: 'डेवलपमेंट टाइमलाइन', ta: 'மேம்பாட்டு காலவரிசை' },
     href: '/timeline',
     summary: {
-      en: 'Five phases from inauguration to city-scale operations. Explore the roadmap as a working sequence open to public review.',
+      en: 'Phase 0 plus five development phases from inauguration to city-scale operations. Explore the roadmap as a working sequence open to public review.',
       kn: 'ಉದ್ಘಾಟನೆಯಿಂದ ನಗರಮಟ್ಟದ ಕಾರ್ಯಾಚರಣೆಗಳವರೆಗೆ ಐದು ಹಂತಗಳು. ಸಾರ್ವಜನಿಕ ಪರಿಶೀಲನೆಗೆ ತೆರೆದ ಕಾರ್ಯಾತ್ಮಕ ಕ್ರಮವಾಗಿ ರಸ್ತೆನಕ್ಷೆಯನ್ನು ನೋಡಿ.',
       hi: 'उद्घाटन से शहर-स्तरीय संचालन तक पांच चरण। इस रोडमैप को सार्वजनिक समीक्षा के लिए खुली कार्य-श्रृंखला के रूप में देखें।',
       ta: 'திறப்புவிழாவிலிருந்து நகர அளவிலான செயல்பாடு வரை ஐந்து கட்டங்கள். பொதுமக்கள் ஆய்வுக்கு திறந்த பணிச்சரமாய் இந்த சாலைவரைபடத்தை பாருங்கள்.',

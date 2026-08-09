@@ -42,3 +42,6 @@ jobs:
         env:
           PW_TEST_HTML_REPORT_OPEN: never
         run: npm run quality:verify-doc
+
+      - name: Verify factual integrity guardrails
+        run: npm run quality:verify-facts

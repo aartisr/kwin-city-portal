@@ -44,17 +44,17 @@ export const KWIN_FACTS = {
   verified: [
     'Location: Doddaballapura, North Bengaluru, Karnataka',
     'Operator: Karnataka Industrial Areas Development Board (KIADB)',
-    'Project Phases: Multi-phase development (Phase 1-5)',
+    'Project Phases: Phase 0 plus development phases 1-5',
     'Scope: Multi-sector township with Knowledge, Wellbeing, and Innovation domains',
   ],
   pendingVerification: [
-    'Total Area: ~465+ acres',
+    'Total Area: ~5,800 acres (Phase 1: 2,000 acres)',
     'Total Investment Target: ₹40,000 Crore',
     'Expected Employment: 100,000+ direct jobs',
     'University Partnerships: Liverpool, St. Johns [sources not yet verified]',
     'Satellite Town Ring Road (STRR) Connectivity: Details pending confirmation',
     '10 Interconnected Lakes: Specifications pending verification',
-    '465-acre Solar Park: Technical specifications pending',
+    'Solar Park: Capacity and footprint technical specifications pending',
     'Completion Timeline: 2030 (subject to regulatory approvals)',
   ],
   unconfirmed: [

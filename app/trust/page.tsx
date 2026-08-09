@@ -139,6 +139,52 @@ export default async function TrustPage() {
           </div>
         </section>
 
+        <section className="py-10 border-b border-slate-200 bg-white">
+          <div className="container">
+            <article className="rounded-2xl border border-slate-200 bg-slate-50 p-6 md:p-8">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-600 mb-3">
+                {l({ en: 'Public Honesty Statement', kn: 'ಸಾರ್ವಜನಿಕ ಪ್ರಾಮಾಣಿಕತೆ ಹೇಳಿಕೆ', hi: 'सार्वजनिक ईमानदारी वक्तव्य', ta: 'பொது நேர்மை அறிக்கை' })}
+              </p>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">
+                {l({ en: 'What this portal knows, what it does not know, and how we label the difference.', kn: 'ಈ ಪೋರ್ಟಲ್‌ಗೆ ಏನು ಗೊತ್ತು, ಏನು ಗೊತ್ತಿಲ್ಲ, ಮತ್ತು ಆ ವ್ಯತ್ಯಾಸವನ್ನು ನಾವು ಹೇಗೆ ಗುರುತಿಸುತ್ತೇವೆ.', hi: 'यह पोर्टल क्या जानता है, क्या नहीं जानता, और हम इस अंतर को कैसे लेबल करते हैं।', ta: 'இந்த தளம் என்ன தெரியும், என்ன தெரியாது, அந்த வித்தியாசத்தை எப்படிக் குறிக்கிறது.' })}
+              </h2>
+
+              <div className="mt-6 grid gap-6 md:grid-cols-2">
+                <div>
+                  <h3 className="text-sm font-black uppercase tracking-[0.14em] text-emerald-700 mb-2">
+                    {l({ en: 'What We Can Defend', kn: 'ನಾವು ಸಮರ್ಥಿಸಬಹುದಾದವು', hi: 'हम क्या प्रमाणित कर सकते हैं', ta: 'நாங்கள் உறுதியாகச் சொல்லக்கூடியவை' })}
+                  </h3>
+                  <ul className="space-y-2 text-sm leading-7 text-slate-800">
+                    <li>{l({ en: 'KWIN is presented as a proposed township in North Bengaluru with KIADB as the key institutional anchor.', kn: 'KWIN ಅನ್ನು ಉತ್ತರ ಬೆಂಗಳೂರಿನ ಪ್ರಸ್ತಾಪಿತ ಟೌನ್‌ಶಿಪ್ ಎಂದು, KIADB ಪ್ರಮುಖ ಸಂಸ್ಥಾತ್ಮಕ ಆಧಾರವಾಗಿರುವುದಾಗಿ ಇಲ್ಲಿ ಪ್ರದರ್ಶಿಸಲಾಗಿದೆ.', hi: 'KWIN को नॉर्थ बेंगलुरु में प्रस्तावित टाउनशिप के रूप में प्रस्तुत किया गया है, जहां KIADB मुख्य संस्थागत आधार है।', ta: 'KWIN வட பெங்களூருவில் முன்மொழியப்பட்ட நகரத் திட்டமாக, KIADB முக்கிய நிறுவல் ஆதாரமாக இங்கு காட்டப்படுகிறது.' })}</li>
+                    <li>{l({ en: 'Regional context (aviation, corridor planning, economic depth, hydrology) is source-linked and clearly marked as contextual evidence.', kn: 'ಪ್ರಾದೇಶಿಕ ಸಂದರ್ಭ (ವಿಮಾನಯಾನ, ಕಾರಿಡಾರ್ ಯೋಜನೆ, ಆರ್ಥಿಕ ಸಾಮರ್ಥ್ಯ, ಜಲಶಾಸ್ತ್ರ) ಮೂಲ-ಲಿಂಕ್ ಆಗಿದ್ದು ಸಂದರ್ಭಾತ್ಮಕ ಸಾಕ್ಷ್ಯ ಎಂದು ಸ್ಪಷ್ಟವಾಗಿ ಗುರುತಿಸಲಾಗಿದೆ.', hi: 'क्षेत्रीय संदर्भ (एविएशन, कॉरिडोर प्लानिंग, आर्थिक क्षमता, जल-विज्ञान) स्रोत-लिंक्ड है और संदर्भात्मक साक्ष्य के रूप में स्पष्ट लेबल किया गया है।', ta: 'பிராந்திய சூழல் (விமானம், வழித்தட திட்டம், பொருளாதார ஆழம், நீரியல்) மூல இணைப்புடன் வழங்கப்பட்டு சூழல் ஆதாரமாகத் தெளிவாக குறிக்கப்படுகிறது.' })}</li>
+                    <li>{l({ en: 'Every major claim path is expected to be traceable through the Sources page and Evidence Vault.', kn: 'ಪ್ರತಿ ಪ್ರಮುಖ ಹೇಳಿಕೆಯೂ Sources ಪುಟ ಮತ್ತು Evidence Vault ಮೂಲಕ ಹಾದಿ ಪತ್ತೆಮಾಡಬಹುದಾಗಿರಬೇಕು.', hi: 'हर प्रमुख दावे का रास्ता Sources पेज और Evidence Vault के माध्यम से ट्रेस किया जा सकता है।', ta: 'ஒவ்வொரு முக்கிய கூற்றும் Sources பக்கம் மற்றும் Evidence Vault வழியாகத் தேடிப் பின்தொடரக்கூடியதாக இருக்க வேண்டும்.' })}</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h3 className="text-sm font-black uppercase tracking-[0.14em] text-amber-700 mb-2">
+                    {l({ en: 'What Remains Proposal-Level', kn: 'ಇನ್ನೂ ಪ್ರಸ್ತಾಪ ಹಂತದಲ್ಲಿರುವುದು', hi: 'जो अभी प्रस्ताव-स्तर पर है', ta: 'இன்னும் முன்மொழிவு நிலைதான்' })}
+                  </h3>
+                  <ul className="space-y-2 text-sm leading-7 text-slate-800">
+                    <li>{l({ en: 'Acreage, investment, jobs, partnerships, and delivery timelines remain pending primary public confirmation unless explicitly marked otherwise.', kn: 'ವಿಸ್ತೀರ್ಣ, ಹೂಡಿಕೆ, ಉದ್ಯೋಗ, ಭಾಗীদಾರಿಕೆ ಮತ್ತು ವಿತರಣಾ ಕಾಲರೇಖೆಗಳು ಸ್ಪಷ್ಟವಾಗಿ ಬೇರೆ ರೀತಿ ಗುರುತಿಸಲ್ಪಟ್ಟಿಲ್ಲದ ಹೊರತು ಪ್ರಾಥಮಿಕ ಸಾರ್ವಜನಿಕ ದೃಢೀಕರಣ ಬಾಕಿಯಲ್ಲಿವೆ.', hi: 'क्षेत्रफल, निवेश, नौकरियां, साझेदारियां और डिलीवरी टाइमलाइनें, जब तक स्पष्ट रूप से अन्यथा चिह्नित न हों, प्राथमिक सार्वजनिक पुष्टि लंबित हैं।', ta: 'பரப்பளவு, முதலீடு, வேலைவாய்ப்பு, கூட்டாண்மை, நிறைவேற்ற காலவரிசை ஆகியவை தெளிவாக வேறு விதமாக குறிக்கப்படாவிட்டால் முதன்மை பொது உறுதிப்பாடு நிலுவையில் உள்ளவை.' })}</li>
+                    <li>{l({ en: 'Context datasets are not treated as proof of project execution outcomes.', kn: 'ಸಂದರ್ಭ ಡೇಟಾಸೆಟ್‌ಗಳನ್ನು ಯೋಜನೆ ಜಾರಿಗೆ ಬಂದ ಫಲಿತಾಂಶದ ಸಾಕ್ಷ್ಯವೆಂದು ಪರಿಗಣಿಸಲಾಗುವುದಿಲ್ಲ.', hi: 'संदर्भ डेटासेट्स को परियोजना-कार्यान्वयन परिणामों का प्रमाण नहीं माना जाता।', ta: 'சூழல் தரவுத்தொகுப்புகள் திட்ட நிறைவேற்றத்தின் நேரடி சான்றாக கருதப்படுவதில்லை.' })}</li>
+                    <li>{l({ en: 'No page should imply institutional guarantee where the source status is pending-verification.', kn: 'ಮೂಲ ಸ್ಥಿತಿ pending-verification ಆಗಿದ್ದರೆ ಯಾವುದೇ ಪುಟವು ಸಂಸ್ಥಾತ್ಮಕ ಭರವಸೆಯನ್ನು ಸೂಚಿಸಬಾರದು.', hi: 'जहां स्रोत स्थिति pending-verification है, वहां कोई भी पेज संस्थागत गारंटी का संकेत नहीं देना चाहिए।', ta: 'மூல நிலை pending-verification ஆக இருக்கும் இடங்களில் எந்தப் பக்கமும் நிறுவல் உத்தரவாதத்தை உணர்த்தக் கூடாது.' })}</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link href="/sources" className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+                  {l({ en: 'Review Claim Ledger', kn: 'ಹೇಳಿಕೆ ಲೆಡ್ಜರ್ ನೋಡಿ', hi: 'क्लेम लेजर देखें', ta: 'கூற்று பதிவேட்டை பாருங்கள்' })}
+                </Link>
+                <Link href="/evidence" className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100">
+                  {l({ en: 'Inspect Evidence Vault', kn: 'ಸಾಕ್ಷ್ಯ ಭಂಡಾರ ಪರಿಶೀಲಿಸಿ', hi: 'एविडेंस वॉल्ट देखें', ta: 'ஆதார களஞ்சியத்தை பாருங்கள்' })}
+                </Link>
+              </div>
+            </article>
+          </div>
+        </section>
+
         <section className="py-14">
           <div className="container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5">
             {principles.map((item) => (

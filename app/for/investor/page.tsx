@@ -71,10 +71,10 @@ export default async function InvestorPage() {
         { label: pickByLocale(locale, { en: 'Read Source Ledger', kn: 'ಮೂಲ ಲೆಡ್ಜರ್ ಓದಿ', hi: 'स्रोत लेजर पढ़ें' }), href: '/sources' },
       ]}
       stats={[
-        { value: '~4,500', label: 'Proposed Acres', note: 'Project brief figure — unverified' },
+        { value: '5,800', label: 'Program Acres', note: 'Program footprint; Phase 1: 2,000 acres (pending primary confirmation)' },
         { value: '₹40,000 Cr', label: 'Stated Investment Target', note: 'Proposal-level; cross-check required', accent: 'text-emerald-400' },
         { value: '5 Clusters', label: 'Knowledge Sectors', note: 'Semiconductor, Aerospace, Health-tech, ICT, Renewables', accent: 'text-cyan-400' },
-        { value: '~33 km', label: 'Airport Distance', note: 'KIAL adjacency advantage', accent: 'text-violet-400' },
+        { value: '~12 km', label: 'Airport Distance', note: 'KIAL regional proximity context', accent: 'text-violet-400' },
       ]}
       evidenceCta={{
         heading: 'Ready to pressure-test the thesis?',

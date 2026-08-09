@@ -21,7 +21,7 @@ export default function Timeline() {
         >
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">The KWIN City Roadmap</h2>
           <p className="text-lg text-gray-600">
-            Five phases from inauguration to city-scale operations. The sequence below comes from the project
+            Phase 0 plus five development phases from inauguration to city-scale operations. The sequence below comes from the project
             brief and represents a working roadmap — the kind of ambitious, phased plan that serious urban
             developments publish early and refine as they progress.{' '}
             <InlineSourceBadges sourceIds={TIMELINE_SOURCE_IDS} />
