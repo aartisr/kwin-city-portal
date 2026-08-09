@@ -84,6 +84,10 @@ export function addLocationMarkers(map: mapboxgl.Map, locations: GeographicLocat
 }
 
 export function addKwinBoundary(map: mapboxgl.Map) {
+  if (map.getSource('kwin-boundary')) {
+    return;
+  }
+
   map.addSource('kwin-boundary', {
     type: 'geojson',
     data: {

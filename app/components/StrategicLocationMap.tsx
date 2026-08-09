@@ -36,7 +36,28 @@ export default function StrategicLocationMap() {
 
     const mapInstance = map.current;
     addLocationMarkers(mapInstance, MAP_LOCATIONS);
-    mapInstance.on('load', () => addKwinBoundary(mapInstance));
+
+    const attachBoundary = () => addKwinBoundary(mapInstance);
+
+    if (mapInstance.isStyleLoaded()) {
+      attachBoundary();
+    } else {
+      mapInstance.once('load', attachBoundary);
+    }
+
+    // Ensure correct rendering if the map container layout settles after mount.
+    requestAnimationFrame(() => mapInstance.resize());
+
+    mapInstance.on('error', () => {
+      if (mapContainer.current) {
+        mapContainer.current.innerHTML = createFallbackMarkup();
+      }
+    });
+
+    return () => {
+      mapInstance.remove();
+      map.current = null;
+    };
   }, []);
 
   return (
