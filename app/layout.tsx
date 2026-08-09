@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
-import { Inter } from 'next/font/google';
 import './globals.css';
 import { SkipLink } from '@/components/SkipLink';
 import ClientEnhancements from '@/components/ClientEnhancements';
@@ -8,12 +7,6 @@ import I18nProvider from '@/lib/i18n/I18nProvider';
 import { SITE_CONFIG } from '@/config/site.config';
 import { getLocaleDefinition, normalizeLocale } from '@/lib/i18n/messages';
 import { Analytics } from '@vercel/analytics/next';
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-});
 
 const SITE_URL = 'https://kwin-city.com';
 const OG_IMAGE = `${SITE_URL}/opengraph-image`;
@@ -221,11 +214,8 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(GLOBAL_DISCOVERY_SCHEMA) }}
         />
-        {/* Preconnect to external origins for performance */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className={`${inter.variable} bg-white text-gray-900 overflow-x-hidden`}>
+      <body className="bg-white text-gray-900 overflow-x-hidden">
         <I18nProvider initialLocale={locale}>
           <SkipLink />
           <ClientEnhancements />

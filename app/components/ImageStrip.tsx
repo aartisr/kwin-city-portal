@@ -5,7 +5,7 @@ import { pickLocalizedValue, type LocalizedValue } from '@/lib/i18n/messages';
 const images = [
   {
     id: 'vidhana-soudha',
-    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Vidhana_Soudha%2C_front_%2801%29.jpg/1920px-Vidhana_Soudha%2C_front_%2801%29.jpg',
+    src: '/social/kwin-launch/kwin-launch-slide-03.png',
     alt: {
       en: 'Vidhana Soudha in Bengaluru, Karnataka',
       kn: 'ಕರ್ನಾಟಕ, ಬೆಂಗಳೂರಿನ ವಿಧಾನಸೌಧ',
@@ -13,13 +13,13 @@ const images = [
       ta: 'கர்நாடகா, பெங்களூருவில் விதான சௌதா',
     },
     label: { en: 'Vidhana Soudha', kn: 'ವಿಧಾನಸೌಧ', hi: 'विधान सौधा', ta: 'விதான சௌதா' },
-    credit: 'Moheen Reeyad',
-    license: 'CC BY-SA 4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Vidhana_Soudha,_front_(01).jpg',
+    credit: 'KWIN City launch deck',
+    license: 'Internal portal artifact',
+    source: '/instagram',
   },
   {
     id: 'airport-corridor',
-    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Kempegowda_International_Airport%2C_Bengaluru_%28Ank_Kumar%2C_Infosys%29_01.jpg/1920px-Kempegowda_International_Airport%2C_Bengaluru_%28Ank_Kumar%2C_Infosys%29_01.jpg',
+    src: '/social/kwin-launch/kwin-launch-slide-04.png',
     alt: {
       en: 'Kempegowda International Airport in Bengaluru',
       kn: 'ಬೆಂಗಳೂರು ಕೆಂಪೇಗೌಡ ಅಂತರರಾಷ್ಟ್ರೀಯ ವಿಮಾನ ನಿಲ್ದಾಣ',
@@ -27,14 +27,13 @@ const images = [
       ta: 'பெங்களூருவில் கெம்பேகவுடா சர்வதேச விமானநிலையம்',
     },
     label: { en: 'Airport Corridor', kn: 'ವಿಮಾನ ನಿಲ್ದಾಣ ಕಾರಿಡಾರ್', hi: 'एयरपोर्ट कॉरिडोर', ta: 'விமானநிலைய வழித்தடம்' },
-    credit: 'Ank Kumar',
-    license: 'CC BY-SA 4.0',
-    source:
-      'https://commons.wikimedia.org/wiki/File:Kempegowda_International_Airport,_Bengaluru_(Ank_Kumar,_Infosys)_01.jpg',
+    credit: 'KWIN City launch deck',
+    license: 'Internal portal artifact',
+    source: '/instagram',
   },
   {
     id: 'electronic-city',
-    src: 'https://upload.wikimedia.org/wikipedia/commons/4/41/InfosysHQFrontView.jpg',
+    src: '/social/kwin-launch/kwin-launch-slide-05.png',
     alt: {
       en: 'Infosys headquarters front view in Electronic City, Bengaluru',
       kn: 'ಬೆಂಗಳೂರು ಎಲೆಕ್ಟ್ರಾನಿಕ್ ಸಿಟಿಯ ಇನ್ಫೋಸಿಸ್ ಮುಖ್ಯ ಕಚೇರಿ ಮುಂಭಾಗ',
@@ -42,13 +41,13 @@ const images = [
       ta: 'பெங்களூரு எலக்ட்ரானிக் சிட்டியில் உள்ள இன்போசிஸ் தலைமையக முன்புறம்',
     },
     label: { en: 'Electronic City', kn: 'ಎಲೆಕ್ಟ್ರಾನಿಕ್ ಸಿಟಿ', hi: 'इलेक्ट्रॉनिक सिटी', ta: 'எலக்ட்ரானிக் சிட்டி' },
-    credit: 'Sundar',
-    license: 'CC BY-SA 3.0',
-    source: 'https://commons.wikimedia.org/wiki/File:InfosysHQFrontView.jpg',
+    credit: 'KWIN City launch deck',
+    license: 'Internal portal artifact',
+    source: '/instagram',
   },
   {
     id: 'knowledge-infra',
-    src: 'https://upload.wikimedia.org/wikipedia/commons/b/b8/Main_Building%2C_Indian_Institute_of_Science%2C_Bangalore%2C_Karnataka%2C_India_%282017%29.jpg',
+    src: '/social/kwin-launch/kwin-launch-slide-06.png',
     alt: {
       en: 'Main Building of the Indian Institute of Science in Bengaluru',
       kn: 'ಬೆಂಗಳೂರು ಭಾರತೀಯ ವಿಜ್ಞಾನ ಸಂಸ್ಥೆಯ ಮುಖ್ಯ ಕಟ್ಟಡ',
@@ -56,16 +55,16 @@ const images = [
       ta: 'பெங்களூருவில் உள்ள இந்திய அறிவியல் நிறுவனத்தின் முதன்மை கட்டிடம்',
     },
     label: { en: 'Knowledge Infrastructure', kn: 'ಜ್ಞಾನ ಮೂಲಸೌಕರ್ಯ', hi: 'ज्ञान अवसंरचना', ta: 'அறிவு அடிக்கட்டு' },
-    credit: 'Sayantan Mondal',
-    license: 'CC BY-SA 4.0',
-    source:
-      'https://commons.wikimedia.org/wiki/File:Main_Building,_Indian_Institute_of_Science,_Bangalore,_Karnataka,_India_(2017).jpg',
+    credit: 'KWIN City launch deck',
+    license: 'Internal portal artifact',
+    source: '/instagram',
   },
 ];
 
 const LICENSE_LINKS: Record<string, string> = {
   'CC BY-SA 4.0': 'https://creativecommons.org/licenses/by-sa/4.0/',
   'CC BY-SA 3.0': 'https://creativecommons.org/licenses/by-sa/3.0/',
+  'Internal portal artifact': '/instagram',
 };
 
 export default async function ImageStrip() {

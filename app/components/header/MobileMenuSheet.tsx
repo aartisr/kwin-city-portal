@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { GROUP_STORIES, type HeaderLabels } from '@/components/header/config';
+import { getToolIntentSections } from '@/components/header/tools-intents';
 import type { AuthUser, NavGroup } from '@/components/header/types';
 import type { Locale } from '@/lib/i18n/locales';
 
@@ -32,7 +33,7 @@ export default function MobileMenuSheet({
   onOpenSearch,
 }: MobileMenuSheetProps) {
   return (
-    <div className="px-1 pt-3 min-[1200px]:hidden md:flex md:justify-end">
+    <div className="px-1 pt-3 min-[1536px]:hidden md:flex md:justify-end">
       <div className="max-h-[calc(100vh_-_var(--kwin-header-height)_-_1rem)] overflow-y-auto rounded-[30px] border border-slate-200/80 bg-white/96 p-4 shadow-[0_28px_80px_rgba(2,6,23,0.18)] backdrop-blur-2xl md:w-[min(620px,100%)]">
         <div className="rounded-[24px] border border-slate-200 bg-[linear-gradient(135deg,rgba(245,166,35,0.10),rgba(6,182,212,0.08))] p-4">
           <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#A96A00]">Navigation</p>
@@ -84,6 +85,7 @@ export default function MobileMenuSheet({
           {menuGroups.map((group) => {
             const isOpen = mobileOpenGroup === group.key;
             const groupStory = GROUP_STORIES[group.key] ?? GROUP_STORIES.discover;
+            const toolIntentSections = group.key === 'tools' ? getToolIntentSections(group.items) : [];
 
             return (
               <section
@@ -109,30 +111,65 @@ export default function MobileMenuSheet({
 
                 {isOpen ? (
                   <div className="border-t border-slate-200 px-3 pb-3 pt-2">
-                    <div className="space-y-1">
-                      {group.items.map((item) => (
-                        <Link
-                          key={item.href}
-                          href={item.href}
-                          className={`flex items-start gap-3 rounded-2xl px-3 py-3 transition-colors ${
-                            isActive(item.href) ? 'bg-amber-50 text-[#A96A00]' : 'hover:bg-white'
-                          }`}
-                          onClick={onCloseMenu}
-                        >
-                          {item.icon ? (
-                            <span className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white text-lg shadow-[0_10px_24px_rgba(15,23,42,0.06)]">
-                              {item.icon}
+                    {group.key === 'tools' ? (
+                      <div className="space-y-2.5">
+                        {toolIntentSections.map((section) => (
+                          <section key={section.key} className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+                            <h4 className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#8A5400]">{section.title}</h4>
+                            <p className="mt-1 text-xs leading-5 text-slate-600">{section.summary}</p>
+                            <div className="mt-2 space-y-1">
+                              {section.items.map((item) => (
+                                <Link
+                                  key={item.href}
+                                  href={item.href}
+                                  className={`flex items-start gap-3 rounded-2xl px-3 py-3 transition-colors ${
+                                    isActive(item.href) ? 'bg-amber-50 text-[#A96A00]' : 'bg-white hover:bg-slate-100'
+                                  }`}
+                                  onClick={onCloseMenu}
+                                >
+                                  {item.icon ? (
+                                    <span className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white text-lg shadow-[0_10px_24px_rgba(15,23,42,0.06)]">
+                                      {item.icon}
+                                    </span>
+                                  ) : (
+                                    <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-gradient-to-r from-[#E8A020] to-cyan-400" />
+                                  )}
+                                  <span className="min-w-0">
+                                    <span className="block text-sm font-semibold">{item.label}</span>
+                                    {item.desc ? <span className="mt-1 block text-xs leading-5 text-slate-500">{item.desc}</span> : null}
+                                  </span>
+                                </Link>
+                              ))}
+                            </div>
+                          </section>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="space-y-1">
+                        {group.items.map((item) => (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className={`flex items-start gap-3 rounded-2xl px-3 py-3 transition-colors ${
+                              isActive(item.href) ? 'bg-amber-50 text-[#A96A00]' : 'hover:bg-white'
+                            }`}
+                            onClick={onCloseMenu}
+                          >
+                            {item.icon ? (
+                              <span className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white text-lg shadow-[0_10px_24px_rgba(15,23,42,0.06)]">
+                                {item.icon}
+                              </span>
+                            ) : (
+                              <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-gradient-to-r from-[#E8A020] to-cyan-400" />
+                            )}
+                            <span className="min-w-0">
+                              <span className="block text-sm font-semibold">{item.label}</span>
+                              {item.desc ? <span className="mt-1 block text-xs leading-5 text-slate-500">{item.desc}</span> : null}
                             </span>
-                          ) : (
-                            <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-gradient-to-r from-[#E8A020] to-cyan-400" />
-                          )}
-                          <span className="min-w-0">
-                            <span className="block text-sm font-semibold">{item.label}</span>
-                            {item.desc ? <span className="mt-1 block text-xs leading-5 text-slate-500">{item.desc}</span> : null}
-                          </span>
-                        </Link>
-                      ))}
-                    </div>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 ) : null}
               </section>

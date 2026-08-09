@@ -9,10 +9,16 @@
 export function SkipLink() {
   const handleSkip = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    const mainContent = document.querySelector('main');
+    const mainContent = document.querySelector<HTMLElement>('#main-content, main, [role="main"]');
     if (mainContent) {
+      if (!mainContent.id) {
+        mainContent.id = 'main-content';
+      }
+      if (!mainContent.hasAttribute('tabindex')) {
+        mainContent.setAttribute('tabindex', '-1');
+      }
       mainContent.focus();
-      mainContent.scrollIntoView();
+      mainContent.scrollIntoView({ block: 'start' });
     }
   };
 

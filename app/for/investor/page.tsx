@@ -66,6 +66,7 @@ export default async function InvestorPage() {
       })}
       quickActions={[
         { label: pickByLocale(locale, { en: 'View Industry Sectors', kn: 'ಕೈಗಾರಿಕಾ ಕ್ಷೇತ್ರಗಳನ್ನು ನೋಡಿ', hi: 'उद्योग सेक्टर देखें' }), href: '/sectors' },
+        { label: pickByLocale(locale, { en: 'Run Risk Check', kn: 'ಅಪಾಯ ಪರಿಶೀಲನೆ ನಡೆಸಿ', hi: 'रिस्क चेक चलाएं' }), href: '/tools/risk-check' },
         { label: pickByLocale(locale, { en: 'See Full Evidence', kn: 'ಪೂರ್ಣ ಸಾಕ್ಷ್ಯ ನೋಡಿ', hi: 'पूरा प्रमाण देखें' }), href: '/evidence' },
         { label: pickByLocale(locale, { en: 'Read Source Ledger', kn: 'ಮೂಲ ಲೆಡ್ಜರ್ ಓದಿ', hi: 'स्रोत लेजर पढ़ें' }), href: '/sources' },
       ]}

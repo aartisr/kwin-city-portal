@@ -129,7 +129,8 @@ export default function Header({
     return () => document.removeEventListener('keydown', handler);
   }, []);
 
-  const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
+  const currentPath = pathname ?? '/';
+  const isActive = (href: string) => (href === '/' ? currentPath === '/' : currentPath.startsWith(href));
 
   const isGroupActive = (group: NavGroup) => group.items.some((item) => isActive(item.href));
 
@@ -151,7 +152,7 @@ export default function Header({
         data-testid="site-header"
         className="fixed inset-x-0 top-0 z-[300] pt-[var(--kwin-safe-area-top)]"
       >
-        <div ref={headerFrameRef} className="container py-2.5">
+        <div ref={headerFrameRef} className="mx-auto w-full max-w-[1560px] px-3 py-2.5 sm:px-6 lg:px-8">
           <div
             ref={headerBarRef}
             className={`relative isolate overflow-visible rounded-[28px] border transition-all duration-500 ${
@@ -175,7 +176,7 @@ export default function Header({
               }`}
             />
 
-            <nav className="grid h-[72px] grid-cols-[minmax(11rem,auto)_auto] items-center gap-3 px-3 md:px-4 min-[1200px]:grid-cols-[minmax(11rem,auto)_minmax(0,1fr)_auto]">
+              <nav className="grid h-[72px] grid-cols-[minmax(11rem,auto)_auto] items-center gap-3 px-3 md:px-4 min-[1536px]:grid-cols-[minmax(11rem,auto)_minmax(0,1fr)_auto]">
               <BrandLockup />
               <DesktopNav
                 menuGroups={menuGroups}

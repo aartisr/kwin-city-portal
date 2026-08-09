@@ -70,6 +70,51 @@ CREATE TABLE IF NOT EXISTS seo_agency_runs (
 
 CREATE INDEX IF NOT EXISTS idx_seo_agency_runs_generated_at ON seo_agency_runs(generated_at DESC);
 
+-- Value-add alert subscriptions
+CREATE TABLE IF NOT EXISTS value_add_alert_subscriptions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  email TEXT NOT NULL,
+  persona TEXT NOT NULL,
+  topics TEXT[] NOT NULL DEFAULT '{}',
+  geofilters TEXT[] NOT NULL DEFAULT '{}',
+  cadence TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'active',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_value_add_alerts_email ON value_add_alert_subscriptions(email);
+CREATE INDEX IF NOT EXISTS idx_value_add_alerts_status ON value_add_alert_subscriptions(status);
+
+-- Value-add export jobs
+CREATE TABLE IF NOT EXISTS value_add_export_jobs (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  export_type TEXT NOT NULL,
+  filters JSONB NOT NULL DEFAULT '{}'::jsonb,
+  status TEXT NOT NULL DEFAULT 'queued',
+  file_url TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  expires_at TIMESTAMP WITH TIME ZONE
+);
+
+CREATE INDEX IF NOT EXISTS idx_value_add_exports_created_at ON value_add_export_jobs(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_value_add_exports_status ON value_add_export_jobs(status);
+
+-- Value-add opportunity exchange leads
+CREATE TABLE IF NOT EXISTS value_add_opportunity_leads (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  role TEXT NOT NULL,
+  requirement TEXT NOT NULL,
+  budget_band TEXT,
+  status TEXT NOT NULL DEFAULT 'new',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_value_add_leads_created_at ON value_add_opportunity_leads(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_value_add_leads_role ON value_add_opportunity_leads(role);
+
 -- Function to increment post likes (called by increment_post_likes RPC)
 CREATE OR REPLACE FUNCTION increment_post_likes(post_id TEXT)
 RETURNS INTEGER AS $$
@@ -97,6 +142,9 @@ ALTER TABLE user_preferences ENABLE ROW LEVEL SECURITY;
 ALTER TABLE discussion_posts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE discussion_replies ENABLE ROW LEVEL SECURITY;
 ALTER TABLE seo_agency_runs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE value_add_alert_subscriptions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE value_add_export_jobs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE value_add_opportunity_leads ENABLE ROW LEVEL SECURITY;
 
 -- Keep policy setup re-runnable in Supabase SQL editor.
 DROP POLICY IF EXISTS "Enable read access for all users" ON discussion_posts;
@@ -111,6 +159,15 @@ DROP POLICY IF EXISTS "Enable read access for preferences" ON user_preferences;
 DROP POLICY IF EXISTS "Enable insert access for preferences" ON user_preferences;
 DROP POLICY IF EXISTS "Enable update access for preferences" ON user_preferences;
 DROP POLICY IF EXISTS "Enable read access for SEO agency runs" ON seo_agency_runs;
+DROP POLICY IF EXISTS "Enable read access for value add alerts" ON value_add_alert_subscriptions;
+DROP POLICY IF EXISTS "Enable insert access for value add alerts" ON value_add_alert_subscriptions;
+DROP POLICY IF EXISTS "Enable update access for value add alerts" ON value_add_alert_subscriptions;
+DROP POLICY IF EXISTS "Enable read access for value add exports" ON value_add_export_jobs;
+DROP POLICY IF EXISTS "Enable insert access for value add exports" ON value_add_export_jobs;
+DROP POLICY IF EXISTS "Enable update access for value add exports" ON value_add_export_jobs;
+DROP POLICY IF EXISTS "Enable read access for value add leads" ON value_add_opportunity_leads;
+DROP POLICY IF EXISTS "Enable insert access for value add leads" ON value_add_opportunity_leads;
+DROP POLICY IF EXISTS "Enable update access for value add leads" ON value_add_opportunity_leads;
 
 -- Public read access for posts and replies
 CREATE POLICY "Enable read access for all users" ON discussion_posts
@@ -155,6 +212,34 @@ CREATE POLICY "Enable update access for preferences" ON user_preferences
 -- Public read access for the generated SEO agency dashboard.
 CREATE POLICY "Enable read access for SEO agency runs" ON seo_agency_runs
   FOR SELECT USING (true);
+
+-- Value-add service policies (API-layer validation controls writes)
+CREATE POLICY "Enable read access for value add alerts" ON value_add_alert_subscriptions
+  FOR SELECT USING (true);
+
+CREATE POLICY "Enable insert access for value add alerts" ON value_add_alert_subscriptions
+  FOR INSERT WITH CHECK (true);
+
+CREATE POLICY "Enable update access for value add alerts" ON value_add_alert_subscriptions
+  FOR UPDATE USING (true) WITH CHECK (true);
+
+CREATE POLICY "Enable read access for value add exports" ON value_add_export_jobs
+  FOR SELECT USING (true);
+
+CREATE POLICY "Enable insert access for value add exports" ON value_add_export_jobs
+  FOR INSERT WITH CHECK (true);
+
+CREATE POLICY "Enable update access for value add exports" ON value_add_export_jobs
+  FOR UPDATE USING (true) WITH CHECK (true);
+
+CREATE POLICY "Enable read access for value add leads" ON value_add_opportunity_leads
+  FOR SELECT USING (true);
+
+CREATE POLICY "Enable insert access for value add leads" ON value_add_opportunity_leads
+  FOR INSERT WITH CHECK (true);
+
+CREATE POLICY "Enable update access for value add leads" ON value_add_opportunity_leads
+  FOR UPDATE USING (true) WITH CHECK (true);
 
 -- Seed data (optional - you can comment this out if you prefer to keep it empty)
 INSERT INTO discussion_posts (id, author, title, text, likes, created_at)

@@ -1,6 +1,7 @@
 import type { RefObject } from 'react';
 import Link from 'next/link';
 import { NAV_TONES } from '@/components/header/navigation';
+import { getToolIntentSections } from '@/components/header/tools-intents';
 import type { HeaderStory } from '@/components/header/config';
 import type { NavGroup } from '@/components/header/types';
 
@@ -31,9 +32,12 @@ export default function DesktopNav({
   onToggleGroup,
   onCloseMenu,
 }: DesktopNavProps) {
+  const toolIntentSections =
+    activeDesktopMenu?.key === 'tools' ? getToolIntentSections(activeDesktopMenu.items) : [];
+
   return (
-    <div className="hidden min-w-0 items-center justify-center min-[1200px]:flex">
-      <div ref={desktopNavRef as RefObject<HTMLDivElement>} className="relative z-[320] flex min-w-0 max-w-[648px] flex-1 justify-center">
+    <div className="hidden min-w-0 items-center justify-center min-[1536px]:flex">
+      <div ref={desktopNavRef as RefObject<HTMLDivElement>} className="relative z-[320] flex min-w-0 max-w-[min(56vw,860px)] flex-1 justify-center">
         <div className="flex items-center gap-1 rounded-full border border-slate-300/90 bg-white/95 px-1 py-1 shadow-[0_12px_28px_rgba(15,23,42,0.06)] backdrop-blur-xl">
           {menuGroups.map((group) => {
             const isOpen = activeDesktopMenu?.key === group.key;
@@ -49,7 +53,7 @@ export default function DesktopNav({
                 aria-expanded={isOpen}
                 aria-haspopup="true"
                 aria-controls={menuId}
-                className={`group inline-flex h-9 items-center gap-1.5 rounded-full px-3 py-2 text-[0.92rem] whitespace-nowrap transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 ${activeGroupLabel(group)} ${
+                className={`group inline-flex h-9 items-center gap-1.5 rounded-full px-2.5 py-2 text-[0.84rem] whitespace-nowrap transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 min-[1536px]:px-3 min-[1536px]:text-[0.92rem] ${activeGroupLabel(group)} ${
                   isOpen ? 'bg-slate-950 text-white shadow-[0_10px_22px_rgba(15,23,42,0.14)] ring-0 hover:text-white' : ''
                 }`}
               >
@@ -115,38 +119,77 @@ export default function DesktopNav({
                 </div>
 
                 <div className="p-4 lg:p-5">
-                  <div className="grid gap-2.5 sm:grid-cols-2">
-                    {desktopColumns.map((column, columnIndex) => (
-                      <div key={`${activeDesktopMenu.key}-col-${columnIndex}`} className="space-y-2">
-                        {column.map((item) => (
-                          <Link
-                            key={item.href}
-                            href={item.href}
-                            onClick={onCloseMenu}
-                            className={`group flex min-h-[74px] items-start gap-3 rounded-[18px] border px-3.5 py-3 transition-all duration-200 ${
-                              isActive(item.href)
-                                ? 'border-amber-200 bg-amber-50 shadow-[0_8px_20px_rgba(245,166,35,0.10)]'
-                                : 'border-transparent bg-slate-50 hover:border-slate-200 hover:bg-white hover:shadow-[0_10px_24px_rgba(15,23,42,0.06)]'
-                            }`}
-                          >
-                            {item.icon ? (
-                              <span className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-white text-base shadow-[0_8px_18px_rgba(15,23,42,0.05)]">
-                                {item.icon}
-                              </span>
-                            ) : (
-                              <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-gradient-to-r from-[#E8A020] to-cyan-400" />
-                            )}
-                            <div className="min-w-0">
-                              <div className={`text-[0.95rem] font-bold leading-5 ${isActive(item.href) ? NAV_TONES.dropdownActive : NAV_TONES.dropdownIdle}`}>
-                                {item.label}
+                  {activeDesktopMenu.key === 'tools' ? (
+                    <div className="grid gap-2.5 lg:grid-cols-2">
+                      {toolIntentSections.map((section) => (
+                        <section key={section.key} className="rounded-[18px] border border-slate-200 bg-slate-50 p-3">
+                          <h4 className="text-[0.82rem] font-extrabold uppercase tracking-[0.14em] text-[#8A5400]">{section.title}</h4>
+                          <p className="mt-1 text-[0.74rem] leading-5 text-slate-600">{section.summary}</p>
+                          <div className="mt-2.5 space-y-1.5">
+                            {section.items.map((item) => (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                onClick={onCloseMenu}
+                                className={`group flex min-h-[64px] items-start gap-2.5 rounded-2xl border px-3 py-2.5 transition-all duration-200 ${
+                                  isActive(item.href)
+                                    ? 'border-amber-200 bg-amber-50 shadow-[0_8px_20px_rgba(245,166,35,0.10)]'
+                                    : 'border-transparent bg-white hover:border-slate-200 hover:shadow-[0_10px_24px_rgba(15,23,42,0.06)]'
+                                }`}
+                              >
+                                {item.icon ? (
+                                  <span className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-slate-50 text-sm shadow-[0_8px_18px_rgba(15,23,42,0.05)]">
+                                    {item.icon}
+                                  </span>
+                                ) : (
+                                  <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-gradient-to-r from-[#E8A020] to-cyan-400" />
+                                )}
+                                <div className="min-w-0">
+                                  <div className={`text-[0.9rem] font-bold leading-5 ${isActive(item.href) ? NAV_TONES.dropdownActive : NAV_TONES.dropdownIdle}`}>
+                                    {item.label}
+                                  </div>
+                                  {item.desc ? <div className="mt-0.5 text-[0.72rem] leading-5 text-slate-600">{item.desc}</div> : null}
+                                </div>
+                              </Link>
+                            ))}
+                          </div>
+                        </section>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="grid gap-2.5 sm:grid-cols-2">
+                      {desktopColumns.map((column, columnIndex) => (
+                        <div key={`${activeDesktopMenu.key}-col-${columnIndex}`} className="space-y-2">
+                          {column.map((item) => (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              onClick={onCloseMenu}
+                              className={`group flex min-h-[74px] items-start gap-3 rounded-[18px] border px-3.5 py-3 transition-all duration-200 ${
+                                isActive(item.href)
+                                  ? 'border-amber-200 bg-amber-50 shadow-[0_8px_20px_rgba(245,166,35,0.10)]'
+                                  : 'border-transparent bg-slate-50 hover:border-slate-200 hover:bg-white hover:shadow-[0_10px_24px_rgba(15,23,42,0.06)]'
+                              }`}
+                            >
+                              {item.icon ? (
+                                <span className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-white text-base shadow-[0_8px_18px_rgba(15,23,42,0.05)]">
+                                  {item.icon}
+                                </span>
+                              ) : (
+                                <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-gradient-to-r from-[#E8A020] to-cyan-400" />
+                              )}
+                              <div className="min-w-0">
+                                <div className={`text-[0.95rem] font-bold leading-5 ${isActive(item.href) ? NAV_TONES.dropdownActive : NAV_TONES.dropdownIdle}`}>
+                                  {item.label}
+                                </div>
+                                {item.desc ? <div className="mt-0.5 text-[0.76rem] leading-5 text-slate-600">{item.desc}</div> : null}
                               </div>
-                              {item.desc ? <div className="mt-0.5 text-[0.76rem] leading-5 text-slate-600">{item.desc}</div> : null}
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
+                            </Link>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

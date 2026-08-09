@@ -50,6 +50,23 @@ export const HIGH_LEVEL_MENUS: NavGroup[] = [
     ],
   },
   {
+    key: 'tools',
+    label: 'Tools',
+    items: [
+      { label: 'Spatial Explorer', href: '/tools/spatial-explorer', icon: '🗺️', desc: 'Parcel overlays, zoning layers, and corridor geometry in one view.' },
+      { label: 'Risk Check', href: '/tools/risk-check', icon: '🛡️', desc: 'Acquisition, zoning, and exposure signals for faster due diligence.' },
+      { label: 'Accessibility Calculator', href: '/tools/accessibility', icon: '🧭', desc: 'Current vs projected travel-time scenarios for key destinations.' },
+      { label: 'Valuation Index', href: '/tools/valuation-index', icon: '📊', desc: 'Market rate and guidance value trends by strategic micro-zone.' },
+      { label: 'Investment Radar', href: '/tools/investment-radar', icon: '📡', desc: 'Anchor commitments, category momentum, and stage progression.' },
+      { label: 'Regulatory Navigator', href: '/tools/regulatory-navigator', icon: '📋', desc: 'Structured approval pathways by persona, authority, and timeline.' },
+      { label: 'Opportunity Exchange', href: '/tools/opportunity-exchange', icon: '🤝', desc: 'High-intent requirement board for investors, developers, and landowners.' },
+      { label: 'Open Data Studio', href: '/tools/open-data-studio', icon: '🧩', desc: 'Machine-readable datasets and export orchestration for analysis workflows.' },
+      { label: 'Change Tracker', href: '/updates/change-tracker', icon: '🛰️', desc: 'Milestone chronology with source-linked status transitions.' },
+      { label: 'Satellite Tracker', href: '/updates/satellite-tracker', icon: '🛰', desc: 'Development progress snapshots across monthly observation windows.' },
+      { label: 'Regulatory News Engine', href: '/updates/regulatory-news', icon: '📰', desc: 'Gazette and policy signal feed tagged for decision relevance.' },
+    ],
+  },
+  {
     key: 'audiences',
     label: 'Audiences',
     items: [
