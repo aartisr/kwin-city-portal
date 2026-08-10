@@ -8,7 +8,25 @@ export type ReaderItem = {
   source: string;
   sourceFeedUrl: string;
   sourceTier: ReaderSourceTier;
+  provenance: ReaderProvenance;
+  originalLink?: string;
+  authenticity: 'verified-feed' | 'discovery-feed' | 'unverified';
   publishedAt: string | null;
+};
+
+export type ReaderProvenance = 'direct-institutional' | 'direct-publisher' | 'source-filtered-discovery' | 'contextual-monitoring';
+export type ReaderSortMode = 'significance' | 'newest' | 'source-breadth';
+
+export type ReaderCluster = {
+  id: string;
+  title: string;
+  summary: string;
+  representative: ReaderItem;
+  items: ReaderItem[];
+  sourceCount: number;
+  confidence: 'high' | 'medium' | 'contextual';
+  whyThisMatters: string[];
+  score: number;
 };
 
 export type ReaderSourceTier = 'primary' | 'official' | 'contextual';
@@ -30,6 +48,10 @@ export type ReaderPreset = {
   name: string;
   opmlUrl: string;
   limit: number;
+  topicQuery?: string;
+  sourceMode?: 'all' | 'official' | 'primary';
+  timeWindow?: TimeWindow;
+  sort?: ReaderSortMode;
 };
 
 export type TimeWindow = 'all' | '24h' | '7d' | '30d';

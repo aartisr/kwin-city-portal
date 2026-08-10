@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
   classifyReaderSourceTier,
+  getReaderProvenance,
   parseReaderFeedsFromOpml,
   type ReaderSourceFeed,
 } from '@/components/news-reader/source-registry';
@@ -13,6 +14,8 @@ type FeedItem = {
   source: string;
   sourceFeedUrl: string;
   sourceTier: 'primary' | 'official' | 'contextual';
+  provenance: 'direct-institutional' | 'direct-publisher' | 'source-filtered-discovery' | 'contextual-monitoring';
+  authenticity: 'verified-feed' | 'discovery-feed' | 'unverified';
   publishedAt: string | null;
 };
 
@@ -20,11 +23,11 @@ type FeedEntry = ReaderSourceFeed;
 
 type TierBuckets = Record<FeedItem['sourceTier'], FeedItem[]>;
 
-const TIER_ORDER: FeedItem['sourceTier'][] = ['contextual', 'official', 'primary'];
+const TIER_ORDER: FeedItem['sourceTier'][] = ['official', 'primary', 'contextual'];
 const TIER_TARGET_SHARES: Record<FeedItem['sourceTier'], number> = {
-  contextual: 0.5,
-  official: 0.3,
-  primary: 0.2,
+  contextual: 0.2,
+  official: 0.5,
+  primary: 0.3,
 };
 
 const DEFAULT_LIMIT = 36;
@@ -221,6 +224,10 @@ function parseFeedItems(feedXml: string, feedEntry: FeedEntry, perFeedLimit: num
     new URL(feedEntry.xmlUrl).hostname.replace(/^www\./, '');
 
   const sourceTier = classifyReaderSourceTier(feedEntry);
+  const provenance = getReaderProvenance(feedEntry);
+  const authenticity = provenance === 'direct-institutional' || provenance === 'direct-publisher'
+    ? 'verified-feed' as const
+    : 'discovery-feed' as const;
 
   const rssItems = feedXml.match(/<item\b[\s\S]*?<\/item>/gi) ?? [];
   const atomEntries = feedXml.match(/<entry\b[\s\S]*?<\/entry>/gi) ?? [];
@@ -244,6 +251,8 @@ function parseFeedItems(feedXml: string, feedEntry: FeedEntry, perFeedLimit: num
       source,
       sourceFeedUrl: feedEntry.xmlUrl,
       sourceTier,
+      provenance,
+      authenticity,
       publishedAt: published,
     });
   }
@@ -265,29 +274,13 @@ function parseFeedItems(feedXml: string, feedEntry: FeedEntry, perFeedLimit: num
       source,
       sourceFeedUrl: feedEntry.xmlUrl,
       sourceTier,
+      provenance,
+      authenticity,
       publishedAt: published,
     });
   }
 
   return parsed;
-}
-
-function isLocalOrPrivateHost(hostname: string): boolean {
-  const host = hostname.toLowerCase();
-  if (host === 'localhost' || host === '::1') {
-    return true;
-  }
-  if (/^127\./.test(host) || /^10\./.test(host) || /^192\.168\./.test(host)) {
-    return true;
-  }
-  const match172 = host.match(/^172\.(\d{1,3})\./);
-  if (match172) {
-    const second = Number(match172[1]);
-    if (second >= 16 && second <= 31) {
-      return true;
-    }
-  }
-  return false;
 }
 
 async function fetchTextWithTimeout(url: string): Promise<string> {
@@ -319,10 +312,11 @@ function resolveOpmlUrl(rawOpmlUrl: string, requestUrl: string): string {
     throw new Error('Only HTTP(S) OPML URLs are allowed.');
   }
 
-  // Same-origin OPML paths are safe and should work in local development.
+  // The server intentionally fetches only the reviewed, same-origin registry.
+  // Accepting arbitrary remote OPML files turns a reader endpoint into an SSRF proxy.
   const isSameOriginHost = resolved.hostname.toLowerCase() === requestOrigin.hostname.toLowerCase();
-  if (!isSameOriginHost && isLocalOrPrivateHost(resolved.hostname)) {
-    throw new Error('Private network OPML URLs are not allowed.');
+  if (!isSameOriginHost || resolved.pathname !== '/feeds/kwin-city-news-feeds.opml') {
+    throw new Error('Only the reviewed KWIN source registry is available in the public reader.');
   }
   return resolved.toString();
 }

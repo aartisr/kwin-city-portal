@@ -9,7 +9,6 @@ type ReaderHeroProps = {
   presets: ReaderPreset[];
   stats: ReaderStatsItem[] | null;
   cache?: ReaderResponse['cache'];
-  onOpmlUrlChange: (value: string) => void;
   onLimitChange: (value: number) => void;
   onPresetNameChange: (value: string) => void;
   onLoadReader: () => void;
@@ -29,7 +28,6 @@ export function ReaderHero({
   presets,
   stats,
   cache,
-  onOpmlUrlChange,
   onLimitChange,
   onPresetNameChange,
   onLoadReader,
@@ -54,7 +52,7 @@ export function ReaderHero({
           </h1>
           <p className="mt-5 text-base md:text-lg text-slate-700 max-w-4xl leading-8">
             {l({
-              en: 'Enter any OPML URL, load it instantly, and read a concise summary-first stream. Every story links directly to the original publication.',
+              en: 'Read a reviewed, source-labeled intelligence stream. Direct institutional and publisher feeds are distinguished from discovery signals, and every story links to its original publication.',
               kn: 'ಯಾವುದೇ OPML URL ನಮೂದಿಸಿ, ತಕ್ಷಣ ಲೋಡ್ ಮಾಡಿ, ಸಂಕ್ಷಿಪ್ತ ಸಾರಾಂಶ ಆಧಾರಿತ ಓದನ್ನು ಪಡೆಯಿರಿ. ಪ್ರತಿಯೊಂದು ಕಥೆಯೂ ಮೂಲ ಪ್ರಕಟಣೆಗೆ ನೇರ ಲಿಂಕ್ ಹೊಂದಿರುತ್ತದೆ.',
               hi: 'कोई भी OPML URL दर्ज करें, तुरंत लोड करें और संक्षिप्त सारांश-आधारित स्ट्रीम पढ़ें। हर कहानी मूल प्रकाशन से सीधे जुड़ती है।',
               ta: 'எந்த OPML URL-யையும் உள்ளிட்டு உடனே ஏற்றி, சுருக்கம்-முன்னுரிமை ஓட்டத்தில் படியுங்கள். ஒவ்வொரு செய்தியும் மூல வெளியீட்டிற்கு நேரடியாக இணைகிறது.',
@@ -64,12 +62,12 @@ export function ReaderHero({
           <div className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-4 md:p-5">
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_auto] gap-3">
               <label className="flex flex-col gap-1.5">
-                <span className="text-xs font-semibold tracking-[0.08em] uppercase text-slate-500">OPML URL</span>
+                <span className="text-xs font-semibold tracking-[0.08em] uppercase text-slate-500">Reviewed source registry</span>
                 <input
                   value={opmlUrl}
-                  onChange={(event) => onOpmlUrlChange(event.target.value)}
+                  readOnly
                   className="h-11 rounded-xl border border-slate-300 bg-white px-3.5 text-sm text-slate-800 outline-none focus:ring-2 focus:ring-cyan-200"
-                  placeholder="https://example.com/my-feeds.opml"
+                  aria-label="Reviewed source registry"
                 />
               </label>
 
