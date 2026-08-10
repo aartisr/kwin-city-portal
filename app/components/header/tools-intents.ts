@@ -7,6 +7,13 @@ export type ToolIntentSection = {
   itemHrefs: string[];
 };
 
+export type ToolQuickAction = {
+  key: string;
+  title: string;
+  href: string;
+  icon: string;
+};
+
 export const TOOL_INTENT_SECTIONS: ToolIntentSection[] = [
   {
     key: 'due-diligence',
@@ -34,6 +41,33 @@ export const TOOL_INTENT_SECTIONS: ToolIntentSection[] = [
   },
 ];
 
+export const TOOL_QUICK_ACTIONS: ToolQuickAction[] = [
+  {
+    key: 'all-tools',
+    title: 'Command Center',
+    href: '/tools',
+    icon: '⚡',
+  },
+  {
+    key: 'risk-check',
+    title: 'Risk Check',
+    href: '/tools/risk-check',
+    icon: '🛡️',
+  },
+  {
+    key: 'spatial-explorer',
+    title: 'Spatial Explorer',
+    href: '/tools/spatial-explorer',
+    icon: '🗺️',
+  },
+  {
+    key: 'regulatory-news',
+    title: 'Regulatory News',
+    href: '/updates/regulatory-news',
+    icon: '📰',
+  },
+];
+
 export function getToolIntentSections(items: NavItem[]) {
   const byHref = new Map(items.map((item) => [item.href, item]));
 
@@ -43,4 +77,19 @@ export function getToolIntentSections(items: NavItem[]) {
       .map((href) => byHref.get(href))
       .filter((item): item is NavItem => Boolean(item)),
   })).filter((section) => section.items.length > 0);
+}
+
+export function getToolQuickActions(items: NavItem[]) {
+  const byHref = new Map(items.map((item) => [item.href, item]));
+
+  return TOOL_QUICK_ACTIONS.map((action) => {
+    const navItem = byHref.get(action.href);
+
+    return {
+      ...action,
+      title: navItem?.label ?? action.title,
+      icon: navItem?.icon ?? action.icon,
+      desc: navItem?.desc,
+    };
+  });
 }

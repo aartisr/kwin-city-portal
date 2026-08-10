@@ -7,6 +7,8 @@ pnpm-lock.yaml
 # Testing
 /coverage
 .nyc_output/
+/playwright-report/
+/test-results/
 
 # Production & Build
 /build
@@ -93,6 +95,7 @@ htmlcov/
 *.jks
 *.keystore
 android/*.jks
+android/.gradle/
 
 # Local file-based storage (contains user data)
 .data/

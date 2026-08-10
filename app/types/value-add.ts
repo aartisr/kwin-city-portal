@@ -91,12 +91,46 @@ export interface SpatialLayer {
   phase: 'phase-1' | 'phase-2' | 'phase-3';
   status: 'available' | 'planned';
   description: string;
+  provenance?: {
+    sourceName: string;
+    sourceUrl: string;
+    access: 'downloadable-documents' | 'api' | 'internal-model';
+    note?: string;
+    originalSources?: Array<{
+      label: string;
+      url: string;
+    }>;
+    downloads?: Array<{
+      label: string;
+      url: string;
+      format: string;
+    }>;
+  };
+}
+
+export interface FutureProjectSource {
+  label: string;
+  url: string;
+  type: 'mirror' | 'original';
+}
+
+export interface FutureProjectReference {
+  id: string;
+  title: string;
+  phase: 'phase-1' | 'phase-2' | 'phase-3';
+  category: SpatialLayer['category'];
+  status: SpatialLayer['status'];
+  summary: string;
+  lastSourceCheckAt: string;
+  openAllOriginalLinksUrl?: string;
+  sources: FutureProjectSource[];
 }
 
 export interface SpatialExplorerResponse {
   phase: 'phase-1' | 'phase-2' | 'phase-3';
   layers: SpatialLayer[];
   highlights: string[];
+  futureProjects: FutureProjectReference[];
 }
 
 export interface SatelliteSnapshot {
