@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { GROUP_STORIES, type HeaderLabels } from '@/components/header/config';
-import { getToolIntentSections } from '@/components/header/tools-intents';
+import { getToolIntentSections, getToolQuickActions } from '@/components/header/tools-intents';
 import type { AuthUser, NavGroup } from '@/components/header/types';
 import type { Locale } from '@/lib/i18n/locales';
 
@@ -86,6 +86,7 @@ export default function MobileMenuSheet({
             const isOpen = mobileOpenGroup === group.key;
             const groupStory = GROUP_STORIES[group.key] ?? GROUP_STORIES.discover;
             const toolIntentSections = group.key === 'tools' ? getToolIntentSections(group.items) : [];
+            const toolQuickActions = group.key === 'tools' ? getToolQuickActions(group.items) : [];
 
             return (
               <section
@@ -113,6 +114,32 @@ export default function MobileMenuSheet({
                   <div className="border-t border-slate-200 px-3 pb-3 pt-2">
                     {group.key === 'tools' ? (
                       <div className="space-y-2.5">
+                        <section className="rounded-2xl border border-slate-200 bg-[linear-gradient(135deg,rgba(245,250,255,0.94),rgba(255,250,240,0.94))] p-3">
+                          <div className="flex items-center justify-between gap-2">
+                            <h4 className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#6F3F00]">Quick Actions</h4>
+                            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-600">Fast launch</p>
+                          </div>
+                          <div className="mt-2 grid grid-cols-2 gap-2">
+                            {toolQuickActions.map((action) => (
+                              <Link
+                                key={action.key}
+                                href={action.href}
+                                onClick={onCloseMenu}
+                                className={`rounded-xl border px-2.5 py-2 text-left transition-all duration-200 ${
+                                  isActive(action.href)
+                                    ? 'border-amber-200 bg-amber-50 text-[#6F3F00]'
+                                    : 'border-slate-200 bg-white text-slate-900 hover:border-amber-200'
+                                }`}
+                              >
+                                <div className="flex items-center gap-1.5 text-xs font-bold">
+                                  <span aria-hidden="true">{action.icon}</span>
+                                  <span className="truncate">{action.title}</span>
+                                </div>
+                              </Link>
+                            ))}
+                          </div>
+                        </section>
+
                         {toolIntentSections.map((section) => (
                           <section key={section.key} className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
                             <h4 className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#6F3F00]">{section.title}</h4>

@@ -5,10 +5,10 @@ test.describe('Value-Add Tools Smoke', () => {
     await page.goto('/tools');
     await page.waitForLoadState('networkidle');
 
-    await expect(page.locator('a[href="/tools/risk-check"]')).toBeVisible();
-    await expect(page.locator('a[href="/tools/accessibility"]')).toBeVisible();
-    await expect(page.locator('a[href="/tools/regulatory-navigator"]')).toBeVisible();
-    await expect(page.locator('a[href="/updates/change-tracker"]')).toBeVisible();
+    await expect(page.locator('a[href="/tools/risk-check"]').first()).toBeVisible();
+    await expect(page.locator('a[href="/tools/accessibility"]').first()).toBeVisible();
+    await expect(page.locator('a[href="/tools/regulatory-navigator"]').first()).toBeVisible();
+    await expect(page.locator('a[href="/updates/change-tracker"]').first()).toBeVisible();
   });
 
   test('risk-check returns a result panel', async ({ page }: any) => {
@@ -52,5 +52,49 @@ test.describe('Value-Add Tools Smoke', () => {
       page.getByLabel('Persona').selectOption('investor'),
     ]);
     await expect(page.getByText('Entity and investment compliance')).toBeVisible();
+  });
+
+  test('spatial explorer supports all-phase and per-phase acquisition toggles', async ({ page }: any) => {
+    await page.goto('/tools/spatial-explorer');
+
+    const phase1 = page.getByLabel('Phase 1', { exact: true });
+    const phase2 = page.getByLabel('Phase 2', { exact: true });
+    const phase3 = page.getByLabel('Phase 3', { exact: true });
+
+    await expect(page.getByRole('button', { name: 'Show all' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Hide all' })).toBeVisible();
+
+    await expect(phase1).toBeChecked();
+    await expect(phase2).not.toBeChecked();
+    await expect(phase3).not.toBeChecked();
+
+    await page.getByRole('button', { name: 'Show all' }).click();
+    await expect(phase1).toBeChecked();
+    await expect(phase2).toBeChecked();
+    await expect(phase3).toBeChecked();
+
+    await phase2.uncheck();
+    await expect(phase1).toBeChecked();
+    await expect(phase2).not.toBeChecked();
+    await expect(phase3).toBeChecked();
+
+    await page.getByRole('button', { name: 'Hide all' }).click();
+    await expect(phase1).not.toBeChecked();
+    await expect(phase2).not.toBeChecked();
+    await expect(phase3).not.toBeChecked();
+  });
+
+  test('spatial explorer lists future projects with original and mirror source links', async ({ page }: any) => {
+    await page.goto('/tools/spatial-explorer');
+
+    await expect(page.getByRole('heading', { name: 'Future Projects Around The Area' })).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('Original source links:')).toBeVisible();
+    await expect(page.getByText('Mirror links:')).toBeVisible();
+
+    await expect(
+      page.getByText('Priority: Acquisition Notification Buffers should be validated against original Gazette publication records first.')
+    ).toBeVisible();
+    await expect(page.getByRole('link', { name: /Original: Karnataka eRajyapatra/i })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Mirror: K-RIDE Land Acquisition Notifications/i })).toBeVisible();
   });
 });

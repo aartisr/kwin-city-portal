@@ -129,3 +129,130 @@ export function addKwinBoundary(map: mapboxgl.Map) {
     },
   });
 }
+
+const ACQ_SOURCE_ID = 'acquisition-notification-buffers-derived';
+export const ACQ_PHASES = ['phase-1', 'phase-2', 'phase-3'] as const;
+export type AcquisitionPhaseId = (typeof ACQ_PHASES)[number];
+export type AcquisitionPhaseVisibility = Record<AcquisitionPhaseId, boolean>;
+
+function getAcqPhaseFillLayerId(phase: AcquisitionPhaseId) {
+  return `acquisition-notification-buffers-${phase}-fill`;
+}
+
+function getAcqPhaseLineLayerId(phase: AcquisitionPhaseId) {
+  return `acquisition-notification-buffers-${phase}-line`;
+}
+
+function getAcqPhaseStyle(phase: AcquisitionPhaseId) {
+  if (phase === 'phase-1') {
+    return { fill: '#f59e0b', line: '#b45309' };
+  }
+
+  if (phase === 'phase-2') {
+    return { fill: '#14b8a6', line: '#0f766e' };
+  }
+
+  return { fill: '#8b5cf6', line: '#6d28d9' };
+}
+
+export async function addAcquisitionNotificationBuffers(map: mapboxgl.Map) {
+  if (map.getSource(ACQ_SOURCE_ID)) {
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/value-add/spatial-explorer/export');
+    if (!response.ok) {
+      return;
+    }
+
+    const geoJson = await response.json();
+    map.addSource(ACQ_SOURCE_ID, {
+      type: 'geojson',
+      data: geoJson,
+    });
+
+    for (const phase of ACQ_PHASES) {
+      const style = getAcqPhaseStyle(phase);
+      const fillLayerId = getAcqPhaseFillLayerId(phase);
+      const lineLayerId = getAcqPhaseLineLayerId(phase);
+
+      map.addLayer({
+        id: fillLayerId,
+        type: 'fill',
+        source: ACQ_SOURCE_ID,
+        filter: ['==', ['get', 'phase'], phase],
+        paint: {
+          'fill-color': style.fill,
+          'fill-opacity': 0.18,
+        },
+        layout: {
+          visibility: 'none',
+        },
+      });
+
+      map.addLayer({
+        id: lineLayerId,
+        type: 'line',
+        source: ACQ_SOURCE_ID,
+        filter: ['==', ['get', 'phase'], phase],
+        paint: {
+          'line-color': style.line,
+          'line-width': 2,
+          'line-dasharray': [2, 2],
+        },
+        layout: {
+          visibility: 'none',
+        },
+      });
+
+      map.on('click', fillLayerId, (event) => {
+        const feature = event.features?.[0];
+        if (!feature) return;
+
+        const properties = feature.properties ?? {};
+        const title = typeof properties.corridor === 'string' ? properties.corridor : 'Derived acquisition zone';
+        const phaseValue = typeof properties.phase === 'string' ? properties.phase : 'phase-unknown';
+        const confidence = typeof properties.confidence === 'string' ? properties.confidence : 'low';
+
+        new mapboxgl.Popup({ closeButton: true, closeOnClick: true })
+          .setLngLat(event.lngLat)
+          .setHTML(
+            `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:260px;">
+              <p style="margin:0 0 4px 0;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6F3F00;">Acquisition Layer (Derived)</p>
+              <p style="margin:0 0 4px 0;font-size:14px;font-weight:700;color:#0f172a;">${title}</p>
+              <p style="margin:0 0 3px 0;font-size:12px;color:#334155;"><strong>Phase:</strong> ${phaseValue}</p>
+              <p style="margin:0;font-size:12px;color:#334155;"><strong>Confidence:</strong> ${confidence}</p>
+            </div>`
+          )
+          .addTo(map);
+      });
+
+      map.on('mouseenter', fillLayerId, () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+
+      map.on('mouseleave', fillLayerId, () => {
+        map.getCanvas().style.cursor = '';
+      });
+    }
+  } catch {
+    // Fail silently to avoid breaking base map interactions.
+  }
+}
+
+export function setAcquisitionNotificationVisibility(map: mapboxgl.Map, phaseVisibility: AcquisitionPhaseVisibility) {
+  for (const phase of ACQ_PHASES) {
+    const fillLayerId = getAcqPhaseFillLayerId(phase);
+    const lineLayerId = getAcqPhaseLineLayerId(phase);
+    const visibility = phaseVisibility[phase] ? 'visible' : 'none';
+
+    if (map.getLayer(fillLayerId)) {
+      map.setLayoutProperty(fillLayerId, 'visibility', visibility);
+    }
+
+    if (map.getLayer(lineLayerId)) {
+      map.setLayoutProperty(lineLayerId, 'visibility', visibility);
+    }
+  }
+}

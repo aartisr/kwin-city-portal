@@ -17,9 +17,12 @@ export default function PageIntro({
         <div className="max-w-4xl">
           <div className="text-xs font-semibold tracking-[0.2em] text-blue-600 uppercase mb-4">{eyebrow}</div>
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-5">{title}</h1>
-          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mb-8">{description}</p>
+          <p className="text-lg md:text-xl text-gray-600 max-w-3xl">{description}</p>
+        </div>
+
+        <div className="mt-10 border-t border-gray-200/80 pt-6">
           <div className="max-w-3xl">
-            <SourceReferences sourceIds={sourceIds} compact />
+            <SourceReferences sourceIds={sourceIds} heading="Evidence & references" compact />
           </div>
         </div>
       </div>

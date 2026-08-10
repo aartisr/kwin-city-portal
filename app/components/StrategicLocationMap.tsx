@@ -6,11 +6,31 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { LegendPanel } from '@/components/strategic-map/LegendPanel';
 import { SourceAttribution } from '@/components/strategic-map/SourceAttribution';
 import { MAP_CENTER, MAP_LOCATIONS } from '@/components/strategic-map/config';
-import { addKwinBoundary, addLocationMarkers, createFallbackMarkup } from '@/components/strategic-map/mapbox';
+import {
+  type AcquisitionPhaseVisibility,
+  addAcquisitionNotificationBuffers,
+  addKwinBoundary,
+  addLocationMarkers,
+  createFallbackMarkup,
+  setAcquisitionNotificationVisibility,
+} from '@/components/strategic-map/mapbox';
 
-export default function StrategicLocationMap() {
+const DEFAULT_ACQUISITION_PHASE_VISIBILITY: AcquisitionPhaseVisibility = {
+  'phase-1': false,
+  'phase-2': false,
+  'phase-3': false,
+};
+
+export default function StrategicLocationMap({
+  acquisitionPhaseVisibility = DEFAULT_ACQUISITION_PHASE_VISIBILITY,
+}: {
+  acquisitionPhaseVisibility?: AcquisitionPhaseVisibility;
+}) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
+  const acquisitionPhaseVisibilityRef = useRef(acquisitionPhaseVisibility);
+
+  acquisitionPhaseVisibilityRef.current = acquisitionPhaseVisibility;
 
   useEffect(() => {
     if (map.current || !mapContainer.current) {
@@ -37,7 +57,11 @@ export default function StrategicLocationMap() {
     const mapInstance = map.current;
     addLocationMarkers(mapInstance, MAP_LOCATIONS);
 
-    const attachBoundary = () => addKwinBoundary(mapInstance);
+    const attachBoundary = async () => {
+      addKwinBoundary(mapInstance);
+      await addAcquisitionNotificationBuffers(mapInstance);
+      setAcquisitionNotificationVisibility(mapInstance, acquisitionPhaseVisibilityRef.current);
+    };
 
     if (mapInstance.isStyleLoaded()) {
       attachBoundary();
@@ -59,6 +83,11 @@ export default function StrategicLocationMap() {
       map.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    if (!map.current) return;
+    setAcquisitionNotificationVisibility(map.current, acquisitionPhaseVisibility);
+  }, [acquisitionPhaseVisibility]);
 
   return (
     <div className="space-y-6">

@@ -1,7 +1,7 @@
 import type { RefObject } from 'react';
 import Link from 'next/link';
 import { NAV_TONES } from '@/components/header/navigation';
-import { getToolIntentSections } from '@/components/header/tools-intents';
+import { getToolIntentSections, getToolQuickActions } from '@/components/header/tools-intents';
 import type { HeaderStory } from '@/components/header/config';
 import type { NavGroup } from '@/components/header/types';
 
@@ -34,6 +34,8 @@ export default function DesktopNav({
 }: DesktopNavProps) {
   const toolIntentSections =
     activeDesktopMenu?.key === 'tools' ? getToolIntentSections(activeDesktopMenu.items) : [];
+  const toolQuickActions =
+    activeDesktopMenu?.key === 'tools' ? getToolQuickActions(activeDesktopMenu.items) : [];
 
   return (
     <div className="hidden min-w-0 items-center justify-center xl:flex">
@@ -120,41 +122,70 @@ export default function DesktopNav({
 
                 <div className="p-4 lg:p-5">
                   {activeDesktopMenu.key === 'tools' ? (
-                    <div className="grid gap-2.5 lg:grid-cols-2">
-                      {toolIntentSections.map((section) => (
-                        <section key={section.key} className="rounded-[18px] border border-slate-200 bg-slate-50 p-3">
-                          <h4 className="text-[0.82rem] font-extrabold uppercase tracking-[0.14em] text-[#6F3F00]">{section.title}</h4>
-                          <p className="mt-1 text-[0.74rem] leading-5 text-slate-700">{section.summary}</p>
-                          <div className="mt-2.5 space-y-1.5">
-                            {section.items.map((item) => (
-                              <Link
-                                key={item.href}
-                                href={item.href}
-                                onClick={onCloseMenu}
-                                className={`group flex min-h-[64px] items-start gap-2.5 rounded-2xl border px-3 py-2.5 transition-all duration-200 ${
-                                  isActive(item.href)
-                                    ? 'border-amber-200 bg-amber-50 shadow-[0_8px_20px_rgba(245,166,35,0.10)]'
-                                    : 'border-transparent bg-white hover:border-slate-200 hover:shadow-[0_10px_24px_rgba(15,23,42,0.06)]'
-                                }`}
-                              >
-                                {item.icon ? (
-                                  <span className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-slate-50 text-sm shadow-[0_8px_18px_rgba(15,23,42,0.05)]">
-                                    {item.icon}
-                                  </span>
-                                ) : (
-                                  <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-gradient-to-r from-[#E8A020] to-cyan-400" />
-                                )}
-                                <div className="min-w-0">
-                                  <div className={`text-[0.9rem] font-bold leading-5 ${isActive(item.href) ? NAV_TONES.dropdownActive : NAV_TONES.dropdownIdle}`}>
-                                    {item.label}
+                    <div className="space-y-3">
+                      <section className="rounded-[18px] border border-slate-200 bg-[linear-gradient(135deg,rgba(245,250,255,0.94),rgba(255,250,240,0.94))] p-3">
+                        <div className="flex items-center justify-between gap-2">
+                          <h4 className="text-[0.78rem] font-extrabold uppercase tracking-[0.18em] text-[#6F3F00]">Quick Actions</h4>
+                          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-slate-600">One tap launches</p>
+                        </div>
+                        <div className="mt-2.5 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                          {toolQuickActions.map((action) => (
+                            <Link
+                              key={action.key}
+                              href={action.href}
+                              onClick={onCloseMenu}
+                              className={`group rounded-xl border px-2.5 py-2.5 transition-all duration-200 ${
+                                isActive(action.href)
+                                  ? 'border-amber-200 bg-amber-50 shadow-[0_8px_20px_rgba(245,166,35,0.10)]'
+                                  : 'border-slate-200 bg-white hover:border-amber-200 hover:shadow-[0_10px_24px_rgba(15,23,42,0.06)]'
+                              }`}
+                            >
+                              <div className="flex items-center gap-1.5 text-[0.78rem] font-bold text-slate-900">
+                                <span aria-hidden="true">{action.icon}</span>
+                                <span className="truncate">{action.title}</span>
+                              </div>
+                              {action.desc ? <p className="mt-1 line-clamp-2 text-[0.68rem] leading-4 text-slate-700">{action.desc}</p> : null}
+                            </Link>
+                          ))}
+                        </div>
+                      </section>
+
+                      <div className="grid gap-2.5 lg:grid-cols-2">
+                        {toolIntentSections.map((section) => (
+                          <section key={section.key} className="rounded-[18px] border border-slate-200 bg-slate-50 p-3">
+                            <h4 className="text-[0.82rem] font-extrabold uppercase tracking-[0.14em] text-[#6F3F00]">{section.title}</h4>
+                            <p className="mt-1 text-[0.74rem] leading-5 text-slate-700">{section.summary}</p>
+                            <div className="mt-2.5 space-y-1.5">
+                              {section.items.map((item) => (
+                                <Link
+                                  key={item.href}
+                                  href={item.href}
+                                  onClick={onCloseMenu}
+                                  className={`group flex min-h-[64px] items-start gap-2.5 rounded-2xl border px-3 py-2.5 transition-all duration-200 ${
+                                    isActive(item.href)
+                                      ? 'border-amber-200 bg-amber-50 shadow-[0_8px_20px_rgba(245,166,35,0.10)]'
+                                      : 'border-transparent bg-white hover:border-slate-200 hover:shadow-[0_10px_24px_rgba(15,23,42,0.06)]'
+                                  }`}
+                                >
+                                  {item.icon ? (
+                                    <span className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-slate-50 text-sm shadow-[0_8px_18px_rgba(15,23,42,0.05)]">
+                                      {item.icon}
+                                    </span>
+                                  ) : (
+                                    <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-gradient-to-r from-[#E8A020] to-cyan-400" />
+                                  )}
+                                  <div className="min-w-0">
+                                    <div className={`text-[0.9rem] font-bold leading-5 ${isActive(item.href) ? NAV_TONES.dropdownActive : NAV_TONES.dropdownIdle}`}>
+                                      {item.label}
+                                    </div>
+                                    {item.desc ? <div className="mt-0.5 text-[0.72rem] leading-5 text-slate-700">{item.desc}</div> : null}
                                   </div>
-                                  {item.desc ? <div className="mt-0.5 text-[0.72rem] leading-5 text-slate-700">{item.desc}</div> : null}
-                                </div>
-                              </Link>
-                            ))}
-                          </div>
-                        </section>
-                      ))}
+                                </Link>
+                              ))}
+                            </div>
+                          </section>
+                        ))}
+                      </div>
                     </div>
                   ) : (
                     <div className="grid gap-2.5 sm:grid-cols-2">
