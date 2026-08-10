@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 
+import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
-const SCAN_GLOB = 'app docs';
+const SCAN_DIRS = ['app', 'docs'];
+const SCAN_GLOB = SCAN_DIRS.join(' ');
 
 const RULES = [
   {
@@ -38,11 +41,81 @@ function runRg(pattern) {
   return (result.stdout || '').trim();
 }
 
+function hasRipgrep() {
+  const probe = spawnSync('rg --version', {
+    shell: true,
+    encoding: 'utf8',
+    maxBuffer: 1024 * 1024,
+  });
+  return probe.status === 0;
+}
+
+function collectFiles(dirPath, files) {
+  const entries = readdirSync(dirPath, { withFileTypes: true });
+  for (const entry of entries) {
+    if (entry.name.startsWith('.')) {
+      continue;
+    }
+
+    const fullPath = join(dirPath, entry.name);
+    if (entry.isDirectory()) {
+      collectFiles(fullPath, files);
+      continue;
+    }
+
+    if (entry.isFile()) {
+      files.push(fullPath);
+    }
+  }
+}
+
+function runNodeFallback(pattern) {
+  const regex = new RegExp(pattern, 'iu');
+  const files = [];
+
+  for (const root of SCAN_DIRS) {
+    try {
+      if (statSync(root).isDirectory()) {
+        collectFiles(root, files);
+      }
+    } catch {
+      // Skip roots that do not exist in the current checkout.
+    }
+  }
+
+  const matches = [];
+  for (const file of files) {
+    let content;
+    try {
+      content = readFileSync(file, 'utf8');
+    } catch {
+      // Ignore unreadable or non-text files.
+      continue;
+    }
+
+    const lines = content.split(/\r?\n/);
+    for (let idx = 0; idx < lines.length; idx += 1) {
+      if (regex.test(lines[idx])) {
+        matches.push(`${file}:${idx + 1}:${lines[idx]}`);
+      }
+    }
+  }
+
+  return matches.join('\n');
+}
+
+function runSearch(pattern) {
+  if (hasRipgrep()) {
+    return runRg(pattern);
+  }
+  return runNodeFallback(pattern);
+}
+
 function main() {
   const violations = [];
 
   for (const rule of RULES) {
-    const output = runRg(rule.pattern);
+    const output = runSearch(rule.pattern);
     if (output) {
       violations.push({
         ...rule,
