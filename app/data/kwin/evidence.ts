@@ -141,6 +141,63 @@ export const KWIN_EVIDENCE_SOURCES: EvidenceSource[] = [
       'That the KWIN waterbody network is operational or ecologically validated.',
     ],
   },
+  {
+    id: 'bmrda-regional-planning',
+    title: 'BMRDA Official Regional Planning Portal',
+    publisher: 'BMRDA, Government of Karnataka',
+    scope: 'Primary planning authority context for Bengaluru Metropolitan Region growth corridors',
+    url: 'https://bmrda.karnataka.gov.in/',
+    status: 'project-adjacent',
+    summary:
+      'BMRDA is a primary institutional source for metropolitan planning context in which North Bengaluru growth-corridor narratives are evaluated.',
+    supports: [
+      'Regional planning in and around Bengaluru is institutionally anchored.',
+      'Corridor-based growth language for KWIN can be tied to formal planning governance.',
+      'Metropolitan expansion claims should be read against statutory planning institutions.',
+    ],
+    cannotProve: [
+      'That KWIN-specific layouts, approvals, or implementation milestones are complete.',
+      'That every KWIN timeline claim is endorsed by BMRDA documents.',
+    ],
+  },
+  {
+    id: 'bial-official-portal',
+    title: 'Kempegowda International Airport Bengaluru Official Portal',
+    publisher: 'Bangalore International Airport Limited (BIAL)',
+    scope: 'Airport operator reference for Bengaluru connectivity context',
+    url: 'https://www.bengaluruairport.com/',
+    status: 'contextual',
+    summary:
+      'The official airport operator portal is a primary anchor for validating core connectivity context behind North Bengaluru growth narratives.',
+    supports: [
+      'Airport-linked regional access framing for KWIN can be grounded in a primary institutional source.',
+      'Connectivity narratives can reference official airport information rather than secondary commentary.',
+      'North Bengaluru positioning can be tied to a verifiable transport anchor.',
+    ],
+    cannotProve: [
+      'That airport growth automatically translates into KWIN-specific occupancy or investment outcomes.',
+      'That any KWIN delivery commitments are guaranteed by airport-side trends.',
+    ],
+  },
+  {
+    id: 'ksndmc-official-portal',
+    title: 'Karnataka State Natural Disaster Monitoring Centre (KSNDMC) Portal',
+    publisher: 'KSNDMC, Government of Karnataka',
+    scope: 'State institutional climate and hydro-meteorological context for resilience planning',
+    url: 'https://ksndmc.karnataka.gov.in/',
+    status: 'contextual',
+    summary:
+      'KSNDMC is a primary public institution for Karnataka climate-risk context and supports evidence-first sustainability framing for KWIN.',
+    supports: [
+      'Water and climate resilience claims should be anchored in official state monitoring institutions.',
+      'KWIN sustainability narratives can be evaluated against state-level climate evidence sources.',
+      'Hydrology-linked planning language is better grounded when tied to KSNDMC context.',
+    ],
+    cannotProve: [
+      'That KWIN engineering designs are already adequate or approved for all climate scenarios.',
+      'That proposed sustainability outcomes are achieved in current project execution.',
+    ],
+  },
 ];
 
 export const KWIN_SOURCE_REGISTRY: Record<string, SourceReference> = {
@@ -224,6 +281,33 @@ export const KWIN_SOURCE_REGISTRY: Record<string, SourceReference> = {
     note: 'Contextual source on lake governance and blue-green infrastructure traditions in the Bengaluru region.',
     status: 'contextual',
   },
+  bmrda: {
+    id: 'bmrda',
+    label: 'S10',
+    title: 'BMRDA official regional planning portal',
+    publisher: 'BMRDA, Government of Karnataka',
+    url: 'https://bmrda.karnataka.gov.in/',
+    note: 'Primary planning authority context for Bengaluru Metropolitan Region and corridor-based growth governance.',
+    status: 'verified',
+  },
+  bial: {
+    id: 'bial',
+    label: 'S11',
+    title: 'Kempegowda International Airport Bengaluru official portal',
+    publisher: 'Bangalore International Airport Limited (BIAL)',
+    url: 'https://www.bengaluruairport.com/',
+    note: 'Primary institutional source for airport-linked connectivity context used in North Bengaluru growth narratives.',
+    status: 'verified',
+  },
+  ksndmc: {
+    id: 'ksndmc',
+    label: 'S12',
+    title: 'Karnataka State Natural Disaster Monitoring Centre official portal',
+    publisher: 'KSNDMC, Government of Karnataka',
+    url: 'https://ksndmc.karnataka.gov.in/',
+    note: 'Primary public institutional source for Karnataka climate and resilience context.',
+    status: 'verified',
+  },
 };
 
 export const HERO_SOURCE_IDS = ['brief', 'kiadb', 'aviation', 'economicSurvey'];
@@ -251,14 +335,14 @@ export const KWIN_CLAIM_MAPPINGS: ClaimMapping[] = [
     id: 'claim-airport-context',
     section: 'Regional Context',
     claim: 'North Bengaluru has a defensible airport-linked growth rationale within the wider city-region.',
-    sourceIds: ['aviation'],
+    sourceIds: ['aviation', 'bial'],
     status: 'contextual',
   },
   {
     id: 'claim-corridor-context',
     section: 'Regional Context',
     claim: 'Orbital and peripheral road planning around Bengaluru supports a corridor-based metropolitan growth narrative.',
-    sourceIds: ['strr', 'irr'],
+    sourceIds: ['strr', 'irr', 'bmrda'],
     status: 'contextual',
   },
   {
@@ -279,7 +363,7 @@ export const KWIN_CLAIM_MAPPINGS: ClaimMapping[] = [
     id: 'claim-water-planning',
     section: 'Sustainability',
     claim: 'Rainfall, groundwater, and lake-governance data justify a strong water-accountability lens for evaluating KWIN.',
-    sourceIds: ['rainfall', 'groundwater', 'lakes'],
+    sourceIds: ['rainfall', 'groundwater', 'lakes', 'ksndmc'],
     status: 'contextual',
   },
   {
