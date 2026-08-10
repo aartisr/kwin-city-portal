@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createUser, findUserByEmail, findUserById } from '@/lib/server/data-layer/users';
 import { getPreferences, setPreferences } from '@/lib/server/data-layer/preferences';
 import type { UserPreference, UserRecord } from '@/lib/server/models';
@@ -25,6 +25,11 @@ vi.mock('@/lib/server/store', () => ({
 describe('server/data-layer users and preferences', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('maps Supabase user rows into app records', async () => {
@@ -191,6 +196,50 @@ describe('server/data-layer users and preferences', () => {
     expect(user?.email).toBe('id-fallback@example.com');
   });
 
+  it('falls back to file lookup when Supabase email lookup throws', async () => {
+    const single = vi.fn().mockRejectedValue(new Error('supabase exploded'));
+    const eq = vi.fn().mockReturnValue({ single });
+    const select = vi.fn().mockReturnValue({ eq });
+    const from = vi.fn().mockReturnValue({ select });
+    mockGetSupabase.mockReturnValue({ from });
+    mockReadJsonFile.mockResolvedValue([
+      {
+        id: 'user-ex-email',
+        name: 'Exception Email User',
+        email: 'exception-email@example.com',
+        passwordHash: 'hash',
+        passwordSalt: 'salt',
+        createdAt: '2026-04-22T00:00:00.000Z',
+      },
+    ]);
+
+    const user = await findUserByEmail('exception-email@example.com');
+
+    expect(user?.id).toBe('user-ex-email');
+  });
+
+  it('falls back to file lookup when Supabase id lookup throws', async () => {
+    const single = vi.fn().mockRejectedValue(new Error('supabase exploded'));
+    const eq = vi.fn().mockReturnValue({ single });
+    const select = vi.fn().mockReturnValue({ eq });
+    const from = vi.fn().mockReturnValue({ select });
+    mockGetSupabase.mockReturnValue({ from });
+    mockReadJsonFile.mockResolvedValue([
+      {
+        id: 'user-ex-id',
+        name: 'Exception Id User',
+        email: 'exception-id@example.com',
+        passwordHash: 'hash',
+        passwordSalt: 'salt',
+        createdAt: '2026-04-22T00:00:00.000Z',
+      },
+    ]);
+
+    const user = await findUserById('user-ex-id');
+
+    expect(user?.email).toBe('exception-id@example.com');
+  });
+
   it('does not write fallback storage when Supabase user creation succeeds', async () => {
     const insert = vi.fn().mockResolvedValue({ error: null });
     const from = vi.fn().mockReturnValue({ insert });
@@ -225,6 +274,26 @@ describe('server/data-layer users and preferences', () => {
     });
 
     expect(mockWriteJsonFile).toHaveBeenCalled();
+  });
+
+  it('falls back to file storage when Supabase createUser throws', async () => {
+    const insert = vi.fn().mockRejectedValue(new Error('insert exploded'));
+    const from = vi.fn().mockReturnValue({ insert });
+    mockGetSupabase.mockReturnValue({ from });
+    mockReadJsonFile.mockResolvedValue([]);
+
+    await createUser({
+      id: 'user-throw',
+      name: 'Throw User',
+      email: 'throw@example.com',
+      passwordHash: 'hash',
+      passwordSalt: 'salt',
+      createdAt: '2026-04-22T00:00:00.000Z',
+    });
+
+    expect(mockWriteJsonFile).toHaveBeenCalledWith('users.json', [
+      expect.objectContaining({ id: 'user-throw' }),
+    ]);
   });
 
   it('maps Supabase preference rows into UI preferences', async () => {

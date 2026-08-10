@@ -38,4 +38,24 @@ describe('news-reader/useReaderPresets', () => {
       ]);
     });
   });
+
+  it('ignores invalid preset payloads from localStorage', async () => {
+    localStorage.setItem(PRESET_STORAGE_KEY, '{bad-json');
+
+    const { result } = renderHook(() => useReaderPresets());
+
+    await waitFor(() => {
+      expect(result.current.presets).toEqual([]);
+    });
+  });
+
+  it('ignores non-array payloads from localStorage', async () => {
+    localStorage.setItem(PRESET_STORAGE_KEY, JSON.stringify({ id: 'not-an-array' }));
+
+    const { result } = renderHook(() => useReaderPresets());
+
+    await waitFor(() => {
+      expect(result.current.presets).toEqual([]);
+    });
+  });
 });

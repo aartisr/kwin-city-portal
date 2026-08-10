@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   addReplyToPost,
   createPost,
@@ -30,6 +30,11 @@ vi.mock('@/lib/server/store', () => ({
 describe('server/data-layer discussions', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('hydrates posts with replies from Supabase records', async () => {

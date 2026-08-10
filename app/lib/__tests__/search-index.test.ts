@@ -33,4 +33,16 @@ describe('search-index', () => {
     expect(CATEGORY_COLORS.Timeline).toContain('text-');
     expect(CATEGORY_COLORS.Data).toContain('border-');
   });
+
+  it('returns no results for blank or whitespace-only queries', () => {
+    expect(querySearchIndex('')).toEqual([]);
+    expect(querySearchIndex('   ')).toEqual([]);
+  });
+
+  it('returns no results for unknown query terms and applies default limit', () => {
+    expect(querySearchIndex('zzzzzz-unlikely-token')).toEqual([]);
+
+    const defaultLimited = querySearchIndex('a');
+    expect(defaultLimited.length).toBeLessThanOrEqual(20);
+  });
 });
