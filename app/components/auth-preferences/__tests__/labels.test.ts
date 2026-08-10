@@ -6,6 +6,9 @@ describe('auth-preferences/labels', () => {
 
   it('maps known topic ids to stable display labels', () => {
     expect(topicLabel('timeline', l)).toBe('Timeline');
+    expect(topicLabel('sectors', l)).toBe('Sectors');
+    expect(topicLabel('sustainability', l)).toBe('Sustainability');
+    expect(topicLabel('evidence', l)).toBe('Evidence');
     expect(topicLabel('news-intelligence', l)).toBe('News Intelligence');
   });
 

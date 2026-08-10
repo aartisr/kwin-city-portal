@@ -3,6 +3,7 @@ import { act, renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { useSearchNavigation } from '@/components/search-modal/useSearchNavigation';
 import type { SearchEntry } from '@/lib/search-index';
+import { querySearchIndex } from '@/lib/search-index';
 
 vi.mock('@/lib/search-index', () => ({
   querySearchIndex: vi.fn((query: string, limit: number) => {
@@ -120,5 +121,84 @@ describe('search-modal/useSearchNavigation', () => {
 
     expect(onClose).toHaveBeenCalledTimes(1);
     expect(router.push).not.toHaveBeenCalled();
+  });
+
+  it('wraps active index with ArrowUp and closes on Escape with active results', () => {
+    const router = { push: vi.fn() } as any;
+    const onClose = vi.fn();
+
+    const { result } = renderHook(() =>
+      useSearchNavigation({
+        query: 'about',
+        open: true,
+        onClose,
+        router,
+        popular,
+      }),
+    );
+
+    act(() => {
+      result.current.handleKey({
+        key: 'ArrowUp',
+        preventDefault: vi.fn(),
+      } as unknown as React.KeyboardEvent<HTMLInputElement>);
+    });
+
+    expect(result.current.activeIndex).toBe(result.current.displayed.length - 1);
+
+    act(() => {
+      result.current.handleKey({
+        key: 'Escape',
+        preventDefault: vi.fn(),
+      } as unknown as React.KeyboardEvent<HTMLInputElement>);
+    });
+
+    expect(onClose).toHaveBeenCalled();
+  });
+
+  it('does not navigate when Enter is pressed with an out-of-range active index', () => {
+    const router = { push: vi.fn() } as any;
+    const onClose = vi.fn();
+
+    const { result } = renderHook(() =>
+      useSearchNavigation({
+        query: 'about',
+        open: true,
+        onClose,
+        router,
+        popular,
+      }),
+    );
+
+    act(() => {
+      result.current.setActiveIndex(99);
+    });
+
+    act(() => {
+      result.current.handleKey({
+        key: 'Enter',
+        preventDefault: vi.fn(),
+      } as unknown as React.KeyboardEvent<HTMLInputElement>);
+    });
+
+    expect(router.push).not.toHaveBeenCalled();
+  });
+
+  it('skips search query calls when modal is closed', () => {
+    const router = { push: vi.fn() } as any;
+    const onClose = vi.fn();
+    vi.mocked(querySearchIndex).mockClear();
+
+    renderHook(() =>
+      useSearchNavigation({
+        query: 'about',
+        open: false,
+        onClose,
+        router,
+        popular,
+      }),
+    );
+
+    expect(querySearchIndex).not.toHaveBeenCalled();
   });
 });

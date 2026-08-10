@@ -20,7 +20,8 @@ export function normaliseRows(
 
     const yearly = records
       .map((row) => {
-        const year = Number(String(row[yearKey] ?? '').replace(/[^0-9]/g, ''));
+        const yearDigits = String(row[yearKey] ?? '').replace(/[^0-9]/g, '');
+        const year = yearDigits ? Number(yearDigits) : Number.NaN;
         const passengers = parseFloat(String(row[passengersKey] ?? 0).replace(/,/g, ''));
         return { year, passengers };
       })
@@ -31,10 +32,6 @@ export function normaliseRows(
     for (let index = 1; index < yearly.length; index += 1) {
       const previous = yearly[index - 1];
       const current = yearly[index];
-      if (previous.passengers <= 0) {
-        continue;
-      }
-
       const growth = ((current.passengers - previous.passengers) / previous.passengers) * 100;
       growthSeries.push({
         [cfg.xField]: String(current.year),

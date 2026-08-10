@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest';
-import { clusterReaderItems, sortReaderClusters } from '../intelligence';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { clusterReaderItems, explainReaderRank, scoreReaderItem, sortReaderClusters } from '../intelligence';
 import type { ReaderItem } from '../types';
 
 function item(overrides: Partial<ReaderItem>): ReaderItem {
@@ -9,6 +9,15 @@ function item(overrides: Partial<ReaderItem>): ReaderItem {
 }
 
 describe('reader intelligence', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-08-10T12:00:00.000Z'));
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it('clusters overlapping independent coverage and preserves provenance', () => {
     const clusters = clusterReaderItems([
       item({ link: 'https://gov.in/a', source: 'Government' }),
@@ -25,5 +34,46 @@ describe('reader intelligence', () => {
       item({ link: 'https://gov.in/b', title: 'KWIN industrial policy publication', provenance: 'direct-institutional' }),
     ]);
     expect(sortReaderClusters(clusters, 'significance')[0].representative.provenance).toBe('direct-institutional');
+  });
+
+  it('splits unrelated stories into separate clusters and sorts by source breadth/newest', () => {
+    const clusters = clusterReaderItems([
+      item({
+        link: 'https://publisher-a.example/a',
+        originalLink: 'https://publisher-a.example/a',
+        title: 'KWIN logistics policy milestone',
+        publishedAt: '2026-08-10T10:00:00.000Z',
+      }),
+      item({
+        link: 'https://publisher-b.example/b',
+        originalLink: 'https://publisher-b.example/b',
+        title: 'KWIN logistics policy milestone',
+        provenance: 'direct-publisher',
+        sourceTier: 'primary',
+        publishedAt: '2026-08-10T09:00:00.000Z',
+      }),
+      item({
+        link: 'https://context.example/c',
+        title: 'Independent lake restoration briefing',
+        summary: 'Hydrology and lake governance update',
+        provenance: 'contextual-monitoring',
+        sourceTier: 'contextual',
+        publishedAt: '2026-08-08T09:00:00.000Z',
+      }),
+    ]);
+
+    expect(clusters).toHaveLength(2);
+    expect(sortReaderClusters(clusters, 'source-breadth')[0].sourceCount).toBe(2);
+    expect(sortReaderClusters(clusters, 'newest')[0].representative.publishedAt).toBe('2026-08-10T10:00:00.000Z');
+  });
+
+  it('scores and explains provenance-specific ranking reasons', () => {
+    const institutional = item({ provenance: 'direct-institutional', publishedAt: '2026-08-10T11:00:00.000Z' });
+    const contextual = item({ provenance: 'contextual-monitoring', publishedAt: null });
+
+    expect(scoreReaderItem(institutional)).toBeGreaterThan(scoreReaderItem(contextual));
+    expect(explainReaderRank(item({ provenance: 'direct-publisher' }), 1)).toContain('direct publisher feed');
+    expect(explainReaderRank(item({ provenance: 'source-filtered-discovery' }), 1)).toContain('source-filtered discovery signal');
+    expect(explainReaderRank(item({ provenance: 'contextual-monitoring' }), 1)).toContain('contextual monitoring signal');
   });
 });
