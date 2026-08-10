@@ -1,0 +1,90 @@
+name: Always Current Control Plane
+
+on:
+  schedule:
+    # GitHub schedules are eventual, not real-time. This complements the runtime cron.
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Audit scope'
+        required: true
+        default: standard
+        type: choice
+        options: [standard, full]
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: always-current-control-plane
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: Verify sources, facts, and site contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Trigger protected production refresh
+        if: ${{ secrets.SITE_REFRESH_URL != '' && secrets.CRON_SECRET != '' }}
+        env:
+          SITE_REFRESH_URL: ${{ secrets.SITE_REFRESH_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          curl --fail --silent --show-error --max-time 120 \
+            --header "Authorization: Bearer ${CRON_SECRET}" \
+            "${SITE_REFRESH_URL}"
+
+      - name: Refresh handoff configuration notice
+        if: ${{ secrets.SITE_REFRESH_URL == '' || secrets.CRON_SECRET == '' }}
+        run: echo "::warning::Set SITE_REFRESH_URL and CRON_SECRET repository secrets to let this control plane invoke the protected production refresh endpoint."
+
+      - name: Verify reviewed source registry
+        run: npm run sources:verify
+
+      - name: Audit factual-content freshness
+        run: npm run content:staleness
+
+      - name: Enforce factual integrity guardrails
+        run: npm run quality:verify-facts
+
+      - name: Type check
+        run: npm run type-check
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Full production build
+        if: github.event.inputs.mode == 'full'
+        run: npm run build:ci
+
+      - name: Write a single actionable issue on critical failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = 'Always-current control plane requires attention';
+            const query = `repo:${context.repo.owner}/${context.repo.repo} is:issue is:open in:title "${title}"`;
+            const existing = await github.rest.search.issuesAndPullRequests({ q: query });
+            if (existing.data.total_count === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body: `A scheduled freshness or integrity gate failed. Review run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              });
+            }

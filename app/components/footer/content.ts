@@ -10,10 +10,11 @@ import type { FooterContentModel, FooterGroup, FooterLinkItem, FooterSignalCard,
 export function buildFooterContent(locale: Locale): FooterContentModel {
   const t = (key: string) => translate(locale, key);
   const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
-  const lastUpdatedText = new Date(SITE_CONFIG.lastUpdatedISO).toLocaleDateString(getLocaleDefinition(locale).htmlLang, {
+  const lastUpdatedText = new Date(`${SITE_CONFIG.lastUpdatedISO}T00:00:00Z`).toLocaleDateString(getLocaleDefinition(locale).htmlLang, {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
+    timeZone: 'UTC',
   });
 
   const quickRoutes: FooterLinkItem[] = [

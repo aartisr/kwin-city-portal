@@ -282,6 +282,14 @@ export default function Footer({ locale }: { locale: Locale }) {
               <span>Aarti S Ravikumar</span>
               <span className="hidden sm:inline h-1 w-1 rounded-full bg-white/20" />
               <span>{l({ en: 'Evidence-first publishing', kn: 'ಸಾಕ್ಷ್ಯ-ಪ್ರಥಮ ಪ್ರಕಟಣೆ', hi: 'एविडेंस-फर्स्ट पब्लिशिंग', ta: 'ஆதார-முன்னுரிமை வெளியீடு' })}</span>
+              <span className="hidden sm:inline h-1 w-1 rounded-full bg-white/20" />
+              <time
+                dateTime={SITE_CONFIG.lastUpdatedISO}
+                title={l({ en: 'Last site content update', kn: 'ಕೊನೆಯ ಸೈಟ್ ವಿಷಯ ನವೀಕರಣ', hi: 'अंतिम साइट सामग्री अपडेट', ta: 'கடைசி தள உள்ளடக்கப் புதுப்பிப்பு' })}
+                className="text-[#536A84]"
+              >
+                {t('footer.lastUpdated')} {lastUpdatedText}
+              </time>
             </div>
 
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] text-[#6C819A]">
