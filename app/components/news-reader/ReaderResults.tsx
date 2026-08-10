@@ -1,5 +1,5 @@
 import { formatDate } from './utils';
-import type { ReaderItem, ReaderLocale, ReaderText } from './types';
+import type { ReaderCluster, ReaderItem, ReaderLocale, ReaderText } from './types';
 
 function getSourceTierCopy(
   l: ReaderText,
@@ -33,6 +33,10 @@ type ReaderResultsProps = {
   hasLoadedData: boolean;
   items: ReaderItem[];
   onSelectItem: (item: ReaderItem) => void;
+  savedIds?: string[];
+  readIds?: string[];
+  onToggleSaved?: (id: string) => void;
+  onToggleMutedDomain?: (domain: string) => void;
 };
 
 export function ReaderResults({
@@ -43,6 +47,10 @@ export function ReaderResults({
   hasLoadedData,
   items,
   onSelectItem,
+  savedIds = [],
+  readIds = [],
+  onToggleSaved,
+  onToggleMutedDomain,
 }: ReaderResultsProps) {
   if (error) {
     return (
@@ -92,6 +100,12 @@ export function ReaderResults({
             </div>
 
             <h2 className="text-lg font-extrabold leading-6 text-slate-900 mb-3 line-clamp-3">{item.title}</h2>
+            {(item as ReaderItem & { cluster?: ReaderCluster }).cluster ? (
+              <div className="mb-3 rounded-lg bg-cyan-50 px-3 py-2 text-xs text-cyan-900">
+                <strong>{(item as ReaderItem & { cluster: ReaderCluster }).cluster.sourceCount} source{(item as ReaderItem & { cluster: ReaderCluster }).cluster.sourceCount === 1 ? '' : 's'}</strong>
+                {' · '}{(item as ReaderItem & { cluster: ReaderCluster }).cluster.whyThisMatters.join(' · ')}
+              </div>
+            ) : null}
             <p className="text-sm text-slate-700 leading-7 min-h-[126px]">{item.summary}</p>
 
             <div className="mt-4 flex items-center justify-between gap-3">
@@ -104,6 +118,14 @@ export function ReaderResults({
                 </svg>
                 {l({ en: 'Read in Reader', kn: 'ರೀಡರ್‌ನಲ್ಲಿ ಓದಿ', hi: 'रीडर में पढ़ें', ta: 'ரீடரில் படிக்க' })}
               </button>
+              <div className="flex items-center gap-2">
+                <button onClick={() => onToggleSaved?.(item.link)} className="text-xs font-semibold text-slate-600 hover:text-slate-950">
+                  {savedIds.includes(item.link) ? 'Saved' : 'Save'}
+                </button>
+                <button onClick={() => onToggleMutedDomain?.(new URL(item.originalLink || item.link).hostname.replace(/^www\./, ''))} className="text-xs font-semibold text-slate-500 hover:text-slate-950">
+                  Mute source
+                </button>
+              </div>
               <a
                 href={item.link}
                 target="_blank"
@@ -113,6 +135,7 @@ export function ReaderResults({
                 {l({ en: 'Original', kn: 'ಮೂಲ', hi: 'मूल', ta: 'மூலம்' })} ↗
               </a>
             </div>
+            {readIds.includes(item.link) ? <span className="mt-3 block text-[11px] font-semibold uppercase tracking-wide text-slate-400">Read</span> : <span className="mt-3 block text-[11px] font-semibold uppercase tracking-wide text-cyan-700">Unread</span>}
           </article>
         ))}
       </div>

@@ -1,5 +1,5 @@
 import { formatDate, getDomain } from './utils';
-import type { ReaderItem, ReaderLocale, ReaderText } from './types';
+import type { ReaderCluster, ReaderItem, ReaderLocale, ReaderText } from './types';
 
 function getSourceTierCopy(
   l: ReaderText,
@@ -33,6 +33,7 @@ type ReaderDrawerProps = {
 };
 
 export function ReaderDrawer({ item, locale, l, onClose }: ReaderDrawerProps) {
+  const cluster = (item as ReaderItem & { cluster?: ReaderCluster }).cluster;
   return (
     <>
       <div
@@ -98,6 +99,27 @@ export function ReaderDrawer({ item, locale, l, onClose }: ReaderDrawerProps) {
               </div>
             </>
           )}
+
+          <section className="mt-8 border-t border-slate-200 pt-6">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-slate-500">Why this appears</p>
+            <ul className="mt-2 space-y-1 text-sm text-slate-700">
+              {(cluster?.whyThisMatters ?? [item.provenance.replace(/-/g, ' ')]).map((reason) => <li key={reason}>• {reason}</li>)}
+            </ul>
+          </section>
+
+          {cluster && cluster.items.length > 1 ? (
+            <section className="mt-6 rounded-xl border border-cyan-200 bg-cyan-50 p-4">
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-cyan-900">Compare coverage · {cluster.sourceCount} sources</p>
+              <div className="mt-3 space-y-3">
+                {cluster.items.map((coverage) => (
+                  <a key={coverage.link} href={coverage.originalLink || coverage.link} target="_blank" rel="noreferrer" className="block rounded-lg bg-white p-3 text-sm shadow-sm hover:bg-slate-50">
+                    <span className="font-bold text-slate-900">{coverage.source}</span><span className="ml-2 text-xs text-slate-500">{coverage.provenance.replace(/-/g, ' ')}</span>
+                    <p className="mt-1 font-medium text-slate-800">{coverage.title}</p>
+                  </a>
+                ))}
+              </div>
+            </section>
+          ) : null}
         </div>
 
         <div className="border-t border-slate-200 bg-slate-50 px-6 py-4 flex items-center justify-between gap-3">

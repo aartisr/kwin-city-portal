@@ -14,11 +14,14 @@ import type {
   ReaderPreset,
   ReaderResponse,
   ReaderStatsItem,
+  ReaderSortMode,
   TimeWindow,
 } from '@/components/news-reader/types';
 import { useReaderPresets } from '@/components/news-reader/useReaderPresets';
 import { formatDate, getDomain, isInTimeWindow } from '@/components/news-reader/utils';
 import { LAST_READER_STATE_STORAGE_KEY } from '@/components/news-reader/constants';
+import { clusterReaderItems, sortReaderClusters } from '@/components/news-reader/intelligence';
+import { useReaderLibrary } from '@/components/news-reader/useReaderLibrary';
 
 function normalizeTrendingText(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
@@ -92,6 +95,7 @@ export default function NewsReaderExperience() {
     [locale],
   );
   const { presets, setPresets } = useReaderPresets();
+  const library = useReaderLibrary();
   const hasAutoLoaded = useRef(false);
   const lastReaderState = readLastReaderState();
 
@@ -102,26 +106,12 @@ export default function NewsReaderExperience() {
   const [domainFilter, setDomainFilter] = useState('all');
   const [sourceMode, setSourceMode] = useState<'all' | 'official' | 'primary'>('all');
   const [timeWindow, setTimeWindow] = useState<TimeWindow>('all');
+  const [sort, setSort] = useState<ReaderSortMode>('significance');
   const [presetName, setPresetName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<ReaderResponse | null>(null);
   const [selectedItem, setSelectedItem] = useState<ReaderItem | null>(null);
-
-  useEffect(() => {
-    if (!selectedItem) {
-      return undefined;
-    }
-
-    const handleKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setSelectedItem(null);
-      }
-    };
-
-    document.addEventListener('keydown', handleKey);
-    return () => document.removeEventListener('keydown', handleKey);
-  }, [selectedItem]);
 
   const sourceOptions = useMemo(() => {
     const sources = new Set<string>();
@@ -196,14 +186,38 @@ export default function NewsReaderExperience() {
       return isInTimeWindow(item.publishedAt, timeWindow);
     });
 
-    return dedupeReaderItems(matchedItems);
-  }, [sourceScopedItems, topicQuery, sourceFilter, domainFilter, timeWindow]);
+    return dedupeReaderItems(matchedItems).filter((item) => !library.mutedDomains.includes(getDomain(item.originalLink || item.link)));
+  }, [sourceScopedItems, topicQuery, sourceFilter, domainFilter, timeWindow, library.mutedDomains]);
+
+  const clusters = useMemo(
+    () => sortReaderClusters(clusterReaderItems(filteredItems), sort),
+    [filteredItems, sort],
+  );
+
+  useEffect(() => {
+    if (!selectedItem) return undefined;
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setSelectedItem(null);
+      else if (event.key.toLowerCase() === 's' && !event.metaKey && !event.ctrlKey) {
+        event.preventDefault(); library.toggleSaved(selectedItem.link);
+      } else if (event.key.toLowerCase() === 'm' && !event.metaKey && !event.ctrlKey) {
+        event.preventDefault(); library.toggleMutedDomain(getDomain(selectedItem.originalLink || selectedItem.link)); setSelectedItem(null);
+      } else if (event.key === 'j' || event.key === 'k') {
+        event.preventDefault();
+        const items = clusters.map((cluster) => cluster.representative);
+        const next = items[items.findIndex((item) => item.link === selectedItem.link) + (event.key === 'j' ? 1 : -1)];
+        if (next) setSelectedItem(next);
+      }
+    };
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, [clusters, library, selectedItem]);
 
   const trendingItems = useMemo(() => {
     const selected: ReaderItem[] = [];
     const usedSources = new Set<string>();
 
-    for (const item of filteredItems) {
+    for (const item of clusters.map((cluster) => cluster.representative)) {
       if (!usedSources.has(item.source)) {
         selected.push(item);
         usedSources.add(item.source);
@@ -215,7 +229,7 @@ export default function NewsReaderExperience() {
     }
 
     if (selected.length < 6) {
-      for (const item of filteredItems) {
+      for (const item of clusters.map((cluster) => cluster.representative)) {
         if (!selected.includes(item)) {
           selected.push(item);
         }
@@ -227,7 +241,7 @@ export default function NewsReaderExperience() {
     }
 
     return selected;
-  }, [filteredItems]);
+  }, [clusters]);
 
   const stats = useMemo<ReaderStatsItem[] | null>(() => {
     if (!data) {
@@ -236,11 +250,11 @@ export default function NewsReaderExperience() {
 
     return [
       { label: l({ en: 'Feeds Loaded', kn: 'ಲೋಡ್ ಆದ ಫೀಡ್‌ಗಳು', hi: 'लोडेड फ़ीड्स', ta: 'ஏற்றப்பட்ட ஊட்டங்கள்' }), value: `${data.feedCount}` },
-      { label: l({ en: 'Stories Visible', kn: 'ಕಾಣುವ ಕಥೆಗಳು', hi: 'दिखने वाली कहानियाँ', ta: 'காணப்படும் செய்திகள்' }), value: `${filteredItems.length}` },
+      { label: l({ en: 'Story Clusters', kn: 'ಕಥೆ ಕ್ಲಸ್ಟರ್‌ಗಳು', hi: 'स्टोरी क्लस्टर', ta: 'செய்தி குழுக்கள்' }), value: `${clusters.length}` },
       { label: l({ en: 'Stories Total', kn: 'ಒಟ್ಟು ಕಥೆಗಳು', hi: 'कुल कहानियाँ', ta: 'மொத்த செய்திகள்' }), value: `${data.itemCount}` },
       { label: l({ en: 'Refreshed', kn: 'ರಿಫ್ರೆಶ್', hi: 'रिफ्रेश', ta: 'புதுப்பிக்கப்பட்டது' }), value: formatDate(data.generatedAt, locale) },
     ];
-  }, [data, filteredItems.length, l, locale]);
+  }, [clusters.length, data, l, locale]);
 
   const loadReader = useCallback(async () => {
     setIsLoading(true);
@@ -285,6 +299,10 @@ export default function NewsReaderExperience() {
       name: trimmed,
       opmlUrl,
       limit,
+      topicQuery,
+      sourceMode,
+      timeWindow,
+      sort,
     };
 
     setPresets((current) => [preset, ...current].slice(0, 12));
@@ -294,6 +312,10 @@ export default function NewsReaderExperience() {
   const applyPreset = (preset: ReaderPreset) => {
     setOpmlUrl(preset.opmlUrl);
     setLimit(preset.limit);
+    setTopicQuery(preset.topicQuery ?? '');
+    setSourceMode(preset.sourceMode ?? 'all');
+    setTimeWindow(preset.timeWindow ?? 'all');
+    setSort(preset.sort ?? 'significance');
   };
 
   const handleSourceModeChange = (value: 'all' | 'official' | 'primary') => {
@@ -330,7 +352,6 @@ export default function NewsReaderExperience() {
         presets={presets}
         stats={stats}
         cache={data?.cache}
-        onOpmlUrlChange={setOpmlUrl}
         onLimitChange={setLimit}
         onPresetNameChange={setPresetName}
         onLoadReader={loadReader}
@@ -344,6 +365,7 @@ export default function NewsReaderExperience() {
       <section className="py-10 md:py-12">
         <div className="container">
           {data ? (
+            <>
             <ReaderFilters
               l={l}
               topicQuery={topicQuery}
@@ -359,6 +381,21 @@ export default function NewsReaderExperience() {
               onSourceModeChange={handleSourceModeChange}
               onTimeWindowChange={setTimeWindow}
             />
+            <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm">
+              <label className="flex items-center gap-2 font-semibold text-slate-700">Rank by
+                <select value={sort} onChange={(event) => setSort(event.target.value as ReaderSortMode)} className="rounded-lg border border-slate-300 bg-white px-2 py-1 font-normal">
+                  <option value="significance">Significance</option><option value="newest">Newest</option><option value="source-breadth">Source breadth</option>
+                </select>
+              </label>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-slate-500">{library.saved.length} saved · {library.read.length} read</span>
+                <button onClick={() => {
+                  const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), saved: library.saved, clusters }, null, 2)], { type: 'application/json' });
+                  const url = URL.createObjectURL(blob); const anchor = document.createElement('a'); anchor.href = url; anchor.download = 'kwin-reader-export.json'; anchor.click(); URL.revokeObjectURL(url);
+                }} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold hover:bg-slate-100">Export workspace</button>
+              </div>
+            </div>
+            </>
           ) : null}
 
           <TrendingSection
@@ -374,8 +411,12 @@ export default function NewsReaderExperience() {
             isLoading={isLoading}
             error={error}
             hasLoadedData={Boolean(data)}
-            items={filteredItems}
-            onSelectItem={setSelectedItem}
+            items={clusters.map((cluster) => ({ ...cluster.representative, cluster }))}
+            savedIds={library.saved}
+            readIds={library.read}
+            onSelectItem={(item) => { library.markRead(item.link); setSelectedItem(item); }}
+            onToggleSaved={library.toggleSaved}
+            onToggleMutedDomain={library.toggleMutedDomain}
           />
         </div>
       </section>

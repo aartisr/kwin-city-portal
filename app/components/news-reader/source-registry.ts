@@ -1,4 +1,4 @@
-import type { ReaderSourceTier } from './types';
+import type { ReaderProvenance, ReaderSourceTier } from './types';
 
 export type ReaderSourceFeed = {
   xmlUrl: string;
@@ -19,7 +19,7 @@ const SOURCE_TIER_RULES: SourceTierRule[] = [
   },
   {
     tier: 'official',
-    groupMatch: /^(Official Government, State & Central Original-Source Signals|Official Government, State & Central Institutional Signals)$/i,
+    groupMatch: /^(Official Government Discovery Queries \(Verify Original Link\)|Official Government, State & Central Original-Source Signals|Official Government, State & Central Institutional Signals)$/i,
   },
   {
     tier: 'contextual',
@@ -32,8 +32,6 @@ const OFFICIAL_HOSTS = new Set([
   'nic.in',
   'rbi.org.in',
   'pib.gov.in',
-  'thehindu.com',
-  'timesofindia.indiatimes.com',
 ]);
 
 function decodeEntities(input: string): string {
@@ -91,6 +89,19 @@ export function classifyReaderSourceTier(feed: ReaderSourceFeed): ReaderSourceTi
   }
 
   return 'contextual';
+}
+
+export function getReaderProvenance(feed: ReaderSourceFeed): ReaderProvenance {
+  const hostname = getHostname(feed.xmlUrl);
+  if (hostname === 'news.google.com') {
+    return feed.groupPath.some((segment) => /Official Government/i.test(segment))
+      ? 'source-filtered-discovery'
+      : 'contextual-monitoring';
+  }
+
+  if (classifyReaderSourceTier(feed) === 'official') return 'direct-institutional';
+  if (feed.groupPath.some((segment) => /Direct Publisher|Local Desk/i.test(segment))) return 'direct-publisher';
+  return 'contextual-monitoring';
 }
 
 export function parseReaderFeedsFromOpml(opmlXml: string): ReaderSourceFeed[] {
