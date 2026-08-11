@@ -6,6 +6,7 @@ import HomeTrustSnapshot from '@/components/HomeTrustSnapshot';
 import HomeRouteGrid from '@/components/HomeRouteGrid';
 import EvidencePreview from '@/components/EvidencePreview';
 import ImageStrip from '@/components/ImageStrip';
+import InnovationCanvas from '@/components/InnovationCanvas';
 import ShareKwinMoment from '@/components/ShareKwinMoment';
 import PersonaHub from '@/components/PersonaHub';
 import JsonLd from '@/components/JsonLd';
@@ -21,6 +22,7 @@ export default function Home() {
       <main id="main-content" role="main">
         <Hero />
         <ImageStrip />
+        <InnovationCanvas />
         <ShareKwinMoment />
         <BengaluruPride />
         <HomeSummary />
