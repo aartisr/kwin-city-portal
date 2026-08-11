@@ -45,3 +45,6 @@ jobs:
 
       - name: Verify factual integrity guardrails
         run: npm run quality:verify-facts
+
+      - name: Verify AI discovery and citation signals
+        run: npm run discovery:verify-signals
