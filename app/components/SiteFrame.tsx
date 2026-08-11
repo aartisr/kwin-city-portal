@@ -74,6 +74,9 @@ export default async function SiteFrame({ children }: { children: React.ReactNod
           sourcesLabel: translate(locale, 'header.items./sources.label'),
           newsIntelligenceLabel: translate(locale, 'header.items./news-intelligence.label'),
           degraded: freshness.degraded,
+          contentAgeDays: freshness.content.ageDays,
+          factualAuditAgeDays: freshness.factualAudit.ageDays,
+          executionStatusAgeDays: freshness.executionStatus.ageDays,
           statusText: freshness.degraded
             ? pickLocalizedValue(locale, {
                 en: `Freshness watch: content baseline ${freshness.content.ageDays}d, factual audit ${freshness.factualAudit.ageDays}d, execution status ${freshness.executionStatus.ageDays}d old.`,

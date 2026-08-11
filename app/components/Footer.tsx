@@ -76,6 +76,12 @@ export default function Footer({ locale, freshness }: { locale: Locale; freshnes
   const t = (key: string) => translate(locale, key);
   const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const year = new Date().getFullYear();
+  const freshestSignal = Math.max(
+    freshness.content.ageDays,
+    freshness.factualAudit.ageDays,
+    freshness.executionStatus.ageDays
+  );
+  const freshnessScore = Math.max(0, Math.min(100, 100 - freshestSignal * 3));
   const {
     lastUpdatedText,
     quickRoutes,
@@ -256,6 +262,67 @@ export default function Footer({ locale, freshness }: { locale: Locale; freshnes
               ))}
             </nav>
           </div>
+        </section>
+
+        <section className="mt-8">
+          <article className={`footer-panel kwin-fade-up rounded-[1.8rem] border p-5 md:p-6 ${
+            freshness.degraded
+              ? 'border-amber-300/45 bg-[linear-gradient(145deg,rgba(245,158,11,0.16),rgba(251,191,36,0.08),rgba(14,116,144,0.18))]'
+              : 'border-emerald-300/35 bg-[linear-gradient(145deg,rgba(16,185,129,0.16),rgba(14,165,233,0.12),rgba(6,95,70,0.18))]'
+          }`} style={{ animationDelay: '0.24s' }}>
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white/85">
+                  {l({ en: 'Freshness command center', kn: 'ತಾಜಾತನ ಕಮಾಂಡ್ ಸೆಂಟರ್', hi: 'फ्रेशनैस कमांड सेंटर', ta: 'புதியமை கட்டளை மையம்' })}
+                </p>
+                <h4 className="mt-2 text-xl font-extrabold tracking-tight text-white md:text-2xl">
+                  {freshness.degraded
+                    ? l({ en: 'Verification signal needs attention', kn: 'ಪರಿಶೀಲನಾ ಸೂಚನೆಗೆ ಗಮನ ಬೇಕಿದೆ', hi: 'वेरिफिकेशन सिग्नल को ध्यान चाहिए', ta: 'சரிபார்ப்பு சிக்னலுக்கு கவனம் தேவை' })
+                    : l({ en: 'Verification signal is strong', kn: 'ಪರಿಶೀಲನಾ ಸೂಚನೆ ಬಲವಾಗಿದೆ', hi: 'वेरिफिकेशन सिग्नल मजबूत है', ta: 'சரிபார்ப்பு சிக்னல் வலுவாக உள்ளது' })}
+                </h4>
+                <p className="mt-2 text-sm leading-6 text-white/80">
+                  {freshness.degraded
+                    ? l({ en: 'We publish with visible confidence bands. Some freshness rails are above target and are being refreshed.', kn: 'ನಾವು ದೃಶ್ಯ ವಿಶ್ವಾಸ ಮಟ್ಟಗಳೊಂದಿಗೆ ಪ್ರಕಟಿಸುತ್ತೇವೆ. ಕೆಲವು ತಾಜಾತನ ಮಾನದಂಡಗಳು ಗುರಿಗಿಂತ ಹೆಚ್ಚಾಗಿವೆ ಮತ್ತು ಈಗ ನವೀಕರಣ ನಡೆಯುತ್ತಿದೆ.', hi: 'हम दृश्य कॉन्फिडेंस बैंड्स के साथ प्रकाशित करते हैं। कुछ फ्रेशनैस रेल लक्ष्य से ऊपर हैं और रीफ्रेश हो रहे हैं।', ta: 'காட்சிப்படுத்தப்பட்ட நம்பிக்கை அளவுகளுடன் வெளியிடுகிறோம். சில புதியமை குறிகாட்டிகள் இலக்கை மீறியுள்ளன; அவை புதுப்பிக்கப்படுகின்றன.' })
+                    : l({ en: 'All freshness rails are within target windows for content, factual audit, and execution status.', kn: 'ವಿಷಯ, ವಾಸ್ತವ ಪರಿಶೀಲನೆ ಮತ್ತು ಕಾರ್ಯಗತ ಸ್ಥಿತಿ ಕುರಿತ ಎಲ್ಲಾ ತಾಜಾತನ ಮಾನದಂಡಗಳು ಗುರಿ ಮಿತಿಗಳಲ್ಲಿವೆ.', hi: 'कंटेंट, तथ्य ऑडिट और एग्जिक्यूशन स्टेटस के लिए सभी फ्रेशनैस रेल लक्षित विंडो में हैं।', ta: 'உள்ளடக்கம், உண்மை ஆய்வு, செயலாக்க நிலை ஆகிய அனைத்தும் இலக்கு வரம்பிற்குள் உள்ளன.' })}
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-white/20 bg-black/15 px-4 py-3 min-w-[220px]">
+                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/75">
+                  {l({ en: 'Freshness score', kn: 'ತಾಜಾತನ ಅಂಕ', hi: 'फ्रेशनैस स्कोर', ta: 'புதியமை மதிப்பெண்' })}
+                </p>
+                <div className="mt-2 flex items-end gap-2">
+                  <span className="text-3xl font-extrabold text-white">{freshnessScore}</span>
+                  <span className="mb-1 text-sm font-semibold text-white/80">/ 100</span>
+                </div>
+                <div className="mt-2 h-2 overflow-hidden rounded-full bg-white/20">
+                  <div
+                    className={`h-full rounded-full ${freshness.degraded ? 'bg-amber-300' : 'bg-emerald-300'}`}
+                    style={{ width: `${freshnessScore}%` }}
+                    aria-hidden="true"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 grid gap-3 md:grid-cols-3">
+              <div className="rounded-xl border border-white/15 bg-black/10 p-3.5">
+                <p className="text-[10px] uppercase tracking-[0.15em] text-white/70">Content baseline</p>
+                <p className="mt-1 text-lg font-bold text-white">{freshness.content.ageDays}d</p>
+                <p className="text-xs text-white/75">{l({ en: 'Target ≤ 3 days', kn: 'ಗುರಿ ≤ 3 ದಿನ', hi: 'लक्ष्य ≤ 3 दिन', ta: 'இலக்கு ≤ 3 நாள்' })}</p>
+              </div>
+              <div className="rounded-xl border border-white/15 bg-black/10 p-3.5">
+                <p className="text-[10px] uppercase tracking-[0.15em] text-white/70">Factual audit</p>
+                <p className="mt-1 text-lg font-bold text-white">{freshness.factualAudit.ageDays}d</p>
+                <p className="text-xs text-white/75">{l({ en: 'Target ≤ 14 days', kn: 'ಗುರಿ ≤ 14 ದಿನ', hi: 'लक्ष्य ≤ 14 दिन', ta: 'இலக்கு ≤ 14 நாள்' })}</p>
+              </div>
+              <div className="rounded-xl border border-white/15 bg-black/10 p-3.5">
+                <p className="text-[10px] uppercase tracking-[0.15em] text-white/70">Execution status</p>
+                <p className="mt-1 text-lg font-bold text-white">{freshness.executionStatus.ageDays}d</p>
+                <p className="text-xs text-white/75">{l({ en: 'Target ≤ 14 days', kn: 'ಗುರಿ ≤ 14 ದಿನ', hi: 'लक्ष्य ≤ 14 दिन', ta: 'இலக்கு ≤ 14 நாள்' })}</p>
+              </div>
+            </div>
+          </article>
         </section>
 
         <section className="mt-10 grid gap-4 md:grid-cols-3">

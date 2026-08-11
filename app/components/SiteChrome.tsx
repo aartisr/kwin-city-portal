@@ -26,6 +26,9 @@ type SiteChromeProps = {
     newsIntelligenceLabel: string;
     statusText?: string;
     degraded?: boolean;
+    contentAgeDays?: number;
+    factualAuditAgeDays?: number;
+    executionStatusAgeDays?: number;
   };
 };
 
