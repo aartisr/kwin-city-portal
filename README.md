@@ -20,6 +20,10 @@ Short description for media use:
 
 "KWIN City Portal is a Bengaluru-focused, evidence-first civic information platform that prioritizes public trust through source transparency, honest uncertainty, and accessible storytelling."
 
+## Dependency Registry Policy
+
+Vercel and all checked-in configuration use the public npm registry, so deployment never depends on an internal network or credential. Developers who need the private Artifactory registry can keep it local: copy `.npmrc.private.example` to `.npmrc.private`, set `KWIN_PRIVATE_NPM_TOKEN`, then run commands through `npm run npm:private -- <npm command>`. The private profile is ignored by Git.
+
 ## Why This Website Exists
 
 Before this platform, one critical civic question was often left unanswered:

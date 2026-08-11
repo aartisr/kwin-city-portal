@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "yarn install --frozen-lockfile --registry https://registry.npmjs.org/",
   "crons": [
     {
       "path": "/api/cron/kwin-seo-agency",

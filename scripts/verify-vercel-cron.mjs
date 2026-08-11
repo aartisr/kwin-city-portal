@@ -2,6 +2,20 @@ import { readFileSync } from 'node:fs';
 
 const config = JSON.parse(readFileSync('vercel.json', 'utf8'));
 const crons = config.crons ?? [];
+const publicRegistry = 'https://registry.npmjs.org/';
+
+if (config.installCommand !== `yarn install --frozen-lockfile --registry ${publicRegistry}`) {
+  console.error('[vercel-config] Vercel installs must explicitly use the public npm registry.');
+  process.exit(1);
+}
+
+for (const configPath of ['.npmrc', '.yarnrc']) {
+  const content = readFileSync(configPath, 'utf8');
+  if (!content.includes(publicRegistry) || content.includes('always-auth=true')) {
+    console.error(`[vercel-config] ${configPath} must retain the public, unauthenticated registry configuration.`);
+    process.exit(1);
+  }
+}
 
 if (!Array.isArray(crons) || crons.length === 0) {
   console.error('[vercel-cron] Expected at least one configured Vercel cron job.');
@@ -22,4 +36,4 @@ for (const cron of crons) {
   }
 }
 
-console.log(`[vercel-cron] OK: ${crons.length} Vercel Hobby-compatible daily cron job(s).`);
+console.log(`[vercel-config] OK: public-registry install boundary and ${crons.length} Vercel Hobby-compatible daily cron job(s).`);
