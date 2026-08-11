@@ -7,7 +7,7 @@
   "private": true,
   "packageManager": "yarn@1.22.22",
   "engines": {
-    "node": "20.x"
+    "node": ">=20.19.0 <23"
   },
   "scripts": {
     "dev": "next dev",
@@ -17,7 +17,9 @@
     "clean:next": "rm -rf .next .next-dev",
     "lint": "next lint",
     "lint:critical": "eslint app/components/header app/components/search-modal app/lib/home app/lib/search-index.ts --max-warnings=0",
+    "pretest": "node scripts/verify-node-runtime.mjs",
     "test": "vitest run",
+    "pretest:coverage": "node scripts/verify-node-runtime.mjs",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "type-check": "tsc --noEmit",
