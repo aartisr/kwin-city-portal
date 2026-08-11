@@ -23,13 +23,31 @@ test.describe('Phase 4: Form & Modal Accessibility', () => {
 
     // Test error messages have aria-live and proper IDs
     await nameInput.fill('');
-    await page.locator('button[type="submit"]').click();
+    await page.getByRole('button', { name: /send message/i }).click();
 
-    const errorMsg = page.locator('[role="alert"]');
+    const errorMsg = page.locator('[role="alert"]').filter({ hasText: /there.s something to fix/i });
     if (await errorMsg.count() > 0) {
       const ariaLive = await errorMsg.getAttribute('aria-live');
-      expect(ariaLive).toBe('polite');
+      expect(ariaLive).toBe('assertive');
     }
+  });
+
+  test('Contact form gives an actionable, keyboard-focused error recovery path', async ({ page }: any) => {
+    await page.goto('/contact');
+    await page.waitForLoadState('networkidle');
+
+    await page.getByRole('button', { name: /send message/i }).click();
+
+    const summary = page.locator('[role="alert"]').filter({ hasText: /there.s something to fix/i });
+    await expect(summary).toBeVisible();
+    await expect(summary).toContainText(/correct the highlighted fields/i);
+    await expect(page.locator('input[id*="name"]')).toHaveAttribute('aria-invalid', 'true');
+    await expect(page.getByRole('textbox', { name: 'Your email' })).toHaveAttribute('aria-invalid', 'true');
+    await expect(page.locator('textarea')).toHaveAttribute('aria-invalid', 'true');
+    await expect(summary).toBeFocused();
+
+    await page.locator('input[id*="name"]').fill('Aarti');
+    await expect(page.locator('input[id*="name"]')).toHaveAttribute('aria-invalid', 'false');
   });
 
   test('Search modal should have proper focus management and keyboard navigation', async ({ page }: any) => {

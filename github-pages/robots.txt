@@ -2,3 +2,6 @@ User-agent: *
 Allow: /
 
 Sitemap: https://aartisr.github.io/kwin-city-portal/sitemap.xml
+
+# The GitHub Pages hub is a distinct, crawlable discovery companion.
+# Its primary editorial destination is https://kwin-city.com/.

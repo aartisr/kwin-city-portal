@@ -54,11 +54,11 @@ export default function MobileMenuSheet({
               <span>{labels.search}</span>
             </button>
             <Link
-              href="/about"
+              href="/contact"
               className="flex items-center justify-center gap-2 rounded-2xl bg-[linear-gradient(135deg,#F5A623,#E8A020)] px-3 py-3 text-sm font-bold text-[#040714]"
               onClick={onCloseMenu}
             >
-              <span>{labels.exploreKwin}</span>
+              <span>{labels.contact}</span>
             </Link>
           </div>
         </div>

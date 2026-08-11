@@ -1,7 +1,6 @@
 import type { Ref } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { inputBase } from './styles';
-import type { ContactText, FormState } from './config';
+import type { ContactText } from './config';
 
 type ContactFieldsProps = {
   l: ContactText;
@@ -13,9 +12,7 @@ type ContactFieldsProps = {
   honeypot: string;
   charCount: number;
   messagePlaceholder: string;
-  formState: FormState;
-  errorMsg: string;
-  errorRequestId: string;
+  fieldErrors: Partial<Record<'name' | 'email' | 'message', string>>;
   onNameChange: (value: string) => void;
   onEmailChange: (value: string) => void;
   onMessageChange: (value: string) => void;
@@ -32,9 +29,7 @@ export function ContactFields({
   honeypot,
   charCount,
   messagePlaceholder,
-  formState,
-  errorMsg,
-  errorRequestId,
+  fieldErrors,
   onNameChange,
   onEmailChange,
   onMessageChange,
@@ -71,8 +66,10 @@ export function ContactFields({
             value={name}
             onChange={(event) => onNameChange(event.target.value)}
             className={inputBase}
-            aria-describedby={formState === 'error' ? `${uid}-error` : undefined}
+            aria-invalid={Boolean(fieldErrors.name)}
+            aria-describedby={fieldErrors.name ? `${uid}-name-error` : undefined}
           />
+          {fieldErrors.name ? <p id={`${uid}-name-error`} className="mt-2 text-sm font-medium text-red-700">{fieldErrors.name}</p> : null}
         </div>
 
         <div>
@@ -93,8 +90,10 @@ export function ContactFields({
             value={email}
             onChange={(event) => onEmailChange(event.target.value)}
             className={inputBase}
-            aria-describedby={formState === 'error' ? `${uid}-error` : undefined}
+            aria-invalid={Boolean(fieldErrors.email)}
+            aria-describedby={fieldErrors.email ? `${uid}-email-error` : undefined}
           />
+          {fieldErrors.email ? <p id={`${uid}-email-error`} className="mt-2 text-sm font-medium text-red-700">{fieldErrors.email}</p> : null}
         </div>
       </div>
 
@@ -122,28 +121,12 @@ export function ContactFields({
           placeholder={messagePlaceholder}
           value={message}
           onChange={(event) => onMessageChange(event.target.value)}
-          className={`${inputBase} resize-none`}
-          aria-describedby={formState === 'error' ? `${uid}-error` : `${uid}-charcount`}
+          className={`${inputBase} resize-y`}
+          aria-invalid={Boolean(fieldErrors.message)}
+          aria-describedby={fieldErrors.message ? `${uid}-message-error ${uid}-charcount` : `${uid}-charcount`}
         />
+        {fieldErrors.message ? <p id={`${uid}-message-error`} className="mt-2 text-sm font-medium text-red-700">{fieldErrors.message}</p> : null}
       </div>
-
-      <AnimatePresence>
-        {formState === 'error' && errorMsg ? (
-          <motion.p
-            id={`${uid}-error`}
-            key="err"
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-xl px-4 py-3"
-            role="alert"
-            aria-live="polite"
-          >
-            {errorMsg}
-            {errorRequestId ? ` Reference ID: ${errorRequestId}` : ''}
-          </motion.p>
-        ) : null}
-      </AnimatePresence>
     </>
   );
 }

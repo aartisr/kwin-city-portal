@@ -68,6 +68,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
+      url: `${SITE_URL}/region-map`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
       url: `${SITE_URL}/trust`,
       lastModified,
       changeFrequency: 'weekly',
@@ -106,6 +112,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified,
       changeFrequency: 'weekly',
       priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/updates/change-tracker`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.75,
+    },
+    {
+      url: `${SITE_URL}/updates/regulatory-news`,
+      lastModified,
+      changeFrequency: 'daily',
+      priority: 0.75,
+    },
+    {
+      url: `${SITE_URL}/updates/satellite-tracker`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.7,
     },
     {
       url: `${SITE_URL}/instagram`,
@@ -205,6 +229,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'yearly',
       priority: 0.5,
     },
+    {
+      url: `${SITE_URL}/tools`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    ...[
+      'accessibility',
+      'investment-radar',
+      'open-data-studio',
+      'opportunity-exchange',
+      'regulatory-navigator',
+      'risk-check',
+      'spatial-explorer',
+      'valuation-index',
+    ].map((tool) => ({
+      url: `${SITE_URL}/tools/${tool}`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.65,
+    })),
     {
       url: `${SITE_URL}/terms`,
       lastModified,

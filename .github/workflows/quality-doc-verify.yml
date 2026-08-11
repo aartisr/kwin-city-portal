@@ -48,3 +48,6 @@ jobs:
 
       - name: Verify AI discovery and citation signals
         run: npm run discovery:verify-signals
+
+      - name: Verify GitHub Pages discovery hub
+        run: npm run discovery:verify-github-pages

@@ -10,11 +10,14 @@ on:
       - app/lib/updates/**
       - app/content/pages/updates.json
       - app/sitemap.ts
+      - app/region-map/page.tsx
       - public/robots.txt
       - public/llms.txt
       - public/ai.txt
       - app/feed.xml/route.ts
       - scripts/ping-search-engines.mjs
+      - scripts/verify-github-pages-discovery.mjs
+      - github-pages/**
       - package.json
   workflow_dispatch:
 
@@ -42,6 +45,9 @@ jobs:
 
       - name: Type check
         run: npm run type-check
+
+      - name: Verify GitHub Pages discovery hub
+        run: npm run discovery:verify-github-pages
 
       - name: Notify search engines
         run: npm run notify:search

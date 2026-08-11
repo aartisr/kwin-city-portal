@@ -9,6 +9,7 @@ export type HeaderLabels = {
   showTrustBar: string;
   toggleMenu: string;
   exploreKwin: string;
+  contact: string;
   language: string;
 };
 

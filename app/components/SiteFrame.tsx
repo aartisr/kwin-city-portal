@@ -55,6 +55,7 @@ export default async function SiteFrame({ children }: { children: React.ReactNod
           showTrustBar: translate(locale, 'common.showTrustBar'),
           toggleMenu: translate(locale, 'common.toggleMenu'),
           exploreKwin: translate(locale, 'common.exploreKwin'),
+          contact: translate(locale, 'common.contact'),
           language: translate(locale, 'common.language'),
         }}
         trustBannerCopy={{

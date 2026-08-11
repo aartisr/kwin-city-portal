@@ -3,6 +3,25 @@ import SiteFrame from '@/components/SiteFrame';
 import ContactForm from '@/components/ContactForm';
 import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 
+const CONTACT_PAGE_URL = 'https://kwin-city.com/contact';
+const CONTACT_PAGE_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  '@id': `${CONTACT_PAGE_URL}#webpage`,
+  url: CONTACT_PAGE_URL,
+  name: 'Contact KWIN City',
+  description: 'Contact KWIN City for investor, research, media, resident, partnership, and source-correction enquiries.',
+  isPartOf: { '@id': 'https://kwin-city.com/#website' },
+  about: { '@id': 'https://kwin-city.com/#organization' },
+  mainEntity: {
+    '@type': 'ContactPoint',
+    contactType: 'public enquiries',
+    email: 'hello@kwin-city.com',
+    url: CONTACT_PAGE_URL,
+    availableLanguage: ['en', 'kn', 'hi', 'ta'],
+  },
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
@@ -43,6 +62,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function ContactPage() {
   return (
     <SiteFrame>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(CONTACT_PAGE_SCHEMA) }} />
       <ContactForm />
     </SiteFrame>
   );

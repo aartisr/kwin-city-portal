@@ -1,25 +1,25 @@
 'use client';
 
-import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useId, useRef, useState } from 'react';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import { pickLocalizedValue } from '@/lib/i18n/messages';
 import { ContactFields } from '@/components/contact/ContactFields';
 import { ContactSuccessState } from '@/components/contact/ContactSuccessState';
-import {
-  getMessagePlaceholder,
-  getSelectedPersona,
-  type FormState,
-  type PersonaId,
-} from '@/components/contact/config';
+import { getMessagePlaceholder, getSelectedPersona, type FormState, type PersonaId } from '@/components/contact/config';
 import { PersonaSelector } from '@/components/contact/PersonaSelector';
+
+type FieldName = 'name' | 'email' | 'message';
+type FieldErrors = Partial<Record<FieldName, string>>;
+
+const CONTACT_EMAIL = 'hello@kwin-city.com';
 
 export default function ContactForm() {
   const { locale } = useI18n();
   const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const uid = useId();
   const nameRef = useRef<HTMLInputElement>(null);
+  const errorSummaryRef = useRef<HTMLDivElement>(null);
 
   const [persona, setPersona] = useState<PersonaId | null>(null);
   const [name, setName] = useState('');
@@ -27,6 +27,7 @@ export default function ContactForm() {
   const [message, setMessage] = useState('');
   const [honeypot, setHoneypot] = useState('');
   const [formState, setFormState] = useState<FormState>('idle');
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [errorMsg, setErrorMsg] = useState('');
   const [errorRequestId, setErrorRequestId] = useState('');
 
@@ -34,13 +35,42 @@ export default function ContactForm() {
   const messagePlaceholder = getMessagePlaceholder(selectedPersona);
   const charCount = message.length;
 
+  const validate = (): FieldErrors => {
+    const errors: FieldErrors = {};
+    if (!name.trim()) errors.name = 'Enter your name so we know how to address you.';
+    if (!email.trim()) errors.email = 'Enter an email address so we can reply.';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) errors.email = 'Enter a valid email address, such as name@example.com.';
+    if (!message.trim()) errors.message = 'Tell us a little about what you need.';
+    else if (message.trim().length < 20) errors.message = 'Please add a little more detail (at least 20 characters) so we can respond usefully.';
+    return errors;
+  };
+
+  const clearFieldError = (field: FieldName) => {
+    setFieldErrors((current) => {
+      if (!current[field]) return current;
+      const next = { ...current };
+      delete next[field];
+      return next;
+    });
+    if (formState === 'error') setFormState('idle');
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (formState === 'submitting') {
+    if (formState === 'submitting') return;
+
+    const errors = validate();
+    if (Object.keys(errors).length) {
+      setFieldErrors(errors);
+      setErrorMsg('Please correct the highlighted fields and try again.');
+      setErrorRequestId('');
+      setFormState('error');
+      window.requestAnimationFrame(() => errorSummaryRef.current?.focus());
       return;
     }
 
     setFormState('submitting');
+    setFieldErrors({});
     setErrorMsg('');
     setErrorRequestId('');
 
@@ -56,150 +86,73 @@ export default function ContactForm() {
           website: honeypot,
         }),
       });
-
       const data = await response.json();
-
       if (!response.ok || !data.success) {
         setErrorMsg(data.error ?? 'Something went wrong. Please try again.');
         setErrorRequestId(typeof data.requestId === 'string' ? data.requestId : '');
         setFormState('error');
+        window.requestAnimationFrame(() => errorSummaryRef.current?.focus());
         return;
       }
-
       setFormState('success');
     } catch {
-      setErrorMsg('Could not connect. Please check your internet connection and try again.');
+      setErrorMsg('We could not connect right now. Check your connection and try again, or email us directly.');
       setFormState('error');
+      window.requestAnimationFrame(() => errorSummaryRef.current?.focus());
     }
   };
 
   return (
-    <div className="kwin-page-top min-h-screen bg-[linear-gradient(150deg,#040714_0%,#0D1640_45%,#07131F_100%)] pb-20 px-4">
-      <div className="max-w-xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-10"
-        >
-          <p className="text-[11px] font-bold tracking-[0.22em] uppercase text-[#F5A623] mb-4">
-            {l({ en: 'Reach out', kn: 'ಸಂಪರ್ಕಿಸಿ', hi: 'संपर्क करें', ta: 'தொடர்பு கொள்ளவும்' })}
-          </p>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.1] mb-4">
-            {l({ en: 'How can we ', kn: 'ನಾವು ನಿಮಗೆ ', hi: 'हम आपकी ', ta: 'நாங்கள் உங்களுக்கு ' })}
-            <span className="bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent">
-              {l({ en: 'help you?', kn: 'ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?', hi: 'कैसे मदद कर सकते हैं?', ta: 'எப்படி உதவலாம்?' })}
-            </span>
-          </h1>
-          <p className="text-[#64748B] text-base">We read every message personally.</p>
-        </motion.div>
+    <main id="main-content" className="kwin-page-top overflow-hidden bg-[#f7f8fc] pb-16">
+      <section className="relative isolate overflow-hidden bg-[#07112d] px-4 pb-16 pt-12 text-white sm:px-6 lg:px-8">
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_12%,rgba(245,166,35,0.22),transparent_28%),radial-gradient(circle_at_88%_18%,rgba(6,182,212,0.18),transparent_30%)]" />
+        <div className="mx-auto max-w-6xl">
+          <p className="inline-flex rounded-full border border-amber-300/30 bg-amber-300/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-amber-200">Contact KWIN City</p>
+          <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(18rem,.65fr)] lg:items-end">
+            <div>
+              <h1 className="max-w-3xl text-4xl font-black tracking-tight sm:text-5xl">A clear route to the right conversation.</h1>
+              <p className="mt-5 max-w-2xl text-base leading-7 text-slate-200 sm:text-lg">Ask a project question, request evidence, share a correction, or begin a media, research, or partnership conversation. Choose the context that best fits, then write in your own words.</p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-5 backdrop-blur-sm">
+              <p className="text-sm font-bold text-white">Prefer email?</p>
+              <a href={`mailto:${CONTACT_EMAIL}`} className="mt-2 inline-flex break-all text-base font-semibold text-amber-200 underline decoration-amber-200/40 underline-offset-4 hover:text-white">{CONTACT_EMAIL}</a>
+              <p className="mt-3 text-sm leading-6 text-slate-300">Use the form when context helps us route your message. Do not send passwords, financial details, or sensitive documents.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="rounded-2xl border border-white/[0.08] bg-[linear-gradient(145deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] backdrop-blur-sm overflow-hidden"
-        >
-          <div className="h-[3px] w-full bg-gradient-to-r from-[#F5A623] via-[#F5A623]/60 to-transparent" />
+      <section className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1.25fr)_minmax(17rem,.75fr)] lg:px-8">
+        <div className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-[0_24px_60px_rgba(15,23,42,0.08)] sm:p-8">
+          {formState === 'success' ? <ContactSuccessState name={name} /> : (
+            <form noValidate onSubmit={handleSubmit} className="space-y-7" aria-describedby={`${uid}-form-note`}>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700">Start here</p>
+                <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-950">Tell us what brings you here.</h2>
+                <p id={`${uid}-form-note`} className="mt-2 text-sm leading-6 text-slate-600">Three short fields are all that is required. You can choose a path to give us useful context, but it is optional.</p>
+              </div>
 
-          <AnimatePresence mode="wait">
-            {formState === 'success' ? (
-              <ContactSuccessState name={name} />
-            ) : (
-              <motion.form
-                key="form"
-                onSubmit={handleSubmit}
-                className="p-6 sm:p-8 space-y-6"
-                initial={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                <PersonaSelector
-                  l={l}
-                  selectedPersona={persona}
-                  onSelect={(personaId) => {
-                    setPersona(personaId);
-                    setTimeout(() => nameRef.current?.focus(), 60);
-                  }}
-                />
+              {formState === 'error' && errorMsg ? <div ref={errorSummaryRef} tabIndex={-1} role="alert" aria-live="assertive" className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"><p className="font-bold">There’s something to fix</p><p className="mt-1">{errorMsg}{errorRequestId ? ` Reference ID: ${errorRequestId}` : ''}</p></div> : null}
 
-                <ContactFields
-                  l={l}
-                  uid={uid}
-                  nameRef={nameRef}
-                  name={name}
-                  email={email}
-                  message={message}
-                  honeypot={honeypot}
-                  charCount={charCount}
-                  messagePlaceholder={messagePlaceholder}
-                  formState={formState}
-                  errorMsg={errorMsg}
-                  errorRequestId={errorRequestId}
-                  onNameChange={setName}
-                  onEmailChange={setEmail}
-                  onMessageChange={setMessage}
-                  onHoneypotChange={setHoneypot}
-                />
+              <PersonaSelector l={l} selectedPersona={persona} onSelect={(personaId) => { setPersona(personaId); window.setTimeout(() => nameRef.current?.focus(), 0); }} />
+              <ContactFields l={l} uid={uid} nameRef={nameRef} name={name} email={email} message={message} honeypot={honeypot} charCount={charCount} messagePlaceholder={messagePlaceholder} fieldErrors={fieldErrors} onNameChange={(value) => { setName(value); clearFieldError('name'); }} onEmailChange={(value) => { setEmail(value); clearFieldError('email'); }} onMessageChange={(value) => { setMessage(value); clearFieldError('message'); }} onHoneypotChange={setHoneypot} />
 
-                <div className="flex flex-col gap-3">
-                  <button
-                    type="submit"
-                    disabled={formState === 'submitting'}
-                    className={[
-                      'group relative w-full rounded-xl py-3.5 px-6 font-bold text-[15px] text-[#040714]',
-                      'bg-[linear-gradient(135deg,#F5A623,#E8962E)]',
-                      'shadow-[0_4px_24px_rgba(245,166,35,0.22)]',
-                      'hover:shadow-[0_6px_32px_rgba(245,166,35,0.35)] hover:brightness-110',
-                      'disabled:opacity-60 disabled:cursor-not-allowed',
-                      'transition-all duration-200',
-                    ].join(' ')}
-                  >
-                    {formState === 'submitting' ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                        </svg>
-                        Sending…
-                      </span>
-                    ) : (
-                      <span className="flex items-center justify-center gap-2">
-                        Send Message
-                        <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
-                          →
-                        </span>
-                      </span>
-                    )}
-                  </button>
+              <div className="border-t border-slate-200 pt-6">
+                <button type="submit" disabled={formState === 'submitting'} className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-[#0b1738] px-5 py-3 text-sm font-bold text-white shadow-[0_12px_28px_rgba(15,23,42,0.18)] transition hover:-translate-y-0.5 hover:bg-[#142453] disabled:cursor-wait disabled:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600">
+                  {formState === 'submitting' ? 'Sending your message…' : 'Send message'}
+                </button>
+                <p className="mt-3 text-center text-xs leading-5 text-slate-500">By sending, you are asking KWIN City to use these details to respond to this enquiry. For source corrections, include the page or claim URL where possible.</p>
+              </div>
+            </form>
+          )}
+        </div>
 
-                  <p className="text-center text-[11px] text-[#3D5070] flex items-center justify-center gap-1.5">
-                    <svg className="w-3 h-3 text-[#3D5070]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                      />
-                    </svg>
-                    Your information is treated with absolute discretion.
-                  </p>
-                </div>
-              </motion.form>
-            )}
-          </AnimatePresence>
-        </motion.div>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          className="text-center mt-8 text-sm text-[#4F6280]"
-        >
-          <Link href="/" className="hover:text-[#F5A623] transition-colors">
-            ← Back to KWIN City
-          </Link>
-        </motion.p>
-      </div>
-    </div>
+        <aside className="space-y-4" aria-label="Helpful contact routes">
+          <div className="rounded-[24px] border border-slate-200 bg-white p-6 shadow-[0_14px_32px_rgba(15,23,42,0.05)]"><p className="text-xs font-bold uppercase tracking-[0.16em] text-cyan-800">Before you write</p><h2 className="mt-2 text-xl font-black text-slate-950">Find an answer in the evidence.</h2><p className="mt-3 text-sm leading-6 text-slate-600">The fastest answer may already be source-linked and ready to inspect.</p><div className="mt-5 grid gap-2"><Link href="/faq" className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold text-slate-800 transition hover:border-cyan-300 hover:bg-cyan-50">Browse common questions <span aria-hidden="true">→</span></Link><Link href="/sources" className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold text-slate-800 transition hover:border-cyan-300 hover:bg-cyan-50">Review sources and claims <span aria-hidden="true">→</span></Link></div></div>
+          <div className="rounded-[24px] bg-[#eaf5f7] p-6"><p className="text-xs font-bold uppercase tracking-[0.16em] text-cyan-900">Good messages are easy to route</p><ul className="mt-4 space-y-3 text-sm leading-6 text-slate-700"><li><strong className="text-slate-950">Research:</strong> name the question, timeframe, or dataset.</li><li><strong className="text-slate-950">Media:</strong> include your publication and deadline.</li><li><strong className="text-slate-950">Correction:</strong> link the page or claim and the supporting source.</li></ul></div>
+          <div className="rounded-[24px] border border-amber-200 bg-amber-50 p-6"><p className="text-sm font-bold text-amber-950">Trust and safety</p><p className="mt-2 text-sm leading-6 text-amber-900">We will not ask for a password, OTP, bank information, or payment over this form. If a message appears suspicious, use this page or the official email address above to verify it.</p></div>
+        </aside>
+      </section>
+    </main>
   );
 }
