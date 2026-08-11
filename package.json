@@ -34,6 +34,7 @@
     "quality:verify-facts": "node scripts/verify-factual-integrity.mjs",
     "discovery:verify-signals": "node scripts/verify-discovery-signals.mjs",
     "discovery:verify-github-pages": "node scripts/verify-github-pages-discovery.mjs",
+    "discovery:verify-published-github-pages": "node scripts/verify-published-github-pages.mjs",
     "deploy:verify-vercel-config": "node scripts/verify-vercel-cron.mjs",
     "operations:verify-current": "node scripts/verify-always-current-operations.mjs",
     "sources:verify-primary-health": "node scripts/verify-primary-source-health.mjs",
