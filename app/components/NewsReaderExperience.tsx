@@ -101,7 +101,10 @@ export default function NewsReaderExperience() {
 
   const [opmlUrl, setOpmlUrl] = useState(lastReaderState?.opmlUrl ?? DEFAULT_OPML_URL);
   const [limit, setLimit] = useState(lastReaderState?.limit ?? DEFAULT_STORY_LIMIT);
-  const [topicQuery, setTopicQuery] = useState('kwin');
+  // Start broad: the reader is a regional intelligence stream. A pre-filled
+  // KWIN query hid most of the reviewed feed inventory and clustered the few
+  // remaining matching reports into only a couple of visible cards.
+  const [topicQuery, setTopicQuery] = useState('');
   const [sourceFilter, setSourceFilter] = useState('all');
   const [domainFilter, setDomainFilter] = useState('all');
   const [sourceMode, setSourceMode] = useState<'all' | 'official' | 'primary'>('all');

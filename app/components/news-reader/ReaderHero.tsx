@@ -98,7 +98,7 @@ export function ReaderHero({
 
             <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-slate-500">
               <span className="rounded-full border border-cyan-200 bg-cyan-50 px-2.5 py-1 text-cyan-800">
-                {l({ en: 'Default topic: KWIN', kn: 'ಡೀಫಾಲ್ಟ್ ವಿಷಯ: KWIN', hi: 'डिफ़ॉल्ट विषय: KWIN', ta: 'இயல்புநிலை தலைப்பு: KWIN' })}
+                {l({ en: 'Default view: all reviewed news', kn: 'ಡೀಫಾಲ್ಟ್ ನೋಟ: ಎಲ್ಲಾ ಪರಿಶೀಲಿತ ಸುದ್ದಿಗಳು', hi: 'डिफ़ॉल्ट दृश्य: सभी समीक्षित समाचार', ta: 'இயல்புநிலை காட்சி: மதிப்பாய்வு செய்யப்பட்ட அனைத்து செய்திகள்' })}
               </span>
               <button
                 onClick={onUseDefaultOpml}
@@ -110,7 +110,7 @@ export function ReaderHero({
                 onClick={onShowAllTopics}
                 className="rounded-full border border-slate-300 bg-white px-2.5 py-1 hover:bg-slate-50"
               >
-                {l({ en: 'Show All Topics', kn: 'ಎಲ್ಲಾ ವಿಷಯಗಳನ್ನು ತೋರಿಸಿ', hi: 'सभी विषय दिखाएँ', ta: 'அனைத்து தலைப்புகளையும் காண்பி' })}
+                {l({ en: 'Clear topic filter', kn: 'ವಿಷಯ ಫಿಲ್ಟರ್ ತೆರವುಗೊಳಿಸಿ', hi: 'विषय फ़िल्टर साफ़ करें', ta: 'தலைப்பு வடிகட்டியை அழி' })}
               </button>
               <span className="text-slate-300">|</span>
               <div className="flex items-center gap-2">
