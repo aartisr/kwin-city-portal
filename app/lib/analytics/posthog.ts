@@ -83,7 +83,10 @@ function injectPostHogSnippet(host: string) {
   }
 
   posthog.init = (token: string, config: Record<string, unknown>) => {
-    queue.push(['init', token, config]);
+    // PostHog's loader consumes `_i` as `[apiKey, config, instanceName?]`.
+    // Do not prefix this tuple with `init`: doing so makes the loader treat the
+    // API key string as its config object and crashes during initialization.
+    queue.push([token, config]);
 
     const script = document.createElement('script');
     script.async = true;
