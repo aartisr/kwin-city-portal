@@ -11,6 +11,7 @@ const PostHogInit = dynamic(() => import('@/components/PostHogInit'), { ssr: fal
 
 export default function ClientEnhancements() {
   const [shouldEnhance, setShouldEnhance] = useState(false);
+  const [shouldLoadAnalytics, setShouldLoadAnalytics] = useState(false);
 
   useEffect(() => {
     const browser = globalThis as typeof globalThis & {
@@ -28,6 +29,49 @@ export default function ClientEnhancements() {
     return () => browser.clearTimeout(timeoutId);
   }, []);
 
+  useEffect(() => {
+    const browser = globalThis as typeof globalThis & {
+      requestIdleCallback?: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number;
+      cancelIdleCallback?: (handle: number) => void;
+      navigator: Navigator & {
+        connection?: { effectiveType?: string; saveData?: boolean };
+      };
+    };
+    const connection = browser.navigator.connection;
+
+    // Analytics must never compete with the first render, and should respect
+    // explicit data-saving or very slow connection preferences.
+    if (connection?.saveData || connection?.effectiveType === 'slow-2g' || connection?.effectiveType === '2g') {
+      return;
+    }
+
+    let idleId: number | undefined;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    let cancelled = false;
+
+    const activate = () => {
+      if (cancelled) return;
+      if (typeof browser.requestIdleCallback === 'function') {
+        idleId = browser.requestIdleCallback(() => setShouldLoadAnalytics(true), { timeout: 5000 });
+      } else {
+        timeoutId = browser.setTimeout(() => setShouldLoadAnalytics(true), 3500);
+      }
+    };
+
+    if (document.readyState === 'complete') {
+      activate();
+    } else {
+      window.addEventListener('load', activate, { once: true });
+    }
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener('load', activate);
+      if (idleId !== undefined) browser.cancelIdleCallback?.(idleId);
+      if (timeoutId !== undefined) browser.clearTimeout(timeoutId);
+    };
+  }, []);
+
   if (!shouldEnhance) {
     return null;
   }
@@ -36,9 +80,13 @@ export default function ClientEnhancements() {
     <>
       <PwaRegistration />
       <PwaInstallPrompt />
-      <PageAnalytics />
-      <ClarityInit />
-      <PostHogInit />
+      {shouldLoadAnalytics ? (
+        <>
+          <PageAnalytics />
+          <ClarityInit />
+          <PostHogInit />
+        </>
+      ) : null}
     </>
   );
 }
