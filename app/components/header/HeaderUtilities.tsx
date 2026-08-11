@@ -11,6 +11,8 @@ type HeaderUtilitiesProps = {
   trustBannerVisible: boolean;
   onToggleTrustBanner: () => void;
   onOpenSearch: () => void;
+  onToggleMenu: () => void;
+  menuOpen: boolean;
   currentUser: AuthUser | null;
 };
 
@@ -21,6 +23,8 @@ export default function HeaderUtilities({
   trustBannerVisible,
   onToggleTrustBanner,
   onOpenSearch,
+  onToggleMenu,
+  menuOpen,
   currentUser,
 }: HeaderUtilitiesProps) {
   return (
@@ -52,6 +56,21 @@ export default function HeaderUtilities({
         <svg className="h-4 w-4" viewBox="0 0 24 24" fill={trustBannerVisible ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={2} aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
         </svg>
+      </button>
+
+      <button
+        type="button"
+        aria-label={labels.toggleMenu}
+        aria-expanded={menuOpen}
+        onClick={onToggleMenu}
+        className="inline-flex h-11 items-center gap-2 rounded-full border border-slate-300 bg-white px-3.5 text-sm font-semibold text-slate-800 shadow-[0_10px_24px_rgba(15,23,42,0.04)] transition-all duration-200 hover:border-amber-200 hover:bg-amber-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
+      >
+        <span className="flex flex-col gap-[4px]" aria-hidden="true">
+          <span className={`h-0.5 w-4 rounded-full bg-current transition-transform duration-200 ${menuOpen ? 'translate-y-[3px] rotate-45' : ''}`} />
+          <span className={`h-0.5 w-4 rounded-full bg-current transition-opacity duration-200 ${menuOpen ? 'opacity-0' : ''}`} />
+          <span className={`h-0.5 w-4 rounded-full bg-current transition-transform duration-200 ${menuOpen ? '-translate-y-[3px] -rotate-45' : ''}`} />
+        </span>
+        <span>{labels.toggleMenu}</span>
       </button>
 
       <Link
