@@ -144,7 +144,7 @@ export default function BengaluruPride() {
             <p className="text-sm font-semibold text-[#F5A623] mb-1">
               {l({ en: 'Research basis for this section', kn: 'ಈ ವಿಭಾಗದ ಸಂಶೋಧನಾ ಆಧಾರ', hi: 'इस अनुभाग का शोध आधार', ta: 'இந்த பகுதியின் ஆய்வு ஆதாரம்' })}
             </p>
-            <p className="text-sm text-[#64748B]">
+            <p className="text-sm text-[#B7C8DA]">
               {l({
                 en: 'Regional context drawn from OpenCity open datasets and Karnataka State publications. They describe the city-region, not KWIN-specific delivery milestones.',
                 kn: 'OpenCity ಮುಕ್ತ ಡೇಟಾಸೆಟ್‌ಗಳು ಮತ್ತು ಕರ್ನಾಟಕ ರಾಜ್ಯ ಪ್ರಕಟಣೆಗಳಿಂದ ಪಡೆದ ಪ್ರಾದೇಶಿಕ ಸಂದರ್ಭ. ಇವು ನಗರ-ಪ್ರದೇಶವನ್ನು ವಿವರಿಸುತ್ತವೆ; KWIN-ನಿಗೆ ಸಂಬಂಧಿಸಿದ ನಿರ್ದಿಷ್ಟ ವಿತರಣಾ ಮೈಲಿಗಲ್ಲುಗಳನ್ನು ಅಲ್ಲ.',

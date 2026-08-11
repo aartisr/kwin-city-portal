@@ -128,7 +128,7 @@ export default async function DataInsightsPage() {
                   <dt className="text-[#F5A623] font-extrabold text-xs tracking-widest mb-2">{item.step}</dt>
                   <dd>
                     <p className="font-bold text-white mb-1">{item.title}</p>
-                    <p className="text-sm text-[#64748B] leading-relaxed">{item.desc}</p>
+                    <p className="text-sm text-[#B7C8DA] leading-relaxed">{item.desc}</p>
                   </dd>
                 </div>
               ))}
@@ -146,7 +146,7 @@ export default async function DataInsightsPage() {
         {/* Provenance note */}
         <section className="py-8 bg-[#040714] border-t border-white/8">
           <div className="container">
-            <p className="text-xs text-[#475569] text-center max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xs text-[#B7C8DA] text-center max-w-3xl mx-auto leading-relaxed">
               {l({ en: 'All OpenCity datasets are published by government agencies under open-data licenses. KWIN Plan data is sourced from the project brief and carries', kn: 'ಎಲ್ಲಾ OpenCity ಡೇಟಾಸೆಟ್‌ಗಳನ್ನು ಸರ್ಕಾರಿ ಸಂಸ್ಥೆಗಳು ಮುಕ್ತ ಡೇಟಾ ಪರವಾನಗಿಗಳಡಿ ಪ್ರಕಟಿಸುತ್ತವೆ. KWIN ಯೋಜನೆ ಡೇಟಾ ಯೋಜನಾ ಸಂಕ್ಷಿಪ್ತದಿಂದ ಪಡೆದುಕೊಳ್ಳಲ್ಪಟ್ಟಿದ್ದು', hi: 'सभी OpenCity डेटासेट सरकारी एजेंसियों द्वारा ओपन डेटा लाइसेंस के तहत प्रकाशित हैं। KWIN योजना डेटा परियोजना ब्रीफ से लिया गया है और इसमें', ta: 'அனைத்து OpenCity தரவுத்தொகுப்புகளும் அரசு அமைப்புகளால் திறந்த தரவு உரிமத்தின் கீழ் வெளியிடப்படுகின்றன. KWIN திட்ட தரவு திட்டக் குறிப்பிலிருந்து பெறப்பட்டு' })}{' '}
               <span className="text-amber-500">{l({ en: 'pending-verification', kn: 'ಪರಿಶೀಲನೆ ಬಾಕಿ', hi: 'सत्यापन-लंबित', ta: 'சரிபார்ப்பு நிலுவை' })}</span>{' '}
               {l({ en: 'status. Treat projections as proposal-level inputs, not confirmed outcomes. Charts are rendered client-side; no data is stored by this portal.', kn: 'ಸ್ಥಿತಿಯಲ್ಲಿದೆ. ಅಂದಾಜುಗಳನ್ನು ಪ್ರಸ್ತಾವನೆ-ಮಟ್ಟದ ಇನ್‌ಪುಟ್‌ಗಳೆಂದು ಮಾತ್ರ ಪರಿಗಣಿಸಿ; ದೃಢೀಕೃತ ಫಲಿತಾಂಶಗಳೆಂದು ಅಲ್ಲ. ಚಾರ್ಟ್‌ಗಳು ಕ್ಲೈಂಟ್-ಸೈಡ್‌ನಲ್ಲಿ ರೆಂಡರ್ ಆಗುತ್ತವೆ; ಈ ಪೋರ್ಟಲ್ ಡೇಟಾ ಸಂಗ್ರಹಿಸುವುದಿಲ್ಲ.', hi: 'स्थिति। प्रक्षेपणों को प्रस्ताव-स्तरीय इनपुट के रूप में देखें, पुष्टि किए गए परिणाम के रूप में नहीं। चार्ट क्लाइंट-साइड पर रेंडर होते हैं; यह पोर्टल डेटा संग्रहित नहीं करता।', ta: 'நிலையில் உள்ளது. முன்னறிவிப்புகளை முன்மொழிவு-நிலை உள்ளீடுகளாக மட்டும் கருதவும்; உறுதிப்படுத்தப்பட்ட முடிவுகளாக அல்ல. வரைபடங்கள் கிளையண்ட் பக்கத்தில் காட்சிப்படுத்தப்படுகின்றன; இந்த தளம் தரவை சேமிக்காது.' })}

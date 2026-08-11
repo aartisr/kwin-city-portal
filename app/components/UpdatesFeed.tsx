@@ -228,7 +228,7 @@ export default function UpdatesFeed() {
               onClick={() => setActiveCategory('all')}
               className={`shrink-0 text-xs font-bold px-3.5 py-1.5 rounded-full border transition-all ${
                 activeCategory === 'all'
-                  ? 'bg-amber-500 text-white border-amber-500 shadow-sm'
+                  ? 'bg-amber-400 text-[#3B2600] border-amber-400 shadow-sm'
                   : 'bg-white text-gray-600 border-gray-200 hover:border-amber-300'
               }`}
             >
@@ -242,7 +242,7 @@ export default function UpdatesFeed() {
                   onClick={() => setActiveCategory(cat.id)}
                   className={`shrink-0 text-xs font-semibold px-3.5 py-1.5 rounded-full border transition-all flex items-center gap-1.5 ${
                     activeCategory === cat.id
-                      ? 'bg-amber-500 text-white border-amber-500 shadow-sm'
+                      ? 'bg-amber-400 text-[#3B2600] border-amber-400 shadow-sm'
                       : `${styles.chip} hover:shadow-sm`
                   }`}
                 >

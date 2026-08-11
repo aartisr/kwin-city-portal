@@ -21,8 +21,8 @@ const personas = [
       'https://commons.wikimedia.org/wiki/File:Kempegowda_International_Airport,_Bengaluru_(Ank_Kumar,_Infosys)_01.jpg',
     imageCredit: 'Ank Kumar',
     imageLicense: 'CC BY-SA 4.0',
-    overlayFrom: 'rgba(92,53,0,0.88)',
-    overlayTo: 'rgba(0,0,0,0.45)',
+    overlayFrom: 'rgba(63,36,0,0.95)',
+    overlayTo: 'rgba(0,0,0,0.72)',
     accent: '#F5A623',
     accentClass: 'text-amber-400',
     badgeClass: 'bg-amber-500/15 text-amber-300 border border-amber-500/25',
@@ -42,8 +42,8 @@ const personas = [
     imageSource: 'https://commons.wikimedia.org/wiki/File:Cubbon_Park_(48186335396).jpg',
     imageCredit: 'Abhiman Singh',
     imageLicense: 'CC0',
-    overlayFrom: 'rgba(5,60,35,0.88)',
-    overlayTo: 'rgba(0,0,0,0.45)',
+    overlayFrom: 'rgba(4,48,29,0.95)',
+    overlayTo: 'rgba(0,0,0,0.72)',
     accent: '#10B981',
     accentClass: 'text-emerald-400',
     badgeClass: 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/25',
@@ -62,8 +62,8 @@ const personas = [
     imageSource: 'https://commons.wikimedia.org/wiki/File:IIMB_Campus.jpg',
     imageCredit: 'Magentic Manifestations',
     imageLicense: 'CC BY-SA 3.0',
-    overlayFrom: 'rgba(25,18,80,0.88)',
-    overlayTo: 'rgba(0,0,0,0.50)',
+    overlayFrom: 'rgba(18,13,62,0.95)',
+    overlayTo: 'rgba(0,0,0,0.74)',
     accent: '#6366F1',
     accentClass: 'text-indigo-400',
     badgeClass: 'bg-indigo-500/15 text-indigo-300 border border-indigo-500/25',
@@ -83,8 +83,8 @@ const personas = [
     imageSource: 'https://commons.wikimedia.org/wiki/File:Vidhana_Soudha,_front_(01).jpg',
     imageCredit: 'Moheen Reeyad',
     imageLicense: 'CC BY-SA 4.0',
-    overlayFrom: 'rgba(3,55,70,0.88)',
-    overlayTo: 'rgba(0,0,0,0.50)',
+    overlayFrom: 'rgba(2,45,58,0.95)',
+    overlayTo: 'rgba(0,0,0,0.74)',
     accent: '#06B6D4',
     accentClass: 'text-cyan-400',
     badgeClass: 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/25',
@@ -103,8 +103,8 @@ const personas = [
     imageSource: 'https://commons.wikimedia.org/wiki/File:InfosysHQFrontView.jpg',
     imageCredit: 'Sundar',
     imageLicense: 'CC BY-SA 3.0',
-    overlayFrom: 'rgba(70,5,35,0.85)',
-    overlayTo: 'rgba(0,0,0,0.50)',
+    overlayFrom: 'rgba(58,4,29,0.95)',
+    overlayTo: 'rgba(0,0,0,0.74)',
     accent: '#EC4899',
     accentClass: 'text-pink-400',
     badgeClass: 'bg-pink-500/15 text-pink-300 border border-pink-500/25',
@@ -254,7 +254,7 @@ function PersonaCard({
                 <span className="text-2xl">{persona.icon}</span>
                 <h3 className="text-xl font-extrabold text-white">{persona.title}</h3>
               </div>
-              <p className="text-sm text-white/70 leading-relaxed max-w-xs">
+              <p className="text-sm text-[#e5edf5] leading-relaxed max-w-xs">
                 {persona.description}
               </p>
             </div>

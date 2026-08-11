@@ -13,7 +13,7 @@ export default function FooterNavLink({ link }: { link: FooterLinkItem }) {
           {link.label}
           {link.external ? ' ↗' : ''}
         </span>
-        {link.desc ? <span className="mt-1 block text-xs leading-5 text-[#60738E]">{link.desc}</span> : null}
+        {link.desc ? <span className="mt-1 block text-xs leading-5 text-[#B7C8DA]">{link.desc}</span> : null}
       </span>
     </>
   );
