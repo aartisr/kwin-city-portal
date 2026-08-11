@@ -9,6 +9,7 @@ export type ReaderItem = {
   sourceFeedUrl: string;
   sourceTier: ReaderSourceTier;
   provenance: ReaderProvenance;
+  isKwinRelated: boolean;
   originalLink?: string;
   authenticity: 'verified-feed' | 'discovery-feed' | 'unverified';
   publishedAt: string | null;

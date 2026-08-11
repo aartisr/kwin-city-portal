@@ -1,4 +1,5 @@
 export * from './timeline';
+export * from './news-timeline';
 export * from './pillars';
 export * from './infrastructure';
 export * from './sectors';

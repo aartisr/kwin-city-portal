@@ -9,6 +9,7 @@ import { ReaderFilters } from '@/components/news-reader/ReaderFilters';
 import { ReaderHero } from '@/components/news-reader/ReaderHero';
 import { ReaderResults } from '@/components/news-reader/ReaderResults';
 import { TrendingSection } from '@/components/news-reader/TrendingSection';
+import { KwinNewsChronicle } from '@/components/news-reader/KwinNewsChronicle';
 import type {
   ReaderItem,
   ReaderPreset,
@@ -195,6 +196,16 @@ export default function NewsReaderExperience() {
   const clusters = useMemo(
     () => sortReaderClusters(clusterReaderItems(filteredItems), sort),
     [filteredItems, sort],
+  );
+
+  const kwinClusters = useMemo(
+    () => clusters.filter((cluster) => cluster.representative.isKwinRelated),
+    [clusters],
+  );
+
+  const regionalClusters = useMemo(
+    () => clusters.filter((cluster) => !cluster.representative.isKwinRelated),
+    [clusters],
   );
 
   useEffect(() => {
@@ -404,23 +415,60 @@ export default function NewsReaderExperience() {
           <TrendingSection
             l={l}
             locale={locale}
-            items={!isLoading ? trendingItems : []}
+            items={!isLoading ? (kwinClusters.length ? trendingItems : []) : []}
             onSelectItem={setSelectedItem}
           />
 
-          <ReaderResults
-            l={l}
-            locale={locale}
-            isLoading={isLoading}
-            error={error}
-            hasLoadedData={Boolean(data)}
-            items={clusters.map((cluster) => ({ ...cluster.representative, cluster }))}
-            savedIds={library.saved}
-            readIds={library.read}
-            onSelectItem={(item) => { library.markRead(item.link); setSelectedItem(item); }}
-            onToggleSaved={library.toggleSaved}
-            onToggleMutedDomain={library.toggleMutedDomain}
-          />
+          {!isLoading ? (
+            <KwinNewsChronicle
+              l={l}
+              locale={locale}
+              liveItems={kwinClusters.map((cluster) => ({ ...cluster.representative, cluster }))}
+              onSelectItem={setSelectedItem}
+            />
+          ) : null}
+
+          {!isLoading && regionalClusters.length ? (
+            <section className="mb-8" aria-labelledby="regional-intelligence-title">
+              <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+                <div>
+                  <p className="text-xs font-bold tracking-[0.14em] uppercase text-slate-500">Regional intelligence</p>
+                  <h2 id="regional-intelligence-title" className="mt-1 text-2xl font-black tracking-[-0.04em] text-slate-950">Beyond KWIN: North Bengaluru and Karnataka signals</h2>
+                  <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">Broader policy, mobility, environment, and city reporting — visibly separated from KWIN-specific coverage.</p>
+                </div>
+                <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-slate-600">{regionalClusters.length} story clusters</span>
+              </div>
+              <ReaderResults
+                l={l}
+                locale={locale}
+                isLoading={false}
+                error={null}
+                hasLoadedData
+                items={regionalClusters.map((cluster) => ({ ...cluster.representative, cluster }))}
+                savedIds={library.saved}
+                readIds={library.read}
+                onSelectItem={(item) => { library.markRead(item.link); setSelectedItem(item); }}
+                onToggleSaved={library.toggleSaved}
+                onToggleMutedDomain={library.toggleMutedDomain}
+              />
+            </section>
+          ) : null}
+
+          {(isLoading || error || !data) ? (
+            <ReaderResults
+              l={l}
+              locale={locale}
+              isLoading={isLoading}
+              error={error}
+              hasLoadedData={Boolean(data)}
+              items={[]}
+              savedIds={library.saved}
+              readIds={library.read}
+              onSelectItem={(item) => { library.markRead(item.link); setSelectedItem(item); }}
+              onToggleSaved={library.toggleSaved}
+              onToggleMutedDomain={library.toggleMutedDomain}
+            />
+          ) : null}
         </div>
       </section>
 
