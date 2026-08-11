@@ -45,13 +45,13 @@ The cron schedule is already configured in `vercel.json`:
   "crons": [
     {
       "path": "/api/cron/kwin-seo-agency",
-      "schedule": "0 3 * * *"
+      "schedule": "11 3 * * *"
     }
   ]
 }
 ```
 
-This runs daily at 03:00 UTC.
+This runs daily at 03:11 UTC.
 
 ### 2. Configure Supabase Storage
 

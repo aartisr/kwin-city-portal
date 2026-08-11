@@ -7,7 +7,7 @@ This runbook explains how to configure, operate, and troubleshoot the zero-budge
 The system has two complementary parts:
 
 1. **Vercel cron** performs the protected production refresh.
-2. **GitHub Actions** runs every six hours to trigger that refresh (when configured), verify source/factual health, and open one actionable issue if a critical gate fails.
+2. **GitHub Actions** runs every three hours to trigger that refresh (when configured), verify source/factual health, and open one actionable issue if a critical gate fails.
 
 The system is intentionally designed to preserve the last known good site state. A failed check must not silently publish unverified content.
 
@@ -92,7 +92,7 @@ Then inspect the Vercel function logs for the matching invocation. It should ret
 
 ## Normal operation
 
-- The GitHub Action is scheduled at minute 17 every six hours, in UTC.
+- The GitHub Action is scheduled at minute 17 every three hours, in UTC.
 - Vercel cron remains the native runtime scheduler.
 - GitHub scheduled workflows can be delayed; do not treat an exact minute as an SLA.
 - A failed check opens at most one issue titled **Always-current control plane requires attention**. Fix the underlying cause, re-run the workflow, and close the issue after confirmation.
