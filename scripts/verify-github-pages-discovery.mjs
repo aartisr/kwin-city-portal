@@ -9,6 +9,7 @@ const REQUIRED_FILES = [
   'index.html',
   'geo-ai-index.html',
   'seo-link-graph.html',
+  'main-site-directory.html',
   'robots.txt',
   'sitemap.xml',
   'llms.txt',
@@ -18,8 +19,18 @@ const VALID_PRIMARY_PATHS = new Set([
   '/', '/about', '/timeline', '/evidence', '/sources', '/trust', '/data-insights',
   '/updates', '/news-intelligence', '/faq', '/region-map', '/sectors/comparison',
   '/why-north-bengaluru', '/sustainability', '/search', '/sitemap.xml', '/feed.xml',
-  '/llms.txt', '/robots.txt', '/ai.txt', '/opensearch.xml',
+  '/llms.txt', '/robots.txt', '/ai.txt', '/opensearch.xml', '/sectors', '/news-reader',
+  '/seo-agency', '/updates/change-tracker', '/updates/regulatory-news',
+  '/updates/satellite-tracker', '/updates/update-2025-12-phase1-infra',
+  '/updates/update-2024-12-kiadb-approvals', '/updates/update-2024-10-inauguration',
+  '/instagram', '/share', '/download', '/downloads', '/for', '/for/investor',
+  '/for/resident', '/for/researcher', '/for/journalist', '/for/curious-citizens',
+  '/contact', '/tools', '/tools/accessibility', '/tools/investment-radar',
+  '/tools/open-data-studio', '/tools/opportunity-exchange', '/tools/regulatory-navigator',
+  '/tools/risk-check', '/tools/spatial-explorer', '/tools/valuation-index', '/terms',
 ]);
+
+const REQUIRED_STABLE_BACKLINKS = [...VALID_PRIMARY_PATHS];
 
 function fail(message) {
   console.error(`\n[github-pages-discovery] ${message}`);
@@ -30,7 +41,7 @@ for (const file of REQUIRED_FILES) {
   if (!existsSync(join(HUB_DIR, file))) fail(`Missing GitHub Pages asset: ${file}`);
 }
 
-const pages = ['index.html', 'geo-ai-index.html', 'seo-link-graph.html'];
+const pages = ['index.html', 'geo-ai-index.html', 'seo-link-graph.html', 'main-site-directory.html'];
 const sitemap = readFileSync(join(HUB_DIR, 'sitemap.xml'), 'utf8');
 const robots = readFileSync(join(HUB_DIR, 'robots.txt'), 'utf8');
 const llms = readFileSync(join(HUB_DIR, 'llms.txt'), 'utf8');
@@ -56,4 +67,10 @@ for (const page of pages) {
   }
 }
 
-console.log(`[github-pages-discovery] OK: ${pages.length} crawlable hub pages and all declared primary-site links are valid.`);
+const combinedHtml = pages.map((page) => readFileSync(join(HUB_DIR, page), 'utf8')).join('\n');
+for (const path of REQUIRED_STABLE_BACKLINKS) {
+  const href = `${PRIMARY_URL}${path === '/' ? '/' : path}`;
+  if (!combinedHtml.includes(`href="${href}"`)) fail(`Missing stable backlink to primary-site URL: ${href}`);
+}
+
+console.log(`[github-pages-discovery] OK: ${pages.length} crawlable hub pages, ${REQUIRED_STABLE_BACKLINKS.length} stable primary-site backlinks, and all declared primary-site links are valid.`);
