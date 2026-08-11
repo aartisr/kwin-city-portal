@@ -198,6 +198,26 @@ export const KWIN_EVIDENCE_SOURCES: EvidenceSource[] = [
       'That proposed sustainability outcomes are achieved in current project execution.',
     ],
   },
+  {
+    id: 'gazette-tracker-bengaluru-north',
+    title: 'Gazette Tracker — Bengaluru North, Karnataka',
+    publisher: 'Gazette Tracker (independent public-notice index)',
+    scope: 'Discovery index for Central Government extraordinary-gazette notices associated with Bengaluru North',
+    url: 'https://gazettetracker.com/location/karnataka/bengaluru-north',
+    status: 'contextual',
+    summary:
+      'Gazette Tracker can help readers discover relevant public notices for Bengaluru North. It is an independent index, not the issuing authority: verify every legal or factual assertion against the linked official e-Gazette PDF and the relevant government record.',
+    supports: [
+      'Discovery of potentially relevant Central Government gazette notices for Bengaluru North.',
+      'A faster path from a location-based search to the underlying official publication.',
+      'Public-notice monitoring alongside direct institutional sources.',
+    ],
+    cannotProve: [
+      'That a notice applies to KWIN City, a specific parcel, or a particular project approval.',
+      'The legal effect, completeness, or current status of a notice without checking the official gazette PDF and issuing authority.',
+      'Karnataka State Gazette coverage or records outside its documented Central Government extraordinary-gazette scope.',
+    ],
+  },
 ];
 
 export const KWIN_SOURCE_REGISTRY: Record<string, SourceReference> = {
@@ -307,6 +327,15 @@ export const KWIN_SOURCE_REGISTRY: Record<string, SourceReference> = {
     url: 'https://ksndmc.karnataka.gov.in/',
     note: 'Primary public institutional source for Karnataka climate and resilience context.',
     status: 'verified',
+  },
+  gazetteTracker: {
+    id: 'gazetteTracker',
+    label: 'S13',
+    title: 'Gazette Tracker — Bengaluru North, Karnataka',
+    publisher: 'Gazette Tracker (independent public-notice index)',
+    url: 'https://gazettetracker.com/location/karnataka/bengaluru-north',
+    note: 'A discovery aid for Central Government extraordinary-gazette notices in Bengaluru North. It is not an official issuing authority: verify any notice, summary, legal effect, or KWIN relevance against the linked official e-Gazette PDF and the responsible government body.',
+    status: 'contextual',
   },
 };
 
