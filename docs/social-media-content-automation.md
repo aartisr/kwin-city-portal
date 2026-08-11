@@ -352,7 +352,7 @@ Implemented automation:
 Daily Vercel Cron path: /api/cron/kwin-seo-agency
 Public dashboard: /seo-agency
 Latest JSON endpoint: /api/seo-agency/latest
-Vercel schedule: 0 3 * * * (daily UTC; Vercel Hobby allows once per day)
+Vercel schedule: 11 3 * * * (daily UTC; Vercel Hobby allows once per day)
 Durable storage table: seo_agency_runs
 ```
 
