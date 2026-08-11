@@ -36,6 +36,7 @@ In the Vercel project environment variables, configure:
 Use the same `CRON_SECRET` value in GitHub. Do not commit it to `.env`, source files, documentation examples, or workflow YAML.
 
 Verify the Vercel schedule configuration in `vercel.json`. Its cron invokes the configured route in UTC.
+On Vercel Hobby, the schedule must run no more than once a day; the repository guard enforces this before CI builds.
 
 ### 2. Configure GitHub Actions secrets
 
