@@ -343,7 +343,7 @@ The scripts should accept `--dry-run`, `--source=<id>`, and `--propose-only`. Th
 
 ## GitHub Actions implementation checklist
 
-The repository implementation is `.github/workflows/always-current.yml`. It runs every six hours at minute 17 (UTC) and can also be launched manually from the **Actions** tab.
+The repository implementation is `.github/workflows/always-current.yml`. It runs every three hours at minute 17 (UTC) and can also be launched manually from the **Actions** tab.
 
 To enable the secure runtime handoff without buying another service, add these existing values as **GitHub repository secrets**:
 
