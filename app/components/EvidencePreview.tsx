@@ -47,7 +47,7 @@ export default function EvidencePreview() {
               key={source.id}
               className="rounded-2xl border border-white/8 p-6 transition-colors hover:border-white/14 bg-[rgba(255,255,255,0.04)]"
             >
-              <div className="eyebrow text-[#64748B] mb-3">{source.publisher}</div>
+              <div className="eyebrow text-[#B7C8DA] mb-3">{source.publisher}</div>
               <h3 className="text-xl font-bold text-white mb-3">{source.title}</h3>
               <p className="text-[#94A3B8] text-sm leading-7">{source.summary}</p>
             </article>
@@ -66,4 +66,3 @@ export default function EvidencePreview() {
     </section>
   );
 }
-

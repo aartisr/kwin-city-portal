@@ -162,7 +162,7 @@ export default async function Hero() {
                     <p className="mt-1 text-xs font-bold uppercase tracking-normal text-[#F5C050]">
                       {stat.label}
                     </p>
-                    <p className="mt-2 min-h-10 text-xs leading-5 text-[#8EA4BC]">{stat.detail}</p>
+                    <p className="mt-2 min-h-10 text-xs leading-5 text-[#B7C8DA]">{stat.detail}</p>
                     <div className="mt-3">
                       <InlineSourceBadges sourceIds={stat.sourceIds} />
                     </div>
@@ -170,7 +170,7 @@ export default async function Hero() {
                 ))}
               </div>
 
-              <p className="mt-4 text-xs leading-5 text-[#7890AA]">
+              <p className="mt-4 text-xs leading-5 text-[#B7C8DA]">
                 {pickByLocale(locale, {
                   en: 'Investment, jobs, and delivery figures remain tied to the project brief until primary public records confirm them.',
                   kn: 'ಹೂಡಿಕೆ, ಉದ್ಯೋಗ ಮತ್ತು ವಿತರಣಾ ಅಂಕಿಗಳು ಪ್ರಾಥಮಿಕ ಸಾರ್ವಜನಿಕ ದಾಖಲೆಗಳು ದೃಢೀಕರಿಸುವವರೆಗೆ ಯೋಜನಾ ಸಂಕ್ಷಿಪ್ತಿಕೆಗೆ ಸಂಬಂಧಿಸಿದೆ.',
@@ -190,7 +190,7 @@ export default async function Hero() {
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-5 text-[11px] text-[#7890AA] md:flex-row md:items-center md:justify-between">
+        <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-5 text-[11px] text-[#B7C8DA] md:flex-row md:items-center md:justify-between">
           <p>
             {pickByLocale(locale, {
               en: 'Hero visual: Kempegowda International Airport context image.',

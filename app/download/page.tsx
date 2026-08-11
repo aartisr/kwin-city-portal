@@ -97,7 +97,7 @@ export default async function DownloadPage() {
                 {pickByLocale(locale, { en: 'in your pocket', kn: 'ನಿಮ್ಮ ಜೇಬಿನಲ್ಲಿ', hi: 'आपकी जेब में' })}
               </span>
             </h1>
-            <p className="text-[#7C8EA6] text-lg md:text-xl leading-8 mb-10 max-w-2xl mx-auto">
+            <p className="text-[#C7D7E8] text-lg md:text-xl leading-8 mb-10 max-w-2xl mx-auto">
               {pickByLocale(locale, {
                 en: 'Install the full intelligence portal on any smartphone — no app store, no fee, no bloat. It\'s a Progressive Web App that installs direct from Chrome or Safari.',
                 kn: 'ಯಾವುದೇ ಸ್ಮಾರ್ಟ್‌ಫೋನ್‌ನಲ್ಲಿ ಸಂಪೂರ್ಣ ಪೋರ್ಟಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸಿ — ಆಪ್ ಸ್ಟೋರ್ ಬೇಡ, ಶುಲ್ಕ ಬೇಡ, ಅನಗತ್ಯವೂ ಬೇಡ. ಇದು Chrome ಅಥವಾ Safari ನಿಂದ ನೇರವಾಗಿ ಸ್ಥಾಪಿಸಬಹುದಾದ Progressive Web App.',
@@ -132,7 +132,7 @@ export default async function DownloadPage() {
               </a>
             </div>
 
-            <p className="mt-5 text-[#4F6280] text-xs">
+            <p className="mt-5 text-[#B7C8DA] text-xs">
               {pickByLocale(locale, { en: 'APK = direct install file for Android · No Google Play account needed', kn: 'APK = Android‌ಗೆ ನೇರ ಸ್ಥಾಪನೆ ಫೈಲ್ · Google Play ಖಾತೆ ಅಗತ್ಯವಿಲ್ಲ', hi: 'APK = Android के लिए सीधी इंस्टॉल फ़ाइल · Google Play खाता आवश्यक नहीं', ta: 'APK = Android-க்கு நேரடி நிறுவல் கோப்பு · Google Play கணக்கு தேவையில்லை' })}
             </p>
           </div>
@@ -151,7 +151,7 @@ export default async function DownloadPage() {
               >
                 <span className="text-2xl mb-3 block">{f.icon}</span>
                 <h3 className="font-extrabold text-white text-sm mb-1">{f.title}</h3>
-                <p className="text-[#7C8EA6] text-[13px] leading-5">{f.body}</p>
+                <p className="text-[#B7C8DA] text-[13px] leading-5">{f.body}</p>
               </div>
             ))}
           </div>
@@ -174,7 +174,7 @@ export default async function DownloadPage() {
                   <path d="M17.523 15.341l.001-.001 2.757-4.775a.5.5 0 00-.866-.5l-2.792 4.833A9.056 9.056 0 0112 14.25a9.056 9.056 0 01-4.623-1.352L4.585 8.065a.5.5 0 00-.866.5l2.757 4.775C4.643 14.72 3.25 17.064 3 19.75h18c-.25-2.686-1.643-5.03-3.477-6.409z" />
                 </svg>
                 <span className="font-bold text-white text-sm">Android</span>
-                <span className="ml-auto text-[#4F6280] text-xs">{pickByLocale(locale, { en: 'Chrome browser', kn: 'Chrome ಬ್ರೌಸರ್', hi: 'Chrome ब्राउज़र', ta: 'Chrome உலாவி' })}</span>
+                <span className="ml-auto text-[#B7C8DA] text-xs">{pickByLocale(locale, { en: 'Chrome browser', kn: 'Chrome ಬ್ರೌಸರ್', hi: 'Chrome ब्राउज़र', ta: 'Chrome உலாவி' })}</span>
               </div>
               <div className="p-6 space-y-5">
                 {steps.android.map((step) => (
@@ -184,7 +184,7 @@ export default async function DownloadPage() {
                     </span>
                     <div>
                       <p className="font-bold text-white text-sm mb-0.5">{step.title}</p>
-                      <p className="text-[#7C8EA6] text-[13px] leading-5">{step.body}</p>
+                      <p className="text-[#B7C8DA] text-[13px] leading-5">{step.body}</p>
                     </div>
                   </div>
                 ))}
@@ -198,7 +198,7 @@ export default async function DownloadPage() {
                   <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83z" />
                 </svg>
                 <span className="font-bold text-white text-sm">iPhone / iPad</span>
-                <span className="ml-auto text-[#4F6280] text-xs">{pickByLocale(locale, { en: 'Safari browser', kn: 'Safari ಬ್ರೌಸರ್', hi: 'Safari ब्राउज़र', ta: 'Safari உலாவி' })}</span>
+                <span className="ml-auto text-[#B7C8DA] text-xs">{pickByLocale(locale, { en: 'Safari browser', kn: 'Safari ಬ್ರೌಸರ್', hi: 'Safari ब्राउज़र', ta: 'Safari உலಾವಿ' })}</span>
               </div>
               <div className="p-6 space-y-5">
                 {steps.ios.map((step) => (
@@ -208,7 +208,7 @@ export default async function DownloadPage() {
                     </span>
                     <div>
                       <p className="font-bold text-white text-sm mb-0.5">{step.title}</p>
-                      <p className="text-[#7C8EA6] text-[13px] leading-5">{step.body}</p>
+                      <p className="text-[#B7C8DA] text-[13px] leading-5">{step.body}</p>
                     </div>
                   </div>
                 ))}
@@ -224,7 +224,7 @@ export default async function DownloadPage() {
               {pickByLocale(locale, { en: 'Advanced · Android Only', kn: 'ಮುನ್ನಡೆದ · Android ಮಾತ್ರ', hi: 'उन्नत · केवल Android', ta: 'மேம்பட்டது · Android மட்டும்' })}
             </p>
             <h2 className="text-2xl font-extrabold text-white mb-3">{pickByLocale(locale, { en: 'Download APK Directly', kn: 'APK ಅನ್ನು ನೇರವಾಗಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ', hi: 'APK सीधे डाउनलोड करें', ta: 'APK-ஐ நேரடியாக பதிவிறக்கவும்' })}</h2>
-            <p className="text-[#7C8EA6] mb-6 leading-7">
+            <p className="text-[#B7C8DA] mb-6 leading-7">
               {pickByLocale(locale, {
                 en: 'For power users who prefer sideloading: download the Android APK from GitHub Releases. This is a Trusted Web Activity wrapper — same experience, native app container.',
                 kn: 'ಸೈಡ್‌ಲೋಡಿಂಗ್ ಇಷ್ಟಪಡುವ ಪವರ್ ಬಳಕೆದಾರರಿಗೆ: GitHub Releases ನಿಂದ Android APK ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ. ಇದು Trusted Web Activity wrapper — ಅದೇ ಅನುಭವ, native app container.',
@@ -253,7 +253,7 @@ export default async function DownloadPage() {
                 All Releases ↗
               </a>
             </div>
-            <div className="mt-5 text-[#4F6280] text-xs leading-5 space-y-1">
+            <div className="mt-5 text-[#B7C8DA] text-xs leading-5 space-y-1">
               <p>{pickByLocale(locale, { en: 'To sideload: Settings → Security → Install unknown apps → Allow Chrome/Files Manager', kn: 'ಸೈಡ್‌ಲೋಡ್ ಮಾಡಲು: Settings → Security → Install unknown apps → Chrome/Files Manager ಗೆ ಅನುಮತಿ', hi: 'साइडलोड के लिए: Settings → Security → Install unknown apps → Chrome/Files Manager को अनुमति दें', ta: 'சைட்லோடு செய்ய: Settings → Security → Install unknown apps → Chrome/Files Manager-ஐ அனுமதி' })}</p>
               <p>{pickByLocale(locale, { en: 'Built automatically via GitHub Actions · Trusted Web Activity (TWA) · No tracking', kn: 'GitHub Actions ಮೂಲಕ ಸ್ವಯಂಚಾಲಿತ ನಿರ್ಮಾಣ · Trusted Web Activity (TWA) · ಟ್ರ್ಯಾಕಿಂಗ್ ಇಲ್ಲ', hi: 'GitHub Actions द्वारा स्वचालित निर्माण · Trusted Web Activity (TWA) · कोई ट्रैकिंग नहीं', ta: 'GitHub Actions மூலம் தானியங்கி உருவாக்கம் · Trusted Web Activity (TWA) · கண்காணிப்பு இல்லை' })}</p>
             </div>
@@ -262,7 +262,7 @@ export default async function DownloadPage() {
 
         {/* ── Footer CTA ─────────────────────────────────────── */}
         <section className="container pb-24 text-center max-w-lg mx-auto">
-          <p className="text-[#4F6280] text-sm leading-6 mb-6">
+          <p className="text-[#B7C8DA] text-sm leading-6 mb-6">
             {pickByLocale(locale, {
               en: 'The PWA approach means zero maintenance cost, always up-to-date content, and feature-parity with any native app for a knowledge portal.',
               kn: 'PWA ವಿಧಾನವು ಶೂನ್ಯ ನಿರ್ವಹಣಾ ವೆಚ್ಚ, ಸದಾ ನವೀಕೃತ ವಿಷಯ ಮತ್ತು ಜ್ಞಾನ ಪೋರ್ಟಲ್‌ಗೆ native app ಸಮಾನ ಅನುಭವವನ್ನು ಒದಗಿಸುತ್ತದೆ.',

@@ -40,7 +40,7 @@ export default function OfflinePage() {
           You&apos;re offline right now
         </h1>
 
-        <p className="text-[#7C8EA6] leading-7 text-base mb-8">
+        <p className="text-[#C7D7E8] leading-7 text-base mb-8">
           The KWIN City portal needs an internet connection to load fresh data.
           Pages you&apos;ve visited recently are still available below.
         </p>
