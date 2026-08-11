@@ -42,7 +42,7 @@ export function ReaderFilters({
             value={topicQuery}
             onChange={(event) => onTopicQueryChange(event.target.value)}
             className="h-10 rounded-lg border border-slate-300 bg-white px-3 text-sm"
-            placeholder="kwin"
+            placeholder="Search all stories"
           />
         </label>
 
