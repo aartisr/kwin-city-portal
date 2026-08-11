@@ -205,7 +205,7 @@ export default function FaqPage() {
             <p className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600 mb-4">{l({ en: 'Help Centre', kn: 'ಸಹಾಯ ಕೇಂದ್ರ', hi: 'सहायता केंद्र', ta: 'உதவி மையம்' })}</p>
             <div className="flex flex-col lg:flex-row lg:items-end gap-8">
               <div className="max-w-2xl">
-                <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-4 leading-tight">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-4 leading-tight">
                   {data.title}
                 </h1>
                 <p className="text-lg text-gray-600 leading-relaxed">{data.description}</p>

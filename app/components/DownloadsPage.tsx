@@ -83,7 +83,7 @@ export default function DownloadsPage() {
           <p className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600 mb-4">{l({ en: 'Resource Library', kn: 'ಸಂಪನ್ಮೂಲ ಗ್ರಂಥಾಲಯ', hi: 'संसाधन पुस्तकालय', ta: 'வள நூலகம்' })}</p>
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
             <div className="max-w-2xl">
-              <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-4 leading-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-4 leading-tight">
                 {data.title}
               </h1>
               <p className="text-lg text-gray-600 leading-relaxed">{data.description}</p>

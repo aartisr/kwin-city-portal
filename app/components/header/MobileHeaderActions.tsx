@@ -34,7 +34,7 @@ export default function MobileHeaderActions({
         type="button"
         onClick={onToggleTrustBanner}
         title={trustBannerVisible ? labels.hideTrustBar : labels.showTrustBar}
-        className={`flex h-10 w-10 items-center justify-center rounded-2xl border transition-all duration-200 ${
+        className={`hidden h-10 w-10 items-center justify-center rounded-2xl border transition-all duration-200 min-[381px]:flex ${
           trustBannerVisible
             ? 'border-cyan-200 bg-cyan-50 text-cyan-800'
             : 'border-slate-300 bg-white text-slate-700'

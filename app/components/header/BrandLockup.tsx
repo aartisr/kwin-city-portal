@@ -4,7 +4,7 @@ export default function BrandLockup() {
   return (
     <Link
       href="/"
-      className="group relative z-10 flex min-w-[11rem] flex-shrink-0 items-center gap-3 rounded-2xl px-1.5 py-1.5 transition-transform duration-300 hover:-translate-y-0.5 sm:min-w-[12rem]"
+      className="group relative z-10 flex min-w-0 items-center gap-3 rounded-2xl px-1.5 py-1.5 transition-transform duration-300 hover:-translate-y-0.5 sm:min-w-[12rem] sm:flex-shrink-0"
       aria-label="KWIN City home"
     >
       <div className="relative flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#F5A623,#E8A020)] text-xl font-extrabold text-[#040714] shadow-[0_14px_34px_rgba(232,160,32,0.32)] transition-transform duration-300 group-hover:scale-[1.03]">

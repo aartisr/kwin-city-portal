@@ -92,7 +92,7 @@ export default async function SourcesPage() {
           <Link href="/" className="text-sm font-semibold text-blue-600 hover:text-blue-700">
             {backLabel}
           </Link>
-          <h1 className="text-5xl font-bold text-gray-900 mt-4 mb-4">{pageTitle}</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mt-4 mb-4">{pageTitle}</h1>
           <p className="text-lg text-gray-600 max-w-3xl">
             {pageDescription}
           </p>
