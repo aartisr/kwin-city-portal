@@ -21,6 +21,18 @@ export type HeaderStory = {
 };
 
 export const GROUP_STORIES: Record<string, HeaderStory> = {
+  explore: {
+    eyebrow: 'Orientation',
+    title: 'Start with the story, then choose the depth you need.',
+    body: 'A calm first layer for understanding KWIN, the region, its sectors, and the project timeline without navigating a maze of choices.',
+    accent: 'from-[#F5A623]/20 via-[#F5A623]/8 to-transparent',
+  },
+  evidence: {
+    eyebrow: 'Evidence',
+    title: 'Find the record, the live signal, and the supporting context.',
+    body: 'Sources, data, and news sit together so a reader can move from a claim to its evidence without guessing where to look.',
+    accent: 'from-emerald-400/18 via-cyan-300/8 to-transparent',
+  },
   discover: {
     eyebrow: 'Orientation',
     title: 'Start with the story before the detail.',

@@ -1,3 +1,4 @@
+// @vitest-environment node
 import { describe, expect, it } from 'vitest';
 import { HIGH_LEVEL_MENUS } from '@/components/header/navigation';
 
