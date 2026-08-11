@@ -49,7 +49,7 @@ const baseConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://maps.googleapis.com https://www.clarity.ms https://scripts.clarity.ms https://va.vercel-scripts.com", // unsafe-inline needed for Framer Motion, Next.js inline styles
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://maps.googleapis.com https://www.clarity.ms https://scripts.clarity.ms https://va.vercel-scripts.com https://us.i.posthog.com", // unsafe-inline needed for Framer Motion, Next.js inline styles; PostHog loads its SDK from us.i.posthog.com
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.mapbox.com",
               "font-src 'self' https://fonts.gstatic.com https://api.mapbox.com",
               "img-src 'self' data: https: blob:",
