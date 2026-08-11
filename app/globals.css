@@ -23,6 +23,18 @@
   --color-surface:        #F8FAFC;
   --color-border:         #E2E8F0;
 
+  /* Accessible text roles. Keep text paired to a known surface rather than
+     picking an ad-hoc muted shade in each component. */
+  --kwin-on-dark:           #F8FBFF;
+  --kwin-on-dark-secondary: #D6E3EF;
+  --kwin-on-dark-muted:     #B7C8DA;
+  --kwin-on-light:          #172033;
+  --kwin-on-light-secondary:#42526B;
+  --kwin-on-light-muted:    #5B6B82;
+  --kwin-surface-dark:      #040714;
+  --kwin-surface-dark-raised:#0D1B2A;
+  --kwin-surface-light:     #FFFFFF;
+
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --shadow-card: 0 1px 4px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.04);
   --shadow-card-hover: 0 4px 16px rgba(0,0,0,0.08), 0 20px 48px rgba(0,0,0,0.06);
@@ -185,6 +197,32 @@ a:hover { color: #1D4ED8; }
   border-color: rgba(255,255,255,0.35);
   color: white;
 }
+
+/* === ACCESSIBLE SURFACE + TEXT ROLES ===
+   These classes deliberately describe the relationship between text and its
+   surface. They are safe defaults for new components and make contrast
+   decisions reviewable without duplicating hexadecimal values across pages. */
+.kwin-surface-dark {
+  background-color: var(--kwin-surface-dark);
+  color: var(--kwin-on-dark);
+}
+
+.kwin-surface-dark-raised {
+  background-color: var(--kwin-surface-dark-raised);
+  color: var(--kwin-on-dark);
+}
+
+.kwin-surface-light {
+  background-color: var(--kwin-surface-light);
+  color: var(--kwin-on-light);
+}
+
+.kwin-text-on-dark { color: var(--kwin-on-dark); }
+.kwin-text-on-dark-secondary { color: var(--kwin-on-dark-secondary); }
+.kwin-text-on-dark-muted { color: var(--kwin-on-dark-muted); }
+.kwin-text-on-light { color: var(--kwin-on-light); }
+.kwin-text-on-light-secondary { color: var(--kwin-on-light-secondary); }
+.kwin-text-on-light-muted { color: var(--kwin-on-light-muted); }
 
 /* === CARD SYSTEM === */
 .card {

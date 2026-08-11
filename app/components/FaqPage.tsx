@@ -93,7 +93,7 @@ function AccordionItem({
         <span
           className={`shrink-0 w-6 h-6 rounded-full border flex items-center justify-center transition-all duration-200 ${
             open
-              ? 'bg-amber-500 border-amber-500 text-white rotate-180'
+              ? 'bg-amber-400 border-amber-400 text-[#3B2600] rotate-180'
               : 'bg-white border-gray-200 text-gray-400'
           }`}
           aria-hidden="true"
@@ -258,7 +258,7 @@ export default function FaqPage() {
                 onClick={() => setActiveGroup('all')}
                 className={`flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-full border transition-all ${
                   activeGroup === 'all'
-                    ? 'bg-amber-500 text-white border-amber-500 shadow-sm'
+                    ? 'bg-amber-400 text-[#3B2600] border-amber-400 shadow-sm'
                     : 'bg-white text-gray-600 border-gray-200 hover:border-amber-300'
                 }`}
               >
@@ -270,7 +270,7 @@ export default function FaqPage() {
                   onClick={() => setActiveGroup(g.id)}
                   className={`flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-full border transition-all ${
                     activeGroup === g.id
-                      ? 'bg-amber-500 text-white border-amber-500 shadow-sm'
+                      ? 'bg-amber-400 text-[#3B2600] border-amber-400 shadow-sm'
                       : 'bg-white text-gray-600 border-gray-200 hover:border-amber-300'
                   }`}
                 >

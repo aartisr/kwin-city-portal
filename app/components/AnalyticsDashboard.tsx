@@ -150,7 +150,7 @@ export default function AnalyticsDashboard() {
           </p>
           <button
             onClick={clearAnalytics}
-            className="px-4 py-2 rounded-lg bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors"
+            className="rounded-lg bg-amber-400 px-4 py-2 font-semibold text-[#3B2600] transition-colors hover:bg-amber-300"
           >
             {l({ en: 'Clear Local Analytics', kn: 'ಸ್ಥಳೀಯ ವಿಶ್ಲೇಷಣೆಯನ್ನು ಅಳಿಸಿ', hi: 'स्थानीय एनालिटिक्स साफ करें', ta: 'உள்ளூர் பகுப்பாய்வை அழிக்கவும்' })}
           </button>

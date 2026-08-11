@@ -86,7 +86,7 @@ function UpdateCard({ entry, catMeta, locale }: { entry: UpdateEntry; catMeta: U
       <div className="p-6">
         {/* Top metadata row */}
         <div className="flex flex-wrap items-center gap-2 mb-3">
-          <time dateTime={entry.date} className="text-xs text-gray-400 font-medium">
+          <time dateTime={entry.date} className="text-xs font-medium text-gray-600">
             {formatDate(entry.date, locale)}
           </time>
           <span className="text-gray-200">·</span>
@@ -102,7 +102,7 @@ function UpdateCard({ entry, catMeta, locale }: { entry: UpdateEntry; catMeta: U
 
         {/* Title */}
         <h3 className="text-lg font-extrabold text-gray-900 mb-2 leading-snug">
-          <Link href={getUpdatePath(entry.id)} className="hover:text-amber-700 transition-colors">
+          <Link href={getUpdatePath(entry.id)} className="text-gray-900 transition-colors hover:text-amber-800">
             {entry.title}
           </Link>
         </h3>

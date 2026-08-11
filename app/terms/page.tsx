@@ -30,7 +30,7 @@ export default async function TermsPage() {
     <SiteFrame>
       <main className="min-h-screen bg-white pt-24 pb-16">
         <div className="container max-w-4xl">
-          <p className="text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-3">{l({ en: 'Legal', kn: 'ಕಾನೂನು', hi: 'कानूनी', ta: 'சட்டம்' })}</p>
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-amber-800">{l({ en: 'Legal', kn: 'ಕಾನೂನು', hi: 'कानूनी', ta: 'சட்டம்' })}</p>
           <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">{l({ en: 'Terms of Use', kn: 'ಬಳಕೆ ನಿಯಮಗಳು', hi: 'उपयोग की शर्तें', ta: 'பயன்பாட்டு விதிமுறைகள்' })}</h1>
           <p className="text-sm text-gray-500 mb-8">{l({ en: 'Effective date:', kn: 'ಪ್ರಭಾವಿ ದಿನಾಂಕ:', hi: 'प्रभावी तिथि:', ta: 'செயல்படும் தேதி:' })} {effectiveDate}</p>
 

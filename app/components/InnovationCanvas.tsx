@@ -78,7 +78,7 @@ export default async function InnovationCanvas() {
               })}
             </h2>
           </div>
-          <p className="max-w-2xl text-base leading-8 text-[#bdd0df] sm:text-lg">
+          <p className="kwin-text-on-dark-secondary max-w-2xl text-base leading-8 sm:text-lg">
             {pickByLocale(locale, {
               en: 'KWIN’s three pillars are not slogans. This portal lets you test the connections between evidence, liveability, and industrial ambition—one question at a time.',
               kn: 'KWIN ನ ಮೂರು ಸ್ತಂಭಗಳು ಕೇವಲ ಘೋಷಣೆಗಳಲ್ಲ. ಈ ಪೋರ್ಟಲ್ ಸಾಕ್ಷ್ಯ, ಬದುಕಲು ಯೋಗ್ಯತೆ ಮತ್ತು ಕೈಗಾರಿಕಾ ಮಹತ್ವಾಕಾಂಕ್ಷೆಯ ನಡುವಿನ ಸಂಬಂಧಗಳನ್ನು ಒಂದೊಂದು ಪ್ರಶ್ನೆಯಾಗಿ ಪರೀಕ್ಷಿಸಲು ನಿಮಗೆ ಅವಕಾಶ ನೀಡುತ್ತದೆ.',
@@ -94,11 +94,11 @@ export default async function InnovationCanvas() {
             <article key={pillar.key} className={`relative overflow-hidden rounded-[26px] border p-6 shadow-[0_24px_65px_rgba(0,0,0,0.22)] backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-white/35 ${pillar.tone}`}>
               <div className={`pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b ${pillar.glow}`} aria-hidden="true" />
               <div className="relative flex items-start justify-between gap-4">
-                <span className="text-[11px] font-black tracking-[0.2em] text-white/80">{pillar.marker}</span>
+                <span className="kwin-text-on-dark-secondary text-[11px] font-black tracking-[0.2em]">{pillar.marker}</span>
                 <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/20 bg-[#071b2c]/45 text-xl" aria-hidden="true">{pillar.icon}</span>
               </div>
               <h3 className="relative mt-12 text-2xl font-black tracking-[-0.04em] text-white">{pickByLocale(locale, pillar.title)}</h3>
-              <p className="relative mt-3 min-h-14 text-sm leading-6 text-[#e4eff7]">{pickByLocale(locale, pillar.detail)}</p>
+              <p className="kwin-text-on-dark-secondary relative mt-3 min-h-14 text-sm leading-6">{pickByLocale(locale, pillar.detail)}</p>
               <Link href={pillar.href} className="relative mt-7 inline-flex items-center gap-2 text-sm font-black text-white underline decoration-white/30 underline-offset-4 transition hover:decoration-white">
                 {pickByLocale(locale, pillar.action)} <span aria-hidden="true">→</span>
               </Link>
@@ -106,7 +106,7 @@ export default async function InnovationCanvas() {
           ))}
         </div>
 
-        <div className="mt-8 flex flex-col gap-3 border-t border-white/15 pt-5 text-sm text-[#c7d9e6] sm:flex-row sm:items-center sm:justify-between">
+        <div className="kwin-text-on-dark-secondary mt-8 flex flex-col gap-3 border-t border-white/15 pt-5 text-sm sm:flex-row sm:items-center sm:justify-between">
           <p>{pickByLocale(locale, { en: 'Explore a pillar, then follow the evidence trail behind it.', kn: 'ಒಂದು ಸ್ತಂಭವನ್ನು ಅನ್ವೇಷಿಸಿ, ನಂತರ ಅದರ ಹಿಂದಿನ ಸಾಕ್ಷ್ಯ ಮಾರ್ಗವನ್ನು ಅನುಸರಿಸಿ.', hi: 'एक स्तंभ देखें, फिर उसके पीछे के साक्ष्य मार्ग का अनुसरण करें।', ta: 'ஒரு தூணை ஆராயுங்கள்; பிறகு அதன் பின்னுள்ள ஆதாரப் பாதையைப் பின்பற்றுங்கள்.' })}</p>
           <Link href="/for" className="font-bold text-cyan-100 hover:text-white">{pickByLocale(locale, { en: 'Choose your pathway →', kn: 'ನಿಮ್ಮ ಮಾರ್ಗವನ್ನು ಆಯ್ಕೆಮಾಡಿ →', hi: 'अपना रास्ता चुनें →', ta: 'உங்கள் பாதையைத் தேர்ந்தெடுக்கவும் →' })}</Link>
         </div>

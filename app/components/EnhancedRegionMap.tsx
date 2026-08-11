@@ -749,7 +749,7 @@ export default function EnhancedRegionMap() {
           className="mb-8"
         >
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Interactive Regional Map</h2>
-          <p className="text-lg text-gray-600 max-w-4xl">
+          <p className="max-w-4xl text-lg text-gray-700">
             Explore KWIN City through a true Mapbox-backed regional frame with live layer controls for proposed zones,
             infrastructure logic, ecological systems, and strategic points of interest across North Bengaluru.
           </p>

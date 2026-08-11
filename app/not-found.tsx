@@ -51,7 +51,7 @@ export default async function NotFound() {
           <p className="text-sm text-blue-900 mb-3">{l({ en: 'Try searching instead:', kn: 'ಬದಲಾಗಿ ಹುಡುಕಿರಿ:', hi: 'इसके बजाय खोजें:', ta: 'இதற்கு பதிலாக தேடவும்:' })}</p>
           <Link
             href="/search?q="
-            className="inline-block px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-colors"
+            className="inline-block rounded-lg bg-blue-700 px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-800"
           >
             {l({ en: 'Search KWIN City', kn: 'KWIN City ಹುಡುಕಿ', hi: 'KWIN City खोजें', ta: 'KWIN City தேடு' })}
           </Link>

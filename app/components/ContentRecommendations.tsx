@@ -137,7 +137,7 @@ export default function ContentRecommendations({
             <Link href={item.href}>
               <div className="p-4 bg-white rounded-lg border border-gray-200 hover:border-blue-500 hover:shadow-md transition-all cursor-pointer h-full">
                 <div className="flex items-start justify-between mb-2">
-                  <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
+                  <span className="inline-block rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800">
                     {item.category}
                   </span>
                   <span className="text-xs text-gray-500">Based on your interests</span>
