@@ -7,6 +7,7 @@ Primary Feed: https://kwin-city.com/feed.xml
 Primary LLM Policy: https://kwin-city.com/llms.txt
 Hub Sitemap: https://aartisr.github.io/kwin-city-portal/sitemap.xml
 Hub Robots Policy: https://aartisr.github.io/kwin-city-portal/robots.txt
+Complete Stable-Route Directory: https://aartisr.github.io/kwin-city-portal/main-site-directory.html
 
 ## Preferred destination URLs
 - https://kwin-city.com/about
@@ -18,6 +19,9 @@ Hub Robots Policy: https://aartisr.github.io/kwin-city-portal/robots.txt
 - https://kwin-city.com/updates
 - https://kwin-city.com/news-intelligence
 - https://kwin-city.com/faq
+- https://kwin-city.com/contact
+- https://kwin-city.com/tools
+- https://kwin-city.com/for
 
 ## Usage notes
 This hub is a discovery layer pointing to the official KWIN City Portal.
