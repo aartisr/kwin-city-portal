@@ -11,7 +11,7 @@ export function SourceAttribution() {
             href="https://www.openstreetmap.org/"
             target="_blank"
             rel="noopener noreferrer"
-            className="underline hover:no-underline"
+            className="text-amber-900 underline hover:text-amber-950 hover:no-underline"
           >
             OpenStreetMap
           </a>{' '}
@@ -20,7 +20,7 @@ export function SourceAttribution() {
         {AIRPORT_SOURCE ? (
           <p>
             <strong>Airport & Aviation Context:</strong>{' '}
-            <a href={AIRPORT_SOURCE.url} target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">
+            <a href={AIRPORT_SOURCE.url} target="_blank" rel="noopener noreferrer" className="text-amber-900 underline hover:text-amber-950 hover:no-underline">
               {AIRPORT_SOURCE.title}
             </a>{' '}
             ({AIRPORT_SOURCE.publisher})
@@ -29,7 +29,7 @@ export function SourceAttribution() {
         {STRR_SOURCE ? (
           <p>
             <strong>STRR Connectivity:</strong>{' '}
-            <a href={STRR_SOURCE.url} target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">
+            <a href={STRR_SOURCE.url} target="_blank" rel="noopener noreferrer" className="text-amber-900 underline hover:text-amber-950 hover:no-underline">
               {STRR_SOURCE.title}
             </a>{' '}
             ({STRR_SOURCE.publisher})

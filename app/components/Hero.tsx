@@ -78,7 +78,7 @@ export default async function Hero() {
               </span>
             </h1>
 
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-[#D5E4F2] md:text-xl">
+            <p className="kwin-text-on-dark-secondary mt-6 max-w-2xl text-lg leading-8 md:text-xl">
               {pickByLocale(locale, {
                 en: 'A fast, source-linked guide to the 5,800-acre township proposal, the regional case behind it, and the questions every serious reader should ask next.',
                 kn: '5,800 ಏಕರೆ (ಹಂತ 1: 2,000 ಏಕರೆ) ಟೌನ್‌ಶಿಪ್ ಪ್ರಸ್ತಾವನೆ, ಅದರ ಪ್ರಾದೇಶಿಕ ಆಧಾರ ಮತ್ತು ಗಂಭೀರ ಓದುಗರು ಮುಂದೆ ಕೇಳಬೇಕಾದ ಪ್ರಶ್ನೆಗಳ ವೇಗದ, ಮೂಲ-ಲಿಂಕ್ ಮಾರ್ಗದರ್ಶಿ.',
@@ -150,7 +150,7 @@ export default async function Hero() {
                     <span className="flex h-8 w-8 items-center justify-center border border-white/12 bg-white/[0.06] text-sm font-black text-[#F5C050]">
                       {index + 1}
                     </span>
-                    <p className="text-sm leading-6 text-[#B7C8DA]">{point}</p>
+                    <p className="kwin-text-on-dark-muted text-sm leading-6">{point}</p>
                   </div>
                 ))}
               </div>
@@ -162,7 +162,7 @@ export default async function Hero() {
                     <p className="mt-1 text-xs font-bold uppercase tracking-normal text-[#F5C050]">
                       {stat.label}
                     </p>
-                    <p className="mt-2 min-h-10 text-xs leading-5 text-[#B7C8DA]">{stat.detail}</p>
+                    <p className="kwin-text-on-dark-muted mt-2 min-h-10 text-xs leading-5">{stat.detail}</p>
                     <div className="mt-3">
                       <InlineSourceBadges sourceIds={stat.sourceIds} />
                     </div>
@@ -170,7 +170,7 @@ export default async function Hero() {
                 ))}
               </div>
 
-              <p className="mt-4 text-xs leading-5 text-[#B7C8DA]">
+              <p className="kwin-text-on-dark-muted mt-4 text-xs leading-5">
                 {pickByLocale(locale, {
                   en: 'Investment, jobs, and delivery figures remain tied to the project brief until primary public records confirm them.',
                   kn: 'ಹೂಡಿಕೆ, ಉದ್ಯೋಗ ಮತ್ತು ವಿತರಣಾ ಅಂಕಿಗಳು ಪ್ರಾಥಮಿಕ ಸಾರ್ವಜನಿಕ ದಾಖಲೆಗಳು ದೃಢೀಕರಿಸುವವರೆಗೆ ಯೋಜನಾ ಸಂಕ್ಷಿಪ್ತಿಕೆಗೆ ಸಂಬಂಧಿಸಿದೆ.',
@@ -190,7 +190,7 @@ export default async function Hero() {
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-5 text-[11px] text-[#B7C8DA] md:flex-row md:items-center md:justify-between">
+        <div className="kwin-text-on-dark-muted mt-8 flex flex-col gap-3 border-t border-white/10 pt-5 text-[11px] md:flex-row md:items-center md:justify-between">
           <p>
             {pickByLocale(locale, {
               en: 'Hero visual: Kempegowda International Airport context image.',

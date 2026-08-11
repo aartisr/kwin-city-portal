@@ -134,7 +134,7 @@ export default function SearchPageClient() {
                   onClick={() => setActiveCategory('All')}
                   className={`shrink-0 text-xs font-bold px-3.5 py-1.5 rounded-full border transition-all ${
                     activeCategory === 'All'
-                      ? 'bg-amber-500 text-white border-amber-500 shadow-sm'
+                      ? 'bg-amber-400 text-[#3B2600] border-amber-400 shadow-sm'
                       : 'bg-white text-gray-600 border-gray-200 hover:border-amber-300'
                   }`}
                 >

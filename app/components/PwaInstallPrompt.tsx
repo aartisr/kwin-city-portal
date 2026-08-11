@@ -83,7 +83,7 @@ export default function PwaInstallPrompt() {
                   <h3 className="text-white font-extrabold text-[16px] leading-tight mb-1">
                     KWIN City on your Phone
                   </h3>
-                  <p className="text-[#B7C8DA] text-[13px] leading-5">
+                  <p className="kwin-text-on-dark-muted text-[13px] leading-5">
                     Instant access, works offline, no app store needed.
                   </p>
                 </div>
@@ -91,7 +91,7 @@ export default function PwaInstallPrompt() {
                 <button
                   onClick={handleDismiss}
                   aria-label="Dismiss"
-                  className="text-[#B7C8DA] hover:text-white transition-colors p-1 flex-shrink-0"
+                  className="kwin-text-on-dark-muted flex-shrink-0 p-1 transition-colors hover:text-white"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

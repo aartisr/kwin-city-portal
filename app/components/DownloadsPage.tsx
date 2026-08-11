@@ -50,7 +50,7 @@ const TIER_CONFIG: Record<VerificationTier, { label: string; badge: string; icon
 };
 
 const FILE_TYPE_STYLES: Record<string, string> = {
-  PDF:     'bg-red-50 text-red-600 border-red-100',
+  PDF:     'bg-red-50 text-red-700 border-red-100',
   CSV:     'bg-teal-50 text-teal-700 border-teal-100',
   XLSX:    'bg-green-50 text-green-700 border-green-100',
   default: 'bg-gray-100 text-gray-600 border-gray-200',
@@ -113,7 +113,7 @@ export default function DownloadsPage() {
                 {cfg.icon} {cfg.label}
               </span>
             ))}
-            <span className="text-xs text-gray-400 self-center ml-1">{l({ en: '— Source verification status', kn: '— ಮೂಲ ಪರಿಶೀಲನಾ ಸ್ಥಿತಿ', hi: '— स्रोत सत्यापन स्थिति', ta: '— ஆதார சரிபார்ப்பு நிலை' })}</span>
+            <span className="ml-1 self-center text-xs text-gray-600">{l({ en: '— Source verification status', kn: '— ಮೂಲ ಪರಿಶೀಲನಾ ಸ್ಥಿತಿ', hi: '— स्रोत सत्यापन स्थिति', ta: '— ஆதார சரிபಾರ்ப்பு நிலை' })}</span>
           </div>
         </div>
       </section>
@@ -121,7 +121,7 @@ export default function DownloadsPage() {
       {/* Category cards */}
       <section className="section-sm">
         <div className="container">
-          <h2 className="text-xs font-bold tracking-[0.18em] uppercase text-gray-400 mb-5">{l({ en: 'Browse by Category', kn: 'ವರ್ಗದ ಪ್ರಕಾರ ನೋಡಿ', hi: 'श्रेणी के अनुसार देखें', ta: 'வகைப்படி உலாவவும்' })}</h2>
+          <h2 className="mb-5 text-xs font-bold uppercase tracking-[0.18em] text-gray-600">{l({ en: 'Browse by Category', kn: 'ವರ್ಗದ ಪ್ರಕಾರ ನೋಡಿ', hi: 'श्रेणी के अनुसार देखें', ta: 'வகைப்படಿ ಉಲಾವಿ' })}</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
             <button
               onClick={() => setActiveCategory('all')}
@@ -155,14 +155,14 @@ export default function DownloadsPage() {
 
           {/* Tier filter row */}
           <div className="flex items-center gap-2 flex-wrap mb-8">
-            <span className="text-xs text-gray-400 font-medium">{l({ en: 'Filter by verification:', kn: 'ಪರಿಶೀಲನೆ ಆಧಾರವಾಗಿ ಫಿಲ್ಟರ್:', hi: 'सत्यापन के अनुसार फ़िल्टर:', ta: 'சரிபார்ப்பின் அடிப்படையில் வடிகட்டி:' })}</span>
+            <span className="text-xs font-medium text-gray-600">{l({ en: 'Filter by verification:', kn: 'ಪರಿಶೀಲನೆ ಆಧಾರವಾಗಿ ಫಿಲ್ಟರ್:', hi: 'सत्यापन के अनुसार फ़िल्टर:', ta: 'சரிபார்ப்பின் அடிப்படையில் வடிகட்டி:' })}</span>
             {(['all', 'verified', 'pending', 'contextual'] as const).map((t) => (
               <button
                 key={t}
                 onClick={() => setActiveTier(t)}
                 className={`text-xs font-semibold px-3 py-1.5 rounded-full border transition-all ${
                   activeTier === t
-                    ? 'bg-amber-500 text-white border-amber-500'
+                    ? 'bg-amber-400 text-[#3B2600] border-amber-400'
                     : t === 'all'
                     ? 'bg-white text-gray-600 border-gray-200 hover:border-amber-300'
                     : `${TIER_CONFIG[t].badge} hover:shadow-sm`
@@ -225,7 +225,7 @@ export default function DownloadsPage() {
                       </p>
 
                       {/* Publisher + date */}
-                      <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-400 mb-4">
+                      <div className="mb-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-600">
                         <span className="flex items-center gap-1">
                           🏛️ {doc.publisher}
                         </span>

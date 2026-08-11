@@ -105,7 +105,7 @@ export default async function SourcesPage() {
               <article id={source.id} key={source.id} className="rounded-2xl border border-gray-200 bg-white p-6">
                 <div className="flex flex-wrap items-start justify-between gap-4 mb-3">
                   <div>
-                    <div className="text-xs font-semibold tracking-[0.18em] text-gray-400 mb-2">{source.label}</div>
+                    <div className="mb-2 text-xs font-semibold tracking-[0.18em] text-gray-600">{source.label}</div>
                     <h3 className="text-xl font-semibold text-gray-900">{source.title}</h3>
                     <p className="text-sm text-gray-500 mt-1">{source.publisher}</p>
                   </div>

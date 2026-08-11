@@ -74,7 +74,7 @@ export function DatasetCard({ cfg }: DatasetCardProps) {
               href={`https://data.opencity.in/dataset/${cfg.dataset}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[10px] text-[#B7C8DA] hover:text-white transition-colors"
+              className="kwin-text-on-dark-muted text-[10px] transition-colors hover:text-white"
             >
               ↗ OpenCity
             </a>
@@ -88,7 +88,7 @@ export function DatasetCard({ cfg }: DatasetCardProps) {
         {state.status === 'idle' ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-4">
             {cfg.dataset !== '__local__' ? (
-              <label className="text-xs text-[#B7C8DA] flex items-center gap-2">
+              <label className="kwin-text-on-dark-muted flex items-center gap-2 text-xs">
                 Show top
                 <select
                   className="bg-[#0D1333] border border-white/10 rounded-lg px-2 py-1 text-white text-xs"
@@ -126,7 +126,7 @@ export function DatasetCard({ cfg }: DatasetCardProps) {
           <div className="flex-1 flex flex-col items-center justify-center gap-3 text-center px-4">
             <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 text-xl">!</div>
             <p className="text-red-400 text-sm font-semibold">{state.message}</p>
-            {state.hint ? <p className="text-[#B7C8DA] text-xs">{state.hint}</p> : null}
+            {state.hint ? <p className="kwin-text-on-dark-muted text-xs">{state.hint}</p> : null}
             <button onClick={load} className="btn btn-outline-light text-xs px-4 py-2">Retry</button>
           </div>
         ) : null}
@@ -141,7 +141,7 @@ export function DatasetCard({ cfg }: DatasetCardProps) {
                   className={`text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-lg transition-colors ${
                     chartType === type
                       ? 'bg-[#F5A623] text-[#040714]'
-                      : 'text-[#B7C8DA] hover:text-white hover:bg-white/5'
+                      : 'kwin-text-on-dark-muted hover:text-white hover:bg-white/5'
                   }`}
                 >
                   {type}
@@ -152,12 +152,12 @@ export function DatasetCard({ cfg }: DatasetCardProps) {
             <ChartRenderer data={state.data} cfg={{ ...cfg, chartType }} />
 
             {cfg.note ? (
-              <p className="text-[10px] text-[#B7C8DA] mt-3 text-center">{cfg.note}</p>
+              <p className="kwin-text-on-dark-muted mt-3 text-center text-[10px]">{cfg.note}</p>
             ) : null}
 
             <button
               onClick={() => setState({ status: 'idle' })}
-              className="mt-3 self-center text-xs text-[#B7C8DA] hover:text-white transition-colors"
+              className="kwin-text-on-dark-muted mt-3 self-center text-xs transition-colors hover:text-white"
             >
               ← Reset
             </button>

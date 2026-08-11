@@ -16,6 +16,12 @@ module.exports = {
           gold: '#E8A020',
           'gold-light': '#F5C050',
           teal: '#06B6D4',
+          'on-dark': '#F8FBFF',
+          'on-dark-secondary': '#D6E3EF',
+          'on-dark-muted': '#B7C8DA',
+          'on-light': '#172033',
+          'on-light-secondary': '#42526B',
+          'on-light-muted': '#5B6B82',
         },
       },
       fontFamily: {

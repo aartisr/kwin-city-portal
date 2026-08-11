@@ -79,7 +79,7 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
     return (
       <div className="w-full">
         <p className="text-[11px] md:text-xs font-bold tracking-[0.18em] uppercase text-[#F5A623] mb-4">{l({ en: 'Stay Updated', kn: 'ನವೀಕೃತವಾಗಿರಿ', hi: 'अपडेट रहें', ta: 'புதுப்பிக்கப்பட்டிருங்கள்' })}</p>
-        <p className="text-sm text-[#C7D7E8] mb-4 leading-relaxed">
+        <p className="kwin-text-on-dark-secondary mb-4 text-sm leading-relaxed">
           {l({ en: 'Get KWIN City milestone updates in your inbox.', kn: 'KWIN City ಮೈಲಿಗಲ್ಲು ನವೀಕರಣಗಳನ್ನು ನಿಮ್ಮ ಇನ್ಬಾಕ್ಸ್‌ನಲ್ಲಿ ಪಡೆಯಿರಿ.', hi: 'KWIN City माइलस्टोन अपडेट अपने इनबॉक्स में पाएं।', ta: 'KWIN City முக்கிய முன்னேற்ற தகவல்களை உங்கள் மின்னஞ்சலில் பெறுங்கள்.' })}
         </p>
 
@@ -151,7 +151,7 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
             <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
               {l({ en: 'KWIN City updates, delivered.', kn: 'KWIN City ನವೀಕರಣಗಳು, ನೇರವಾಗಿ ನಿಮಗೆ.', hi: 'KWIN City अपडेट, सीधे आपके पास।', ta: 'KWIN City புதுப்பிப்புகள், நேரடியாக உங்களுக்கு.' })}
             </h2>
-            <p className="text-[#C7D7E8] text-base leading-relaxed max-w-lg mx-auto">
+            <p className="kwin-text-on-dark-secondary mx-auto max-w-lg text-base leading-relaxed">
               {l({ en: 'Milestone announcements, new data publications, and policy developments — no noise, only signal.', kn: 'ಮೈಲಿಗಲ್ಲು ಘೋಷಣೆಗಳು, ಹೊಸ ಡೇಟಾ ಪ್ರಕಟಣೆಗಳು ಮತ್ತು ನೀತಿ ಬೆಳವಣಿಗೆಗಳು — ಅನಗತ್ಯದಿಲ್ಲ, ಉಪಯುಕ್ತ ಮಾಹಿತಿ ಮಾತ್ರ.', hi: 'माइलस्टोन घोषणाएँ, नया डेटा प्रकाशन और नीति अपडेट — बिना शोर, सिर्फ जरूरी जानकारी।', ta: 'முக்கிய முன்னேற்ற அறிவிப்புகள், புதிய தரவு வெளியீடுகள் மற்றும் கொள்கை முன்னேற்றங்கள் — தேவையற்ற தகவல் இல்லாமல், முக்கிய தகவல்கள் மட்டும்.' })}
             </p>
           </div>
@@ -184,7 +184,7 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
                   <div>
                     <label
                       htmlFor={`${uid}-name`}
-                      className="block text-xs font-semibold text-[#C7D7E8] mb-1.5"
+                      className="kwin-text-on-dark-secondary mb-1.5 block text-xs font-semibold"
                     >
                       {l({ en: 'Name (optional)', kn: 'ಹೆಸರು (ಐಚ್ಛಿಕ)', hi: 'नाम (वैकल्पिक)', ta: 'பெயர் (விருப்பம்)' })}
                     </label>
@@ -201,7 +201,7 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
                   <div>
                     <label
                       htmlFor={`${uid}-email`}
-                      className="block text-xs font-semibold text-[#C7D7E8] mb-1.5"
+                      className="kwin-text-on-dark-secondary mb-1.5 block text-xs font-semibold"
                     >
                       {l({ en: 'Email address', kn: 'ಇಮೇಲ್ ವಿಳಾಸ', hi: 'ईमेल पता', ta: 'மின்னஞ்சல் முகவரி' })} <span className="text-amber-400">*</span>
                     </label>
@@ -222,7 +222,7 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
 
                 {/* Interests */}
                 <div>
-                  <p className="text-xs font-semibold text-[#C7D7E8] mb-3">
+                  <p className="kwin-text-on-dark-secondary mb-3 text-xs font-semibold">
                     {l({ en: 'What would you like to hear about?', kn: 'ನೀವು ಯಾವ ವಿಷಯದ ನವೀಕರಣಗಳನ್ನು ಬಯಸುತ್ತೀರಿ?', hi: 'आप किन विषयों के बारे में सुनना चाहेंगे?', ta: 'நீங்கள் எந்த விஷயங்களைப் பற்றி அறிய விரும்புகிறீர்கள்?' })}
                   </p>
                   <div className="flex flex-wrap gap-2">
@@ -236,7 +236,7 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
                           className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full border transition-all duration-150 ${
                             selected
                               ? 'bg-amber-500 text-white border-amber-500'
-                              : 'bg-white/6 text-[#C7D7E8] border-white/12 hover:border-white/30 hover:text-white'
+                              : 'bg-white/6 kwin-text-on-dark-secondary border-white/12 hover:border-white/30 hover:text-white'
                           }`}
                         >
                           {int.icon} {int.label}
@@ -262,7 +262,7 @@ export default function NewsletterSignup({ variant = 'section' }: { variant?: Va
                       ? l({ en: 'Subscribing…', kn: 'ಚಂದಾದಾರಿಕೆ ಮಾಡಲಾಗುತ್ತಿದೆ…', hi: 'सदस्यता ली जा रही है…', ta: 'சந்தா செய்யப்படுகிறது…' })
                       : l({ en: 'Subscribe to updates', kn: 'ನವೀಕರಣಗಳಿಗೆ ಚಂದಾದಾರರಾಗಿ', hi: 'अपडेट्स के लिए सदस्यता लें', ta: 'புதுப்பிப்புகளுக்கு சந்தா செய்யவும்' })}
                   </button>
-                  <p className="text-[#B7C8DA] text-xs text-center">
+                  <p className="kwin-text-on-dark-muted text-center text-xs">
                     {l({ en: 'Unsubscribe at any time. No spam, ever.', kn: 'ಯಾವಾಗ ಬೇಕಾದರೂ ಅನ್ಸಬ್‌ಸ್ಕ್ರೈಬ್ ಮಾಡಬಹುದು. ಸ್ಪ್ಯಾಮ್ ಇಲ್ಲ.', hi: 'कभी भी सदस्यता समाप्त करें। कभी स्पैम नहीं।', ta: 'எப்போதும் சந்தாவை நிறுத்தலாம். ஸ்பாம் இல்லை.' })}
                   </p>
                 </div>

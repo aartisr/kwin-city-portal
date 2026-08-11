@@ -55,7 +55,7 @@ export default function PersonaPage({
               <div>
                 <div className="eyebrow text-[#F5A623] mb-4">{eyebrow}</div>
                 <h1 className="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-5">{title}</h1>
-                <p className="text-lg text-[#94A3B8] leading-relaxed max-w-2xl mb-6">{description}</p>
+                <p className="kwin-text-on-dark-secondary mb-6 max-w-2xl text-lg leading-relaxed">{description}</p>
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-xs font-bold tracking-[0.16em] uppercase text-[#CBD5E1]">
                   {audienceLabel}
                 </div>
@@ -89,9 +89,9 @@ export default function PersonaPage({
               <div className="grid grid-cols-2 sm:grid-cols-4">
                 {stats.map((s) => (
                   <div key={s.label} className="px-6 py-8 text-center border-r border-b border-white/8 [&:nth-child(2n)]:border-r-0 sm:[&:nth-child(2n)]:border-r sm:[&:nth-child(4n)]:border-r-0 [&:nth-last-child(-n+2)]:border-b-0 sm:[&:nth-last-child(-n+2)]:border-b sm:[&:nth-last-child(-n+4)]:border-b-0">
-                    <p className="text-xs font-bold tracking-widest uppercase text-[#B7C8DA] mb-2">{s.label}</p>
+                    <p className="kwin-text-on-dark-muted mb-2 text-xs font-bold uppercase tracking-widest">{s.label}</p>
                     <p className={`text-3xl md:text-4xl font-extrabold mb-1 ${s.accent ?? 'text-[#F5A623]'}`}>{s.value}</p>
-                    {s.note && <p className="text-[11px] text-[#B7C8DA] leading-snug mt-1">{s.note}</p>}
+                    {s.note && <p className="kwin-text-on-dark-muted mt-1 text-[11px] leading-snug">{s.note}</p>}
                   </div>
                 ))}
               </div>
@@ -130,7 +130,7 @@ export default function PersonaPage({
                 <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4 leading-tight">
                   {evidenceCta.heading}
                 </h2>
-                <p className="text-[#94A3B8] text-lg leading-relaxed mb-9 max-w-2xl mx-auto">
+                <p className="kwin-text-on-dark-secondary mx-auto mb-9 max-w-2xl text-lg leading-relaxed">
                   {evidenceCta.body}
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">

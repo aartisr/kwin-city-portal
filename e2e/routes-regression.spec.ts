@@ -1,51 +1,5 @@
 import { test, expect } from './fixtures';
-
-const ROUTES = [
-  '/',
-  '/about',
-  '/account',
-  '/analytics',
-  '/community',
-  '/contact',
-  '/data-insights',
-  '/download',
-  '/downloads',
-  '/evidence',
-  '/evidence-library',
-  '/faq',
-  '/for',
-  '/for/curious-citizens',
-  '/for/investor',
-  '/for/journalist',
-  '/for/researcher',
-  '/for/resident',
-  '/news-intelligence',
-  '/news-reader',
-  '/offline',
-  '/region-map',
-  '/search?q=kwin',
-  '/sectors',
-  '/sectors/comparison',
-  '/sources',
-  '/sustainability',
-  '/terms',
-  '/timeline',
-  '/tools',
-  '/tools/accessibility',
-  '/tools/investment-radar',
-  '/tools/open-data-studio',
-  '/tools/opportunity-exchange',
-  '/tools/regulatory-navigator',
-  '/tools/risk-check',
-  '/tools/spatial-explorer',
-  '/tools/valuation-index',
-  '/trust',
-  '/updates',
-  '/updates/change-tracker',
-  '/updates/regulatory-news',
-  '/updates/satellite-tracker',
-  '/why-north-bengaluru',
-];
+import { PUBLIC_ROUTES } from './public-routes';
 
 const ALLOWED_ERROR_PATTERNS = [
   /favicon/i,
@@ -57,7 +11,7 @@ const ALLOWED_ERROR_PATTERNS = [
 ];
 
 test.describe('Routes Regression Smoke', () => {
-  for (const route of ROUTES) {
+  for (const route of PUBLIC_ROUTES) {
     test(`should render ${route} without runtime errors`, async ({ page }: any) => {
       const runtimeErrors: string[] = [];
 

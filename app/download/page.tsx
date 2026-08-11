@@ -97,7 +97,7 @@ export default async function DownloadPage() {
                 {pickByLocale(locale, { en: 'in your pocket', kn: 'ನಿಮ್ಮ ಜೇಬಿನಲ್ಲಿ', hi: 'आपकी जेब में' })}
               </span>
             </h1>
-            <p className="text-[#C7D7E8] text-lg md:text-xl leading-8 mb-10 max-w-2xl mx-auto">
+            <p className="kwin-text-on-dark-secondary mx-auto mb-10 max-w-2xl text-lg leading-8 md:text-xl">
               {pickByLocale(locale, {
                 en: 'Install the full intelligence portal on any smartphone — no app store, no fee, no bloat. It\'s a Progressive Web App that installs direct from Chrome or Safari.',
                 kn: 'ಯಾವುದೇ ಸ್ಮಾರ್ಟ್‌ಫೋನ್‌ನಲ್ಲಿ ಸಂಪೂರ್ಣ ಪೋರ್ಟಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸಿ — ಆಪ್ ಸ್ಟೋರ್ ಬೇಡ, ಶುಲ್ಕ ಬೇಡ, ಅನಗತ್ಯವೂ ಬೇಡ. ಇದು Chrome ಅಥವಾ Safari ನಿಂದ ನೇರವಾಗಿ ಸ್ಥಾಪಿಸಬಹುದಾದ Progressive Web App.',
@@ -123,7 +123,7 @@ export default async function DownloadPage() {
                 href="https://github.com/aartisr/kwin-city-portal/releases/latest"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl font-bold text-[#94A3B8] border border-white/15 hover:text-white hover:border-white/25 hover:bg-white/[0.05] transition-all text-base"
+                className="kwin-text-on-dark-secondary inline-flex items-center justify-center gap-2.5 rounded-2xl border border-white/15 px-7 py-4 text-base font-bold transition-all hover:border-white/25 hover:bg-white/[0.05] hover:text-white"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
@@ -132,7 +132,7 @@ export default async function DownloadPage() {
               </a>
             </div>
 
-            <p className="mt-5 text-[#B7C8DA] text-xs">
+            <p className="kwin-text-on-dark-muted mt-5 text-xs">
               {pickByLocale(locale, { en: 'APK = direct install file for Android · No Google Play account needed', kn: 'APK = Android‌ಗೆ ನೇರ ಸ್ಥಾಪನೆ ಫೈಲ್ · Google Play ಖಾತೆ ಅಗತ್ಯವಿಲ್ಲ', hi: 'APK = Android के लिए सीधी इंस्टॉल फ़ाइल · Google Play खाता आवश्यक नहीं', ta: 'APK = Android-க்கு நேரடி நிறுவல் கோப்பு · Google Play கணக்கு தேவையில்லை' })}
             </p>
           </div>
@@ -151,7 +151,7 @@ export default async function DownloadPage() {
               >
                 <span className="text-2xl mb-3 block">{f.icon}</span>
                 <h3 className="font-extrabold text-white text-sm mb-1">{f.title}</h3>
-                <p className="text-[#B7C8DA] text-[13px] leading-5">{f.body}</p>
+                <p className="kwin-text-on-dark-muted text-[13px] leading-5">{f.body}</p>
               </div>
             ))}
           </div>
@@ -174,7 +174,7 @@ export default async function DownloadPage() {
                   <path d="M17.523 15.341l.001-.001 2.757-4.775a.5.5 0 00-.866-.5l-2.792 4.833A9.056 9.056 0 0112 14.25a9.056 9.056 0 01-4.623-1.352L4.585 8.065a.5.5 0 00-.866.5l2.757 4.775C4.643 14.72 3.25 17.064 3 19.75h18c-.25-2.686-1.643-5.03-3.477-6.409z" />
                 </svg>
                 <span className="font-bold text-white text-sm">Android</span>
-                <span className="ml-auto text-[#B7C8DA] text-xs">{pickByLocale(locale, { en: 'Chrome browser', kn: 'Chrome ಬ್ರೌಸರ್', hi: 'Chrome ब्राउज़र', ta: 'Chrome உலாவி' })}</span>
+                <span className="kwin-text-on-dark-muted ml-auto text-xs">{pickByLocale(locale, { en: 'Chrome browser', kn: 'Chrome ಬ್ರೌಸರ್', hi: 'Chrome ब्राउज़र', ta: 'Chrome உலாவி' })}</span>
               </div>
               <div className="p-6 space-y-5">
                 {steps.android.map((step) => (
@@ -184,7 +184,7 @@ export default async function DownloadPage() {
                     </span>
                     <div>
                       <p className="font-bold text-white text-sm mb-0.5">{step.title}</p>
-                      <p className="text-[#B7C8DA] text-[13px] leading-5">{step.body}</p>
+                      <p className="kwin-text-on-dark-muted text-[13px] leading-5">{step.body}</p>
                     </div>
                   </div>
                 ))}
@@ -224,7 +224,7 @@ export default async function DownloadPage() {
               {pickByLocale(locale, { en: 'Advanced · Android Only', kn: 'ಮುನ್ನಡೆದ · Android ಮಾತ್ರ', hi: 'उन्नत · केवल Android', ta: 'மேம்பட்டது · Android மட்டும்' })}
             </p>
             <h2 className="text-2xl font-extrabold text-white mb-3">{pickByLocale(locale, { en: 'Download APK Directly', kn: 'APK ಅನ್ನು ನೇರವಾಗಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ', hi: 'APK सीधे डाउनलोड करें', ta: 'APK-ஐ நேரடியாக பதிவிறக்கவும்' })}</h2>
-            <p className="text-[#B7C8DA] mb-6 leading-7">
+            <p className="kwin-text-on-dark-muted mb-6 leading-7">
               {pickByLocale(locale, {
                 en: 'For power users who prefer sideloading: download the Android APK from GitHub Releases. This is a Trusted Web Activity wrapper — same experience, native app container.',
                 kn: 'ಸೈಡ್‌ಲೋಡಿಂಗ್ ಇಷ್ಟಪಡುವ ಪವರ್ ಬಳಕೆದಾರರಿಗೆ: GitHub Releases ನಿಂದ Android APK ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ. ಇದು Trusted Web Activity wrapper — ಅದೇ ಅನುಭವ, native app container.',
@@ -248,12 +248,12 @@ export default async function DownloadPage() {
                 href="https://github.com/aartisr/kwin-city-portal/releases"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm text-[#94A3B8] border border-white/15 hover:text-white hover:border-white/25 transition-all"
+                className="kwin-text-on-dark-secondary inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 px-6 py-3 text-sm font-bold transition-all hover:border-white/25 hover:text-white"
               >
                 All Releases ↗
               </a>
             </div>
-            <div className="mt-5 text-[#B7C8DA] text-xs leading-5 space-y-1">
+            <div className="kwin-text-on-dark-muted mt-5 space-y-1 text-xs leading-5">
               <p>{pickByLocale(locale, { en: 'To sideload: Settings → Security → Install unknown apps → Allow Chrome/Files Manager', kn: 'ಸೈಡ್‌ಲೋಡ್ ಮಾಡಲು: Settings → Security → Install unknown apps → Chrome/Files Manager ಗೆ ಅನುಮತಿ', hi: 'साइडलोड के लिए: Settings → Security → Install unknown apps → Chrome/Files Manager को अनुमति दें', ta: 'சைட்லோடு செய்ய: Settings → Security → Install unknown apps → Chrome/Files Manager-ஐ அனுமதி' })}</p>
               <p>{pickByLocale(locale, { en: 'Built automatically via GitHub Actions · Trusted Web Activity (TWA) · No tracking', kn: 'GitHub Actions ಮೂಲಕ ಸ್ವಯಂಚಾಲಿತ ನಿರ್ಮಾಣ · Trusted Web Activity (TWA) · ಟ್ರ್ಯಾಕಿಂಗ್ ಇಲ್ಲ', hi: 'GitHub Actions द्वारा स्वचालित निर्माण · Trusted Web Activity (TWA) · कोई ट्रैकिंग नहीं', ta: 'GitHub Actions மூலம் தானியங்கி உருவாக்கம் · Trusted Web Activity (TWA) · கண்காணிப்பு இல்லை' })}</p>
             </div>
@@ -262,7 +262,7 @@ export default async function DownloadPage() {
 
         {/* ── Footer CTA ─────────────────────────────────────── */}
         <section className="container pb-24 text-center max-w-lg mx-auto">
-          <p className="text-[#B7C8DA] text-sm leading-6 mb-6">
+          <p className="kwin-text-on-dark-muted mb-6 text-sm leading-6">
             {pickByLocale(locale, {
               en: 'The PWA approach means zero maintenance cost, always up-to-date content, and feature-parity with any native app for a knowledge portal.',
               kn: 'PWA ವಿಧಾನವು ಶೂನ್ಯ ನಿರ್ವಹಣಾ ವೆಚ್ಚ, ಸದಾ ನವೀಕೃತ ವಿಷಯ ಮತ್ತು ಜ್ಞಾನ ಪೋರ್ಟಲ್‌ಗೆ native app ಸಮಾನ ಅನುಭವವನ್ನು ಒದಗಿಸುತ್ತದೆ.',
