@@ -24,6 +24,8 @@ type SiteChromeProps = {
     trustLabel: string;
     sourcesLabel: string;
     newsIntelligenceLabel: string;
+    statusText?: string;
+    degraded?: boolean;
   };
 };
 
@@ -47,6 +49,8 @@ export default function SiteChrome({
     });
   };
 
+  const bannerVisible = trustBannerVisible || Boolean(trustBannerCopy.degraded);
+
   return (
     <>
       <Header
@@ -55,7 +59,7 @@ export default function SiteChrome({
         menuGroups={menuGroups}
         labels={headerLabels}
       />
-      <TrustBanner visible={trustBannerVisible} {...trustBannerCopy} />
+      <TrustBanner visible={bannerVisible} forceVisible={Boolean(trustBannerCopy.degraded)} {...trustBannerCopy} />
     </>
   );
 }

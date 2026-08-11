@@ -5,20 +5,26 @@ import { useEffect, useRef, useState } from 'react';
 
 type TrustBannerProps = {
   visible: boolean;
+  forceVisible?: boolean;
   protocolLabel: string;
   bodyText: string;
   trustLabel: string;
   sourcesLabel: string;
   newsIntelligenceLabel: string;
+  statusText?: string;
+  degraded?: boolean;
 };
 
 export default function TrustBanner({
   visible,
+  forceVisible = false,
   protocolLabel,
   bodyText,
   trustLabel,
   sourcesLabel,
   newsIntelligenceLabel,
+  statusText,
+  degraded = false,
 }: TrustBannerProps) {
   const [isScrollHidden, setIsScrollHidden] = useState(false);
   const bannerRef = useRef<HTMLElement>(null);
@@ -50,7 +56,7 @@ export default function TrustBanner({
     const updateBannerHeight = () => {
       window.cancelAnimationFrame(frameId);
       frameId = window.requestAnimationFrame(() => {
-        if (!visible || isScrollHidden) {
+        if ((!visible && !forceVisible) || isScrollHidden) {
           document.documentElement.style.setProperty('--kwin-trust-banner-height', '0px');
           return;
         }
@@ -72,13 +78,15 @@ export default function TrustBanner({
       window.removeEventListener('resize', updateBannerHeight);
       document.documentElement.style.setProperty('--kwin-trust-banner-height', '0px');
     };
-  }, [visible, isScrollHidden]);
+  }, [visible, forceVisible, isScrollHidden]);
+
+  const isVisible = (visible || forceVisible) && !isScrollHidden;
 
   return (
     <>
       <div
         className="transition-all duration-300"
-        style={{ height: visible && !isScrollHidden ? 'var(--kwin-trust-banner-height)' : '0px' }}
+        style={{ height: isVisible ? 'var(--kwin-trust-banner-height)' : '0px' }}
         aria-hidden="true"
       />
 
@@ -87,15 +95,26 @@ export default function TrustBanner({
         data-testid="trust-banner"
         role="region"
         aria-label="Trust banner"
-        className={`fixed left-0 right-0 top-[var(--kwin-header-height)] z-40 border-b border-cyan-100 shadow-[0_10px_24px_rgba(15,23,42,0.08)] bg-[linear-gradient(90deg,rgba(236,254,255,0.96)_0%,rgba(248,250,252,0.96)_45%,rgba(255,251,235,0.96)_100%)] backdrop-blur-xl transition-all duration-300 ${
-          visible && !isScrollHidden ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
+        className={`fixed left-0 right-0 top-[var(--kwin-header-height)] z-40 border-b shadow-[0_10px_24px_rgba(15,23,42,0.08)] backdrop-blur-xl transition-all duration-300 ${
+          degraded
+            ? 'border-amber-200 bg-[linear-gradient(90deg,rgba(255,251,235,0.96)_0%,rgba(254,242,242,0.96)_100%)]'
+            : 'border-cyan-100 bg-[linear-gradient(90deg,rgba(236,254,255,0.96)_0%,rgba(248,250,252,0.96)_45%,rgba(255,251,235,0.96)_100%)]'
+        } ${
+          isVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
         }`}
       >
         <div className="container py-2.5 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-          <p className="text-xs md:text-sm text-slate-700 leading-6">
-            <span className="font-bold text-slate-900">{protocolLabel}</span>{' '}
-            {bodyText}
-          </p>
+          <div className="text-xs md:text-sm text-slate-700 leading-6">
+            <p>
+              <span className="font-bold text-slate-900">{protocolLabel}</span>{' '}
+              {bodyText}
+            </p>
+            {statusText ? (
+              <p className={`mt-1 font-medium ${degraded ? 'text-amber-800' : 'text-slate-600'}`}>
+                {statusText}
+              </p>
+            ) : null}
+          </div>
           <div className="flex items-center gap-2 text-xs font-semibold">
             <Link href="/trust" className="rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-slate-700 hover:bg-slate-50">
               {trustLabel}

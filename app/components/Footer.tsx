@@ -4,6 +4,7 @@ import DeferredNewsletterSignup from '@/components/DeferredNewsletterSignup';
 import { SITE_CONFIG } from '@/config/site.config';
 import FooterNavLink from '@/components/footer/FooterNavLink';
 import { buildFooterContent } from '@/components/footer/content';
+import type { SiteFreshnessStatus } from '@/lib/operations/site-freshness';
 import {
   pickLocalizedValue,
   translate,
@@ -71,7 +72,7 @@ function SocialFooterLink({
   );
 }
 
-export default function Footer({ locale }: { locale: Locale }) {
+export default function Footer({ locale, freshness }: { locale: Locale; freshness: SiteFreshnessStatus }) {
   const t = (key: string) => translate(locale, key);
   const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const year = new Date().getFullYear();
@@ -225,6 +226,12 @@ export default function Footer({ locale }: { locale: Locale }) {
                 <span>Doddaballapura, Karnataka</span>
                 <span className="h-1 w-1 rounded-full bg-white/20" />
                 <span>{t('footer.lastUpdated')} {lastUpdatedText}</span>
+                <span className="h-1 w-1 rounded-full bg-white/20" />
+                <span className={freshness.degraded ? 'text-amber-300' : 'text-emerald-300'}>
+                  {freshness.degraded
+                    ? l({ en: 'Verification signal degraded', kn: 'ಪರಿಶೀಲನಾ ಸೂಚನೆ ಕುಗ್ಗಿದೆ', hi: 'वेरिफिकेशन सिग्नल कमजोर है', ta: 'சரிபார்ப்பு சிக்னல் பலவீனமானது' })
+                    : l({ en: 'Verified recently', kn: 'ಇತ್ತೀಚೆಗೆ ಪರಿಶೀಲಿಸಲಾಗಿದೆ', hi: 'हाल में सत्यापित', ta: 'சமீபத்தில் சரிபார்க்கப்பட்டது' })}
+                </span>
               </div>
             </div>
           </div>
@@ -295,6 +302,10 @@ export default function Footer({ locale }: { locale: Locale }) {
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] text-[#6C819A]">
               <span>{t('footer.openData')}</span>
               <span className="hidden sm:inline h-1 w-1 rounded-full bg-white/20" />
+              <span className="text-[#91A8C0]">
+                {l({ en: 'Factual audit', kn: 'ವಾಸ್ತವ ಪರಿಶೀಲನೆ', hi: 'तथ्य ऑडिट', ta: 'உண்மைச் சரிபார்ப்பு' })}: {freshness.factualAudit.ageDays}d
+              </span>
+              <span className="h-1 w-1 rounded-full bg-white/20" />
               <Link href="/terms" className="text-[#91A8C0] hover:text-white transition-colors">{t('common.terms')}</Link>
               <span className="h-1 w-1 rounded-full bg-white/20" />
               <Link href="/sources" className="text-[#91A8C0] hover:text-white transition-colors">{t('common.sources')}</Link>

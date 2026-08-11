@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { HIGH_LEVEL_MENUS } from '@/components/header/navigation';
 import type { NavGroup } from '@/components/header/types';
 import { normalizeLocale, pickLocalizedValue, translate } from '@/lib/i18n/messages';
+import { getSiteFreshnessStatus } from '@/lib/operations/site-freshness';
 
 function withFallback(translated: string, key: string, fallback: string): string {
   return translated === key ? fallback : translated;
@@ -39,6 +40,7 @@ export default async function SiteFrame({ children }: { children: React.ReactNod
   const cookieStore = await cookies();
   const locale = normalizeLocale(cookieStore.get('kwin_locale')?.value);
   const menuGroups = getTranslatedMenus(locale);
+  const freshness = getSiteFreshnessStatus();
 
   return (
     <>
@@ -71,10 +73,24 @@ export default async function SiteFrame({ children }: { children: React.ReactNod
           trustLabel: translate(locale, 'header.items./trust.label'),
           sourcesLabel: translate(locale, 'header.items./sources.label'),
           newsIntelligenceLabel: translate(locale, 'header.items./news-intelligence.label'),
+          degraded: freshness.degraded,
+          statusText: freshness.degraded
+            ? pickLocalizedValue(locale, {
+                en: `Freshness watch: content baseline ${freshness.content.ageDays}d, factual audit ${freshness.factualAudit.ageDays}d, execution status ${freshness.executionStatus.ageDays}d old.`,
+                kn: `ತಾಜಾತನ ವೀಕ್ಷಣೆ: ವಿಷಯ ಆಧಾರ ${freshness.content.ageDays} ದಿನ, ವಾಸ್ತವ ಪರಿಶೀಲನೆ ${freshness.factualAudit.ageDays} ದಿನ, ಕಾರ್ಯಗತ ಸ್ಥಿತಿ ${freshness.executionStatus.ageDays} ದಿನ ಹಳೆಯದು.`,
+                hi: `फ्रेशनैस वॉच: कंटेंट बेसलाइन ${freshness.content.ageDays} दिन, तथ्य ऑडिट ${freshness.factualAudit.ageDays} दिन, एग्जिक्यूशन स्टेटस ${freshness.executionStatus.ageDays} दिन पुराना है।`,
+                ta: `புதியமை கண்காணிப்பு: உள்ளடக்க அடிப்படை ${freshness.content.ageDays} நாள், உண்மை ஆய்வு ${freshness.factualAudit.ageDays} நாள், செயலாக்க நிலை ${freshness.executionStatus.ageDays} நாள் பழையது.`,
+              })
+            : pickLocalizedValue(locale, {
+                en: `Last verification sweep: factual audit ${freshness.factualAudit.ageDays}d ago, execution status ${freshness.executionStatus.ageDays}d ago.`,
+                kn: `ಕೊನೆಯ ಪರಿಶೀಲನಾ ಸುತ್ತು: ವಾಸ್ತವ ಪರಿಶೀಲನೆ ${freshness.factualAudit.ageDays} ದಿನಗಳ ಹಿಂದೆ, ಕಾರ್ಯಗತ ಸ್ಥಿತಿ ${freshness.executionStatus.ageDays} ದಿನಗಳ ಹಿಂದೆ.`,
+                hi: `अंतिम सत्यापन स्वीप: तथ्य ऑडिट ${freshness.factualAudit.ageDays} दिन पहले, एग्जिक्यूशन स्टेटस ${freshness.executionStatus.ageDays} दिन पहले।`,
+                ta: `கடைசி சரிபார்ப்பு சுற்று: உண்மை ஆய்வு ${freshness.factualAudit.ageDays} நாள் முன், செயலாக்க நிலை ${freshness.executionStatus.ageDays} நாள் முன்.`,
+              }),
         }}
       />
       {children}
-      <Footer locale={locale} />
+      <Footer locale={locale} freshness={freshness} />
     </>
   );
 }
