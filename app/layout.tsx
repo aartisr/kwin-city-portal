@@ -151,7 +151,7 @@ const GLOBAL_DISCOVERY_SCHEMA = [
       'Research and innovation districts',
     ],
     sameAs: [
-      'https://www.kiadb.in',
+      'https://kiadb.karnataka.gov.in/',
       SITE_CONFIG.socialLinks.x,
       SITE_CONFIG.socialLinks.facebook,
       SITE_CONFIG.socialLinks.instagram,

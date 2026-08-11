@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
       hi: 'स्रोत और क्लेम लेजर | प्राथमिक संस्थागत रिकॉर्ड · KIADB · कर्नाटक',
     }),
     description: pickByLocale(locale, {
-      en: 'Full source registry and claim-to-source mapping for KWIN City. Every fact on this portal links to its primary institutional document — KIADB records, Karnataka state data, and verified open data.',
+      en: 'Full source registry and claim-to-source mapping for KWIN City, separating primary institutional records from contextual discovery sources that require verification against their official documents.',
       kn: 'KWIN Cityಗಾಗಿ ಸಂಪೂರ್ಣ ಮೂಲ ರಿಜಿಸ್ಟ್ರಿ ಮತ್ತು ಕ್ಲೇಮ್-ಟು-ಸೋರ್ಸ್ ಮ್ಯಾಪಿಂಗ್.',
       hi: 'KWIN City के लिए पूर्ण स्रोत रजिस्ट्री और क्लेम-टू-सोर्स मैपिंग।',
     }),
@@ -34,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
         hi: 'KWIN City स्रोत — पूर्ण क्लेम लेजर और प्राथमिक संस्थागत रिकॉर्ड',
       }),
       description: pickByLocale(locale, {
-        en: 'Every claim on the KWIN City portal links to its primary source. Full ledger with KIADB, Karnataka open data, and verified institutional records.',
+        en: 'A transparent KWIN City claim ledger with KIADB, Karnataka open data, and carefully labeled contextual discovery sources.',
         kn: 'KWIN City ಪೋರ್ಟಲ್‌ನ ಪ್ರತಿಯೊಂದು ಕ್ಲೇಮ್ ತನ್ನ ಮೂಲಕ್ಕೆ ಲಿಂಕ್ ಆಗಿದೆ.',
         hi: 'KWIN City पोर्टल का हर दावा अपने मूल स्रोत से जुड़ा है।',
       }),
@@ -50,7 +50,7 @@ export async function generateMetadata(): Promise<Metadata> {
         hi: 'KWIN City स्रोत — पूर्ण क्लेम लेजर और प्राथमिक संस्थागत रिकॉर्ड',
       }),
       description: pickByLocale(locale, {
-        en: 'Every claim on the KWIN City portal links to its primary source. Full ledger with KIADB, Karnataka open data, and verified institutional records.',
+        en: 'A transparent KWIN City claim ledger with KIADB, Karnataka open data, and carefully labeled contextual discovery sources.',
         kn: 'KWIN City ಪೋರ್ಟಲ್‌ನ ಪ್ರತಿಯೊಂದು ಕ್ಲೇಮ್ ತನ್ನ ಮೂಲಕ್ಕೆ ಲಿಂಕ್ ಆಗಿದೆ.',
         hi: 'KWIN City पोर्टल का हर दावा अपने मूल स्रोत से जुड़ा है।',
       }),
