@@ -75,6 +75,10 @@ jobs:
         id: verify_facts
         run: npm run quality:verify-facts
 
+      - name: Verify AI discovery and citation signals
+        id: verify_discovery_signals
+        run: npm run discovery:verify-signals
+
       - name: Type check
         id: type_check
         run: npm run type-check
@@ -114,6 +118,7 @@ jobs:
               "verifySources": "${{ steps.verify_sources.outcome || 'skipped' }}",
               "auditStaleness": "${{ steps.audit_staleness.outcome || 'skipped' }}",
               "verifyFacts": "${{ steps.verify_facts.outcome || 'skipped' }}",
+              "verifyDiscoverySignals": "${{ steps.verify_discovery_signals.outcome || 'skipped' }}",
               "typeCheck": "${{ steps.type_check.outcome || 'skipped' }}",
               "unitTests": "${{ steps.unit_tests.outcome || 'skipped' }}",
               "fullBuild": "${{ steps.full_build.outcome || 'skipped' }}"

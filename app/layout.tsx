@@ -12,6 +12,8 @@ const SITE_URL = 'https://kwin-city.com';
 const OG_IMAGE = `${SITE_URL}/opengraph-image`;
 const SITE_LOGO = `${SITE_URL}/icon`;
 const LAST_UPDATED = `${SITE_CONFIG.lastUpdatedISO}T00:00:00+05:30`;
+const GOOGLE_SITE_VERIFICATION = process.env.GOOGLE_SITE_VERIFICATION?.trim()
+  || process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -103,11 +105,8 @@ export const metadata: Metadata = {
     statusBarStyle: 'black-translucent',
   },
   verification: {
-    // STEP: Paste your Google Search Console HTML-tag token here.
-    // Get it from: Search Console → Settings → Ownership verification → HTML tag
-    // e.g. google: 'abc123XYZ',
-    //
-    // Bing verification is handled via public/BingSiteAuth.xml (already in place).
+    google: GOOGLE_SITE_VERIFICATION,
+    // Bing verification is handled via public/BingSiteAuth.xml.
   },
   other: {
     'ai-policy': `${SITE_URL}/ai.txt`,
