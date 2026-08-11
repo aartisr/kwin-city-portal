@@ -30,10 +30,26 @@ function unique(values) {
   return [...new Set(values)];
 }
 
+function getEnvValue(name) {
+  const value = process.env[name];
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+}
+
 function getIndexNowKey() {
-  const key = process.env.INDEXNOW_KEY ?? DEFAULT_INDEXNOW_KEY;
+  const configuredKey = getEnvValue('INDEXNOW_KEY');
+  const key = configuredKey ?? DEFAULT_INDEXNOW_KEY;
   if (!/^[A-Za-z0-9-]{8,128}$/.test(key)) {
-    throw new Error('INDEXNOW_KEY must be 8-128 characters and contain only letters, numbers, or hyphens.');
+    if (configuredKey) {
+      console.warn('WARN: INDEXNOW_KEY is malformed; skipping IndexNow submissions for this run.');
+      return null;
+    }
+
+    throw new Error('Default INDEXNOW_KEY is invalid. Update scripts/ping-search-engines.mjs with a valid fallback key.');
   }
 
   return key;
@@ -112,10 +128,14 @@ function buildDiscoveryTargets() {
 
 function buildIndexNowTargets(urls) {
   const key = getIndexNowKey();
+  if (!key) {
+    return [];
+  }
+
   verifyLocalIndexNowKeyFile(key);
 
-  const host = normalizeHost(process.env.INDEXNOW_HOST ?? SITE_ORIGIN);
-  const keyLocation = process.env.INDEXNOW_KEY_LOCATION ?? `https://${host}/${key}.txt`;
+  const host = normalizeHost(getEnvValue('INDEXNOW_HOST') ?? SITE_ORIGIN);
+  const keyLocation = getEnvValue('INDEXNOW_KEY_LOCATION') ?? `https://${host}/${key}.txt`;
   const allowedOrigin = `https://${host}`;
   const canonicalUrls = unique(urls).filter((url) => {
     const urlHost = new URL(url).host;
