@@ -28,8 +28,10 @@ export default function HeaderUtilities({
   currentUser,
 }: HeaderUtilitiesProps) {
   return (
-    <div className="hidden shrink-0 items-center justify-end gap-2 2xl:flex">
-      <LanguageSwitcher compact hideLabelVisually label={labels.language} locale={locale} onLocaleChange={setLocale} />
+    <div className="hidden shrink-0 items-center justify-end gap-2 lg:flex">
+      <div className="hidden xl:block">
+        <LanguageSwitcher compact hideLabelVisually label={labels.language} locale={locale} onLocaleChange={setLocale} />
+      </div>
 
       <button
         type="button"
@@ -75,7 +77,7 @@ export default function HeaderUtilities({
 
       <Link
         href="/contact"
-        className="inline-flex h-11 items-center rounded-full bg-[#0b1738] px-4 text-sm font-bold text-white shadow-[0_10px_24px_rgba(15,23,42,0.14)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#142453] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
+        className="hidden h-11 items-center rounded-full bg-[#0b1738] px-4 text-sm font-bold text-white shadow-[0_10px_24px_rgba(15,23,42,0.14)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#142453] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 xl:inline-flex"
       >
         {labels.contact}
       </Link>
@@ -83,7 +85,7 @@ export default function HeaderUtilities({
       {currentUser ? (
         <Link
           href="/account"
-          className="inline-flex h-11 items-center gap-2 rounded-full border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-800 shadow-[0_10px_24px_rgba(15,23,42,0.04)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-50"
+          className="hidden h-11 items-center gap-2 rounded-full border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-800 shadow-[0_10px_24px_rgba(15,23,42,0.04)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-50 2xl:inline-flex"
           title={`${labels.signedIn}: ${currentUser.email}`}
         >
           <span className="h-2 w-2 rounded-full bg-emerald-500" aria-hidden="true" />
@@ -94,7 +96,7 @@ export default function HeaderUtilities({
           href="/about"
           aria-label={labels.exploreKwin}
           title={labels.exploreKwin}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[linear-gradient(135deg,#F5A623,#E8A020)] text-[#040714] shadow-[0_14px_28px_rgba(232,160,32,0.26)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_34px_rgba(232,160,32,0.34)]"
+          className="hidden h-11 w-11 items-center justify-center rounded-full bg-[linear-gradient(135deg,#F5A623,#E8A020)] text-[#040714] shadow-[0_14px_28px_rgba(232,160,32,0.26)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_34px_rgba(232,160,32,0.34)] 2xl:inline-flex"
         >
           <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M12 6v12m-6-6h12" />
