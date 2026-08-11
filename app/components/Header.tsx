@@ -198,6 +198,11 @@ export default function Header({
                 trustBannerVisible={trustBannerVisible}
                 onToggleTrustBanner={onToggleTrustBanner}
                 onOpenSearch={() => setSearchOpen(true)}
+                menuOpen={mobileMenuOpen}
+                onToggleMenu={() => {
+                  setMobileMenuOpen((value) => !value);
+                  setMobileOpenGroup(null);
+                }}
                 currentUser={currentUser}
               />
               <MobileHeaderActions
