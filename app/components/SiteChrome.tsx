@@ -16,6 +16,7 @@ type SiteChromeProps = {
     showTrustBar: string;
     toggleMenu: string;
     exploreKwin: string;
+    contact: string;
     language: string;
   };
   trustBannerCopy: {

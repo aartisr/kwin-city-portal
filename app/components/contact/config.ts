@@ -30,6 +30,13 @@ export const PERSONAS = [
       'Describe your story angle, publication, or request for additional primary source material and expert access...',
   },
   {
+    id: 'correction',
+    label: 'Correction',
+    icon: '✓',
+    placeholder:
+      'Share the page or claim URL, describe what needs correcting, and link the strongest supporting source so we can review it carefully...',
+  },
+  {
     id: 'other',
     label: 'Other',
     icon: '💬',

@@ -1,5 +1,6 @@
 export const inputBase =
-  'w-full rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-[#4F6280] '
+  'w-full rounded-xl border border-slate-300 bg-white text-slate-950 placeholder:text-slate-400 '
   + 'px-4 py-3 text-[15px] leading-6 outline-none '
-  + 'focus:border-[#F5A623]/60 focus:bg-white/[0.06] focus:ring-2 focus:ring-[#F5A623]/10 '
-  + 'transition-all duration-200 autofill:bg-transparent';
+  + 'focus:border-amber-600 focus:ring-2 focus:ring-amber-200 '
+  + 'aria-[invalid=true]:border-red-500 aria-[invalid=true]:ring-2 aria-[invalid=true]:ring-red-100 '
+  + 'transition-colors duration-200';

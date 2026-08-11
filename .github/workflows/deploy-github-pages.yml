@@ -27,6 +27,9 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      - name: Verify discovery hub source
+        run: npm run discovery:verify-github-pages
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -35,3 +38,12 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Verify published discovery assets
+        env:
+          PAGES_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          PAGES_BASE="${PAGES_URL%/}/"
+          for path in "" "sitemap.xml" "robots.txt" "llms.txt" "geo-ai-index.html" "seo-link-graph.html"; do
+            curl --fail --silent --show-error --location --retry 5 --retry-delay 3 "${PAGES_BASE}${path}" > /dev/null
+          done

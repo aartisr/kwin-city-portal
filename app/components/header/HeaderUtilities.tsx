@@ -54,6 +54,13 @@ export default function HeaderUtilities({
         </svg>
       </button>
 
+      <Link
+        href="/contact"
+        className="inline-flex h-11 items-center rounded-full bg-[#0b1738] px-4 text-sm font-bold text-white shadow-[0_10px_24px_rgba(15,23,42,0.14)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#142453] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
+      >
+        {labels.contact}
+      </Link>
+
       {currentUser ? (
         <Link
           href="/account"
