@@ -1,16 +1,13 @@
+// @vitest-environment node
 import { describe, expect, it } from 'vitest';
 import { GROUP_STORIES, splitItems } from '@/components/header/config';
+import { HIGH_LEVEL_MENUS } from '@/components/header/navigation';
 
 describe('header/config', () => {
   it('defines a story block for each top-level header lane', () => {
-    expect(Object.keys(GROUP_STORIES)).toEqual([
-      'discover',
-      'ecosystem',
-      'research',
-      'intelligence',
-      'tools',
-      'audiences',
-    ]);
+    for (const group of HIGH_LEVEL_MENUS) {
+      expect(GROUP_STORIES[group.key]).toBeDefined();
+    }
   });
 
   it('splits item arrays into balanced columns', () => {

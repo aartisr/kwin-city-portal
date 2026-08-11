@@ -10,38 +10,26 @@ export const NAV_TONES = {
 
 export const HIGH_LEVEL_MENUS: NavGroup[] = [
   {
-    key: 'discover',
-    label: 'Discover',
+    key: 'explore',
+    label: 'Explore',
     items: [
       { label: 'About KWIN', href: '/about', desc: 'Mission, pillars, and framework' },
       { label: 'Why North Bengaluru', href: '/why-north-bengaluru', desc: 'Regional strategic case' },
       { label: 'Timeline', href: '/timeline', desc: 'Phase-wise development roadmap' },
       { label: 'Updates', href: '/updates', icon: '📡', desc: 'Milestones & announcements' },
       { label: 'FAQ', href: '/faq', icon: '❓', desc: 'Questions answered - for every audience' },
-    ],
-  },
-  {
-    key: 'ecosystem',
-    label: 'Ecosystem',
-    items: [
       { label: 'Sectors', href: '/sectors', desc: 'Industry depth and opportunities' },
       { label: 'Sustainability', href: '/sustainability', desc: 'Climate and resilience lens' },
     ],
   },
   {
-    key: 'research',
-    label: 'Research',
+    key: 'evidence',
+    label: 'Evidence & News',
     items: [
       { label: 'Data Insights', href: '/data-insights', desc: 'Live evidence dashboards' },
       { label: 'Evidence Vault', href: '/evidence', desc: 'What each dataset can prove' },
       { label: 'Sources & Claims', href: '/sources', desc: 'Full claim-to-source ledger' },
       { label: 'Document Downloads', href: '/downloads', icon: '📥', desc: 'Reports, briefs & open datasets' },
-    ],
-  },
-  {
-    key: 'intelligence',
-    label: 'Intelligence',
-    items: [
       { label: 'News Intelligence', href: '/news-intelligence', desc: 'Attribution-first media observatory' },
       { label: 'Live News Reader', href: '/news-reader', desc: 'On-demand OPML summary reader' },
       { label: 'Share Kit', href: '/share', icon: '↗', desc: '60-second brief and launch assets' },
