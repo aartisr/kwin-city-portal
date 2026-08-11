@@ -28,13 +28,14 @@ export default function HeaderUtilities({
   currentUser,
 }: HeaderUtilitiesProps) {
   return (
-    <div className="hidden shrink-0 items-center justify-end gap-2 lg:flex">
+    <div data-testid="desktop-header-utilities" className="hidden shrink-0 items-center justify-end gap-2 lg:flex">
       <div className="hidden xl:block">
         <LanguageSwitcher compact hideLabelVisually label={labels.language} locale={locale} onLocaleChange={setLocale} />
       </div>
 
       <button
         type="button"
+        data-testid="desktop-header-search"
         aria-label={`${labels.search} KWIN City (Cmd+K)`}
         onClick={onOpenSearch}
         className="group inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white/95 text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.04)] transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-200 hover:bg-amber-50/70 hover:text-slate-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
@@ -46,6 +47,7 @@ export default function HeaderUtilities({
 
       <button
         type="button"
+        data-testid="desktop-header-trust"
         onClick={onToggleTrustBanner}
         aria-label={trustBannerVisible ? labels.hideTrustBar : labels.showTrustBar}
         aria-pressed={trustBannerVisible}
@@ -62,6 +64,7 @@ export default function HeaderUtilities({
 
       <button
         type="button"
+        data-testid="desktop-header-menu"
         aria-label={labels.toggleMenu}
         aria-expanded={menuOpen}
         onClick={onToggleMenu}

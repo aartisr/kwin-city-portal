@@ -18,9 +18,10 @@ export default function MobileHeaderActions({
   onToggleMobileMenu,
 }: MobileHeaderActionsProps) {
   return (
-    <div className="flex items-center gap-2 justify-end lg:hidden">
+    <div data-testid="mobile-header-actions" className="flex items-center gap-2 justify-end lg:hidden">
       <button
         type="button"
+        data-testid="mobile-header-search"
         aria-label={labels.search}
         onClick={onOpenSearch}
         className="flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-300 bg-white text-slate-700 transition-colors hover:border-amber-200 hover:text-slate-950"
@@ -32,6 +33,7 @@ export default function MobileHeaderActions({
 
       <button
         type="button"
+        data-testid="mobile-header-trust"
         onClick={onToggleTrustBanner}
         title={trustBannerVisible ? labels.hideTrustBar : labels.showTrustBar}
         className={`hidden h-10 w-10 items-center justify-center rounded-2xl border transition-all duration-200 min-[381px]:flex ${
@@ -47,6 +49,7 @@ export default function MobileHeaderActions({
 
       <button
         type="button"
+        data-testid="mobile-header-menu"
         aria-label={labels.toggleMenu}
         aria-expanded={mobileMenuOpen}
         className="flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-300 bg-white text-slate-800 transition-colors hover:border-slate-400 sm:w-auto sm:gap-2 sm:px-3.5"
