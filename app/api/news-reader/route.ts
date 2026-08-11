@@ -16,6 +16,7 @@ type FeedItem = {
   sourceTier: 'primary' | 'official' | 'contextual';
   provenance: 'direct-institutional' | 'direct-publisher' | 'source-filtered-discovery' | 'contextual-monitoring';
   authenticity: 'verified-feed' | 'discovery-feed' | 'unverified';
+  isKwinRelated: boolean;
   publishedAt: string | null;
 };
 
@@ -35,6 +36,7 @@ const MAX_LIMIT = 100;
 const MAX_FEEDS = 20;
 const REQUEST_TIMEOUT_MS = 9000;
 const CACHE_TTL_MS = 3 * 60 * 1000;
+const KWIN_TERMS = /\bkwin(?:\s+city)?\b|knowledge\s*,?\s*wellbeing\s*(?:and|&)\s*innovation|khir\s+city/i;
 
 type ReaderPayload = {
   opmlUrl: string;
@@ -218,6 +220,15 @@ function selectBalancedStories(items: FeedItem[], limit: number): FeedItem[] {
   return selected.sort(compareByPublishedAtDesc);
 }
 
+function isKwinSourceFeed(feedEntry: FeedEntry): boolean {
+  const descriptor = decodeEntities([
+    feedEntry.title,
+    ...feedEntry.groupPath,
+    decodeURIComponent(feedEntry.xmlUrl),
+  ].join(' '));
+  return KWIN_TERMS.test(descriptor);
+}
+
 function parseFeedItems(feedXml: string, feedEntry: FeedEntry, perFeedLimit: number): FeedItem[] {
   const source =
     stripHtml(getTagValue(feedXml, ['channel>title', 'title'])) ||
@@ -233,6 +244,7 @@ function parseFeedItems(feedXml: string, feedEntry: FeedEntry, perFeedLimit: num
   const atomEntries = feedXml.match(/<entry\b[\s\S]*?<\/entry>/gi) ?? [];
 
   const parsed: FeedItem[] = [];
+  const sourceIsKwinFocused = isKwinSourceFeed(feedEntry);
 
   for (const item of rssItems.slice(0, perFeedLimit)) {
     const title = stripHtml(getTagValue(item, ['title'])) || 'Untitled article';
@@ -253,6 +265,7 @@ function parseFeedItems(feedXml: string, feedEntry: FeedEntry, perFeedLimit: num
       sourceTier,
       provenance,
       authenticity,
+      isKwinRelated: sourceIsKwinFocused || KWIN_TERMS.test(`${title} ${fullText}`),
       publishedAt: published,
     });
   }
@@ -276,6 +289,7 @@ function parseFeedItems(feedXml: string, feedEntry: FeedEntry, perFeedLimit: num
       sourceTier,
       provenance,
       authenticity,
+      isKwinRelated: sourceIsKwinFocused || KWIN_TERMS.test(`${title} ${fullText}`),
       publishedAt: published,
     });
   }
@@ -342,7 +356,9 @@ export async function GET(request: NextRequest) {
     }
 
     const opmlXml = await fetchTextWithTimeout(opmlUrl);
-    const feedEntries = parseReaderFeedsFromOpml(opmlXml).slice(0, MAX_FEEDS);
+    const feedEntries = parseReaderFeedsFromOpml(opmlXml)
+      .sort((a, b) => Number(isKwinSourceFeed(b)) - Number(isKwinSourceFeed(a)))
+      .slice(0, MAX_FEEDS);
     const feedUrls = feedEntries.map((entry) => entry.xmlUrl);
 
     if (feedUrls.length === 0) {

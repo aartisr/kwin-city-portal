@@ -255,6 +255,16 @@
         xmlUrl="https://news.google.com/rss/search?q=KWIN%20City%20site:newindianexpress.com&hl=en-IN&gl=IN&ceid=IN:en"
         htmlUrl="https://www.newindianexpress.com"
       />
+      <outline type="rss" text="Indian Express - KWIN" title="Indian Express - KWIN" xmlUrl="https://news.google.com/rss/search?q=KWIN%20City%20site:indianexpress.com&hl=en-IN&gl=IN&ceid=IN:en" htmlUrl="https://indianexpress.com" />
+      <outline type="rss" text="Hindustan Times - KWIN" title="Hindustan Times - KWIN" xmlUrl="https://news.google.com/rss/search?q=KWIN%20City%20site:hindustantimes.com&hl=en-IN&gl=IN&ceid=IN:en" htmlUrl="https://www.hindustantimes.com" />
+      <outline type="rss" text="Economic Times - KWIN" title="Economic Times - KWIN" xmlUrl="https://news.google.com/rss/search?q=KWIN%20City%20site:economictimes.indiatimes.com&hl=en-IN&gl=IN&ceid=IN:en" htmlUrl="https://economictimes.indiatimes.com" />
+      <outline type="rss" text="Moneycontrol - KWIN" title="Moneycontrol - KWIN" xmlUrl="https://news.google.com/rss/search?q=KWIN%20City%20site:moneycontrol.com&hl=en-IN&gl=IN&ceid=IN:en" htmlUrl="https://www.moneycontrol.com" />
+      <outline type="rss" text="Financial Express - KWIN" title="Financial Express - KWIN" xmlUrl="https://news.google.com/rss/search?q=KWIN%20City%20site:financialexpress.com&hl=en-IN&gl=IN&ceid=IN:en" htmlUrl="https://www.financialexpress.com" />
+      <outline type="rss" text="News18 - KWIN" title="News18 - KWIN" xmlUrl="https://news.google.com/rss/search?q=KWIN%20City%20site:news18.com&hl=en-IN&gl=IN&ceid=IN:en" htmlUrl="https://www.news18.com" />
+      <outline type="rss" text="CNBC TV18 - KWIN" title="CNBC TV18 - KWIN" xmlUrl="https://news.google.com/rss/search?q=KWIN%20City%20site:cnbctv18.com&hl=en-IN&gl=IN&ceid=IN:en" htmlUrl="https://www.cnbctv18.com" />
+      <outline type="rss" text="Business Standard - KWIN" title="Business Standard - KWIN" xmlUrl="https://news.google.com/rss/search?q=KWIN%20City%20site:business-standard.com&hl=en-IN&gl=IN&ceid=IN:en" htmlUrl="https://www.business-standard.com" />
+      <outline type="rss" text="NDTV - KWIN" title="NDTV - KWIN" xmlUrl="https://news.google.com/rss/search?q=KWIN%20City%20site:ndtv.com&hl=en-IN&gl=IN&ceid=IN:en" htmlUrl="https://www.ndtv.com" />
+      <outline type="rss" text="India Today - KWIN" title="India Today - KWIN" xmlUrl="https://news.google.com/rss/search?q=KWIN%20City%20site:indiatoday.in&hl=en-IN&gl=IN&ceid=IN:en" htmlUrl="https://www.indiatoday.in" />
     </outline>
 
     <outline text="Broader Karnataka Signals" title="Broader Karnataka Signals">

@@ -1,10 +1,12 @@
+// @vitest-environment node
+
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { clusterReaderItems, explainReaderRank, scoreReaderItem, sortReaderClusters } from '../intelligence';
 import type { ReaderItem } from '../types';
 
 function item(overrides: Partial<ReaderItem>): ReaderItem {
   return {
-    title: 'KWIN transit corridor receives approval', link: 'https://example.com/a', summary: 'KWIN transit corridor receives approval for Bengaluru.', fullContent: '', source: 'Example', sourceFeedUrl: 'https://example.com/rss', sourceTier: 'official', provenance: 'direct-institutional', authenticity: 'verified-feed', publishedAt: '2026-08-10T00:00:00.000Z', ...overrides,
+    title: 'KWIN transit corridor receives approval', link: 'https://example.com/a', summary: 'KWIN transit corridor receives approval for Bengaluru.', fullContent: '', source: 'Example', sourceFeedUrl: 'https://example.com/rss', sourceTier: 'official', provenance: 'direct-institutional', authenticity: 'verified-feed', isKwinRelated: true, publishedAt: '2026-08-10T00:00:00.000Z', ...overrides,
   };
 }
 
