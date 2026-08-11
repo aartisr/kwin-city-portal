@@ -18,7 +18,7 @@ export default function MobileHeaderActions({
   onToggleMobileMenu,
 }: MobileHeaderActionsProps) {
   return (
-    <div className="flex items-center gap-2 justify-end 2xl:hidden">
+    <div className="flex items-center gap-2 justify-end lg:hidden">
       <button
         type="button"
         aria-label={labels.search}
