@@ -16,7 +16,7 @@ export default function PageIntro({
       <div className="container">
         <div className="max-w-4xl">
           <div className="text-xs font-semibold tracking-[0.2em] text-blue-600 uppercase mb-4">{eyebrow}</div>
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-5">{title}</h1>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-5">{title}</h1>
           <p className="text-lg md:text-xl text-gray-600 max-w-3xl">{description}</p>
         </div>
 
