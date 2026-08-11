@@ -32,11 +32,13 @@
     "a11y:audit": "playwright test e2e/performance-wcag.spec.ts --headed",
     "quality:verify-doc": "node scripts/verify-quality-standards.mjs",
     "quality:verify-facts": "node scripts/verify-factual-integrity.mjs",
+    "operations:verify-current": "node scripts/verify-always-current-operations.mjs",
+    "sources:verify-primary-health": "node scripts/verify-primary-source-health.mjs",
     "sources:verify": "node scripts/verify-source-registry.mjs",
     "content:staleness": "node scripts/check-content-staleness.mjs",
     "notify:search": "node scripts/ping-search-engines.mjs",
     "release:android": "bash scripts/release-android.sh",
-    "quality:gate": "npm run lint:critical && npm run type-check && npm run test:coverage && npm run e2e:smoke && npm run e2e:a11y-smoke && npm run quality:verify-facts"
+    "quality:gate": "npm run lint:critical && npm run type-check && npm run test:coverage && npm run e2e:smoke && npm run e2e:a11y-smoke && npm run quality:verify-facts && npm run operations:verify-current && npm run sources:verify-primary-health"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",

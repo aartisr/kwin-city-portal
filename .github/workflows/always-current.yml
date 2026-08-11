@@ -3,7 +3,7 @@ name: Always Current Control Plane
 on:
   schedule:
     # GitHub schedules are eventual, not real-time. This complements the runtime cron.
-    - cron: '17 */6 * * *'
+    - cron: '17 */3 * * *'
   workflow_dispatch:
     inputs:
       mode:
@@ -43,6 +43,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Trigger protected production refresh
+        id: trigger_refresh
         if: ${{ env.SITE_REFRESH_URL != '' && env.CRON_SECRET != '' }}
         run: |
           curl --fail --silent --show-error --max-time 120 \
@@ -50,27 +51,89 @@ jobs:
             "${SITE_REFRESH_URL}"
 
       - name: Refresh handoff configuration notice
+        id: refresh_notice
         if: ${{ env.SITE_REFRESH_URL == '' || env.CRON_SECRET == '' }}
         run: echo "::warning::Set SITE_REFRESH_URL and CRON_SECRET repository secrets to let this control plane invoke the protected production refresh endpoint."
 
+      - name: Verify always-current operations freshness
+        id: verify_operations
+        run: npm run operations:verify-current
+
+      - name: Verify primary source health
+        id: verify_primary_health
+        run: npm run sources:verify-primary-health
+
       - name: Verify reviewed source registry
+        id: verify_sources
         run: npm run sources:verify
 
       - name: Audit factual-content freshness
+        id: audit_staleness
         run: npm run content:staleness
 
       - name: Enforce factual integrity guardrails
+        id: verify_facts
         run: npm run quality:verify-facts
 
       - name: Type check
+        id: type_check
         run: npm run type-check
 
       - name: Unit tests
+        id: unit_tests
         run: npm test
 
       - name: Full production build
+        id: full_build
         if: github.event.inputs.mode == 'full'
         run: npm run build:ci
+
+      - name: Build minimal always-current audit log
+        if: always()
+        run: |
+          cat > always-current-audit.json << 'JSON'
+          {
+            "workflow": "always-current-control-plane",
+            "runId": "${{ github.run_id }}",
+            "runAttempt": "${{ github.run_attempt }}",
+            "runNumber": "${{ github.run_number }}",
+            "event": "${{ github.event_name }}",
+            "mode": "${{ github.event.inputs.mode || 'standard' }}",
+            "ref": "${{ github.ref }}",
+            "sha": "${{ github.sha }}",
+            "repository": "${{ github.repository }}",
+            "actor": "${{ github.actor }}",
+            "runUrl": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+            "refreshConfigured": "${{ env.SITE_REFRESH_URL != '' && env.CRON_SECRET != '' }}",
+            "jobStatus": "${{ job.status }}",
+            "steps": {
+              "triggerRefresh": "${{ steps.trigger_refresh.outcome || 'skipped' }}",
+              "refreshNotice": "${{ steps.refresh_notice.outcome || 'skipped' }}",
+              "verifyOperations": "${{ steps.verify_operations.outcome || 'skipped' }}",
+              "verifyPrimaryHealth": "${{ steps.verify_primary_health.outcome || 'skipped' }}",
+              "verifySources": "${{ steps.verify_sources.outcome || 'skipped' }}",
+              "auditStaleness": "${{ steps.audit_staleness.outcome || 'skipped' }}",
+              "verifyFacts": "${{ steps.verify_facts.outcome || 'skipped' }}",
+              "typeCheck": "${{ steps.type_check.outcome || 'skipped' }}",
+              "unitTests": "${{ steps.unit_tests.outcome || 'skipped' }}",
+              "fullBuild": "${{ steps.full_build.outcome || 'skipped' }}"
+            }
+          }
+          JSON
+
+      - name: Upload always-current audit log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: always-current-audit-${{ github.run_id }}
+          path: always-current-audit.json
+          retention-days: 7
+
+      - name: Publish audit pointer in job summary
+        if: always()
+        run: |
+          echo "Always-current audit log artifact: always-current-audit-${{ github.run_id }} (retention: 7 days)." >> "$GITHUB_STEP_SUMMARY"
+          echo "Run details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Write a single actionable issue on critical failure
         if: failure()
