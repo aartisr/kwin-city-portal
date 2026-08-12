@@ -9,28 +9,34 @@ Master documentation index for developers, content editors, project managers, an
 ## 🎯 Start Here Based on Your Role
 
 ### **👨‍💼 Project Manager / Stakeholder**
+
 1. [README.md](README.md) — Project overview and key stats (5 min)
 2. [docs/PHASE_4_SUMMARY.md](docs/PHASE_4_SUMMARY.md) — Recent implementations (10 min)
 3. [QUALITY_STANDARDS.md](QUALITY_STANDARDS.md) — Quality roadmap and progress (15 min)
 
 ### **✏️ Content Editor**
+
 1. [HOW_TO.md](HOW_TO.md) — Task-based quick guides ⭐ START HERE (10 min)
 2. [docs/DATA_MODEL.md](docs/DATA_MODEL.md) — Data structure reference (15 min)
 3. [docs/EVIDENCE_SYSTEM.md](docs/EVIDENCE_SYSTEM.md) — Evidence and sourcing (20 min)
 
 ### **👨‍💻 Frontend Developer**
+
 1. [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) — Setup and workflow (15 min)
 2. [ARCHITECTURE.md](ARCHITECTURE.md) — System design (20 min)
 3. [docs/COMPONENTS.md](docs/COMPONENTS.md) — Component reference (30 min)
 4. [HOW_TO.md](HOW_TO.md) — Common tasks (10 min)
 
 ### **🏗️ Backend / DevOps Engineer**
+
 1. [ARCHITECTURE.md](ARCHITECTURE.md) — System overview (20 min)
 2. [docs/BACKEND_ARCHITECTURE.md](docs/BACKEND_ARCHITECTURE.md) — Infrastructure (15 min)
-3. [docs/API.md](docs/API.md) — API endpoints and contracts (10 min)
-4. [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) — Environment setup (15 min)
+3. [docs/DATABASE.md](docs/DATABASE.md) — Database operations, data inventory, security, and migrations (20 min)
+4. [docs/API.md](docs/API.md) — API endpoints and contracts (10 min)
+5. [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) — Environment setup (15 min)
 
 ### **🔐 Security / Compliance Officer**
+
 1. [QUALITY_STANDARDS.md](QUALITY_STANDARDS.md) — Security section (Critical #6) (10 min)
 2. [CONTRIBUTING.md](CONTRIBUTING.md) — Contribution standards (5 min)
 3. [docs/EVIDENCE_SYSTEM.md](docs/EVIDENCE_SYSTEM.md) — Data integrity approach (15 min)
@@ -41,41 +47,42 @@ Master documentation index for developers, content editors, project managers, an
 
 ### **Core Documentation**
 
-| Document | Purpose | Audience | Length |
-|----------|---------|----------|--------|
-| [README.md](README.md) | Project overview, site map, tech stack | Everyone | 🟡 Medium |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | System design and technical architecture | Developers | 🟡 Medium |
-| [HOW_TO.md](HOW_TO.md) | Task-based quick guides (11 practical tasks) | Content editors | 🟢 Short |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute code and content | Contributors | 🟢 Short |
-| [QUALITY_STANDARDS.md](QUALITY_STANDARDS.md) | Production-grade quality roadmap | Team leads | 🔴 Long |
+| Document                                     | Purpose                                      | Audience        | Length    |
+| -------------------------------------------- | -------------------------------------------- | --------------- | --------- |
+| [README.md](README.md)                       | Project overview, site map, tech stack       | Everyone        | 🟡 Medium |
+| [ARCHITECTURE.md](ARCHITECTURE.md)           | System design and technical architecture     | Developers      | 🟡 Medium |
+| [HOW_TO.md](HOW_TO.md)                       | Task-based quick guides (11 practical tasks) | Content editors | 🟢 Short  |
+| [CONTRIBUTING.md](CONTRIBUTING.md)           | How to contribute code and content           | Contributors    | 🟢 Short  |
+| [QUALITY_STANDARDS.md](QUALITY_STANDARDS.md) | Production-grade quality roadmap             | Team leads      | 🔴 Long   |
 
 ### **Developer & Ops Documentation**
 
-| Document | Purpose | Audience | Length |
-|----------|---------|----------|--------|
-| [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) | Local setup, workflow, scripts, troubleshooting | Developers | 🟡 Medium |
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Detailed tech architecture | Developers | 🟡 Medium |
-| [docs/BACKEND_ARCHITECTURE.md](docs/BACKEND_ARCHITECTURE.md) | Backend services & infrastructure | DevOps/Backend | 🟡 Medium |
-| [docs/API.md](docs/API.md) | REST API endpoints and usage | Developers | 🟢 Short |
-| [docs/SUPABASE_SETUP.md](docs/SUPABASE_SETUP.md) | Database configuration | DevOps/Backend | 🟢 Short |
+| Document                                                     | Purpose                                                       | Audience                | Length    |
+| ------------------------------------------------------------ | ------------------------------------------------------------- | ----------------------- | --------- |
+| [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)                   | Local setup, workflow, scripts, troubleshooting               | Developers              | 🟡 Medium |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)                 | Detailed tech architecture                                    | Developers              | 🟡 Medium |
+| [docs/BACKEND_ARCHITECTURE.md](docs/BACKEND_ARCHITECTURE.md) | Backend services & infrastructure                             | DevOps/Backend          | 🟡 Medium |
+| [docs/API.md](docs/API.md)                                   | REST API endpoints and usage                                  | Developers              | 🟢 Short  |
+| [docs/SUPABASE_SETUP.md](docs/SUPABASE_SETUP.md)             | Database configuration                                        | DevOps/Backend          | 🟢 Short  |
+| [docs/DATABASE.md](docs/DATABASE.md)                         | Data inventory, configuration, security, recovery, migrations | DevOps/Backend/Security | 🟡 Medium |
 
 ### **Data & Content Documentation**
 
-| Document | Purpose | Audience | Length |
-|----------|---------|----------|--------|
-| [docs/DATA_MODEL.md](docs/DATA_MODEL.md) | TypeScript types, data structures, constants | Developers | 🟡 Medium |
-| [docs/COMPONENTS.md](docs/COMPONENTS.md) | All 25+ components: props, usage, examples | Frontend devs | 🔴 Long |
-| [docs/EVIDENCE_SYSTEM.md](docs/EVIDENCE_SYSTEM.md) | Evidence tiers, sources, claims, methodology | Everyone | 🟡 Medium |
+| Document                                           | Purpose                                      | Audience      | Length    |
+| -------------------------------------------------- | -------------------------------------------- | ------------- | --------- |
+| [docs/DATA_MODEL.md](docs/DATA_MODEL.md)           | TypeScript types, data structures, constants | Developers    | 🟡 Medium |
+| [docs/COMPONENTS.md](docs/COMPONENTS.md)           | All 25+ components: props, usage, examples   | Frontend devs | 🔴 Long   |
+| [docs/EVIDENCE_SYSTEM.md](docs/EVIDENCE_SYSTEM.md) | Evidence tiers, sources, claims, methodology | Everyone      | 🟡 Medium |
 
 ### **Reference & Checklist**
 
-| Document | Purpose | Audience | Length |
-|----------|---------|----------|--------|
-| [SETUP_GUIDE.md](SETUP_GUIDE.md) | Installation and setup walkthrough | New developers | 🟢 Short |
-| [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md) | System improvements summary | Project leads | 🟡 Medium |
-| [PHASE_4_SUMMARY.md](PHASE_4_SUMMARY.md) | Phase 4 implementation details | Stakeholders | 🟡 Medium |
-| [LEGAL_CONTENT_CHECKLIST.md](LEGAL_CONTENT_CHECKLIST.md) | Asset licensing and legal reviews | Legal/Comms | 🟢 Short |
-| [docs/README.md](docs/README.md) | Documentation index and quick start | Everyone | 🟢 Short |
+| Document                                                 | Purpose                             | Audience       | Length    |
+| -------------------------------------------------------- | ----------------------------------- | -------------- | --------- |
+| [SETUP_GUIDE.md](SETUP_GUIDE.md)                         | Installation and setup walkthrough  | New developers | 🟢 Short  |
+| [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)   | System improvements summary         | Project leads  | 🟡 Medium |
+| [PHASE_4_SUMMARY.md](PHASE_4_SUMMARY.md)                 | Phase 4 implementation details      | Stakeholders   | 🟡 Medium |
+| [LEGAL_CONTENT_CHECKLIST.md](LEGAL_CONTENT_CHECKLIST.md) | Asset licensing and legal reviews   | Legal/Comms    | 🟢 Short  |
+| [docs/README.md](docs/README.md)                         | Documentation index and quick start | Everyone       | 🟢 Short  |
 
 **Legend:** 🟢 Short (< 15 min) | 🟡 Medium (15-30 min) | 🔴 Long (30+ min)
 
@@ -104,6 +111,7 @@ docs/ (Developer & Technical)
 ├── COMPONENTS.md                  ← Component library
 ├── DATA_MODEL.md                  ← Data types & constants
 ├── EVIDENCE_SYSTEM.md             ← Evidence methodology
+├── DATABASE.md                    ← Database operations & data inventory
 └── SUPABASE_SETUP.md              ← Database config
 
 app/ (Source Code)
@@ -128,6 +136,7 @@ app/ (Source Code)
 ## 🚀 Quick Start (Choose Your Path)
 
 ### **I want to edit content ONLY (no coding)**
+
 ```bash
 1. Open: app/content/pages/*.json
 2. Edit text/items
@@ -136,6 +145,7 @@ app/ (Source Code)
 ```
 
 ### **I want to add a new feature**
+
 ```bash
 1. 📖 Read: docs/DEVELOPMENT.md (setup)
 2. 📖 Read: ARCHITECTURE.md (how it works)
@@ -146,6 +156,7 @@ app/ (Source Code)
 ```
 
 ### **I want to understand the system**
+
 ```bash
 1. 📖 Read: README.md (5 min overview)
 2. 📖 Read: ARCHITECTURE.md (20 min deep-dive)
@@ -154,6 +165,7 @@ app/ (Source Code)
 ```
 
 ### **I want to deploy**
+
 ```bash
 1. ✅ Check: QUALITY_STANDARDS.md → "Before Production Deploy"
 2. 📖 Read: docs/BACKEND_ARCHITECTURE.md (if deploying backend)
@@ -169,36 +181,42 @@ app/ (Source Code)
 ### **New & Improved (March 27, 2026)**
 
 ✨ **QUALITY_STANDARDS.md** — Replaces old "Quality Audit"
+
 - Removed "Nobel Prize" language → now uses professional terminology
 - Production-grade quality checklist
 - 4-phase implementation roadmap
 - Success metrics for world-class quality
 
 ✨ **docs/README.md** — Complete redesign
+
 - Task-based quick navigation
 - Role-based learning paths
 - Key concepts explained
 - FAQ section for common questions
 
 ✨ **HOW_TO.md** — Task #11 added
+
 - How to add a new language (configuration-only approach)
 - Step-by-step guide to centralized locale system
 
 ### **Popular Documentation**
 
 🌟 **docs/EVIDENCE_SYSTEM.md**
+
 - Understanding the 3 evidence tiers
 - How claims are verified
 - Complete source registry (S1-S9)
 - Editorial guardrails
 
 🌟 **docs/COMPONENTS.md**
+
 - All 25+ components documented
 - Props and usage examples
 - Rendering context (server vs. client)
 - Accessibility notes
 
 🌟 **docs/DATA_MODEL.md**
+
 - TypeScript interface reference
 - All data constants
 - How to add new data
@@ -220,33 +238,36 @@ Every document in this portal follows these principles:
 
 ## 📊 Documentation Statistics
 
-| Metric | Value |
-|--------|-------|
-| Total Documents | 18 |
-| Total Lines | 12,000+ |
-| Code Examples | 150+ |
-| Diagrams & Tables | 40+ |
-| Step-by-Step Guides | 11 (in HOW_TO.md) |
-| Components Documented | 25+ |
-| Data Types Documented | 15+ |
-| Routes Documented | 16+ |
+| Metric                | Value             |
+| --------------------- | ----------------- |
+| Total Documents       | 18                |
+| Total Lines           | 12,000+           |
+| Code Examples         | 150+              |
+| Diagrams & Tables     | 40+               |
+| Step-by-Step Guides   | 11 (in HOW_TO.md) |
+| Components Documented | 25+               |
+| Data Types Documented | 15+               |
+| Routes Documented     | 16+               |
 
 ---
 
 ## 🔄 How to Update Documentation
 
 ### **To fix a typo or add clarification:**
+
 1. Edit the file directly
 2. Commit with message: `docs: fix typo in [filename]`
 3. Push to master
 
 ### **To add new documentation:**
+
 1. Create file in appropriate location
 2. Add entry to this index
 3. Link from relevant guides
 4. Commit with: `docs: add [new-document-name]`
 
 ### **To reorganize documentation:**
+
 1. Update this master index
 2. Update cross-references in other docs
 3. Update `docs/README.md` navigation
@@ -257,16 +278,19 @@ Every document in this portal follows these principles:
 ## 🙋 Questions & Support
 
 **For documentation questions:**
+
 - Check [docs/README.md FAQ](docs/README.md#-frequently-asked-questions)
 - Search this index by keyword
 - Open GitHub issue with `docs` label
 
 **For technical questions:**
+
 - Check relevant technical doc first
 - Ask in development channel
 - Reference specific section of documentation
 
 **To contribute documentation:**
+
 - See [CONTRIBUTING.md](CONTRIBUTING.md) for workflow
 - Follow documentation standards (above)
 - Reference existing docs as style guide
@@ -276,12 +300,14 @@ Every document in this portal follows these principles:
 ## 📅 Documentation Roadmap
 
 ### **Latest Updates (March 27, 2026)**
+
 - ✅ Refactored QUALITY_STANDARDS.md (removed "Nobel Prize" language)
 - ✅ Improved docs/README.md with role-based navigation
 - ✅ Added HOW_TO.md Task #11 (new language support)
 - ✅ Consolidated all documentation into cohesive system
 
 ### **Upcoming (Q2 2026)**
+
 - 📝 Add video walkthrough links
 - 📝 Create interactive component playground (Storybook)
 - 📝 Add architecture diagrams (Mermaid)
@@ -293,7 +319,7 @@ Every document in this portal follows these principles:
 
 **Documentation Maintained By:** Development Team  
 **Last Updated:** March 27, 2026  
-**Version:** 2.0 (World-Class Standards)  
+**Version:** 2.0 (World-Class Standards)
 
 **Project:** KWIN City Portal  
 **Website:** [kwin-city.com](https://kwin-city.com)

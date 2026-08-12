@@ -2,11 +2,13 @@
 
 ## Overview
 
-The KWIN City Portal backend uses a **dual-layer abstraction** that seamlessly switches between Supabase and file-based storage. This design allows:
+The KWIN City Portal backend uses a **provider-selected persistence boundary** with Supabase/PostgreSQL and file-based implementations. This design allows:
 
 - **Development**: Start immediately with file-based storage (no setup required)
 - **Production**: Configure Supabase for reliable, scalable database access
-- **Fallback**: Graceful degradation if Supabase is unavailable or misconfigured
+- **Fallback**: Explicit file mode for local development, with graceful degradation for legacy paths
+
+For the complete data inventory, configuration, RLS model, migration procedure, backup expectations, and future-provider design, read [DATABASE.md](DATABASE.md). The tracked SQL source of truth is [`supabase/migrations/`](../supabase/migrations/), not the legacy single-file schema document.
 
 ## Architecture Diagram
 
@@ -51,25 +53,30 @@ The KWIN City Portal backend uses a **dual-layer abstraction** that seamlessly s
 The unified interface that abstracts both backends. Key functions:
 
 **Users**:
+
 - `findUserByEmail(email: string)` - Lookup by email
 - `findUserById(id: string)` - Lookup by ID
 - `createUser(user: UserRecord)` - Create new user
 
 **Preferences**:
+
 - `getPreferences(email: string)` - Get user preferences or null
 - `setPreferences(email: string, prefs: UserPreference)` - Store or update
 
 **Community Posts**:
+
 - `getAllPosts()` - Get all posts sorted by recency
 - `getPostById(postId: string)` - Get single post with replies
 - `createPost(post: DiscussionPost)` - Create new post
 - `updatePost(postId: string, updates: Partial<DiscussionPost>)` - Update likes, title, etc.
 
 **Community Replies**:
+
 - `addReplyToPost(postId: string, reply: DiscussionReply)` - Add reply to post
 - `incrementPostLikes(postId: string)` - Increment likes counter
 
 Each function:
+
 1. Checks if Supabase is configured via `getSupabase()`
 2. Attempts Supabase operation if configured
 3. Falls back to file-based operation on error or if not configured
@@ -80,14 +87,16 @@ Each function:
 Lazy-initialized Supabase client with:
 
 ```typescript
-initSupabase()          // Initialize on first call
-getSupabase()           // Get client (null if not configured)
-isSupabaseConfigured()  // Check if env vars are set
+initSupabase(); // Initialize on first call
+getSupabase(); // Get client (null if not configured)
+isSupabaseConfigured(); // Check if env vars are set
 ```
 
-Auto-detects configuration from environment variables:
+Selects a provider through `KWIN_PERSISTENCE_PROVIDER` (`file` or `supabase`). For backwards compatibility, valid Supabase credentials also select Supabase when no provider is specified. The Supabase adapter reads:
+
 - `KWIN_SUPABASE_URL`
 - `KWIN_SUPABASE_ANON_KEY`
+- `KWIN_SUPABASE_SERVICE_ROLE_KEY` (required for protected production writes)
 
 ### 3. File Store (`app/lib/server/store.ts`)
 
@@ -105,14 +114,16 @@ Auto-creates `.data/` directory if it doesn't exist.
 All routes now use the data layer instead of importing store directly:
 
 **Before**:
+
 ```typescript
-import { readJsonFile, writeJsonFile } from '@/lib/server/store';
-const users = await readJsonFile('users.json', []);
+import { readJsonFile, writeJsonFile } from "@/lib/server/store";
+const users = await readJsonFile("users.json", []);
 ```
 
 **After**:
+
 ```typescript
-import { findUserByEmail, createUser } from '@/lib/server/data-layer';
+import { findUserByEmail, createUser } from "@/lib/server/data-layer";
 const user = await findUserByEmail(email);
 await createUser(user);
 ```
@@ -128,7 +139,7 @@ Is Supabase Available?
   │    └─ Error → Log Error, Fall Through
   │
   └─ No → Skip to Fallback
-      
+
 Fall Through to File-Based
       ├─ Success → Return Result
       └─ Error → Return Error to Client
@@ -146,6 +157,7 @@ Fall Through to File-Based
 - **Concurrency**: Handled by PostgreSQL locking
 
 Example: Deleting a post automatically removes all replies (if implemented):
+
 ```sql
 CREATE TABLE discussion_posts (...);
 CREATE TABLE discussion_replies (
@@ -178,6 +190,7 @@ CREATE TABLE users (
 ```
 
 **TypeScript**:
+
 ```typescript
 type UserRecord = {
   id: string;
@@ -185,7 +198,7 @@ type UserRecord = {
   email: string;
   passwordHash: string;
   passwordSalt: string;
-  createdAt: string;  // ISO 8601 timestamp
+  createdAt: string; // ISO 8601 timestamp
 };
 ```
 
@@ -203,11 +216,12 @@ CREATE TABLE user_preferences (
 ```
 
 **TypeScript**:
+
 ```typescript
 type UserPreference = {
-  persona: 'investor' | 'resident' | 'researcher' | 'journalist' | 'citizen';
+  persona: "investor" | "resident" | "researcher" | "journalist" | "citizen";
   favoriteTopics: string[];
-  digestFrequency: 'daily' | 'weekly' | 'monthly';
+  digestFrequency: "daily" | "weekly" | "monthly";
   emailUpdates: boolean;
 };
 ```
@@ -227,6 +241,7 @@ CREATE TABLE discussion_posts (
 ```
 
 **TypeScript**:
+
 ```typescript
 type DiscussionPost = {
   id: string;
@@ -234,7 +249,7 @@ type DiscussionPost = {
   title: string;
   text: string;
   likes: number;
-  createdAt: string;  // ISO 8601 timestamp
+  createdAt: string; // ISO 8601 timestamp
   replies: DiscussionReply[];
 };
 ```
@@ -252,12 +267,13 @@ CREATE TABLE discussion_replies (
 ```
 
 **TypeScript**:
+
 ```typescript
 type DiscussionReply = {
   id: string;
   author: string;
   text: string;
-  createdAt: string;  // ISO 8601 timestamp
+  createdAt: string; // ISO 8601 timestamp
 };
 ```
 
@@ -265,23 +281,23 @@ type DiscussionReply = {
 
 ### Supabase PostgreSQL
 
-| Operation | Time | Notes |
-|-----------|------|-------|
-| findUserByEmail() | 10-50ms | Indexed by email |
-| createUser() | 5-20ms | Unique constraint check |
-| getAllPosts() | 50-200ms | Sorted by date, paginated if large |
-| addReplyToPost() | 10-30ms | Direct insert, cascades on delete |
-| incrementPostLikes() | 5-10ms | Atomic increment via RPC |
+| Operation            | Time     | Notes                              |
+| -------------------- | -------- | ---------------------------------- |
+| findUserByEmail()    | 10-50ms  | Indexed by email                   |
+| createUser()         | 5-20ms   | Unique constraint check            |
+| getAllPosts()        | 50-200ms | Sorted by date, paginated if large |
+| addReplyToPost()     | 10-30ms  | Direct insert, cascades on delete  |
+| incrementPostLikes() | 5-10ms   | Atomic increment via RPC           |
 
 ### File Store (JSON)
 
-| Operation | Time | Notes |
-|-----------|------|-------|
-| findUserByEmail() | 1-5ms | Linear search through array |
-| createUser() | 2-10ms | File write sync |
-| getAllPosts() | 1-5ms | Loaded into memory |
-| addReplyToPost() | 2-10ms | File write sync |
-| incrementPostLikes() | 2-10ms | File write sync |
+| Operation            | Time   | Notes                       |
+| -------------------- | ------ | --------------------------- |
+| findUserByEmail()    | 1-5ms  | Linear search through array |
+| createUser()         | 2-10ms | File write sync             |
+| getAllPosts()        | 1-5ms  | Loaded into memory          |
+| addReplyToPost()     | 2-10ms | File write sync             |
+| incrementPostLikes() | 2-10ms | File write sync             |
 
 For <1,000 users: File store is fast enough. For >10,000 users: Supabase strongly recommended.
 
@@ -392,27 +408,32 @@ export type Notification = {
 // app/lib/server/data-layer.ts
 export async function getNotifications(email: string): Promise<Notification[]> {
   const supabase = getSupabase();
-  
+
   if (supabase) {
     try {
       const { data } = await supabase
-        .from('notifications')
-        .select('*')
-        .eq('user_email', email);
-      return data?.map(row => ({
-        id: row.id,
-        userEmail: row.user_email,
-        message: row.message,
-        read: row.read,
-        createdAt: row.created_at,
-      })) || [];
+        .from("notifications")
+        .select("*")
+        .eq("user_email", email);
+      return (
+        data?.map((row) => ({
+          id: row.id,
+          userEmail: row.user_email,
+          message: row.message,
+          read: row.read,
+          createdAt: row.created_at,
+        })) || []
+      );
     } catch (err) {
-      console.error('Supabase getNotifications error:', err);
+      console.error("Supabase getNotifications error:", err);
     }
   }
 
   // File-based fallback
-  const store = await readJsonFile<Record<string, Notification[]>>('notifications.json', {});
+  const store = await readJsonFile<Record<string, Notification[]>>(
+    "notifications.json",
+    {},
+  );
   return store[email] || [];
 }
 ```
@@ -421,12 +442,13 @@ export async function getNotifications(email: string): Promise<Notification[]> {
 
 ```typescript
 // app/api/notifications/route.ts
-import { getNotifications } from '@/lib/server/data-layer';
+import { getNotifications } from "@/lib/server/data-layer";
 
 export async function GET() {
   const session = await getSessionFromCookie();
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  
+  if (!session)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const notifications = await getNotifications(session.email);
   return NextResponse.json({ notifications });
 }

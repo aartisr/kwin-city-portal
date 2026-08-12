@@ -1,5 +1,7 @@
 # KWIN City Portal - Supabase Backend Setup Guide
 
+> The complete, maintained operational guide is [DATABASE.md](DATABASE.md). This page remains as a short Supabase-specific quick start.
+
 ## Overview
 
 The KWIN City Portal now supports two data storage backends:
@@ -32,7 +34,7 @@ npm run dev
 
 1. In your Supabase project, go to **SQL Editor** (left sidebar)
 2. Click **New Query**
-3. Copy and paste the entire contents of [docs/SUPABASE_SCHEMA.sql](../SUPABASE_SCHEMA.sql)
+3. Copy and paste the contents of [`supabase/migrations/0001_initial_schema.sql`](../supabase/migrations/0001_initial_schema.sql)
 4. Click **Run** and wait for the tables to be created
 
 Alternatively, copy-paste individual table creation commands if the full script doesn't work.
@@ -57,9 +59,12 @@ KWIN_AUTH_SECRET=$(node -e "console.log(require('crypto').randomBytes(32).toStri
 # Supabase credentials (from Step 3)
 KWIN_SUPABASE_URL=https://your-project.supabase.co
 KWIN_SUPABASE_ANON_KEY=your-anon-key-here
+# Required for server-side writes to the protected production schema. Never expose it to browsers.
+KWIN_SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
 ```
 
 Or set these environment variables in your deployment platform:
+
 - **Netlify**: Site settings → Build & deploy → Environment
 - **Vercel**: Project settings → Environment Variables
 - **Railway**: Project settings → Variables
@@ -74,6 +79,7 @@ The schema file includes seed posts. If you want to add more data or different s
 3. Paste your INSERT statements to add posts or users
 
 Example:
+
 ```sql
 INSERT INTO discussion_posts (id, author, title, text, likes, created_at)
 VALUES (
@@ -110,6 +116,7 @@ The data layer (`app/lib/server/data-layer.ts`) automatically handles the fallba
 4. **Error handling**: All database errors are caught and logged; the app continues to work using fallback storage
 
 **Important for Netlify/Vercel**:
+
 - File-based storage (`.data/` directory) is **ephemeral** — data will be lost when deployments restart
 - Use Supabase for production deployments
 - Rate limiting is in-memory and won't work across multiple function instances — consider Upstash Redis for distributed rate limiting (see Advanced Setup below)
@@ -137,7 +144,7 @@ UPSTASH_REDIS_REST_TOKEN=your-redis-rest-token
 Currently, the app uses in-memory rate limiting. To switch to Redis-backed rate limiting, you'd need to update `app/lib/server/security.ts` to use Upstash client:
 
 ```typescript
-import { Redis } from '@upstash/redis';
+import { Redis } from "@upstash/redis";
 
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL,
@@ -146,16 +153,16 @@ const redis = new Redis({
 
 export async function isRateLimited(
   req: NextRequest,
-  opts: { scope: string; limit: number; windowMs: number }
+  opts: { scope: string; limit: number; windowMs: number },
 ): Promise<boolean> {
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown';
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
   const key = `rl:${opts.scope}:${ip}`;
-  
+
   const current = await redis.incr(key);
   if (current === 1) {
     await redis.expire(key, Math.ceil(opts.windowMs / 1000));
   }
-  
+
   return current > opts.limit;
 }
 ```
@@ -169,10 +176,10 @@ This is optional — the current setup works fine for most use cases.
 Add this to a test API route to verify:
 
 ```typescript
-import { isSupabaseConfigured } from '@/lib/server/supabase-client';
+import { isSupabaseConfigured } from "@/lib/server/supabase-client";
 
 export async function GET() {
-  const using = isSupabaseConfigured() ? 'Supabase' : 'File-Based Storage';
+  const using = isSupabaseConfigured() ? "Supabase" : "File-Based Storage";
   return NextResponse.json({ backend: using });
 }
 ```
@@ -180,21 +187,23 @@ export async function GET() {
 ### View Database Logs
 
 **Supabase**:
+
 - Go to **Logs** → **Postgres Logs** in your Supabase dashboard
 - Or **Logs** → **Edge Functions** if using Supabase Edge Functions
 
 **File-Based Storage**:
+
 - Check the `.data/` directory for JSON files
 - Each file corresponds to a data store: `users.json`, `preferences.json`, `community.json`
 
 ### Common Issues
 
-| Issue | Solution |
-|-------|----------|
-| "Supabase not configured" in logs | Check that `KWIN_SUPABASE_URL` and `KWIN_SUPABASE_ANON_KEY` are set in `.env.local` or deployment platform |
-| "Data disappears on Netlify" | You're using file-based storage on ephemeral file system. Switch to Supabase (see Step 3-4) |
-| "CORS error from Supabase" | Make sure your Row Level Security policies are configured correctly (they should be open for public reads based on the schema) |
-| "Authentication fails" | Verify `KWIN_AUTH_SECRET` is set and consistent across deployments |
+| Issue                             | Solution                                                                                                                       |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| "Supabase not configured" in logs | Check that `KWIN_SUPABASE_URL` and `KWIN_SUPABASE_ANON_KEY` are set in `.env.local` or deployment platform                     |
+| "Data disappears on Netlify"      | You're using file-based storage on ephemeral file system. Switch to Supabase (see Step 3-4)                                    |
+| "CORS error from Supabase"        | Make sure your Row Level Security policies are configured correctly (they should be open for public reads based on the schema) |
+| "Authentication fails"            | Verify `KWIN_AUTH_SECRET` is set and consistent across deployments                                                             |
 
 ## Migration from File-Based to Supabase
 
@@ -207,10 +216,11 @@ If you already have data in file-based storage and want to migrate to Supabase:
 5. **Verify**: Check that data is readable from the new backend
 
 Example migration SQL:
+
 ```sql
 -- If you have existing file data exported as JSON
 INSERT INTO users (id, name, email, password_hash, password_salt, created_at)
-VALUES 
+VALUES
   ('user-1', 'John Doe', 'john@example.com', 'hash...', 'salt...', NOW()),
   ('user-2', 'Jane Smith', 'jane@example.com', 'hash...', 'salt...', NOW());
 ```
