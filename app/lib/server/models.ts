@@ -8,9 +8,9 @@ export type UserRecord = {
 };
 
 export type UserPreference = {
-  persona: 'investor' | 'resident' | 'researcher' | 'journalist' | 'citizen';
+  persona: "investor" | "resident" | "researcher" | "journalist" | "citizen";
   favoriteTopics: string[];
-  digestFrequency: 'daily' | 'weekly' | 'monthly';
+  digestFrequency: "daily" | "weekly" | "monthly";
   emailUpdates: boolean;
 };
 
@@ -45,9 +45,9 @@ export type DatabaseUserRow = {
 export type DatabaseUserPreferenceRow = {
   id: string;
   email: string;
-  persona: UserPreference['persona'];
+  persona: UserPreference["persona"];
   favorite_topics: string[] | null;
-  digest_frequency: UserPreference['digestFrequency'];
+  digest_frequency: UserPreference["digestFrequency"];
   email_updates: boolean;
   updated_at?: string;
 };
@@ -77,6 +77,14 @@ export type DatabaseSeoAgencyRunRow = {
   created_at?: string;
 };
 
+export type DatabaseNewsletterSignupRow = {
+  id: string;
+  email: string;
+  name: string | null;
+  interests: string | null;
+  created_at: string;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -88,7 +96,7 @@ export type Database = {
       };
       user_preferences: {
         Row: DatabaseUserPreferenceRow;
-        Insert: Omit<DatabaseUserPreferenceRow, 'id'> & { id?: string };
+        Insert: Omit<DatabaseUserPreferenceRow, "id"> & { id?: string };
         Update: Partial<DatabaseUserPreferenceRow>;
         Relationships: [];
       };
@@ -106,8 +114,16 @@ export type Database = {
       };
       seo_agency_runs: {
         Row: DatabaseSeoAgencyRunRow;
-        Insert: Omit<DatabaseSeoAgencyRunRow, 'created_at'> & { created_at?: string };
+        Insert: Omit<DatabaseSeoAgencyRunRow, "created_at"> & {
+          created_at?: string;
+        };
         Update: Partial<DatabaseSeoAgencyRunRow>;
+        Relationships: [];
+      };
+      newsletter_signups: {
+        Row: DatabaseNewsletterSignupRow;
+        Insert: Omit<DatabaseNewsletterSignupRow, "id"> & { id?: string };
+        Update: Partial<DatabaseNewsletterSignupRow>;
         Relationships: [];
       };
     };

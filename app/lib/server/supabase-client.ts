@@ -1,5 +1,6 @@
-import type { SupabaseClient as BaseSupabaseClient } from '@supabase/supabase-js';
-import type { Database } from './models';
+import type { SupabaseClient as BaseSupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "./models";
+import { configuredPersistenceProvider } from "./persistence";
 
 export type SupabaseClient = BaseSupabaseClient<Database>;
 
@@ -9,13 +10,13 @@ let supabaseAdminClient: SupabaseClient | null = null;
 let supabaseAdminInitError: string | null = null;
 
 function loadCreateClient() {
-  const runtimeRequire = eval('require') as NodeRequire;
-  const moduleName = '@supabase/' + 'supabase-js';
+  const runtimeRequire = eval("require") as NodeRequire;
+  const moduleName = "@supabase/" + "supabase-js";
   const { createClient } = runtimeRequire(moduleName) as {
     createClient: (
       url: string,
       key: string,
-      options?: Record<string, unknown>
+      options?: Record<string, unknown>,
     ) => SupabaseClient;
   };
   return createClient;
@@ -25,11 +26,16 @@ export function initSupabase(): SupabaseClient | null {
   if (supabaseClient !== null) return supabaseClient;
   if (supabaseInitError !== null) return null;
 
+  if (configuredPersistenceProvider() !== "supabase") {
+    supabaseInitError = "File persistence is selected.";
+    return null;
+  }
+
   const url = process.env.KWIN_SUPABASE_URL;
   const anonKey = process.env.KWIN_SUPABASE_ANON_KEY;
 
   if (!url || !anonKey) {
-    supabaseInitError = 'Supabase not configured. Using file-based storage.';
+    supabaseInitError = "Supabase not configured. Using file-based storage.";
     return null;
   }
 
@@ -54,11 +60,16 @@ export function initSupabaseAdmin(): SupabaseClient | null {
   if (supabaseAdminClient !== null) return supabaseAdminClient;
   if (supabaseAdminInitError !== null) return null;
 
+  if (configuredPersistenceProvider() !== "supabase") {
+    supabaseAdminInitError = "File persistence is selected.";
+    return null;
+  }
+
   const url = process.env.KWIN_SUPABASE_URL;
   const serviceRoleKey = process.env.KWIN_SUPABASE_SERVICE_ROLE_KEY;
 
   if (!url || !serviceRoleKey) {
-    supabaseAdminInitError = 'Supabase service role is not configured.';
+    supabaseAdminInitError = "Supabase service role is not configured.";
     return null;
   }
 
@@ -80,6 +91,7 @@ export function getSupabaseAdmin(): SupabaseClient | null {
 
 export function isSupabaseConfigured(): boolean {
   return (
+    configuredPersistenceProvider() === "supabase" &&
     !!process.env.KWIN_SUPABASE_URL &&
     !!process.env.KWIN_SUPABASE_ANON_KEY
   );
