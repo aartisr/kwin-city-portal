@@ -100,4 +100,49 @@ describe('reader intelligence', () => {
     expect(ranked[0].whyThisMatters).toContain('investment and economic development');
     expect(ranked[0].whyThisMatters).toContain('policy, planning, or regulation');
   });
+
+  it('sorts regional intelligence by publication date before strategic relevance', () => {
+    const clusters = clusterReaderItems([
+      item({
+        link: 'https://example.com/older-strategic',
+        title: 'Karnataka infrastructure investment policy approved',
+        summary: 'A strategic industrial corridor update.',
+        isKwinRelated: false,
+        publishedAt: '2026-08-09T12:00:00.000Z',
+      }),
+      item({
+        link: 'https://example.com/newer-general',
+        title: 'Bengaluru community update announced',
+        summary: 'A general regional development.',
+        isKwinRelated: false,
+        publishedAt: '2026-08-10T11:00:00.000Z',
+      }),
+    ]);
+
+    expect(rankRegionalClusters(clusters)[0].representative.link).toBe(
+      'https://example.com/newer-general',
+    );
+  });
+
+  it('uses the newest report as a regional cluster representative', () => {
+    const clusters = clusterReaderItems([
+      item({
+        link: 'https://example.com/older-report',
+        title: 'Bengaluru corridor project milestone',
+        isKwinRelated: false,
+        publishedAt: '2026-08-09T12:00:00.000Z',
+      }),
+      item({
+        link: 'https://example.com/newer-report',
+        title: 'Bengaluru corridor project milestone',
+        isKwinRelated: false,
+        provenance: 'contextual-monitoring',
+        publishedAt: '2026-08-10T11:00:00.000Z',
+      }),
+    ]);
+
+    expect(rankRegionalClusters(clusters)[0].representative.link).toBe(
+      'https://example.com/newer-report',
+    );
+  });
 });

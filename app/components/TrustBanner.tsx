@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { calculateFreshnessSlaScore } from "@/lib/operations/freshness-score";
 
 type TrustBannerProps = {
   visible: boolean;
@@ -131,7 +132,11 @@ export default function TrustBanner({
     factualAuditAgeDays,
     executionStatusAgeDays,
   );
-  const freshnessScore = Math.max(0, Math.min(100, 100 - freshest * 3));
+  const freshnessScore = calculateFreshnessSlaScore({
+    contentAgeDays,
+    factualAuditAgeDays,
+    executionStatusAgeDays,
+  });
   const contentState = classifyAge(contentAgeDays, 3);
   const factualState = classifyAge(factualAuditAgeDays, 14);
   const executionState = classifyAge(executionStatusAgeDays, 14);
@@ -291,7 +296,7 @@ export default function TrustBanner({
 
                 <div className="mt-2 flex items-center gap-2">
                   <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500">
-                    Freshness score
+                    Freshness SLA
                   </span>
                   <div className="h-1.5 w-24 overflow-hidden rounded-full bg-slate-200">
                     <div

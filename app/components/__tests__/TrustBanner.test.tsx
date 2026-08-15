@@ -52,4 +52,22 @@ describe("TrustBanner", () => {
     );
     expect(onDismiss).toHaveBeenCalledOnce();
   });
+
+  it("labels an honest SLA score rather than penalizing in-window evidence", () => {
+    render(
+      <TrustBanner
+        {...baseProps}
+        degraded={false}
+        contentAgeDays={0}
+        factualAuditAgeDays={6}
+        executionStatusAgeDays={7}
+        expanded
+        onExpandedChange={vi.fn()}
+        onDismiss={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByText("Freshness SLA")).toBeInTheDocument();
+    expect(screen.getByText("100%")).toBeInTheDocument();
+  });
 });

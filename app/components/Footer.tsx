@@ -5,6 +5,7 @@ import { SITE_CONFIG } from '@/config/site.config';
 import FooterNavLink from '@/components/footer/FooterNavLink';
 import { buildFooterContent } from '@/components/footer/content';
 import type { SiteFreshnessStatus } from '@/lib/operations/site-freshness';
+import { calculateFreshnessSlaScore } from '@/lib/operations/freshness-score';
 import {
   pickLocalizedValue,
   translate,
@@ -76,12 +77,11 @@ export default function Footer({ locale, freshness }: { locale: Locale; freshnes
   const t = (key: string) => translate(locale, key);
   const l = (values: Parameters<typeof pickLocalizedValue<string>>[1]) => pickLocalizedValue(locale, values);
   const year = new Date().getFullYear();
-  const freshestSignal = Math.max(
-    freshness.content.ageDays,
-    freshness.factualAudit.ageDays,
-    freshness.executionStatus.ageDays
-  );
-  const freshnessScore = Math.max(0, Math.min(100, 100 - freshestSignal * 3));
+  const freshnessScore = calculateFreshnessSlaScore({
+    contentAgeDays: freshness.content.ageDays,
+    factualAuditAgeDays: freshness.factualAudit.ageDays,
+    executionStatusAgeDays: freshness.executionStatus.ageDays,
+  });
   const {
     lastUpdatedText,
     quickRoutes,
@@ -289,7 +289,7 @@ export default function Footer({ locale, freshness }: { locale: Locale; freshnes
 
               <div className="rounded-2xl border border-white/20 bg-black/15 px-4 py-3 min-w-[220px]">
                 <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/75">
-                  {l({ en: 'Freshness score', kn: 'ತಾಜಾತನ ಅಂಕ', hi: 'फ्रेशनैस स्कोर', ta: 'புதியமை மதிப்பெண்' })}
+                  {l({ en: 'Freshness SLA', kn: 'ತಾಜಾತನ SLA', hi: 'फ्रेशनैस SLA', ta: 'புதியமை SLA' })}
                 </p>
                 <div className="mt-2 flex items-end gap-2">
                   <span className="text-3xl font-extrabold text-white">{freshnessScore}</span>
