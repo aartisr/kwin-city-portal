@@ -1,4 +1,4 @@
-import type { SupabaseClient as BaseSupabaseClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient as BaseSupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "./models";
 import { configuredPersistenceProvider } from "./persistence";
 
@@ -8,19 +8,6 @@ let supabaseClient: SupabaseClient | null = null;
 let supabaseInitError: string | null = null;
 let supabaseAdminClient: SupabaseClient | null = null;
 let supabaseAdminInitError: string | null = null;
-
-function loadCreateClient() {
-  const runtimeRequire = eval("require") as NodeRequire;
-  const moduleName = "@supabase/" + "supabase-js";
-  const { createClient } = runtimeRequire(moduleName) as {
-    createClient: (
-      url: string,
-      key: string,
-      options?: Record<string, unknown>,
-    ) => SupabaseClient;
-  };
-  return createClient;
-}
 
 export function initSupabase(): SupabaseClient | null {
   if (supabaseClient !== null) return supabaseClient;
@@ -40,8 +27,6 @@ export function initSupabase(): SupabaseClient | null {
   }
 
   try {
-    // Runtime-only load so missing dependency doesn't break startup/build.
-    const createClient = loadCreateClient();
     supabaseClient = createClient(url, anonKey, {
       auth: { persistSession: false },
     });
@@ -74,7 +59,6 @@ export function initSupabaseAdmin(): SupabaseClient | null {
   }
 
   try {
-    const createClient = loadCreateClient();
     supabaseAdminClient = createClient(url, serviceRoleKey, {
       auth: { persistSession: false },
     });
