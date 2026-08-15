@@ -32,9 +32,10 @@ export async function triggerSeoAgencyRefresh({
   }
 
   if (body.storageBackend !== 'supabase') {
+    const diagnostic = body.persistence ? ` — diagnostics: ${JSON.stringify(body.persistence)}` : '';
     throw new Error(
       `SEO agency refresh did not persist to Supabase (storageBackend: ${body.storageBackend ?? 'missing'})` +
-        `${body.warning ? ` — ${body.warning}` : ''}`,
+        `${body.warning ? ` — ${body.warning}` : ''}${diagnostic}`,
     );
   }
 

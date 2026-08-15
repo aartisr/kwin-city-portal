@@ -1,6 +1,7 @@
 import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { runKwinSeoAgencyJob } from '@/lib/seo-agency/job';
+import { getSeoAgencyPersistenceDiagnostics } from '@/lib/seo-agency/store';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -39,6 +40,7 @@ export async function GET(request: NextRequest) {
     generatedAt: result.run.generatedAt,
     storageBackend: result.storageBackend,
     warning: result.warning,
+    persistence: getSeoAgencyPersistenceDiagnostics(),
     durationMs: Date.now() - startedAt,
     topSignal: result.run.newsSignals[0]
       ? {

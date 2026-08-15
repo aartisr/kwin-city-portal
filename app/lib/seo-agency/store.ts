@@ -1,4 +1,6 @@
 import { getSupabase, getSupabaseAdmin, isSupabaseConfigured } from '@/lib/server/supabase-client';
+import { configuredPersistenceProvider } from '@/lib/server/persistence/provider';
+import type { PersistenceProviderId } from '@/lib/server/persistence/contracts';
 import { readJsonFile, writeJsonFile } from '@/lib/server/store';
 import { SEO_AGENCY_MAX_STORED_RUNS, SEO_AGENCY_STORE_FILE } from './config';
 import type { KwinSeoAgencyRun } from './types';
@@ -9,6 +11,23 @@ type SaveResult = {
   backend: 'supabase' | 'file';
   warning?: string;
 };
+
+export type SeoAgencyPersistenceDiagnostics = {
+  provider: PersistenceProviderId;
+  supabaseUrlConfigured: boolean;
+  supabaseAnonKeyConfigured: boolean;
+  supabaseServiceRoleKeyConfigured: boolean;
+};
+
+/** Safe to expose in the protected cron response: contains no credential values. */
+export function getSeoAgencyPersistenceDiagnostics(): SeoAgencyPersistenceDiagnostics {
+  return {
+    provider: configuredPersistenceProvider(),
+    supabaseUrlConfigured: Boolean(process.env.KWIN_SUPABASE_URL),
+    supabaseAnonKeyConfigured: Boolean(process.env.KWIN_SUPABASE_ANON_KEY),
+    supabaseServiceRoleKeyConfigured: Boolean(process.env.KWIN_SUPABASE_SERVICE_ROLE_KEY),
+  };
+}
 
 function isKwinSeoAgencyRun(value: unknown): value is KwinSeoAgencyRun {
   if (!value || typeof value !== 'object') return false;
