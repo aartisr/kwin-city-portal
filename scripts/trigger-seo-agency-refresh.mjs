@@ -13,13 +13,16 @@ export async function triggerSeoAgencyRefresh({
   cronSecret = configuredValue('CRON_SECRET'),
   fetchImpl = fetch,
   timeoutMs = DEFAULT_TIMEOUT_MS,
+  invocationId = process.env.GITHUB_RUN_ID
+    ? `${process.env.GITHUB_RUN_ID}:${process.env.GITHUB_RUN_ATTEMPT || '1'}`
+    : null,
 } = {}) {
   const response = await fetchImpl(refreshUrl, {
-      headers: {
-        authorization: `Bearer ${cronSecret}`,
-        'x-kwin-trigger-provider': 'github_actions',
-        ...(process.env.GITHUB_RUN_ID ? { 'x-github-run-id': `${process.env.GITHUB_RUN_ID}:${process.env.GITHUB_RUN_ATTEMPT || '1'}` } : {}),
-      },
+    headers: {
+      authorization: `Bearer ${cronSecret}`,
+      'x-kwin-trigger-provider': 'github_actions',
+      ...(invocationId ? { 'x-github-run-id': invocationId } : {}),
+    },
     signal: AbortSignal.timeout(timeoutMs),
   });
 
