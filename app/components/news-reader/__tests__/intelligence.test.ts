@@ -1,7 +1,7 @@
 // @vitest-environment node
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { clusterReaderItems, explainReaderRank, scoreReaderItem, sortReaderClusters } from '../intelligence';
+import { clusterReaderItems, explainReaderRank, rankKwinClusters, rankRegionalClusters, scoreReaderItem, sortReaderClusters } from '../intelligence';
 import type { ReaderItem } from '../types';
 
 function item(overrides: Partial<ReaderItem>): ReaderItem {
@@ -77,5 +77,27 @@ describe('reader intelligence', () => {
     expect(explainReaderRank(item({ provenance: 'direct-publisher' }), 1)).toContain('direct publisher feed');
     expect(explainReaderRank(item({ provenance: 'source-filtered-discovery' }), 1)).toContain('source-filtered discovery signal');
     expect(explainReaderRank(item({ provenance: 'contextual-monitoring' }), 1)).toContain('contextual monitoring signal');
+  });
+
+  it('ranks explicit KWIN relevance before recency', () => {
+    const clusters = clusterReaderItems([
+      item({ link: 'https://example.com/strong', title: 'KWIN City infrastructure update', kwinRelevanceScore: 100, publishedAt: '2026-08-09T00:00:00.000Z' }),
+      item({ link: 'https://example.com/weak', title: 'KWIN investment update', kwinRelevanceScore: 82, publishedAt: '2026-08-10T11:00:00.000Z' }),
+    ]);
+
+    expect(rankKwinClusters(clusters)[0].representative.link).toBe('https://example.com/strong');
+  });
+
+  it('prefers infrastructure, investment, and policy in regional intelligence', () => {
+    const clusters = clusterReaderItems([
+      item({ link: 'https://example.com/general', title: 'Bengaluru cultural festival announced', summary: 'A weekend cultural programme.', isKwinRelated: false, provenance: 'direct-institutional' }),
+      item({ link: 'https://example.com/strategic', title: 'Karnataka approves Bengaluru infrastructure investment policy', summary: 'New transport corridors and industrial investment.', isKwinRelated: false, provenance: 'direct-publisher', sourceTier: 'primary' }),
+    ]);
+    const ranked = rankRegionalClusters(clusters);
+
+    expect(ranked[0].representative.link).toBe('https://example.com/strategic');
+    expect(ranked[0].whyThisMatters).toContain('infrastructure and connectivity');
+    expect(ranked[0].whyThisMatters).toContain('investment and economic development');
+    expect(ranked[0].whyThisMatters).toContain('policy, planning, or regulation');
   });
 });

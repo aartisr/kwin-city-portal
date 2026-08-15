@@ -5,11 +5,13 @@ import {
   parseReaderFeedsFromOpml,
   type ReaderSourceFeed,
 } from '@/components/news-reader/source-registry';
+import { scoreKwinRelevance } from '@/components/news-reader/kwin-relevance';
 
 type FeedItem = {
   title: string;
   link: string;
   summary: string;
+  summarySource: 'publisher-feed' | 'discovery-snippet' | 'unavailable';
   fullContent: string;
   source: string;
   sourceFeedUrl: string;
@@ -17,6 +19,8 @@ type FeedItem = {
   provenance: 'direct-institutional' | 'direct-publisher' | 'source-filtered-discovery' | 'contextual-monitoring';
   authenticity: 'verified-feed' | 'discovery-feed' | 'unverified';
   isKwinRelated: boolean;
+  kwinRelevanceScore: number;
+  kwinRelevanceReasons: string[];
   publishedAt: string | null;
 };
 
@@ -33,10 +37,11 @@ const TIER_TARGET_SHARES: Record<FeedItem['sourceTier'], number> = {
 
 const DEFAULT_LIMIT = 36;
 const MAX_LIMIT = 100;
-const MAX_FEEDS = 20;
+const MAX_FEEDS = 32;
 const REQUEST_TIMEOUT_MS = 9000;
 const CACHE_TTL_MS = 3 * 60 * 1000;
-const KWIN_TERMS = /\bkwin(?:\s+city)?\b|knowledge\s*,?\s*wellbeing\s*(?:and|&)\s*innovation|khir\s+city/i;
+const KWIN_RESERVED_SHARE = 0.4;
+const KWIN_FEED_HINTS = /\bkwin(?:\s+city)?\b|knowledge\s*,?\s*well(?:being|ness)\s*(?:and|&)\s*innovation|khir\s+city|ಕ್ವಿನ್\s*ಸಿಟಿ/i;
 
 type ReaderPayload = {
   opmlUrl: string;
@@ -53,6 +58,12 @@ type ReaderPayload = {
 type CacheEntry = {
   expiresAt: number;
   payload: ReaderPayload;
+};
+
+const SUMMARY_QUALITY: Record<FeedItem['summarySource'], number> = {
+  unavailable: 0,
+  'discovery-snippet': 1,
+  'publisher-feed': 2,
 };
 
 const routeCache: Map<string, CacheEntry> = new Map();
@@ -79,7 +90,7 @@ function stripHtml(input: string): string {
     .trim();
 }
 
-function summarize(input: string, maxLen = 260): string {
+function summarize(input: string, maxLen = 320): string {
   const clean = stripHtml(input);
   if (!clean) {
     return 'Summary unavailable. Open the original source to read the full article.';
@@ -88,6 +99,42 @@ function summarize(input: string, maxLen = 260): string {
     return clean;
   }
   return `${clean.slice(0, maxLen).trimEnd()}...`;
+}
+
+function buildSummary(title: string, input: string, feedUrl: string): Pick<FeedItem, 'summary' | 'summarySource'> {
+  const clean = stripHtml(input);
+  const hostname = new URL(feedUrl).hostname.toLowerCase();
+  const normalizedTitle = title.replace(/\s+-\s+[^-]+$/, '').toLowerCase().replace(/\W+/g, ' ').trim();
+  const normalizedContent = clean.toLowerCase().replace(/\W+/g, ' ').trim();
+  const isHeadlineEcho = !clean
+    || normalizedContent === normalizedTitle
+    || normalizedContent.startsWith(`${normalizedTitle} `)
+    || /^https?:\/\//i.test(clean);
+
+  if (hostname === 'news.google.com' && isHeadlineEcho) {
+    return {
+      summary: 'Content summary is not supplied by this discovery feed. Open the original publisher report for full context.',
+      summarySource: 'unavailable',
+    };
+  }
+
+  return {
+    summary: summarize(input),
+    summarySource: hostname.endsWith('bing.com') ? 'discovery-snippet' : 'publisher-feed',
+  };
+}
+
+function unwrapDiscoveryLink(link: string): string {
+  try {
+    const url = new URL(link);
+    if (url.hostname.endsWith('bing.com') && url.pathname.includes('/news/apiclick')) {
+      const publisherUrl = url.searchParams.get('url');
+      if (publisherUrl && /^https?:\/\//i.test(publisherUrl)) return publisherUrl;
+    }
+  } catch {
+    // Keep the feed link when a provider changes its URL shape.
+  }
+  return link;
 }
 
 function getTagValue(block: string, tags: string[]): string {
@@ -220,13 +267,32 @@ function selectBalancedStories(items: FeedItem[], limit: number): FeedItem[] {
   return selected.sort(compareByPublishedAtDesc);
 }
 
+function selectReaderStories(items: FeedItem[], limit: number): FeedItem[] {
+  const kwinLimit = Math.max(1, Math.ceil(limit * KWIN_RESERVED_SHARE));
+  const rankedKwinItems = items
+    .filter((item) => item.isKwinRelated)
+    .sort((a, b) => b.kwinRelevanceScore - a.kwinRelevanceScore || compareByPublishedAtDesc(a, b));
+  const kwinItems = rankedKwinItems.slice(0, kwinLimit);
+  const selectedLinks = new Set(kwinItems.map((item) => item.link));
+  const regionalItems = selectBalancedStories(
+    items.filter((item) => !selectedLinks.has(item.link) && !item.isKwinRelated),
+    Math.max(0, limit - kwinItems.length),
+  );
+  const remainingCapacity = limit - kwinItems.length - regionalItems.length;
+  const additionalKwinItems = remainingCapacity > 0
+    ? rankedKwinItems.slice(kwinItems.length, kwinItems.length + remainingCapacity)
+    : [];
+
+  return [...kwinItems, ...additionalKwinItems, ...regionalItems];
+}
+
 function isKwinSourceFeed(feedEntry: FeedEntry): boolean {
   const descriptor = decodeEntities([
     feedEntry.title,
     ...feedEntry.groupPath,
     decodeURIComponent(feedEntry.xmlUrl),
   ].join(' '));
-  return KWIN_TERMS.test(descriptor);
+  return KWIN_FEED_HINTS.test(descriptor);
 }
 
 function parseFeedItems(feedXml: string, feedEntry: FeedEntry, perFeedLimit: number): FeedItem[] {
@@ -244,52 +310,60 @@ function parseFeedItems(feedXml: string, feedEntry: FeedEntry, perFeedLimit: num
   const atomEntries = feedXml.match(/<entry\b[\s\S]*?<\/entry>/gi) ?? [];
 
   const parsed: FeedItem[] = [];
-  const sourceIsKwinFocused = isKwinSourceFeed(feedEntry);
-
   for (const item of rssItems.slice(0, perFeedLimit)) {
     const title = stripHtml(getTagValue(item, ['title'])) || 'Untitled article';
-    const link = decodeEntities(getTagValue(item, ['link']));
+    const link = unwrapDiscoveryLink(decodeEntities(getTagValue(item, ['link'])));
     const summaryText = getTagValue(item, ['description', 'content:encoded', 'content']);
     const published = parseDateMaybe(getTagValue(item, ['pubDate', 'dc:date', 'published', 'updated']));
     if (!link) {
       continue;
     }
     const fullText = stripHtml(summaryText);
+    const summary = buildSummary(title, summaryText, feedEntry.xmlUrl);
+    const relevance = scoreKwinRelevance(title, fullText);
+    const itemSource = stripHtml(getTagValue(item, ['source', 'News:Source'])) || source;
     parsed.push({
       title,
       link,
-      summary: summarize(summaryText),
+      ...summary,
       fullContent: fullText.length > 5000 ? `${fullText.slice(0, 5000)}…` : fullText,
-      source,
+      source: itemSource,
       sourceFeedUrl: feedEntry.xmlUrl,
       sourceTier,
       provenance,
       authenticity,
-      isKwinRelated: sourceIsKwinFocused || KWIN_TERMS.test(`${title} ${fullText}`),
+      isKwinRelated: relevance.isRelevant,
+      kwinRelevanceScore: relevance.score,
+      kwinRelevanceReasons: relevance.reasons,
       publishedAt: published,
     });
   }
 
   for (const entry of atomEntries.slice(0, perFeedLimit)) {
     const title = stripHtml(getTagValue(entry, ['title'])) || 'Untitled article';
-    const link = getAtomLink(entry);
+    const link = unwrapDiscoveryLink(getAtomLink(entry));
     const summaryText = getTagValue(entry, ['summary', 'content']);
     const published = parseDateMaybe(getTagValue(entry, ['published', 'updated']));
     if (!link) {
       continue;
     }
     const fullText = stripHtml(summaryText);
+    const summary = buildSummary(title, summaryText, feedEntry.xmlUrl);
+    const relevance = scoreKwinRelevance(title, fullText);
+    const itemSource = stripHtml(getTagValue(entry, ['source>title'])) || source;
     parsed.push({
       title,
       link,
-      summary: summarize(summaryText),
+      ...summary,
       fullContent: fullText.length > 5000 ? `${fullText.slice(0, 5000)}…` : fullText,
-      source,
+      source: itemSource,
       sourceFeedUrl: feedEntry.xmlUrl,
       sourceTier,
       provenance,
       authenticity,
-      isKwinRelated: sourceIsKwinFocused || KWIN_TERMS.test(`${title} ${fullText}`),
+      isKwinRelated: relevance.isRelevant,
+      kwinRelevanceScore: relevance.score,
+      kwinRelevanceReasons: relevance.reasons,
       publishedAt: published,
     });
   }
@@ -385,13 +459,21 @@ export async function GET(request: NextRequest) {
 
     const dedupedMap = new Map<string, FeedItem>();
     for (const item of combined) {
-      const key = `${item.link}::${item.title}`;
-      if (!dedupedMap.has(key)) {
+      const key = item.title
+        .replace(/\s+-\s+[^-]+$/, '')
+        .toLowerCase()
+        .replace(/[^\p{L}\p{N}]+/gu, ' ')
+        .trim();
+      const existing = dedupedMap.get(key);
+      if (!existing
+        || SUMMARY_QUALITY[item.summarySource] > SUMMARY_QUALITY[existing.summarySource]
+        || (SUMMARY_QUALITY[item.summarySource] === SUMMARY_QUALITY[existing.summarySource]
+          && item.kwinRelevanceScore > existing.kwinRelevanceScore)) {
         dedupedMap.set(key, item);
       }
     }
 
-    const sorted = selectBalancedStories([...dedupedMap.values()], limit);
+    const sorted = selectReaderStories([...dedupedMap.values()], limit);
 
     const payload: ReaderPayload = {
       opmlUrl,

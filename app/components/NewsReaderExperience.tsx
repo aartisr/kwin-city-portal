@@ -21,7 +21,7 @@ import type {
 import { useReaderPresets } from '@/components/news-reader/useReaderPresets';
 import { formatDate, getDomain, isInTimeWindow } from '@/components/news-reader/utils';
 import { LAST_READER_STATE_STORAGE_KEY } from '@/components/news-reader/constants';
-import { clusterReaderItems, sortReaderClusters } from '@/components/news-reader/intelligence';
+import { clusterReaderItems, rankKwinClusters, rankRegionalClusters, sortReaderClusters } from '@/components/news-reader/intelligence';
 import { useReaderLibrary } from '@/components/news-reader/useReaderLibrary';
 
 function normalizeTrendingText(value: string): string {
@@ -199,12 +199,12 @@ export default function NewsReaderExperience() {
   );
 
   const kwinClusters = useMemo(
-    () => clusters.filter((cluster) => cluster.representative.isKwinRelated),
+    () => rankKwinClusters(clusters),
     [clusters],
   );
 
   const regionalClusters = useMemo(
-    () => clusters.filter((cluster) => !cluster.representative.isKwinRelated),
+    () => rankRegionalClusters(clusters.filter((cluster) => !cluster.items.some((item) => item.isKwinRelated))),
     [clusters],
   );
 

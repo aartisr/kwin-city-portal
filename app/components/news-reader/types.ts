@@ -4,12 +4,15 @@ export type ReaderItem = {
   title: string;
   link: string;
   summary: string;
+  summarySource?: 'publisher-feed' | 'discovery-snippet' | 'unavailable';
   fullContent?: string;
   source: string;
   sourceFeedUrl: string;
   sourceTier: ReaderSourceTier;
   provenance: ReaderProvenance;
   isKwinRelated: boolean;
+  kwinRelevanceScore?: number;
+  kwinRelevanceReasons?: string[];
   originalLink?: string;
   authenticity: 'verified-feed' | 'discovery-feed' | 'unverified';
   publishedAt: string | null;
