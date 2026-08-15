@@ -766,7 +766,7 @@ It should not yet change the public freshness UI or remove documentation fallbac
 
 The additive system described above is implemented: migration, versioned policy engine, strict contracts, signed bounded endpoint, idempotent persistence, live-versus-fallback content qualification, scheduler heartbeats, daily independent GitHub evidence suites, dual-read public status, and operator documentation. The UI deliberately reports hybrid/degraded telemetry until all three durable rails have qualifying records.
 
-The observation window and production failure/recovery drills remain operational rollout activities; they cannot be truthfully marked complete by a code change. Documentation fallback must remain until migrations `0003` through `0005` are applied and successful production evidence has accumulated.
+The observation window and production failure/recovery drills remain operational rollout activities; they cannot be truthfully marked complete by a code change. Documentation fallback must remain until migrations `0003` through `0006` are applied and successful production evidence has accumulated.
 
 ### Resilience hardening addendum
 

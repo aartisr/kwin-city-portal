@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest';
 
 describe('atomic operational evidence migration', () => {
   const sql = readFileSync('supabase/migrations/0005_atomic_operational_evidence_recording.sql', 'utf8');
+  const ambiguityFix = readFileSync('supabase/migrations/0006_fix_operational_evidence_rpc_ambiguity.sql', 'utf8');
 
   it('records attempts and qualifications inside one security-definer transaction', () => {
     expect(sql).toMatch(/CREATE OR REPLACE FUNCTION public\.record_operational_verification/);
@@ -15,7 +16,8 @@ describe('atomic operational evidence migration', () => {
 
   it('fails conflicting idempotency payloads and heals identical retries', () => {
     expect(sql).toContain('idempotency-key-payload-conflict');
-    expect(sql).toMatch(/ON CONFLICT \(rail, attempt_id\) DO NOTHING/);
+    expect(ambiguityFix).toMatch(/ON CONFLICT DO NOTHING/);
+    expect(ambiguityFix).not.toMatch(/ON CONFLICT \(rail, attempt_id\)/);
     expect(sql).toMatch(/COALESCE\(request_sha256, manifest_sha256\)/);
   });
 
