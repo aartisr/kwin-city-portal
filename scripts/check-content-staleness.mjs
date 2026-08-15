@@ -2,7 +2,7 @@
 
 import { readFileSync } from 'node:fs';
 
-const MAX_AGE_DAYS = 30;
+const MAX_AGE_DAYS = 14;
 const auditPath = 'docs/FACTUAL_CLAIM_AUDIT.md';
 const audit = readFileSync(auditPath, 'utf8');
 const match = audit.match(/^Date:\s*(\d{4}-\d{2}-\d{2})$/m);

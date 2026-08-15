@@ -25,6 +25,8 @@ describe('SEO agency production refresh handoff', () => {
         runDate: '2026-08-15',
         generatedAt: '2026-08-15T03:11:00.000Z',
         durationMs: 321,
+        liveInputStatus: 'live',
+        evidence: { recorded: true, qualified: true },
       }),
     );
     const log = vi.spyOn(console, 'log').mockImplementation(() => {});
@@ -35,7 +37,7 @@ describe('SEO agency production refresh handoff', () => {
 
     expect(fetchImpl).toHaveBeenCalledWith(
       refreshUrl,
-      expect.objectContaining({ headers: { authorization: 'Bearer test-secret' } }),
+      expect.objectContaining({ headers: { authorization: 'Bearer test-secret', 'x-kwin-trigger-provider': 'github_actions' } }),
     );
     expect(log).toHaveBeenCalledWith(expect.stringContaining('persisted to Supabase'));
   });

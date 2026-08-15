@@ -276,3 +276,9 @@ npm run dev
 npm run build
 npm start
 ```
+
+## Operational evidence ledger
+
+Apply `supabase/migrations/0003_operational_verification_evidence.sql` after the earlier migrations. It creates append-only verification attempts and qualifications plus mutable scheduler heartbeats. RLS is enabled; anonymous and authenticated roles have no access, and only the server-side service role can write or read the ledger.
+
+After deployment, run **Always Current Control Plane** manually. A qualifying run creates rows in `operational_verification_attempts` and `operational_freshness_qualifications`. The production refresh also creates a row in `operational_scheduler_heartbeats`. A heartbeat proves invocation only—it never proves freshness.

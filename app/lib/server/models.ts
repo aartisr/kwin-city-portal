@@ -102,6 +102,24 @@ export type DatabaseSocialPublishReservationRow = {
   published_at: string | null;
 };
 
+export type DatabaseOperationalVerificationAttemptRow = {
+  id: string; idempotency_key: string; suite: string; outcome: string; qualified: boolean;
+  policy_version: string; started_at: string; completed_at: string; commit_sha: string | null;
+  environment: string; provider: string; provider_run_id: string | null; provider_run_url: string | null;
+  trigger_name: string; controls: unknown; manifest: unknown; manifest_sha256: string;
+  failure_code: string | null; failure_summary: string | null; created_at: string;
+};
+
+export type DatabaseOperationalFreshnessQualificationRow = {
+  id: string; rail: string; attempt_id: string; qualified_at: string; expires_at: string;
+  policy_version: string; commit_sha: string | null; created_at: string;
+};
+
+export type DatabaseOperationalSchedulerHeartbeatRow = {
+  id: string; idempotency_key: string; provider: string; schedule_id: string; invocation_id: string;
+  outcome: string; duration_ms: number | null; failure_code: string | null; received_at: string; completed_at: string | null;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -155,6 +173,24 @@ export type Database = {
           published_at?: string | null;
         };
         Update: Partial<DatabaseSocialPublishReservationRow>;
+        Relationships: [];
+      };
+      operational_verification_attempts: {
+        Row: DatabaseOperationalVerificationAttemptRow;
+        Insert: Omit<DatabaseOperationalVerificationAttemptRow, 'id' | 'created_at'> & { id?: string; created_at?: string };
+        Update: never;
+        Relationships: [];
+      };
+      operational_freshness_qualifications: {
+        Row: DatabaseOperationalFreshnessQualificationRow;
+        Insert: Omit<DatabaseOperationalFreshnessQualificationRow, 'id' | 'created_at'> & { id?: string; created_at?: string };
+        Update: never;
+        Relationships: [];
+      };
+      operational_scheduler_heartbeats: {
+        Row: DatabaseOperationalSchedulerHeartbeatRow;
+        Insert: Omit<DatabaseOperationalSchedulerHeartbeatRow, 'id' | 'received_at'> & { id?: string; received_at?: string };
+        Update: Partial<DatabaseOperationalSchedulerHeartbeatRow>;
         Relationships: [];
       };
     };

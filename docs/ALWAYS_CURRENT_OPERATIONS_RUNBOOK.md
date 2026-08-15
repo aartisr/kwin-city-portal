@@ -7,7 +7,7 @@ This runbook explains how to configure, operate, and troubleshoot the zero-budge
 The system has two complementary parts:
 
 1. **Vercel cron** performs the protected production refresh.
-2. **GitHub Actions** runs every three hours to trigger that refresh (when configured), verify source/factual health, and open one actionable issue if a critical gate fails.
+2. **GitHub Actions** runs one comprehensive daily verification, records signed evidence, and opens one actionable issue if a critical gate fails.
 
 The system is intentionally designed to preserve the last known good site state. A failed check must not silently publish unverified content.
 
@@ -17,7 +17,10 @@ The system is intentionally designed to preserve the last known good site state.
 | --- | --- | --- |
 | GitHub control plane | `.github/workflows/always-current.yml` | Schedule, verification, failure issue creation, optional production handoff |
 | Source registry check | `scripts/verify-source-registry.mjs` | Allows only reviewed HTTPS feed hosts; reports direct vs discovery sources |
-| Staleness check | `scripts/check-content-staleness.mjs` | Requires the factual claim audit to be refreshed every 30 days |
+| Staleness check | `scripts/check-content-staleness.mjs` | Requires the factual claim audit to be refreshed every 14 days |
+| Evidence API | `app/api/operations/verifications/route.ts` | Authenticates and validates immutable CI evidence |
+| Evidence policy | `app/lib/operations/verification-policy.ts` | Central, versioned qualification rules for all freshness rails |
+| Evidence ledger | `supabase/migrations/0003_operational_verification_evidence.sql` | Append-only attempts, qualifications, and scheduler heartbeats |
 | Factual guardrail | `scripts/verify-factual-integrity.mjs` | Blocks known inaccurate/stale claim patterns |
 | Runtime refresh endpoint | `app/api/cron/kwin-seo-agency/route.ts` | Protected production refresh job |
 | Vercel schedule | `vercel.json` | Native host-side scheduled invocation |
@@ -31,6 +34,9 @@ In the Vercel project environment variables, configure:
 | Variable | Required | Value |
 | --- | --- | --- |
 | `CRON_SECRET` | Yes | A random value of at least 16 characters |
+| `OPERATIONS_EVIDENCE_SECRET` | Yes | A separate random value of at least 32 characters |
+| `KWIN_SUPABASE_URL` | Yes | Project URL for durable evidence storage |
+| `KWIN_SUPABASE_SERVICE_ROLE_KEY` | Yes | Server-only service role key; never expose publicly |
 | Existing application variables | As applicable | Supabase, email, social publishing, analytics, and other application configuration |
 
 Use the same `CRON_SECRET` value in GitHub. Do not commit it to `.env`, source files, documentation examples, or workflow YAML.
@@ -46,6 +52,8 @@ Open the repository’s **Settings → Secrets and variables → Actions** and c
 | --- | --- | --- |
 | `SITE_REFRESH_URL` | Yes for GitHub-to-production refresh | `https://your-domain.example/api/cron/kwin-seo-agency` |
 | `CRON_SECRET` | Yes for GitHub-to-production refresh | Same value as Vercel’s `CRON_SECRET` |
+| `OPERATIONS_EVIDENCE_SECRET` | Yes | Same dedicated evidence secret as Vercel; never reuse `CRON_SECRET` |
+| `SITE_BASE_URL` | Optional | Production origin; derived from `SITE_REFRESH_URL` when omitted |
 
 The URL must be HTTPS and must point to the protected production route—not a preview or localhost URL.
 
@@ -82,7 +90,7 @@ Expected result: every command exits with code `0`. The source command reports a
 3. Choose `standard` for routine validation, or `full` to include a production build.
 4. Inspect each step and confirm it is green.
 
-The first successful run verifies that GitHub can install dependencies, execute the controls, and access the configured secrets without exposing them in logs.
+The first successful run verifies that GitHub can execute the controls and persist two signed, policy-qualified evidence records without exposing secrets in logs. Apply migration `0003_operational_verification_evidence.sql` before this run.
 
 ### Confirm the production handoff
 
@@ -92,7 +100,7 @@ Then inspect the Vercel function logs for the matching invocation. It should ret
 
 ## Normal operation
 
-- The GitHub Action is scheduled at minute 17 every three hours, in UTC.
+- The GitHub Action is scheduled once daily at 05:17 UTC.
 - Vercel cron remains the native runtime scheduler.
 - GitHub scheduled workflows can be delayed; do not treat an exact minute as an SLA.
 - A failed check opens at most one issue titled **Always-current control plane requires attention**. Fix the underlying cause, re-run the workflow, and close the issue after confirmation.
@@ -151,7 +159,7 @@ Check that the route appears in the production build output and that the domain 
 
 ### `Audit factual-content freshness` fails
 
-**Likely cause:** `docs/FACTUAL_CLAIM_AUDIT.md` is older than 30 days.
+**Likely cause:** `docs/FACTUAL_CLAIM_AUDIT.md` is older than 14 days.
 
 **Fix:**
 

@@ -15,10 +15,17 @@ const EXECUTION_STATUS_FALLBACK_DATE = "2026-08-08";
 type FreshnessRecord = {
   isoDate: string;
   ageDays: number;
+  targetDays?: number;
+  evidenceType?: "durable-automated" | "documentation-fallback";
+  policyVersion?: string;
+  commitSha?: string | null;
+  evidenceUrl?: string | null;
 };
 
 export type SiteFreshnessStatus = {
   degraded: boolean;
+  telemetryAvailable?: boolean;
+  telemetryMode?: "durable" | "hybrid" | "documentation-fallback";
   content: FreshnessRecord;
   factualAudit: FreshnessRecord;
   executionStatus: FreshnessRecord;
@@ -102,6 +109,8 @@ export function getSiteFreshnessStatus(
 
   return {
     degraded,
+    telemetryAvailable: false,
+    telemetryMode: "documentation-fallback",
     content,
     factualAudit,
     executionStatus,
