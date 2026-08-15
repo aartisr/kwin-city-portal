@@ -1,5 +1,6 @@
 // @vitest-environment node
 
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import {
   classifyReaderSourceTier,
@@ -8,6 +9,32 @@ import {
 } from '@/components/news-reader/source-registry';
 
 describe('news-reader/source-registry', () => {
+  it('ships official, leading newspaper, Kannada, summary-bearing, and strategic feeds', () => {
+    const feeds = parseReaderFeedsFromOpml(
+      readFileSync('public/feeds/kwin-city-news-feeds.opml', 'utf8'),
+    );
+    const titles = feeds.map((feed) => feed.title);
+
+    expect(feeds.length).toBeGreaterThanOrEqual(30);
+    expect(titles).toEqual(
+      expect.arrayContaining([
+        'Bing News — KWIN City summaries',
+        'Invest Karnataka — KWIN/KHIR',
+        'Karnataka Legislature — KWIN/KHIR',
+        'The Hindu — KWIN',
+        'Deccan Herald — KWIN',
+        'Economic Times — KWIN',
+        'Prajavani — ಕ್ವಿನ್ ಸಿಟಿ',
+        'Doddaballapura/Dabaspete strategic development',
+      ]),
+    );
+    expect(
+      titles.some((title) =>
+        /Reserve Bank|Meteorological|Pollution Control/i.test(title),
+      ),
+    ).toBe(false);
+  });
+
   it('parses feed entries from OPML with nested groups and decodes entities', () => {
     const opml = `
       <opml version="2.0">

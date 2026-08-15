@@ -1,5 +1,6 @@
 import type { ReaderCluster, ReaderItem, ReaderSortMode } from './types';
 import { getDomain } from './utils';
+import { scoreRegionalPriority } from './regional-relevance';
 
 const STOP_WORDS = new Set(['a', 'an', 'and', 'are', 'at', 'be', 'by', 'for', 'from', 'in', 'is', 'it', 'of', 'on', 'or', 'the', 'to', 'with']);
 
@@ -91,4 +92,52 @@ export function sortReaderClusters(clusters: ReaderCluster[], sort: ReaderSortMo
     }
     return b.score - a.score;
   });
+}
+
+function publishedTime(item: ReaderItem): number {
+  return item.publishedAt ? new Date(item.publishedAt).getTime() : 0;
+}
+
+/** KWIN coverage uses an explicit relevance rank, independent of workspace sort. */
+export function rankKwinClusters(clusters: ReaderCluster[]): ReaderCluster[] {
+  return clusters
+    .map((cluster) => {
+      const relevantItems = cluster.items
+        .filter((item) => item.isKwinRelated)
+        .sort((a, b) =>
+          (b.kwinRelevanceScore ?? 0) - (a.kwinRelevanceScore ?? 0)
+          || publishedTime(b) - publishedTime(a));
+      const representative = relevantItems[0];
+      if (!representative) return null;
+
+      return {
+        ...cluster,
+        id: `${representative.link}-${representative.title}`,
+        title: representative.title,
+        summary: representative.summary,
+        representative,
+        items: [...relevantItems, ...cluster.items.filter((item) => !item.isKwinRelated)],
+        whyThisMatters: representative.kwinRelevanceReasons?.length
+          ? representative.kwinRelevanceReasons
+          : cluster.whyThisMatters,
+      } satisfies ReaderCluster;
+    })
+    .filter((cluster): cluster is ReaderCluster => cluster !== null)
+    .sort((a, b) =>
+      (b.representative.kwinRelevanceScore ?? 0) - (a.representative.kwinRelevanceScore ?? 0)
+      || publishedTime(b.representative) - publishedTime(a.representative));
+}
+
+/** Strategic regional domains rank first; source confidence and recency break ties. */
+export function rankRegionalClusters(clusters: ReaderCluster[]): ReaderCluster[] {
+  return clusters
+    .map((cluster) => {
+      const priority = scoreRegionalPriority(cluster.title, cluster.summary);
+      return {
+        ...cluster,
+        whyThisMatters: priority.reasons.length ? priority.reasons : cluster.whyThisMatters,
+        score: cluster.score + priority.score,
+      };
+    })
+    .sort((a, b) => b.score - a.score || publishedTime(b.representative) - publishedTime(a.representative));
 }

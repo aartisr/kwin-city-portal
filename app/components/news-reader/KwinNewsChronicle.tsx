@@ -23,7 +23,7 @@ export function KwinNewsChronicle({ l, locale, liveItems, onSelectItem }: KwinNe
               {l({ en: 'KWIN evidence chronicle', kn: 'KWIN ಸಾಕ್ಷ್ಯ ಕಾಲಾನುಕ್ರಮ', hi: 'KWIN साक्ष्य इतिहास', ta: 'KWIN ஆதார காலவரிசை' })}
             </p>
             <h2 id="kwin-news-chronicle-title" className="text-2xl font-black tracking-[-0.04em] text-slate-950 md:text-3xl">
-              {l({ en: 'KWIN coverage, newest signal first', kn: 'KWIN ವರದಿ, ಹೊಸ ಸಂಕೇತ ಮೊದಲು', hi: 'KWIN कवरेज, नवीनतम संकेत पहले', ta: 'KWIN செய்திக் கவரேஜ், புதிய சிக்னல் முதலில்' })}
+              {l({ en: 'KWIN coverage, strongest signal first', kn: 'KWIN ವರದಿ, ಪ್ರಬಲ ಸಂಕೇತ ಮೊದಲು', hi: 'KWIN कवरेज, सबसे मजबूत संकेत पहले', ta: 'KWIN செய்திக் கவரேஜ், வலுவான சிக்னல் முதலில்' })}
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600 md:text-base">
               {l({ en: 'Live, publisher-attributed reporting is followed by a source-linked record from the September 2024 public launch. Coverage is never treated as proof: open the original record before relying on a claim.', kn: 'ಲೈವ್, ಪ್ರಕಾಶಕ-ಆಪಾದಿತ ವರದಿಯ ನಂತರ ಸೆಪ್ಟೆಂಬರ್ 2024 ಸಾರ್ವಜನಿಕ ಬಿಡುಗಡೆದಿಂದ ಮೂಲ-ಲಿಂಕ್ ದಾಖಲೆ ಇದೆ. ವರದಿಯನ್ನು ಸಾಬೀತಾಗಿ ಪರಿಗಣಿಸಲಾಗುವುದಿಲ್ಲ; ಹೇಳಿಕೆಯನ್ನು ನಂಬುವ ಮೊದಲು ಮೂಲ ದಾಖಲೆಯನ್ನು ತೆರೆಯಿರಿ.', hi: 'लाइव, प्रकाशक-नामित रिपोर्टिंग के बाद सितंबर 2024 के सार्वजनिक लॉन्च से स्रोत-लिंक रिकॉर्ड है। रिपोर्टिंग को प्रमाण नहीं माना जाता; किसी दावे पर भरोसा करने से पहले मूल रिकॉर्ड खोलें।', ta: 'நேரடி, வெளியீட்டாளர்-அடையாளப்படுத்தப்பட்ட செய்திகளுக்குப் பின் செப்டம்பர் 2024 பொது வெளியீட்டிலிருந்து மூல-இணைக்கப்பட்ட பதிவு உள்ளது. செய்திக் கவரேஜ் ஆதாரமாக கருதப்படாது; எந்தக் கூற்றையும் நம்பும் முன் மூலப் பதிவைத் திறக்கவும்.' })}
@@ -40,7 +40,7 @@ export function KwinNewsChronicle({ l, locale, liveItems, onSelectItem }: KwinNe
           <div className="mb-4 flex items-center justify-between gap-3">
             <div>
               <p className="text-xs font-bold tracking-[0.14em] uppercase text-cyan-800">{l({ en: 'Live KWIN signals', kn: 'ಲೈವ್ KWIN ಸಂಕೇತಗಳು', hi: 'लाइव KWIN संकेत', ta: 'நேரடி KWIN சிக்னல்கள்' })}</p>
-              <p className="mt-1 text-sm text-slate-600">{l({ en: 'Newest first · related coverage is grouped to reduce repetition', kn: 'ಹೊಸದು ಮೊದಲು · ಪುನರಾವರ್ತನೆ ಕಡಿಮೆ ಮಾಡಲು ಸಂಬಂಧಿತ ವರದಿಗಳನ್ನು ಗುಂಪು ಮಾಡಲಾಗಿದೆ', hi: 'नवीनतम पहले · दोहराव कम करने के लिए संबंधित कवरेज समूहित है', ta: 'புதியது முதலில் · மீளுரையை குறைக்க தொடர்புடைய கவரேஜ் தொகுக்கப்பட்டுள்ளது' })}</p>
+              <p className="mt-1 text-sm text-slate-600">{l({ en: 'Explicit KWIN relevance first · newest breaks ties · related reports are grouped', kn: 'ಸ್ಪಷ್ಟ KWIN ಪ್ರಸ್ತುತತೆ ಮೊದಲು · ಹೊಸದು ಸಮಬಲ ಮುರಿಯುತ್ತದೆ · ಸಂಬಂಧಿತ ವರದಿಗಳನ್ನು ಗುಂಪು ಮಾಡಲಾಗಿದೆ', hi: 'स्पष्ट KWIN प्रासंगिकता पहले · नवीनतम बराबरी तोड़ता है · संबंधित रिपोर्ट समूहित हैं', ta: 'வெளிப்படையான KWIN பொருத்தம் முதலில் · புதியது சமநிலையைத் தீர்க்கும் · தொடர்புடைய செய்திகள் தொகுக்கப்படும்' })}</p>
             </div>
             <span className="rounded-full bg-cyan-50 px-3 py-1 text-xs font-bold text-cyan-800">{liveItems.length}</span>
           </div>
@@ -54,6 +54,14 @@ export function KwinNewsChronicle({ l, locale, liveItems, onSelectItem }: KwinNe
                   </div>
                   <h3 className="mt-2 text-base font-extrabold leading-6 text-slate-900 group-hover:text-cyan-800">{item.title}</h3>
                   <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600">{item.summary}</p>
+                  {item.summarySource === 'discovery-snippet' ? (
+                    <p className="mt-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400">Publisher-indexed summary</p>
+                  ) : item.summarySource === 'unavailable' ? (
+                    <p className="mt-2 text-[11px] font-semibold uppercase tracking-wide text-amber-700">Summary unavailable from feed</p>
+                  ) : null}
+                  {item.kwinRelevanceReasons?.length ? (
+                    <p className="mt-3 text-xs font-semibold text-cyan-800">{item.kwinRelevanceReasons.slice(0, 2).join(' · ')}</p>
+                  ) : null}
                 </button>
               ))}
             </div>
