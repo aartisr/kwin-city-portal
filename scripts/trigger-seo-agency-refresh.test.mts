@@ -32,7 +32,7 @@ describe('SEO agency production refresh handoff', () => {
     const log = vi.spyOn(console, 'log').mockImplementation(() => {});
 
     await expect(
-      triggerSeoAgencyRefresh({ refreshUrl, cronSecret: 'test-secret', fetchImpl }),
+      triggerSeoAgencyRefresh({ refreshUrl, cronSecret: 'test-secret', fetchImpl, invocationId: null }),
     ).resolves.toMatchObject({ storageBackend: 'supabase', runDate: '2026-08-15' });
 
     expect(fetchImpl).toHaveBeenCalledWith(
@@ -40,6 +40,33 @@ describe('SEO agency production refresh handoff', () => {
       expect.objectContaining({ headers: { authorization: 'Bearer test-secret', 'x-kwin-trigger-provider': 'github_actions' } }),
     );
     expect(log).toHaveBeenCalledWith(expect.stringContaining('persisted to Supabase'));
+  });
+
+  it('sends a stable invocation identity when running in CI', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(response({
+      success: true,
+      storageBackend: 'supabase',
+      runDate: '2026-08-15',
+      generatedAt: '2026-08-15T03:11:00.000Z',
+      durationMs: 10,
+      liveInputStatus: 'live',
+      evidence: { qualified: true },
+    }));
+    vi.spyOn(console, 'log').mockImplementation(() => {});
+
+    await triggerSeoAgencyRefresh({
+      refreshUrl,
+      cronSecret: 'test-secret',
+      fetchImpl,
+      invocationId: '31914348464:1',
+    });
+
+    expect(fetchImpl).toHaveBeenCalledWith(
+      refreshUrl,
+      expect.objectContaining({
+        headers: expect.objectContaining({ 'x-github-run-id': '31914348464:1' }),
+      }),
+    );
   });
 
   it('fails the workflow when the cron falls back to file storage', async () => {
