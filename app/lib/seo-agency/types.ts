@@ -1,8 +1,8 @@
-export type EvidenceStatus = 'verified' | 'contextual' | 'pending';
+export type EvidenceStatus = "verified" | "contextual" | "pending";
 
-export type AgencyCadence = 'daily' | 'weekly' | 'monthly' | 'yearly';
+export type AgencyCadence = "daily" | "weekly" | "monthly" | "yearly";
 
-export type SocialPlatform = 'instagram' | 'facebook' | 'linkedin' | 'x';
+export type SocialPlatform = "instagram" | "facebook" | "linkedin" | "x";
 
 export type KwinNewsSignal = {
   title: string;
@@ -38,8 +38,14 @@ export type SocialPostDraft = {
   altText?: string;
   utmCampaign: string;
   evidenceStatus: EvidenceStatus;
-  approvalStatus: 'needs_review' | 'approved_by_rule';
-  publishStatus: 'draft' | 'queued' | 'published' | 'skipped' | 'failed';
+  approvalStatus: "needs_review" | "approved_by_rule";
+  publishStatus:
+    | "draft"
+    | "queued"
+    | "published"
+    | "skipped"
+    | "failed"
+    | "indeterminate";
   platformPostId?: string;
   publishNote?: string;
 };
@@ -100,7 +106,7 @@ export type AgencySnapshot = {
 
 export type PublishAttempt = {
   platform: SocialPlatform;
-  status: 'skipped' | 'published' | 'failed';
+  status: "skipped" | "published" | "failed" | "indeterminate";
   note: string;
   platformPostId?: string;
 };
@@ -108,7 +114,7 @@ export type PublishAttempt = {
 export type AgencyReadinessCheck = {
   id: string;
   label: string;
-  status: 'ready' | 'blocked' | 'manual' | 'disabled';
+  status: "ready" | "blocked" | "manual" | "disabled";
   detail: string;
   missingEnv?: string[];
   optionalEnv?: string[];
@@ -128,5 +134,9 @@ export type KwinSeoAgencyRun = {
   snapshots: AgencySnapshot[];
   publishAttempts: PublishAttempt[];
   publishingReadiness?: AgencyReadinessCheck[];
-  healthChecks: Array<{ label: string; status: 'pass' | 'warn'; detail: string }>;
+  healthChecks: Array<{
+    label: string;
+    status: "pass" | "warn";
+    detail: string;
+  }>;
 };

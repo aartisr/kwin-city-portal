@@ -90,11 +90,11 @@ When proof is incomplete, we say so clearly.
 
 ### Verification Tiers
 
-| Marker | Tier | Meaning |
-| --- | --- | --- |
-| `Confirmed Context` | Verified | Backed by official/public institutional evidence |
-| `Pending Verification` | In Progress | Needs primary source confirmation |
-| `Contextual Evidence` | Regional | Useful context, not project-specific proof |
+| Marker                 | Tier        | Meaning                                          |
+| ---------------------- | ----------- | ------------------------------------------------ |
+| `Confirmed Context`    | Verified    | Backed by official/public institutional evidence |
+| `Pending Verification` | In Progress | Needs primary source confirmation                |
+| `Contextual Evidence`  | Regional    | Useful context, not project-specific proof       |
 
 Readers should be able to inspect, challenge, and verify. That is a feature, not a footnote.
 
@@ -137,6 +137,9 @@ Readers should be able to inspect, challenge, and verify. That is a feature, not
 - Vercel Analytics
 - Microsoft Clarity
 - PostHog (plug-and-play, environment-gated)
+
+The portal is also an installable, offline-resilient Progressive Web App. See
+`docs/PWA.md` for its cache safety model, configuration, and deployment checks.
 
 PostHog integration guide: `docs/POSTHOG_INTEGRATION.md`
 

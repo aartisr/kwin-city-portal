@@ -1,123 +1,173 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
+import { PWA_CONFIG } from "@/lib/pwa/config";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
+}
+
+const DISMISSAL_KEY = "kwin-pwa-install-dismissed-at";
+
+function isStandalone() {
+  const navigatorWithStandalone = navigator as Navigator & {
+    standalone?: boolean;
+  };
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    navigatorWithStandalone.standalone === true
+  );
+}
+
+function dismissalIsActive() {
+  try {
+    const dismissedAt = Number(localStorage.getItem(DISMISSAL_KEY));
+    const lifetime = PWA_CONFIG.installDismissalDays * 24 * 60 * 60 * 1000;
+    return Number.isFinite(dismissedAt) && Date.now() - dismissedAt < lifetime;
+  } catch {
+    return false;
+  }
 }
 
 export default function PwaInstallPrompt() {
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [prompt, setPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [visible, setVisible] = useState(false);
   const [installed, setInstalled] = useState(false);
+  const [showIosHelp, setShowIosHelp] = useState(false);
+  const isIos = useMemo(
+    () =>
+      typeof navigator !== "undefined" &&
+      /iphone|ipad|ipod/i.test(navigator.userAgent),
+    [],
+  );
 
   useEffect(() => {
-    // Already installed as PWA
-    if (window.matchMedia('(display-mode: standalone)').matches) return;
-    // User previously dismissed
-    if (localStorage.getItem('kwin-pwa-dismissed-v2') === 'true') return;
-    // Mobile-only: check for mobile device
-    const isMobile = window.matchMedia('(max-width: 768px)').matches ||
-      /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase());
-    if (!isMobile) return;
+    if (isStandalone() || dismissalIsActive()) return;
+    let revealTimer: ReturnType<typeof setTimeout> | undefined;
 
-    const onPrompt = (e: Event) => {
-      e.preventDefault();
-      setDeferredPrompt(e as BeforeInstallPromptEvent);
-      // Delay to avoid being intrusive on first load
-      setTimeout(() => setVisible(true), 4000);
+    const reveal = () => {
+      if (revealTimer) clearTimeout(revealTimer);
+      revealTimer = setTimeout(() => setVisible(true), 5_000);
+    };
+    const onPrompt = (event: Event) => {
+      event.preventDefault();
+      setPrompt(event as BeforeInstallPromptEvent);
+      reveal();
+    };
+    const onInstalled = () => {
+      setInstalled(true);
+      setVisible(false);
+      setPrompt(null);
     };
 
-    window.addEventListener('beforeinstallprompt', onPrompt);
-    window.addEventListener('appinstalled', () => setInstalled(true));
+    window.addEventListener("beforeinstallprompt", onPrompt);
+    window.addEventListener("appinstalled", onInstalled);
+    if (isIos) reveal();
 
     return () => {
-      window.removeEventListener('beforeinstallprompt', onPrompt);
+      if (revealTimer) clearTimeout(revealTimer);
+      window.removeEventListener("beforeinstallprompt", onPrompt);
+      window.removeEventListener("appinstalled", onInstalled);
     };
-  }, []);
+  }, [isIos]);
 
-  const handleInstall = async () => {
-    if (!deferredPrompt) return;
-    await deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') {
-      setInstalled(true);
+  const install = async () => {
+    if (!prompt) {
+      setShowIosHelp(true);
+      return;
     }
-    setVisible(false);
+    try {
+      await prompt.prompt();
+      const choice = await prompt.userChoice;
+      if (choice.outcome === "accepted") setInstalled(true);
+    } finally {
+      setPrompt(null);
+      setVisible(false);
+    }
   };
 
-  const handleDismiss = () => {
+  const dismiss = () => {
     setVisible(false);
-    localStorage.setItem('kwin-pwa-dismissed-v2', 'true');
+    try {
+      localStorage.setItem(DISMISSAL_KEY, String(Date.now()));
+    } catch {
+      // Storage can be unavailable in private browsing; dismissal still works now.
+    }
   };
 
   return (
     <AnimatePresence>
-      {visible && !installed && (
-        <motion.div
-          key="pwa-prompt"
-          initial={{ y: 120, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 120, opacity: 0 }}
-          transition={{ type: 'spring', stiffness: 280, damping: 28 }}
-          className="fixed bottom-4 left-3 right-3 z-[200] max-w-md mx-auto"
+      {visible && !installed ? (
+        <motion.aside
+          key="pwa-install"
+          initial={{ y: 100, opacity: 0, scale: 0.96 }}
+          animate={{ y: 0, opacity: 1, scale: 1 }}
+          exit={{ y: 80, opacity: 0, scale: 0.98 }}
+          transition={{ type: "spring", stiffness: 260, damping: 26 }}
+          className="fixed inset-x-3 bottom-[max(1rem,env(safe-area-inset-bottom))] z-[240] mx-auto max-w-md overflow-hidden rounded-3xl border border-white/10 bg-[linear-gradient(150deg,rgba(13,22,64,.98),rgba(4,7,20,.98))] text-white shadow-[0_30px_90px_rgba(0,0,0,.55)] backdrop-blur-2xl"
+          aria-labelledby="pwa-install-title"
         >
-          <div className="rounded-2xl overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.45)] border border-white/10 bg-[linear-gradient(160deg,#0D1640_0%,#040714_100%)]">
-            {/* Accent top border */}
-            <div className="h-[3px] bg-gradient-to-r from-amber-400 via-cyan-300 to-amber-300" />
-
-            <div className="p-5">
-              <div className="flex items-start gap-4">
-                {/* Icon */}
-                <div className="w-13 h-13 rounded-xl flex-shrink-0 flex items-center justify-center font-extrabold text-xl text-[#040714] bg-[linear-gradient(135deg,#F5A623,#E8A020)] shadow-amber-500/40 shadow-lg">
-                  K
-                </div>
-
-                <div className="flex-1 min-w-0">
-                  <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-amber-400 mb-1">
-                    Install App
-                  </p>
-                  <h3 className="text-white font-extrabold text-[16px] leading-tight mb-1">
-                    KWIN City on your Phone
-                  </h3>
-                  <p className="kwin-text-on-dark-muted text-[13px] leading-5">
-                    Instant access, works offline, no app store needed.
-                  </p>
-                </div>
-
-                <button
-                  onClick={handleDismiss}
-                  aria-label="Dismiss"
-                  className="kwin-text-on-dark-muted flex-shrink-0 p-1 transition-colors hover:text-white"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
+          <div className="h-1 bg-gradient-to-r from-amber-400 via-cyan-300 to-indigo-400" />
+          <div className="p-5">
+            <div className="flex items-start gap-4">
+              <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-amber-300 to-orange-400 text-2xl font-black text-[#040714] shadow-lg shadow-amber-500/20">
+                K
               </div>
-
-              <div className="flex gap-2.5 mt-4">
-                <button
-                  onClick={handleInstall}
-                  className="flex-1 bg-[linear-gradient(135deg,#F5A623,#E8A020)] text-[#040714] text-sm font-extrabold py-2.5 rounded-xl hover:opacity-90 transition-opacity"
+              <div className="min-w-0 flex-1">
+                <p className="mb-1 text-[10px] font-extrabold uppercase tracking-[.22em] text-cyan-300">
+                  Your city intelligence, elevated
+                </p>
+                <h2
+                  id="pwa-install-title"
+                  className="text-lg font-black leading-tight"
                 >
-                  Install Free →
-                </button>
-                <Link
-                  href="/download"
-                  onClick={handleDismiss}
-                  className="flex-1 text-center border border-white/15 text-[#94A3B8] hover:text-white text-sm font-semibold py-2.5 rounded-xl hover:border-white/25 transition-colors"
-                >
-                  See all options
-                </Link>
+                  Install KWIN City
+                </h2>
+                <p className="mt-1 text-sm leading-5 text-slate-300">
+                  Faster launches, an offline safety net, and no app store
+                  required.
+                </p>
               </div>
+              <button
+                type="button"
+                onClick={dismiss}
+                aria-label="Dismiss install suggestion for 30 days"
+                className="rounded-lg p-1.5 text-slate-400 transition hover:bg-white/10 hover:text-white"
+              >
+                ×
+              </button>
+            </div>
+
+            {showIosHelp ? (
+              <div className="mt-4 rounded-2xl border border-cyan-300/15 bg-cyan-300/[.06] p-3 text-sm leading-6 text-slate-200">
+                In Safari, tap <strong>Share</strong>, then choose{" "}
+                <strong>Add to Home Screen</strong> and confirm{" "}
+                <strong>Add</strong>.
+              </div>
+            ) : null}
+
+            <div className="mt-4 grid grid-cols-2 gap-2.5">
+              <button
+                type="button"
+                onClick={install}
+                className="rounded-xl bg-gradient-to-r from-amber-300 to-orange-400 px-4 py-3 text-sm font-black text-[#040714] transition hover:brightness-105"
+              >
+                {isIos && !prompt ? "How to install" : "Install free"}
+              </button>
+              <Link
+                href="/download"
+                onClick={dismiss}
+                className="rounded-xl border border-white/15 px-4 py-3 text-center text-sm font-bold text-slate-200 transition hover:border-white/30 hover:bg-white/[.06]"
+              >
+                Explore the app
+              </Link>
             </div>
           </div>
-        </motion.div>
-      )}
+        </motion.aside>
+      ) : null}
     </AnimatePresence>
   );
 }

@@ -1,6 +1,9 @@
 # KWIN City Social Media Content And Automation Strategy
 
-This guide turns the KWIN City Portal into a repeatable Instagram and Facebook publishing system.
+This guide turns the KWIN City Portal into a repeatable Instagram, Facebook,
+LinkedIn, and X publishing system. Instagram and Facebook remain the primary
+content-planning examples; the built-in automation adapts every approved daily
+item to all four platforms.
 
 The goal is not fake virality, engagement pods, or spam. The goal is a credible content engine that people save, share, and discuss because it explains KWIN City clearly, visually, and with source discipline.
 
@@ -338,13 +341,21 @@ Keep a human approval gate unless the post type is fully templated and low risk.
 Recommended environment variables:
 
 ```text
-META_APP_ID
-META_APP_SECRET
 META_PAGE_ID
 META_PAGE_ACCESS_TOKEN
 INSTAGRAM_BUSINESS_ACCOUNT_ID
 SOCIAL_PUBLISHING_ENABLED=false
+SOCIAL_AUTO_APPROVE=false
+SOCIAL_REQUEST_TIMEOUT_MS=25000
+LINKEDIN_ACCESS_TOKEN
+LINKEDIN_AUTHOR_URN=urn:li:organization:<organization-id>
+LINKEDIN_VERSION=202604
+X_USER_ACCESS_TOKEN
 ```
+
+`META_APP_ID` and `META_APP_SECRET` may be needed to provision or rotate Meta
+tokens, but the runtime publisher does not read them. Store all secrets only in
+the deployment platform's server-side secret store.
 
 Implemented automation:
 
@@ -353,7 +364,8 @@ Daily Vercel Cron path: /api/cron/kwin-seo-agency
 Public dashboard: /seo-agency
 Latest JSON endpoint: /api/seo-agency/latest
 Vercel schedule: 11 3 * * * (daily UTC; Vercel Hobby allows once per day)
-Durable storage table: seo_agency_runs
+Durable run table: seo_agency_runs
+Atomic publication ledger: social_publish_reservations
 ```
 
 The job scans the OPML feeds in `public/feeds/kwin-city-news-feeds.opml`,
@@ -388,7 +400,7 @@ Instagram publishing also requires a public reviewed media asset:
 
 ```text
 INSTAGRAM_BUSINESS_ACCOUNT_ID
-SOCIAL_DEFAULT_IMAGE_URL
+META_PAGE_ACCESS_TOKEN
 ```
 
 `SOCIAL_DEFAULT_IMAGE_URL` is optional when the daily article image route is
@@ -405,11 +417,23 @@ Vercel-friendly daily job shape:
 
 ```text
 Vercel Cron runs once per day.
-The job reads approved posts from the queue.
-The job publishes only posts where approvalStatus is "approved".
-The job records the returned platform post ID.
-The job never republishes an item with a platform post ID.
+The job creates drafts and requires SOCIAL_AUTO_APPROVE=true for direct publishing.
+Platform configuration and media are checked before any reservation is acquired.
+Supabase atomically reserves each platform and publication subject.
+The provider result and returned platform post ID are written to the reservation ledger.
+Existing, failed, timed-out, and indeterminate reservations are not retried automatically.
 ```
+
+The ledger is intentionally fail-closed. External stories are deduplicated by
+canonical source URL; tracking parameters do not create a new item. Evergreen
+KWIN topics may publish once per calendar month. Fingerprints are scoped per
+platform, so successful Facebook publication does not suppress Instagram,
+LinkedIn, or X.
+
+If a provider request times out, its result is `indeterminate`: the remote post
+may exist even though KWIN did not receive a response. Verify the platform
+manually before any reviewed replay. Never delete a reservation as an automatic
+retry mechanism.
 
 ## 9. Daily Checklist
 

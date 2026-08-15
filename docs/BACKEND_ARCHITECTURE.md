@@ -95,8 +95,8 @@ isSupabaseConfigured(); // Check if env vars are set
 Selects a provider through `KWIN_PERSISTENCE_PROVIDER` (`file` or `supabase`). For backwards compatibility, valid Supabase credentials also select Supabase when no provider is specified. The Supabase adapter reads:
 
 - `KWIN_SUPABASE_URL`
-- `KWIN_SUPABASE_ANON_KEY`
-- `KWIN_SUPABASE_SERVICE_ROLE_KEY` (required for protected production writes)
+- `KWIN_SUPABASE_ANON_KEY` (legacy application data paths)
+- `KWIN_SUPABASE_SERVICE_ROLE_KEY` (protected production writes, SEO persistence, and social publishing)
 
 ### 3. File Store (`app/lib/server/store.ts`)
 
@@ -356,7 +356,10 @@ For Netlify/Vercel, consider Upstash Redis for distributed rate limiting (see SU
 ### Symptom: "Supabase not configured" logs
 
 **Cause**: Missing environment variables  
-**Fix**: Set `KWIN_SUPABASE_URL` and `KWIN_SUPABASE_ANON_KEY`
+**Fix**: Set `KWIN_PERSISTENCE_PROVIDER=supabase`,
+`KWIN_SUPABASE_URL`, and the key required by the failing path. SEO/social paths
+require `KWIN_SUPABASE_SERVICE_ROLE_KEY`; legacy data paths also require
+`KWIN_SUPABASE_ANON_KEY`.
 
 ### Symptom: Data disappears on Netlify
 

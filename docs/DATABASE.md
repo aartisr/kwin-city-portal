@@ -29,14 +29,17 @@ The file fallback is useful for local development but is **not durable on Vercel
 
 All schema-changing SQL is tracked in [`supabase/migrations/`](../supabase/migrations). Apply files in their lexicographic order; do not edit a migration after it has been used in a shared environment.
 
-| Path                                                                                            | Purpose                                                           |
-| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| [`supabase/migrations/0001_initial_schema.sql`](../supabase/migrations/0001_initial_schema.sql) | Initial production schema, indexes, validation, triggers, and RLS |
-| [`supabase/seed.sql`](../supabase/seed.sql)                                                     | Optional local/demo discussion data                               |
-| [`supabase/README.md`](../supabase/README.md)                                                   | Short migration conventions                                       |
-| [`scripts/verify-supabase-migrations.mjs`](../scripts/verify-supabase-migrations.mjs)           | CI-safe migration naming and presence check                       |
+| Path                                                                                                                        | Purpose                                                           |
+| --------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| [`supabase/migrations/0001_initial_schema.sql`](../supabase/migrations/0001_initial_schema.sql)                             | Initial production schema, indexes, validation, triggers, and RLS |
+| [`supabase/migrations/0002_social_publish_deduplication.sql`](../supabase/migrations/0002_social_publish_deduplication.sql) | At-most-once social publication ledger and service-role RPC       |
+| [`supabase/seed.sql`](../supabase/seed.sql)                                                                                 | Optional local/demo discussion data                               |
+| [`supabase/README.md`](../supabase/README.md)                                                                               | Short migration conventions                                       |
+| [`scripts/verify-supabase-migrations.mjs`](../scripts/verify-supabase-migrations.mjs)                                       | CI-safe migration naming and presence check                       |
 
-Create each change as a new file, for example `0002_add_article_bookmarks.sql`. The matching application change should update the relevant repository adapter and tests in the same pull request.
+Create each change as a new file using the next unused number, for example
+`0003_add_article_bookmarks.sql`. The matching application change should update
+the relevant repository adapter and tests in the same pull request.
 
 Run this before committing a schema change:
 
@@ -56,6 +59,7 @@ The following tables are created by the initial migration. No table is exposed t
 | `discussion_replies`            | Replies to a discussion post       | Author-provided content             | Deleted automatically when the parent post is deleted.                             |
 | `newsletter_signups`            | Newsletter interest registrations  | Email, name, interests              | Obtain consent before adding; provide a documented unsubscribe/deletion path.      |
 | `seo_agency_runs`               | Generated SEO operations snapshots | Generated content and metadata      | Managed by the scheduled SEO workflow; contains JSON payloads.                     |
+| `social_publish_reservations`   | Atomic social publication ledger   | Source URLs and provider post IDs   | Service-role only; retained to prevent cross-run duplicate publication.            |
 | `value_add_alert_subscriptions` | User alert subscriptions           | Email, topic/geographic preferences | Status changes to `inactive`; design a deletion process when required.             |
 | `value_add_export_jobs`         | Requests for generated exports     | Filter criteria and download URL    | Jobs have optional expiry timestamps; purge expired records periodically.          |
 | `value_add_opportunity_leads`   | Opportunity-exchange submissions   | Name, email, request details        | Treat as confidential business-contact data; limit staff access.                   |
@@ -122,7 +126,7 @@ The fallback stores development data below `.data/`; it should not be treated as
 ## First-time Supabase setup
 
 1. Create a Supabase project in the region nearest to the application’s users.
-2. In **SQL Editor**, apply `supabase/migrations/0001_initial_schema.sql`.
+2. In **SQL Editor**, apply every file in `supabase/migrations/` in numeric order.
 3. Optionally apply `supabase/seed.sql` in a local/demo project only.
 4. Copy the Project URL, anonymous key, and service-role key from **Project Settings → API**.
 5. Configure the environment variables above locally and in Vercel for **Production**, **Preview**, and **Development** as appropriate.

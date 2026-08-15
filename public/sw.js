@@ -1,213 +1,175 @@
-// KWIN City Service Worker
-// Strategy: Cache-first for static assets, stale-while-revalidate for pages,
-// network-first for API, offline fallback for navigation failures.
+/* KWIN City PWA service worker.
+ * Public documents are network-first, immutable assets are cache-first, and
+ * private/API/RSC traffic is never cached. No third-party request is intercepted.
+ */
 
-const CACHE_VERSION = 'kwin-v2';
-const STATIC_CACHE = `${CACHE_VERSION}-static`;
-const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
-const IMAGE_CACHE = `${CACHE_VERSION}-images`;
-const IS_LOCALHOST =
-  self.location.hostname === 'localhost' ||
-  self.location.hostname === '127.0.0.1';
+const APP_PREFIX = "kwin-pwa";
+const CACHE_VERSION = "v4";
+const PRECACHE = `${APP_PREFIX}-${CACHE_VERSION}-precache`;
+const PAGES = `${APP_PREFIX}-${CACHE_VERSION}-pages`;
+const ASSETS = `${APP_PREFIX}-${CACHE_VERSION}-assets`;
+const IMAGES = `${APP_PREFIX}-${CACHE_VERSION}-images`;
+const OFFLINE_URL = "/offline";
+const NETWORK_TIMEOUT_MS = 4_500;
+const CACHE_LIMITS = { pages: 35, assets: 120, images: 80 };
 
-// Routes to precache on install
-const PRECACHE_ROUTES = [
-  '/',
-  '/about',
-  '/why-north-bengaluru',
-  '/sectors',
-  '/timeline',
-  '/sustainability',
-  '/data-insights',
-  '/evidence',
-  '/sources',
-  '/news-intelligence',
-  '/offline',
+const PRECACHE_URLS = [
+  OFFLINE_URL,
+  "/manifest.webmanifest",
+  "/icon",
+  "/apple-icon",
 ];
 
-// ─────────────────────────────────────────────
-// INSTALL — precache app shell
-// ─────────────────────────────────────────────
-self.addEventListener('install', (event) => {
-  if (IS_LOCALHOST) {
-    event.waitUntil(self.skipWaiting());
-    return;
-  }
+const NEVER_CACHE_PREFIXES = [
+  "/api/",
+  "/account",
+  "/community",
+  "/auth",
+  "/admin",
+];
 
-  event.waitUntil(
-    caches
-      .open(STATIC_CACHE)
-      .then((cache) => {
-        // addAll is all-or-nothing; we use individual adds so a 404 doesn't abort
-        return Promise.allSettled(
-          PRECACHE_ROUTES.map((url) =>
-            cache.add(new Request(url, { credentials: 'same-origin' })).catch(() => {})
-          )
-        );
-      })
-      .then(() => self.skipWaiting())
-  );
+self.addEventListener("install", (event) => {
+  event.waitUntil(precacheAppShell());
 });
 
-// ─────────────────────────────────────────────
-// ACTIVATE — purge old cache versions
-// ─────────────────────────────────────────────
-self.addEventListener('activate', (event) => {
-  if (IS_LOCALHOST) {
-    event.waitUntil(
-      caches
-        .keys()
-        .then((keys) => Promise.all(keys.map((key) => caches.delete(key))))
-        .then(() => self.registration.unregister())
-        .then(() => self.clients.matchAll({ type: 'window' }))
-        .then((clients) => {
-          clients.forEach((client) => client.navigate(client.url));
-        })
-    );
-    return;
-  }
-
-  event.waitUntil(
-    caches
-      .keys()
-      .then((keys) =>
-        Promise.all(
-          keys
-            .filter((key) => !key.startsWith(CACHE_VERSION))
-            .map((key) => caches.delete(key))
-        )
-      )
-      .then(() => self.clients.claim())
-  );
+self.addEventListener("activate", (event) => {
+  event.waitUntil(Promise.all([removeOldAppCaches(), self.clients.claim()]));
 });
 
-// ─────────────────────────────────────────────
-// FETCH — routing strategies
-// ─────────────────────────────────────────────
-self.addEventListener('fetch', (event) => {
-  if (IS_LOCALHOST) return;
+self.addEventListener("message", (event) => {
+  if (event.data?.type === "SKIP_WAITING") self.skipWaiting();
+  if (event.data?.type === "CLEAR_RUNTIME_CACHES") {
+    event.waitUntil(Promise.all([caches.delete(PAGES), caches.delete(IMAGES)]));
+  }
+});
 
-  const { request } = event;
+self.addEventListener("fetch", (event) => {
+  if (!shouldHandle(event.request)) return;
+
+  const request = event.request;
   const url = new URL(request.url);
 
-  // Only handle same-origin GET requests
-  if (request.method !== 'GET' || url.origin !== self.location.origin) return;
-
-  // 1. Immutable Next.js static chunks → cache-first (permanent)
-  if (url.pathname.startsWith('/_next/static/')) {
-    event.respondWith(cacheFirstStrategy(request, STATIC_CACHE));
+  if (request.mode === "navigate") {
+    event.respondWith(navigationNetworkFirst(request));
     return;
   }
 
-  // 2. API routes → network only (no stale data)
-  if (url.pathname.startsWith('/api/')) {
-    return; // fall through, no interception
-  }
-
-  // 3. Images → cache-first with 30-day expiry
-  if (
-    request.destination === 'image' ||
-    /\.(png|jpg|jpeg|gif|webp|avif|svg|ico)$/.test(url.pathname)
-  ) {
-    event.respondWith(cacheFirstWithExpiry(request, IMAGE_CACHE, 30 * 24 * 60 * 60));
+  if (url.pathname.startsWith("/_next/static/")) {
+    event.respondWith(cacheFirst(request, ASSETS, CACHE_LIMITS.assets));
     return;
   }
 
-  // 4. Navigation (HTML pages) → stale-while-revalidate with offline fallback
-  if (request.mode === 'navigate') {
-    event.respondWith(staleWhileRevalidateWithOfflineFallback(request));
-    return;
+  if (request.destination === "image") {
+    event.respondWith(cacheFirst(request, IMAGES, CACHE_LIMITS.images));
   }
-
-  // 5. Everything else → network first with cache fallback
-  event.respondWith(networkFirstStrategy(request, RUNTIME_CACHE));
 });
 
-// ─────────────────────────────────────────────
-// STRATEGIES
-// ─────────────────────────────────────────────
+function shouldHandle(request) {
+  if (request.method !== "GET") return false;
+  const url = new URL(request.url);
+  if (url.origin !== self.location.origin) return false;
+  if (request.headers.has("range")) return false;
+  if (request.headers.get("RSC") === "1" || url.searchParams.has("_rsc")) {
+    return false;
+  }
+  return !NEVER_CACHE_PREFIXES.some(
+    (prefix) =>
+      url.pathname === prefix.replace(/\/$/, "") ||
+      url.pathname.startsWith(prefix),
+  );
+}
 
-async function cacheFirstStrategy(request, cacheName) {
-  const cached = await caches.match(request, { ignoreSearch: true });
-  if (cached) return cached;
+async function precacheAppShell() {
+  const cache = await caches.open(PRECACHE);
+  await Promise.allSettled(
+    PRECACHE_URLS.map(async (url) => {
+      const response = await fetch(new Request(url, { cache: "reload" }));
+      if (url === OFFLINE_URL || isCacheablePageResponse(response)) {
+        await cache.put(url, response);
+      }
+    }),
+  );
+}
 
+async function navigationNetworkFirst(request) {
   try {
-    const response = await fetch(request);
-    if (response.ok) {
-      const cache = await caches.open(cacheName);
-      cache.put(request, response.clone());
+    const response = await fetchWithTimeout(request, NETWORK_TIMEOUT_MS);
+    if (isCacheablePage(request, response)) {
+      const cache = await caches.open(PAGES);
+      await cache.put(request, response.clone());
+      await enforceLimit(cache, CACHE_LIMITS.pages);
     }
     return response;
   } catch {
-    // Avoid unhandled promise rejections in fetch event handlers.
-    const fallback = await caches.match(request, { ignoreSearch: true });
-    return fallback || new Response('', { status: 503 });
+    const cache = await caches.open(PAGES);
+    const cached = await cache.match(request);
+    if (cached) return cached;
+    return (
+      (await caches.match(OFFLINE_URL)) ||
+      new Response("Offline", {
+        status: 503,
+        headers: { "Content-Type": "text/plain; charset=utf-8" },
+      })
+    );
   }
 }
 
-async function cacheFirstWithExpiry(request, cacheName, maxAgeSeconds) {
-  const cached = await caches.match(request);
-  if (cached) {
-    const dateHeader = cached.headers.get('date');
-    if (dateHeader) {
-      const cachedAt = new Date(dateHeader).getTime();
-      if (Date.now() - cachedAt < maxAgeSeconds * 1000) return cached;
-    } else {
-      // No date header — trust it
-      return cached;
-    }
-  }
-  try {
-    const response = await fetch(request);
-    if (response.ok) {
-      const cache = await caches.open(cacheName);
-      cache.put(request, response.clone());
-    }
-    return response;
-  } catch {
-    return cached || new Response('', { status: 404 });
-  }
-}
-
-async function staleWhileRevalidateWithOfflineFallback(request) {
-  const cache = await caches.open(RUNTIME_CACHE);
+async function cacheFirst(request, cacheName, limit) {
+  const cache = await caches.open(cacheName);
   const cached = await cache.match(request);
-
-  const fetchPromise = fetch(request)
-    .then((response) => {
-      if (response.ok) cache.put(request, response.clone());
-      return response;
-    })
-    .catch(() => null);
-
-  if (cached) {
-    // Return cached immediately, update in background
-    fetchPromise; // fire-and-forget
-    return cached;
-  }
-
-  // Nothing cached — wait for network
-  const response = await fetchPromise;
-  if (response) return response;
-
-  // Fully offline
-  const offlinePage = await caches.match('/offline');
-  return offlinePage || new Response('You are offline. Please reconnect.', {
-    status: 503,
-    headers: { 'Content-Type': 'text/plain' },
-  });
-}
-
-async function networkFirstStrategy(request, cacheName) {
+  if (cached) return cached;
   try {
     const response = await fetch(request);
-    if (response.ok) {
-      const cache = await caches.open(cacheName);
-      cache.put(request, response.clone());
+    if (isCacheable(response)) {
+      await cache.put(request, response.clone());
+      await enforceLimit(cache, limit);
     }
     return response;
   } catch {
-    const cached = await caches.match(request);
-    return cached || new Response('', { status: 503 });
+    return new Response("Unavailable", { status: 503 });
   }
+}
+
+function fetchWithTimeout(request, timeoutMs) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  return fetch(request, { signal: controller.signal }).finally(() =>
+    clearTimeout(timer),
+  );
+}
+
+function isCacheable(response) {
+  return response?.ok && (response.type === "basic" || response.type === "default");
+}
+
+function isCacheablePage(request, response) {
+  if (!isCacheablePageResponse(response)) return false;
+  if (response.headers.has("set-cookie")) return false;
+  return !NEVER_CACHE_PREFIXES.some((prefix) =>
+    new URL(request.url).pathname.startsWith(prefix),
+  );
+}
+
+function isCacheablePageResponse(response) {
+  if (!isCacheable(response)) return false;
+  const cacheControl = response.headers.get("cache-control") || "";
+  return !/no-store|private/i.test(cacheControl);
+}
+
+async function enforceLimit(cache, maxEntries) {
+  const keys = await cache.keys();
+  const excess = keys.length - maxEntries;
+  if (excess > 0) {
+    await Promise.all(keys.slice(0, excess).map((key) => cache.delete(key)));
+  }
+}
+
+async function removeOldAppCaches() {
+  const names = await caches.keys();
+  const current = new Set([PRECACHE, PAGES, ASSETS, IMAGES]);
+  await Promise.all(
+    names
+      .filter((name) => name.startsWith(`${APP_PREFIX}-`) && !current.has(name))
+      .map((name) => caches.delete(name)),
+  );
 }
