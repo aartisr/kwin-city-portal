@@ -46,6 +46,7 @@
     "content:staleness": "node scripts/check-content-staleness.mjs",
     "npm:private": "node scripts/run-private-npm.mjs",
     "notify:search": "node scripts/ping-search-engines.mjs",
+    "indexnow:submit": "node scripts/submit-indexnow.mjs",
     "release:android": "bash scripts/release-android.sh",
     "quality:gate": "npm run lint:critical && npm run type-check && npm run test:coverage && npm run e2e:smoke && npm run e2e:a11y-smoke && npm run quality:verify-facts && npm run discovery:verify-signals && npm run operations:verify-current && npm run sources:verify-primary-health"
   },
