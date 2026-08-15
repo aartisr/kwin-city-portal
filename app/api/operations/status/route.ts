@@ -1,23 +1,23 @@
-import { NextResponse } from 'next/server';
-import { getSiteFreshnessStatus } from '@/lib/operations/site-freshness';
+import { NextResponse } from "next/server";
+import { getCurrentSiteFreshnessStatus } from "@/lib/operations/current-site-freshness";
 
-export const runtime = 'nodejs';
-export const dynamic = 'force-dynamic';
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const freshness = getSiteFreshnessStatus();
+  const freshness = await getCurrentSiteFreshnessStatus();
 
   return NextResponse.json(
     {
-      service: 'kwin-city-portal',
-      operation: 'always-current',
+      service: "kwin-city-portal",
+      operation: "always-current",
       measuredAt: new Date().toISOString(),
       freshness,
     },
     {
       headers: {
-        'Cache-Control': 'no-store, max-age=0',
+        "Cache-Control": "no-store, max-age=0",
       },
-    }
+    },
   );
 }

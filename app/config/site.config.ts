@@ -17,7 +17,7 @@ export const SITE_CONFIG = {
     instagram: 'https://www.instagram.com/hellokwincityconnect',
   },
   // Canonical content refresh date used in sitemap, schema, and UI labels.
-  lastUpdatedISO: '2026-08-10',
+  lastUpdatedISO: '2026-08-15',
 } as const;
 
 /**
