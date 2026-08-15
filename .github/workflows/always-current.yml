@@ -2,8 +2,8 @@ name: Always Current Control Plane
 
 on:
   schedule:
-    # GitHub schedules are eventual, not real-time. This complements the runtime cron.
-    - cron: '17 */3 * * *'
+    # One comprehensive daily verification keeps CI usage lean and complements Vercel Hobby's daily cron.
+    - cron: '17 5 * * *'
   workflow_dispatch:
     inputs:
       mode:
@@ -29,11 +29,14 @@ jobs:
     env:
       SITE_REFRESH_URL: ${{ secrets.SITE_REFRESH_URL }}
       CRON_SECRET: ${{ secrets.CRON_SECRET }}
+      OPERATIONS_EVIDENCE_SECRET: ${{ secrets.OPERATIONS_EVIDENCE_SECRET }}
+      SITE_BASE_URL: ${{ secrets.SITE_BASE_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Node
+        id: node_runtime
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -45,6 +48,7 @@ jobs:
       - name: Trigger protected production refresh
         id: trigger_refresh
         if: ${{ env.SITE_REFRESH_URL != '' && env.CRON_SECRET != '' }}
+        continue-on-error: true
         run: node scripts/trigger-seo-agency-refresh.mjs
 
       - name: Refresh handoff configuration notice
@@ -86,8 +90,51 @@ jobs:
 
       - name: Full production build
         id: full_build
-        if: github.event.inputs.mode == 'full'
         run: npm run build:ci
+
+      - name: Verify Supabase migrations
+        id: verify_migrations
+        if: always()
+        run: npm run db:verify:migrations
+
+      - name: Verify Vercel Hobby configuration
+        id: verify_vercel
+        if: always()
+        run: npm run deploy:verify-vercel-config
+
+      - name: Verify PWA contract
+        id: verify_pwa
+        if: always()
+        run: npm run pwa:verify
+
+      - name: Build immutable verification manifests
+        id: build_evidence
+        if: always()
+        env:
+          OUTCOME_NODE: ${{ steps.node_runtime.outcome }}
+          OUTCOME_OPERATIONS: ${{ steps.verify_operations.outcome }}
+          OUTCOME_PRIMARY: ${{ steps.verify_primary_health.outcome }}
+          OUTCOME_SOURCES: ${{ steps.verify_sources.outcome }}
+          OUTCOME_STALENESS: ${{ steps.audit_staleness.outcome }}
+          OUTCOME_FACTS: ${{ steps.verify_facts.outcome }}
+          OUTCOME_DISCOVERY: ${{ steps.verify_discovery_signals.outcome }}
+          OUTCOME_TYPES: ${{ steps.type_check.outcome }}
+          OUTCOME_TESTS: ${{ steps.unit_tests.outcome }}
+          OUTCOME_MIGRATIONS: ${{ steps.verify_migrations.outcome }}
+          OUTCOME_VERCEL: ${{ steps.verify_vercel.outcome }}
+          OUTCOME_PWA: ${{ steps.verify_pwa.outcome }}
+          OUTCOME_BUILD: ${{ steps.full_build.outcome }}
+        run: node scripts/build-operational-evidence-manifests.mjs
+
+      - name: Record factual-audit evidence
+        id: record_factual_evidence
+        if: always() && steps.build_evidence.outcome == 'success'
+        run: node scripts/submit-operational-evidence.mjs factual-audit-evidence.json
+
+      - name: Record execution-status evidence
+        id: record_execution_evidence
+        if: always() && steps.build_evidence.outcome == 'success'
+        run: node scripts/submit-operational-evidence.mjs execution-status-evidence.json
 
       - name: Build minimal always-current audit log
         if: always()
@@ -106,6 +153,7 @@ jobs:
             "actor": "${{ github.actor }}",
             "runUrl": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
             "refreshConfigured": "${{ env.SITE_REFRESH_URL != '' && env.CRON_SECRET != '' }}",
+            "evidenceConfigured": "${{ env.OPERATIONS_EVIDENCE_SECRET != '' }}",
             "jobStatus": "${{ job.status }}",
             "steps": {
               "triggerRefresh": "${{ steps.trigger_refresh.outcome || 'skipped' }}",
@@ -119,6 +167,8 @@ jobs:
               "typeCheck": "${{ steps.type_check.outcome || 'skipped' }}",
               "unitTests": "${{ steps.unit_tests.outcome || 'skipped' }}",
               "fullBuild": "${{ steps.full_build.outcome || 'skipped' }}"
+              ,"recordFactualEvidence": "${{ steps.record_factual_evidence.outcome || 'skipped' }}"
+              ,"recordExecutionEvidence": "${{ steps.record_execution_evidence.outcome || 'skipped' }}"
             }
           }
           JSON
@@ -136,6 +186,17 @@ jobs:
         run: |
           echo "Always-current audit log artifact: always-current-audit-${{ github.run_id }} (retention: 7 days)." >> "$GITHUB_STEP_SUMMARY"
           echo "Run details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Enforce honest control-plane outcome
+        if: always()
+        env:
+          REFRESH_OUTCOME: ${{ steps.trigger_refresh.outcome }}
+          FACTUAL_EVIDENCE_OUTCOME: ${{ steps.record_factual_evidence.outcome }}
+          EXECUTION_EVIDENCE_OUTCOME: ${{ steps.record_execution_evidence.outcome }}
+        run: |
+          test "$REFRESH_OUTCOME" = "success"
+          test "$FACTUAL_EVIDENCE_OUTCOME" = "success"
+          test "$EXECUTION_EVIDENCE_OUTCOME" = "success"
 
       - name: Write a single actionable issue on critical failure
         if: failure()

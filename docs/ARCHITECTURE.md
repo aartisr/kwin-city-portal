@@ -330,3 +330,11 @@ To clear both:
 npm run clean:next
 # Runs: rm -rf .next .next-dev
 ```
+
+---
+
+## 10. Evidence-backed freshness
+
+Public freshness is a projection of durable evidence, not scheduler activity. Each run produces an immutable attempt; the centralized policy engine may create a qualification for exactly one rail. Failed, partial, skipped, fallback, preview, stale-policy, or untrusted-provider attempts remain traceable but cannot move a freshness date.
+
+The design separates orchestration (Vercel cron and GitHub Actions), policy (`verification-policy.ts`), transport validation (`verification-schema.ts` and HMAC signatures), persistence (`verification-repository.ts`), and presentation (`current-site-freshness.ts`). Documentation dates remain a visibly degraded compatibility fallback until all three durable rails exist. This keeps deployment safe while preventing absence of telemetry from being presented as success.

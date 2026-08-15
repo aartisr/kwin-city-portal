@@ -205,3 +205,11 @@ try {
    Verify the response shape matches the Recharts data expectations in `DataInsightsHub`.
 
 6. **Add a `ClaimMapping` entry** for each new claim supported by this dataset.
+
+---
+
+## Operational verification evidence
+
+`POST /api/operations/verifications` accepts machine-generated factual-audit and execution-status manifests. It is server-to-server only and requires three headers: `x-kwin-evidence-timestamp`, `x-kwin-evidence-nonce`, and `x-kwin-evidence-signature`. The signature is HMAC-SHA256 over `timestamp.nonce.rawBody` using `OPERATIONS_EVIDENCE_SECRET`; requests outside the five-minute window are rejected.
+
+The endpoint is bounded to 96 KiB, rate-limited, schema validated, policy evaluated, idempotent, and fail-closed. HTTP success means the immutable attempt was durably stored; `qualified: true` additionally means every required control passed under the current versioned policy. Never call this endpoint from browser code or expose its secret through a `NEXT_PUBLIC_*` variable.

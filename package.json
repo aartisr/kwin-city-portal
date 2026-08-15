@@ -41,6 +41,7 @@
     "deploy:verify-vercel-config": "node scripts/verify-vercel-cron.mjs",
     "pwa:verify": "node scripts/verify-pwa.mjs && node --check public/sw.js",
     "operations:verify-current": "node scripts/verify-always-current-operations.mjs",
+    "operations:submit-evidence": "node scripts/submit-operational-evidence.mjs",
     "sources:verify-primary-health": "node scripts/verify-primary-source-health.mjs",
     "sources:verify": "node scripts/verify-source-registry.mjs",
     "db:verify:migrations": "node scripts/verify-supabase-migrations.mjs",

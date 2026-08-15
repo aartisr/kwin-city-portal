@@ -7,6 +7,7 @@ import type { KwinNewsSignal, KwinSeoAgencyRun } from './types';
 type AgencyJobResult = {
   run: KwinSeoAgencyRun;
   storageBackend: 'supabase' | 'file';
+  liveInputStatus: 'live' | 'fallback';
   warning?: string;
 };
 
@@ -49,6 +50,7 @@ export async function runKwinSeoAgencyJob(now = new Date()): Promise<AgencyJobRe
   return {
     run,
     storageBackend: saveResult.backend,
+    liveInputStatus: newsSignals.length > 0 && !warning ? 'live' : 'fallback',
     warning: saveResult.warning ?? warning,
   };
 }

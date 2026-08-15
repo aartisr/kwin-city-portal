@@ -96,13 +96,14 @@ export default async function SiteFrame({
           factualAuditAgeDays: freshness.factualAudit.ageDays,
           executionStatusAgeDays: freshness.executionStatus.ageDays,
           incidentKey: [
+            freshness.telemetryMode,
             freshness.content.isoDate,
             freshness.factualAudit.isoDate,
             freshness.executionStatus.isoDate,
           ].join(":"),
           statusText: freshness.degraded
             ? pickLocalizedValue(locale, {
-                en: `Freshness watch: content baseline ${freshness.content.ageDays}d, factual audit ${freshness.factualAudit.ageDays}d, execution status ${freshness.executionStatus.ageDays}d old.`,
+                en: `${freshness.telemetryAvailable === false ? "Evidence telemetry is incomplete; documentation fallback is clearly labeled. " : "Freshness watch: "}content ${freshness.content.ageDays}d, factual audit ${freshness.factualAudit.ageDays}d, execution status ${freshness.executionStatus.ageDays}d old.`,
                 kn: `ತಾಜಾತನ ವೀಕ್ಷಣೆ: ವಿಷಯ ಆಧಾರ ${freshness.content.ageDays} ದಿನ, ವಾಸ್ತವ ಪರಿಶೀಲನೆ ${freshness.factualAudit.ageDays} ದಿನ, ಕಾರ್ಯಗತ ಸ್ಥಿತಿ ${freshness.executionStatus.ageDays} ದಿನ ಹಳೆಯದು.`,
                 hi: `फ्रेशनैस वॉच: कंटेंट बेसलाइन ${freshness.content.ageDays} दिन, तथ्य ऑडिट ${freshness.factualAudit.ageDays} दिन, एग्जिक्यूशन स्टेटस ${freshness.executionStatus.ageDays} दिन पुराना है।`,
                 ta: `புதியமை கண்காணிப்பு: உள்ளடக்க அடிப்படை ${freshness.content.ageDays} நாள், உண்மை ஆய்வு ${freshness.factualAudit.ageDays} நாள், செயலாக்க நிலை ${freshness.executionStatus.ageDays} நாள் பழையது.`,

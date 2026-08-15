@@ -15,7 +15,11 @@ export async function triggerSeoAgencyRefresh({
   timeoutMs = DEFAULT_TIMEOUT_MS,
 } = {}) {
   const response = await fetchImpl(refreshUrl, {
-    headers: { authorization: `Bearer ${cronSecret}` },
+      headers: {
+        authorization: `Bearer ${cronSecret}`,
+        'x-kwin-trigger-provider': 'github_actions',
+        ...(process.env.GITHUB_RUN_ID ? { 'x-github-run-id': `${process.env.GITHUB_RUN_ID}:${process.env.GITHUB_RUN_ATTEMPT || '1'}` } : {}),
+      },
     signal: AbortSignal.timeout(timeoutMs),
   });
 
@@ -37,6 +41,10 @@ export async function triggerSeoAgencyRefresh({
       `SEO agency refresh did not persist to Supabase (storageBackend: ${body.storageBackend ?? 'missing'})` +
         `${body.warning ? ` — ${body.warning}` : ''}${diagnostic}`,
     );
+  }
+
+  if (body.liveInputStatus !== 'live' || body.evidence?.qualified !== true) {
+    throw new Error(`SEO agency refresh completed but did not qualify freshness: liveInputStatus=${body.liveInputStatus ?? 'missing'}, evidenceQualified=${body.evidence?.qualified ?? false}${body.evidence?.warning ? ` — ${body.evidence.warning}` : ''}`);
   }
 
   console.log(
