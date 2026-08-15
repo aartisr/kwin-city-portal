@@ -1,10 +1,11 @@
 import { readFileSync } from "node:fs";
 import { SITE_CONFIG } from "@/config/site.config";
+import { FRESHNESS_TARGET_DAYS } from "./freshness-score";
 
 const DAY_MS = 86_400_000;
-const CONTENT_WARN_DAYS = 3;
-const AUDIT_WARN_DAYS = 14;
-const EXECUTION_WARN_DAYS = 14;
+const CONTENT_WARN_DAYS = FRESHNESS_TARGET_DAYS.content;
+const AUDIT_WARN_DAYS = FRESHNESS_TARGET_DAYS.factualAudit;
+const EXECUTION_WARN_DAYS = FRESHNESS_TARGET_DAYS.executionStatus;
 // These values mirror the checked-in operational records below. Vercel server
 // functions do not reliably ship repository documentation files, so they keep
 // the freshness signal available when those files are absent at runtime.

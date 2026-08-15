@@ -95,7 +95,9 @@ export function sortReaderClusters(clusters: ReaderCluster[], sort: ReaderSortMo
 }
 
 function publishedTime(item: ReaderItem): number {
-  return item.publishedAt ? new Date(item.publishedAt).getTime() : 0;
+  if (!item.publishedAt) return 0;
+  const timestamp = new Date(item.publishedAt).getTime();
+  return Number.isNaN(timestamp) ? 0 : timestamp;
 }
 
 /** KWIN coverage uses an explicit relevance rank, independent of workspace sort. */
@@ -128,16 +130,25 @@ export function rankKwinClusters(clusters: ReaderCluster[]): ReaderCluster[] {
       || publishedTime(b.representative) - publishedTime(a.representative));
 }
 
-/** Strategic regional domains rank first; source confidence and recency break ties. */
+/** Regional coverage is strictly newest-first; strategic relevance breaks timestamp ties. */
 export function rankRegionalClusters(clusters: ReaderCluster[]): ReaderCluster[] {
   return clusters
     .map((cluster) => {
-      const priority = scoreRegionalPriority(cluster.title, cluster.summary);
+      const items = [...cluster.items].sort((a, b) => publishedTime(b) - publishedTime(a));
+      const representative = items[0] ?? cluster.representative;
+      const priority = scoreRegionalPriority(representative.title, representative.summary);
       return {
         ...cluster,
+        id: `${representative.link}-${representative.title}`,
+        title: representative.title,
+        summary: representative.summary,
+        representative,
+        items,
         whyThisMatters: priority.reasons.length ? priority.reasons : cluster.whyThisMatters,
         score: cluster.score + priority.score,
       };
     })
-    .sort((a, b) => b.score - a.score || publishedTime(b.representative) - publishedTime(a.representative));
+    .sort((a, b) =>
+      publishedTime(b.representative) - publishedTime(a.representative)
+      || b.score - a.score);
 }
