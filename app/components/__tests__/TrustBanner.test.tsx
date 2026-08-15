@@ -29,6 +29,7 @@ describe("TrustBanner", () => {
     );
 
     expect(screen.getByText("Freshness review")).toBeInTheDocument();
+    expect(screen.getByText("Oldest tracked freshness signal is 7 days old.")).toBeInTheDocument();
     expect(screen.queryByText(baseProps.statusText)).not.toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Details" }));
     expect(onExpandedChange).toHaveBeenCalledWith(true);

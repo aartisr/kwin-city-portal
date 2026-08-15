@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
   const body = await request.text();
   if (Buffer.byteLength(body) > MAX_BODY_BYTES) return NextResponse.json({ success: false, error: 'Payload too large.' }, { status: 413, headers });
   const secret = process.env.OPERATIONS_EVIDENCE_SECRET;
-  if (!secret || secret.length < 24) return NextResponse.json({ success: false, error: 'Evidence recording is not configured.' }, { status: 503, headers });
+  if (!secret || Buffer.byteLength(secret) < 32) return NextResponse.json({ success: false, error: 'Evidence recording is not configured.' }, { status: 503, headers });
   const authorized = verifyEvidenceSignature({
     secret, timestamp: request.headers.get(EVIDENCE_TIMESTAMP_HEADER), nonce: request.headers.get(EVIDENCE_NONCE_HEADER),
     signature: request.headers.get(EVIDENCE_SIGNATURE_HEADER), body,
@@ -35,7 +35,11 @@ export async function POST(request: NextRequest) {
     }, { headers: { ...headers, 'Cache-Control': 'no-store' } });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'invalid-evidence';
-    const storageFailure = message.includes('storage') || message.includes('write-failed');
-    return NextResponse.json({ success: false, error: storageFailure ? 'Evidence persistence failed.' : 'Invalid evidence payload.' }, { status: storageFailure ? 503 : 400, headers });
+    const conflict = message === 'idempotency-key-payload-conflict';
+    const storageFailure = message.startsWith('operational-') && !conflict;
+    return NextResponse.json(
+      { success: false, error: conflict ? 'Idempotency key conflicts with an existing payload.' : storageFailure ? 'Evidence persistence failed.' : 'Invalid evidence payload.' },
+      { status: conflict ? 409 : storageFailure ? 503 : 400, headers },
+    );
   }
 }

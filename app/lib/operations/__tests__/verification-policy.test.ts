@@ -28,4 +28,25 @@ describe('verification qualification policy', () => {
     const result = evaluateVerification(factual({ environment: 'development', provider: 'manual' }));
     expect(result.reasons).toEqual(expect.arrayContaining(['audit-not-ci', 'audit-provider-not-trusted']));
   });
+
+  it('rejects duplicate controls and required controls marked optional', () => {
+    const submission = factual();
+    submission.controls[0] = { ...submission.controls[0], required: false };
+    submission.controls.push({ ...submission.controls[1] });
+    const result = evaluateVerification(submission);
+    expect(result.reasons).toEqual(expect.arrayContaining([
+      `required-control-not-declared-required:${submission.controls[0].id}`,
+      `duplicate-control:${submission.controls[1].id}`,
+    ]));
+  });
+
+  it('allows content qualification only from trusted production schedulers', () => {
+    const policy = VERIFICATION_POLICIES.content_refresh;
+    const base = factual({
+      suite: 'content_refresh', policyVersion: policy.version, environment: 'production', provider: 'vercel_cron',
+      controls: policy.requiredControls.map((id) => ({ id, required: true, outcome: 'passed' })),
+    });
+    expect(evaluateVerification(base).qualified).toBe(true);
+    expect(evaluateVerification({ ...base, provider: 'manual' }).reasons).toContain('content-provider-not-trusted');
+  });
 });

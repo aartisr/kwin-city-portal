@@ -766,4 +766,10 @@ It should not yet change the public freshness UI or remove documentation fallbac
 
 The additive system described above is implemented: migration, versioned policy engine, strict contracts, signed bounded endpoint, idempotent persistence, live-versus-fallback content qualification, scheduler heartbeats, daily independent GitHub evidence suites, dual-read public status, and operator documentation. The UI deliberately reports hybrid/degraded telemetry until all three durable rails have qualifying records.
 
-The observation window and production failure/recovery drills remain operational rollout activities; they cannot be truthfully marked complete by a code change. Documentation fallback must remain until migration `0003` is applied and successful production evidence has accumulated.
+The observation window and production failure/recovery drills remain operational rollout activities; they cannot be truthfully marked complete by a code change. Documentation fallback must remain until migrations `0003` through `0005` are applied and successful production evidence has accumulated.
+
+### Resilience hardening addendum
+
+The second-pass implementation adds database-level qualification integrity (`0004`), current-policy-only reads, complete payload conflict detection, batched evidence lookup, strict scalar metrics, bounded attempt duration, trusted scheduler enforcement, independent CI controls, qualified-receipt enforcement, explicit configuration preflight, and deterministic invocation identities. These controls preserve failed attempts for diagnosis while preventing them from advancing public freshness.
+
+Migration `0005` closes the final write-consistency gap with a service-role-only transactional RPC. The pure record builder and canonical fingerprint module keep policy evaluation, serialization, persistence, and transport independently testable. Attempt and qualification writes are atomic under concurrency; exact retries converge on one record, and conflicting retries are rejected.

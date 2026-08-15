@@ -18,4 +18,11 @@ describe('operational evidence signatures', () => {
     expect(verifyEvidenceSignature({ secret, timestamp, nonce, signature, body: `${body} `, now })).toBe(false);
     expect(verifyEvidenceSignature({ secret, timestamp, nonce, signature, body, now: now + 300_001 })).toBe(false);
   });
+
+  it('rejects ambiguous timestamps, malformed signatures, and weak nonces', () => {
+    const signature = signEvidencePayload(secret, timestamp, nonce, body);
+    expect(verifyEvidenceSignature({ secret, timestamp: `${timestamp}.0`, nonce, signature, body, now })).toBe(false);
+    expect(verifyEvidenceSignature({ secret, timestamp, nonce, signature: 'not-hex', body, now })).toBe(false);
+    expect(verifyEvidenceSignature({ secret, timestamp, nonce: 'short', signature, body, now })).toBe(false);
+  });
 });

@@ -10,7 +10,7 @@ export function signEvidencePayload(secret: string, timestamp: string, nonce: st
 }
 
 export function verifyEvidenceSignature(args: { secret: string; timestamp: string | null; nonce: string | null; signature: string | null; body: string; now?: number }): boolean {
-  if (!args.timestamp || !args.nonce || !args.signature || !/^[a-zA-Z0-9_-]{16,120}$/.test(args.nonce)) return false;
+  if (!args.timestamp || !/^\d{13}$/.test(args.timestamp) || !args.nonce || !args.signature || !/^[a-f0-9]{64}$/i.test(args.signature) || !/^[a-zA-Z0-9_-]{16,120}$/.test(args.nonce)) return false;
   const timestamp = Number(args.timestamp);
   if (!Number.isFinite(timestamp) || Math.abs((args.now ?? Date.now()) - timestamp) > MAX_CLOCK_SKEW_MS) return false;
   const expected = Buffer.from(signEvidencePayload(args.secret, args.timestamp, args.nonce, args.body));

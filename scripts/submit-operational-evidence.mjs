@@ -10,7 +10,7 @@ function required(name) {
 const manifestPath = process.argv[2];
 if (!manifestPath) throw new Error('Usage: node scripts/submit-operational-evidence.mjs <manifest.json>');
 const body = await readFile(manifestPath, 'utf8');
-JSON.parse(body);
+const manifest = JSON.parse(body);
 const timestamp = String(Date.now());
 const nonce = randomUUID().replaceAll('-', '');
 const secret = required('OPERATIONS_EVIDENCE_SECRET');
@@ -22,4 +22,8 @@ const response = await fetch(`${baseUrl}/api/operations/verifications`, {
 });
 const responseBody = await response.text();
 if (!response.ok) throw new Error(`Evidence submission failed: HTTP ${response.status}${responseBody ? ` — ${responseBody}` : ''}`);
-console.log(`Operational evidence recorded: ${responseBody}`);
+let receipt;
+try { receipt = JSON.parse(responseBody); } catch { throw new Error('Evidence endpoint returned invalid JSON.'); }
+if (receipt?.success !== true || typeof receipt.attemptId !== 'string') throw new Error('Evidence endpoint returned an invalid receipt.');
+if (manifest.outcome === 'passed' && receipt.qualified !== true) throw new Error(`Evidence was recorded but did not qualify: attemptId=${receipt.attemptId}`);
+console.log(`Operational evidence recorded: attemptId=${receipt.attemptId}, rail=${receipt.rail}, qualified=${receipt.qualified}, idempotent=${receipt.idempotent}.`);

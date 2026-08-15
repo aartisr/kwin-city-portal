@@ -107,6 +107,7 @@ export type DatabaseOperationalVerificationAttemptRow = {
   policy_version: string; started_at: string; completed_at: string; commit_sha: string | null;
   environment: string; provider: string; provider_run_id: string | null; provider_run_url: string | null;
   trigger_name: string; controls: unknown; manifest: unknown; manifest_sha256: string;
+  request_sha256: string | null;
   failure_code: string | null; failure_summary: string | null; created_at: string;
 };
 
@@ -177,7 +178,7 @@ export type Database = {
       };
       operational_verification_attempts: {
         Row: DatabaseOperationalVerificationAttemptRow;
-        Insert: Omit<DatabaseOperationalVerificationAttemptRow, 'id' | 'created_at'> & { id?: string; created_at?: string };
+        Insert: Omit<DatabaseOperationalVerificationAttemptRow, 'id' | 'created_at' | 'request_sha256'> & { id?: string; created_at?: string; request_sha256?: string | null };
         Update: never;
         Relationships: [];
       };
@@ -211,6 +212,17 @@ export type Database = {
           p_lease_token: string;
         };
         Returns: Array<{ acquired: boolean; reservation_id: string | null }>;
+      };
+      record_operational_verification: {
+        Args: {
+          p_idempotency_key: string; p_request_sha256: string; p_suite: string; p_outcome: string;
+          p_qualified: boolean; p_policy_version: string; p_started_at: string; p_completed_at: string;
+          p_commit_sha: string | null; p_environment: string; p_provider: string; p_provider_run_id: string | null;
+          p_provider_run_url: string | null; p_trigger_name: string; p_controls: unknown; p_manifest: unknown;
+          p_manifest_sha256: string; p_failure_code: string | null; p_failure_summary: string | null;
+          p_rail: string; p_expires_at: string;
+        };
+        Returns: Array<{ attempt_id: string; inserted: boolean }>;
       };
     };
     Enums: Record<string, never>;

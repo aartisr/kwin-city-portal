@@ -33,11 +33,18 @@ export function evaluateVerification(submission: VerificationSubmission): { qual
   if (submission.policyVersion !== policy.version) reasons.push('policy-version-mismatch');
   if (submission.outcome !== 'passed') reasons.push(`outcome-${submission.outcome}`);
   if (submission.suite === 'content_refresh' && submission.environment !== 'production') reasons.push('content-not-production');
+  if (submission.suite === 'content_refresh' && !['github_actions', 'vercel_cron'].includes(submission.provider)) reasons.push('content-provider-not-trusted');
   if (submission.suite !== 'content_refresh' && submission.environment !== 'ci') reasons.push('audit-not-ci');
   if (submission.suite !== 'content_refresh' && submission.provider !== 'github_actions') reasons.push('audit-provider-not-trusted');
-  const controls = new Map(submission.controls.map((control) => [control.id, control]));
+  const controls = new Map<string, VerificationSubmission['controls'][number]>();
+  for (const control of submission.controls) {
+    if (controls.has(control.id)) reasons.push(`duplicate-control:${control.id}`);
+    else controls.set(control.id, control);
+  }
   for (const required of policy.requiredControls) {
-    if (controls.get(required)?.outcome !== 'passed') reasons.push(`required-control-not-passed:${required}`);
+    const control = controls.get(required);
+    if (!control?.required) reasons.push(`required-control-not-declared-required:${required}`);
+    if (control?.outcome !== 'passed') reasons.push(`required-control-not-passed:${required}`);
   }
   if (submission.controls.some((control) => control.required && control.outcome !== 'passed')) reasons.push('required-control-failed');
   return { qualified: reasons.length === 0, rail: policy.rail, reasons };
