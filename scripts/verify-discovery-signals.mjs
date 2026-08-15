@@ -1,4 +1,5 @@
 import { readFileSync, existsSync } from 'node:fs';
+import { verifyDiscoveryLayout } from './lib/discovery-signals-policy.mjs';
 
 const REQUIRED_FILES = [
   'app/llms.txt/route.ts',
@@ -12,12 +13,6 @@ const REQUIRED_FILES = [
 const REQUIRED_ROBOTS_LINES = [
   'Sitemap: https://kwin-city.com/sitemap.xml',
   'Sitemap: https://kwin-city.com/feed.xml',
-];
-
-const REQUIRED_LAYOUT_SNIPPETS = [
-  "'llms-policy': `${SITE_URL}/llms.txt`",
-  "'ai-policy': `${SITE_URL}/ai.txt`",
-  'google: GOOGLE_SITE_VERIFICATION',
 ];
 
 function fail(message) {
@@ -39,10 +34,10 @@ for (const line of REQUIRED_ROBOTS_LINES) {
 }
 
 const layout = readFileSync('app/layout.tsx', 'utf8');
-for (const snippet of REQUIRED_LAYOUT_SNIPPETS) {
-  if (!layout.includes(snippet)) {
-    fail(`app/layout.tsx is missing required snippet: ${snippet}`);
-  }
+try {
+  verifyDiscoveryLayout(layout);
+} catch (error) {
+  fail(error instanceof Error ? error.message : String(error));
 }
 
 const fallbackFiles = ['public/llms.txt', 'public/ai.txt'];

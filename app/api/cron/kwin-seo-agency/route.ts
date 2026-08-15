@@ -35,7 +35,10 @@ export async function GET(request: NextRequest) {
     : request.headers.get('user-agent') === 'vercel-cron/1.0'
       ? 'vercel_cron' as const
       : 'manual' as const;
-  const invocationId = request.headers.get('x-github-run-id') ?? crypto.randomUUID();
+  const requestedInvocationId = request.headers.get('x-github-run-id');
+  const invocationId = requestedInvocationId && /^[a-zA-Z0-9._:-]{1,120}$/.test(requestedInvocationId)
+    ? requestedInvocationId
+    : crypto.randomUUID();
   const heartbeatKey = `seo-refresh:${provider}:${invocationId}`;
   await beginSchedulerHeartbeat({ idempotencyKey: heartbeatKey, provider, scheduleId: 'kwin-seo-agency-daily', invocationId });
   const result = await runKwinSeoAgencyJob();
@@ -56,7 +59,10 @@ export async function GET(request: NextRequest) {
   let evidenceWarning: string | undefined;
   try {
     const evidence = await recordVerification({
-      idempotencyKey: `content:${result.run.id}`,
+      // A daily run ID is intentionally stable, but each scheduler invocation
+      // is a separate evidence attempt. The invocation ID remains stable for
+      // GitHub job retries, preserving safe idempotency without cross-run collisions.
+      idempotencyKey: `content:${provider}:${invocationId}`,
       suite: 'content_refresh', outcome: contentOutcome,
       policyVersion: VERIFICATION_POLICIES.content_refresh.version,
       startedAt: startedAtIso, completedAt: new Date().toISOString(),
