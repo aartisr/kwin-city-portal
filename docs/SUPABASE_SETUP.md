@@ -9,7 +9,10 @@ The KWIN City Portal now supports two data storage backends:
 1. **File-Based Storage (Default)** - Ideal for development and self-hosted deployments
 2. **Supabase Backend (Recommended for Production/Serverless)** - Ideal for production, cloud deployments, and serverless environments like Netlify
 
-The system automatically detects which backend to use based on environment variables and gracefully falls back to file-based storage if Supabase is not configured.
+Select the backend explicitly with `KWIN_PERSISTENCE_PROVIDER`. Server-side SEO
+and social publishing use the service-role client; legacy application data
+paths still use the anon client. File fallback is for development and is not
+durable on serverless hosting.
 
 ## Quick Start: Using File-Based Storage (Development)
 
@@ -34,19 +37,24 @@ npm run dev
 
 1. In your Supabase project, go to **SQL Editor** (left sidebar)
 2. Click **New Query**
-3. Copy and paste the contents of [`supabase/migrations/0001_initial_schema.sql`](../supabase/migrations/0001_initial_schema.sql)
-4. Click **Run** and wait for the tables to be created
+3. Apply every SQL file in [`supabase/migrations/`](../supabase/migrations) in
+   numeric order. This currently includes `0001_initial_schema.sql` and
+   `0002_social_publish_deduplication.sql`.
+4. Click **Run** after each migration and wait for it to complete.
 
 Alternatively, copy-paste individual table creation commands if the full script doesn't work.
 
 ### Step 3: Get Your Credentials
 
 1. In your Supabase project, go to **Settings** → **API** (left sidebar)
-2. You'll see two keys:
+2. Copy these values:
    - **Project URL**: Copy this (something like `https://abcdefgh.supabase.co`)
-   - **anon public key**: Copy this (a long string starting with `eyJ...`)
+   - **anon public key**: Used by legacy application data paths
+   - **service_role key**: Required by protected server-side writes and social publishing
 
-**⚠️ Never share these credentials publicly**, but the `anon public key` is safe for client-side use (it has Row Level Security restrictions).
+**Never expose the service-role key** in browser code, `NEXT_PUBLIC_*`
+variables, commits, logs, or screenshots. The anon key is not a secret, but RLS
+must still protect every table it can access.
 
 ### Step 4: Configure Environment Variables
 
@@ -57,7 +65,9 @@ Create a `.env.local` file in your project root:
 KWIN_AUTH_SECRET=$(node -e "console.log(require('crypto').randomBytes(32).toString('hex'))")
 
 # Supabase credentials (from Step 3)
+KWIN_PERSISTENCE_PROVIDER=supabase
 KWIN_SUPABASE_URL=https://your-project.supabase.co
+# Required by legacy application data paths; not required by the SEO cron itself.
 KWIN_SUPABASE_ANON_KEY=your-anon-key-here
 # Required for server-side writes to the protected production schema. Never expose it to browsers.
 KWIN_SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
@@ -103,15 +113,15 @@ netlify deploy
 # For Vercel
 vercel deploy
 
-# For other platforms, set KWIN_SUPABASE_URL and KWIN_SUPABASE_ANON_KEY in their dashboards
+# For other platforms, set the same server-side variables in their dashboards
 ```
 
 ## Architecture: Fallback System
 
 The data layer (`app/lib/server/data-layer.ts`) automatically handles the fallback:
 
-1. **On initialization**: Checks if `KWIN_SUPABASE_URL` and `KWIN_SUPABASE_ANON_KEY` are set
-2. **If Supabase is configured**: Uses Supabase PostgreSQL database
+1. **On initialization**: Reads `KWIN_PERSISTENCE_PROVIDER`
+2. **If Supabase is selected**: Creates anon and/or service-role clients from the credentials available to that code path
 3. **If Supabase fails or is not configured**: Falls back to file-based storage in `.data/`
 4. **Error handling**: All database errors are caught and logged; the app continues to work using fallback storage
 
@@ -198,12 +208,12 @@ export async function GET() {
 
 ### Common Issues
 
-| Issue                             | Solution                                                                                                                       |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| "Supabase not configured" in logs | Check that `KWIN_SUPABASE_URL` and `KWIN_SUPABASE_ANON_KEY` are set in `.env.local` or deployment platform                     |
-| "Data disappears on Netlify"      | You're using file-based storage on ephemeral file system. Switch to Supabase (see Step 3-4)                                    |
-| "CORS error from Supabase"        | Make sure your Row Level Security policies are configured correctly (they should be open for public reads based on the schema) |
-| "Authentication fails"            | Verify `KWIN_AUTH_SECRET` is set and consistent across deployments                                                             |
+| Issue                             | Solution                                                                                                                                                 |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "Supabase not configured" in logs | Check `KWIN_PERSISTENCE_PROVIDER`, `KWIN_SUPABASE_URL`, and the key required by that path (`SERVICE_ROLE_KEY` for SEO/social; anon key for legacy paths) |
+| "Data disappears on Netlify"      | You're using file-based storage on ephemeral file system. Switch to Supabase (see Step 3-4)                                                              |
+| "CORS error from Supabase"        | Make sure your Row Level Security policies are configured correctly (they should be open for public reads based on the schema)                           |
+| "Authentication fails"            | Verify `KWIN_AUTH_SECRET` is set and consistent across deployments                                                                                       |
 
 ## Migration from File-Based to Supabase
 
@@ -227,8 +237,8 @@ VALUES
 
 ## Security Considerations
 
-- **Supabase API Keys**: Only use the `anon` key (public key) in the frontend. Never expose the `service_role` key
-- **Row Level Security**: The default schema allows public reads but restricted writes (enforced at API layer, not RLS)
+- **Supabase API Keys**: Never expose the service-role key. This application keeps database access server-side.
+- **Row Level Security**: The maintained migrations enable RLS without anonymous application-table policies; API routes mediate access.
 - **CSRF Protection**: Enabled by default on all write endpoints
 - **Session Tokens**: Signed with `KWIN_AUTH_SECRET` — make it strong and unique
 - **Password Hashing**: Uses scrypt with 64-byte derived keys (cryptographically secure)
@@ -237,7 +247,7 @@ VALUES
 
 If you need to switch back to file-based storage:
 
-1. **Remove environment variables**: Delete `KWIN_SUPABASE_URL` and `KWIN_SUPABASE_ANON_KEY`
+1. **Select file storage**: Set `KWIN_PERSISTENCE_PROVIDER=file`
 2. **Redeploy**: The app will automatically fall back to file-based storage
 3. **Note**: You may need to re-add data if it was only in Supabase
 
@@ -251,12 +261,15 @@ If you need to switch back to file-based storage:
 ## Testing the Backend
 
 ```bash
-# Test file-based storage (remove KWIN_SUPABASE_URL and KWIN_SUPABASE_ANON_KEY)
+# Test file-based storage
+export KWIN_PERSISTENCE_PROVIDER=file
 npm run dev
 
 # Test Supabase backend (set environment variables)
+export KWIN_PERSISTENCE_PROVIDER=supabase
 export KWIN_SUPABASE_URL=your-url
 export KWIN_SUPABASE_ANON_KEY=your-key
+export KWIN_SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 npm run dev
 
 # Run the build to verify both work

@@ -16,6 +16,8 @@ The repo now includes:
 - Sitemap inclusion for the latest daily article: `/sitemap.xml`
 - Central config: `app/lib/seo-agency/config.ts`
 - Direct publishing adapters for Instagram, Facebook, LinkedIn, and X
+- Atomic cross-run deduplication in `social_publish_reservations`
+- Fail-closed handling for timeouts and uncertain provider responses
 
 The system is intentionally evidence-safe. It creates high-performing daily
 articles and social posts, but avoids unsupported guarantees about jobs,
@@ -29,8 +31,11 @@ investment, official endorsements, or project outcomes.
 4. It creates a source-led daily article.
 5. It creates social drafts for Instagram, Facebook, LinkedIn, and X.
 6. It checks publishing readiness for each platform.
-7. If publishing is enabled and credentials are present, it posts to each platform.
-8. It stores the run in Supabase, or in the local file fallback during development.
+7. It validates platform credentials and media before reserving a post.
+8. It atomically reserves the publication subject separately for each platform.
+9. If publishing is enabled and the reservation is new, it posts through the platform adapter.
+10. It records the provider result and returned post ID in Supabase.
+11. It stores the complete run in Supabase, or in the local file fallback during development.
 
 ## Production Setup Checklist
 
@@ -55,18 +60,28 @@ This runs daily at 03:11 UTC.
 
 ### 2. Configure Supabase Storage
 
-Run the SQL in `docs/SUPABASE_SCHEMA.sql` in the Supabase SQL editor.
+Apply every migration in `supabase/migrations/` in numeric order. A new project
+needs both `0001_initial_schema.sql` and
+`0002_social_publish_deduplication.sql`. The second migration creates the
+atomic reservation table and service-role-only RPC used before every provider
+call.
 
 Then add these Vercel environment variables:
 
 ```text
 KWIN_SUPABASE_URL=...
-KWIN_SUPABASE_ANON_KEY=...
 KWIN_SUPABASE_SERVICE_ROLE_KEY=...
 ```
 
-The service role key is required for server-side cron writes. Never expose it to
-client-side code.
+The service role key is required for server-side cron writes and social
+reservations. The anon key is not required by this server-side workflow. Never
+expose the service-role key through `NEXT_PUBLIC_*` or client-side code.
+
+Verify the migration files locally with:
+
+```bash
+npm run db:verify:migrations
+```
 
 ### 3. Configure Cron Security
 
@@ -93,6 +108,16 @@ permissions are ready:
 SOCIAL_PUBLISHING_ENABLED=true
 SOCIAL_AUTO_APPROVE=true
 ```
+
+Optional provider timeout:
+
+```text
+SOCIAL_REQUEST_TIMEOUT_MS=25000
+```
+
+The default is 25 seconds. A transport error or timeout is treated as
+`indeterminate`, because the provider may have accepted the post even though
+the response was lost.
 
 `SOCIAL_AUTO_APPROVE=true` means the daily content publishes without a human
 review step. Keep it false if you want the SEO Desk to generate drafts only.
@@ -260,6 +285,55 @@ Common causes:
 
 Then open the cron JSON response and check `publishAttempts`.
 
+## Deduplication And Delivery Semantics
+
+Social APIs do not provide a portable exactly-once transaction with Supabase.
+This implementation therefore chooses the safer **at-most-once, fail-closed**
+model:
+
+1. `acquire_social_publish_reservation` atomically inserts a unique
+   `(platform, fingerprint)` reservation before contacting a provider.
+2. Concurrent runs cannot acquire the same platform and publication subject.
+3. External news is deduplicated by its canonical source URL. Common tracking
+   parameters and URL fragments are ignored.
+4. Evergreen KWIN content is deduplicated by topic and calendar month.
+5. Each platform has its own fingerprint, so one platform's post does not block
+   another platform.
+6. Reservations are never reclaimed automatically. A timeout could mean that
+   the provider published the post but its response was lost.
+
+Reservation statuses:
+
+| Status          | Meaning                                                        | Automatic retry |
+| --------------- | -------------------------------------------------------------- | --------------- |
+| `reserved`      | Provider work started or the process stopped before completion | No              |
+| `published`     | Provider confirmed publication                                 | No              |
+| `failed`        | Provider explicitly rejected the request                       | No              |
+| `indeterminate` | Network/timeout outcome is unknown                             | No              |
+
+`skipped` is a run-level result, not a reservation status. It means publishing
+was disabled, approval/configuration was missing, storage was unavailable, or
+the subject already had a reservation.
+
+### Safe Manual Recovery
+
+Never delete or modify a reservation merely to make a red workflow green.
+For `reserved` or `indeterminate` records:
+
+1. Check the platform account and provider logs for the post.
+2. If it exists, update the audit row with its provider post ID and
+   `status='published'`.
+3. If it definitely does not exist, create a deliberately reviewed new content
+   version whose publication subject/fingerprint is different.
+4. Record the operator, reason, and evidence in the change or incident record.
+
+There is intentionally no automatic retry or lease reclamation. This prevents
+a delayed or lost provider response from producing duplicate public posts.
+
+If a provider confirms publication but the Supabase audit update fails, the run
+still reports the provider result and warns that audit persistence failed. The
+original reservation remains held, so a later cron cannot duplicate the post.
+
 ## Maintenance Guide
 
 Most changes should happen in:
@@ -288,6 +362,24 @@ only when adding or changing a platform API adapter.
 Use:
 
 ```text
+app/lib/seo-agency/publish-deduplication.ts
+```
+
+only when changing publication identity or idempotency semantics. Keep platform
+API details out of this module.
+
+Use:
+
+```text
+supabase/migrations/0002_social_publish_deduplication.sql
+```
+
+for the durable reservation contract. Database changes must be introduced in a
+new numbered migration after this migration has reached production.
+
+Use:
+
+```text
 app/lib/seo-agency/content.ts
 ```
 
@@ -301,8 +393,12 @@ Before turning on `SOCIAL_AUTO_APPROVE=true`, run this checklist:
 - The Instagram image route returns `image/png`.
 - `/seo-agency` shows Instagram, Facebook, LinkedIn, and X as `ready`.
 - Supabase writes are working.
+- Both Supabase migrations are applied.
+- The service role can execute `acquire_social_publish_reservation`.
+- Anonymous and authenticated roles cannot read or mutate reservation rows.
 - The Meta token is long-lived or managed through a stable token process.
 - LinkedIn and X tokens are production tokens, not temporary local tokens.
+- Timeout and `indeterminate` alerts have an assigned human owner.
 - Captions are reviewed for evidence-safe wording.
 - The first week is monitored daily.
 

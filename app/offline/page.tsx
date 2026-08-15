@@ -1,18 +1,22 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
-import ReloadButton from './ReloadButton';
-import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
+import type { Metadata } from "next";
+import Link from "next/link";
+import ReloadButton from "./ReloadButton";
+import { getServerLocale, pickByLocale } from "@/lib/i18n/server";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
-    title: pickByLocale(locale, { en: 'You Are Offline', kn: 'ನೀವು ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿ ಇದ್ದೀರಿ', hi: 'आप ऑफ़लाइन हैं' }),
-    description: pickByLocale(locale, {
-      en: 'You are offline, but recently cached KWIN City pages may still be available for reading until your connection returns. Reconnect to refresh data, charts, and updates.',
-      kn: 'ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಇಲ್ಲ. ನಿಮ್ಮ ಕ್ಯಾಶ್ ಆದ KWIN City ಪುಟಗಳು ಇನ್ನೂ ಲಭ್ಯವಿವೆ.',
-      hi: 'इंटरनेट कनेक्शन नहीं है। आपके कैश किए गए KWIN City पेज अभी भी उपलब्ध हैं।',
+    title: pickByLocale(locale, {
+      en: "You Are Offline",
+      kn: "ನೀವು ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿ ಇದ್ದೀರಿ",
+      hi: "आप ऑफ़लाइन हैं",
     }),
-    alternates: { canonical: 'https://kwin-city.com/offline' },
+    description: pickByLocale(locale, {
+      en: "You are offline, but recently cached KWIN City pages may still be available for reading until your connection returns. Reconnect to refresh data, charts, and updates.",
+      kn: "ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಇಲ್ಲ. ನಿಮ್ಮ ಕ್ಯಾಶ್ ಆದ KWIN City ಪುಟಗಳು ಇನ್ನೂ ಲಭ್ಯವಿವೆ.",
+      hi: "इंटरनेट कनेक्शन नहीं है। आपके कैश किए गए KWIN City पेज अभी भी उपलब्ध हैं।",
+    }),
+    alternates: { canonical: "https://kwin-city.com/offline" },
     robots: { index: false },
   };
 }
@@ -42,18 +46,19 @@ export default function OfflinePage() {
 
         <p className="kwin-text-on-dark-secondary mb-8 text-base leading-7">
           The KWIN City portal needs an internet connection to load fresh data.
-          Pages you&apos;ve visited recently are still available below.
+          Reconnect to refresh live data. Public pages explicitly saved by your
+          browser may remain available.
         </p>
 
-        {/* Cached pages quick links */}
+        {/* Public page quick links; uncached destinations return here while offline. */}
         <div className="grid grid-cols-2 gap-2.5 mb-8 text-sm">
           {[
-            { href: '/', label: 'Home' },
-            { href: '/about', label: 'About KWIN' },
-            { href: '/why-north-bengaluru', label: 'Why North Bengaluru' },
-            { href: '/sectors', label: 'Sectors' },
-            { href: '/timeline', label: 'Timeline' },
-            { href: '/data-insights', label: 'Data Insights' },
+            { href: "/", label: "Home" },
+            { href: "/about", label: "About KWIN" },
+            { href: "/why-north-bengaluru", label: "Why North Bengaluru" },
+            { href: "/sectors", label: "Sectors" },
+            { href: "/timeline", label: "Timeline" },
+            { href: "/data-insights", label: "Data Insights" },
           ].map((item) => (
             <Link
               key={item.href}

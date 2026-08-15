@@ -36,6 +36,7 @@ Only use these if your task requires implementation-level changes:
 - [DATA_MODEL](DATA_MODEL.md)
 - [BACKEND_ARCHITECTURE](BACKEND_ARCHITECTURE.md)
 - [DATABASE](DATABASE.md) — data inventory, configuration, security, migrations, and recovery
+- [PWA](PWA.md) — installability, offline caching, updates, extension points, and production verification
 
 ## Focus Principle
 
