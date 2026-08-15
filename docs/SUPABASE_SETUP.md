@@ -279,6 +279,6 @@ npm start
 
 ## Operational evidence ledger
 
-Apply migrations `0003`, `0004`, and `0005` in order. They create the ledger, enforce qualification integrity, and provide the service-role-only `record_operational_verification` transaction. An attempt and its qualification now commit together or roll back together; identical retries are safe, while reuse of an idempotency key with a different full-request SHA-256 fingerprint fails closed. RLS is enabled and anonymous/authenticated roles have no access.
+Apply migrations `0003` through `0006` in order. They create the ledger, enforce qualification integrity, provide the service-role-only `record_operational_verification` transaction, and apply its forward-only PostgreSQL ambiguity correction. An attempt and its qualification commit together or roll back together; identical retries are safe, while reuse of an idempotency key with a different full-request SHA-256 fingerprint fails closed. RLS is enabled and anonymous/authenticated roles have no access.
 
 After deployment, run **Always Current Control Plane** manually. A qualifying run creates rows in `operational_verification_attempts` and `operational_freshness_qualifications`. The production refresh also creates a row in `operational_scheduler_heartbeats`. A heartbeat proves invocation only—it never proves freshness.
