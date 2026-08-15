@@ -353,7 +353,15 @@ export default function Footer({ locale, freshness }: { locale: Locale; freshnes
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] text-[#6C819A]">
               <span className="text-[#8AA1BA]">© {year} BAJA Associates</span>
               <span className="hidden sm:inline h-1 w-1 rounded-full bg-white/20" />
-              <span>Aarti S Ravikumar</span>
+              <a
+                href="https://ai-aarti.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#8AA1BA] underline decoration-white/20 underline-offset-2 transition-colors hover:text-white hover:decoration-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5A623]"
+                aria-label="Aarti S Ravikumar website (opens in a new tab)"
+              >
+                Aarti S Ravikumar
+              </a>
               <span className="hidden sm:inline h-1 w-1 rounded-full bg-white/20" />
               <span>{l({ en: 'Evidence-first publishing', kn: 'ಸಾಕ್ಷ್ಯ-ಪ್ರಥಮ ಪ್ರಕಟಣೆ', hi: 'एविडेंस-फर्स्ट पब्लिशिंग', ta: 'ஆதார-முன்னுரிமை வெளியீடு' })}</span>
               <span className="hidden sm:inline h-1 w-1 rounded-full bg-white/20" />
