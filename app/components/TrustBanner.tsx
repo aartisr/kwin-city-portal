@@ -127,7 +127,7 @@ export default function TrustBanner({
   }, [visible, expanded, isScrollHidden]);
 
   const isVisible = visible && !isScrollHidden;
-  const freshest = Math.max(
+  const oldestSignalAgeDays = Math.max(
     contentAgeDays,
     factualAuditAgeDays,
     executionStatusAgeDays,
@@ -179,7 +179,7 @@ export default function TrustBanner({
             </span>
             <span className="hidden min-w-0 flex-1 truncate text-slate-600 sm:block">
               {degraded
-                ? `Latest operational signal is ${freshest} days old.`
+                ? `Oldest tracked freshness signal is ${oldestSignalAgeDays} days old.`
                 : "Verification signals are within their target windows."}
             </span>
             <span

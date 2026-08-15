@@ -20,7 +20,7 @@ The system is intentionally designed to preserve the last known good site state.
 | Staleness check | `scripts/check-content-staleness.mjs` | Requires the factual claim audit to be refreshed every 14 days |
 | Evidence API | `app/api/operations/verifications/route.ts` | Authenticates and validates immutable CI evidence |
 | Evidence policy | `app/lib/operations/verification-policy.ts` | Central, versioned qualification rules for all freshness rails |
-| Evidence ledger | `supabase/migrations/0003_operational_verification_evidence.sql` | Append-only attempts, qualifications, and scheduler heartbeats |
+| Evidence ledger | Supabase migrations `0003`–`0005` | Append-only evidence, integrity enforcement, and atomic idempotent recording |
 | Factual guardrail | `scripts/verify-factual-integrity.mjs` | Blocks known inaccurate/stale claim patterns |
 | Runtime refresh endpoint | `app/api/cron/kwin-seo-agency/route.ts` | Protected production refresh job |
 | Vercel schedule | `vercel.json` | Native host-side scheduled invocation |
@@ -90,7 +90,9 @@ Expected result: every command exits with code `0`. The source command reports a
 3. Choose `standard` for routine validation, or `full` to include a production build.
 4. Inspect each step and confirm it is green.
 
-The first successful run verifies that GitHub can execute the controls and persist two signed, policy-qualified evidence records without exposing secrets in logs. Apply migration `0003_operational_verification_evidence.sql` before this run.
+The first successful run verifies that GitHub can execute the controls and persist two signed, policy-qualified evidence records without exposing secrets in logs. Apply migrations `0003` through `0005` before this run.
+
+Every verification control uses `continue-on-error` so one failed control cannot hide the results of later independent controls. The immutable manifest records every outcome, and the final gate fails unless configuration, production refresh, and both evidence submissions succeed.
 
 ### Confirm the production handoff
 
