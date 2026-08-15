@@ -46,12 +46,18 @@ describe('SEO agency production refresh handoff', () => {
         success: true,
         storageBackend: 'file',
         warning: 'KWIN_SUPABASE_SERVICE_ROLE_KEY is not configured; stored in local file fallback.',
+        persistence: {
+          provider: 'supabase',
+          supabaseUrlConfigured: true,
+          supabaseAnonKeyConfigured: false,
+          supabaseServiceRoleKeyConfigured: false,
+        },
       }),
     );
 
     await expect(
       triggerSeoAgencyRefresh({ refreshUrl, cronSecret: 'test-secret', fetchImpl }),
-    ).rejects.toThrow(/did not persist to Supabase.*SERVICE_ROLE_KEY/i);
+    ).rejects.toThrow(/did not persist to Supabase.*SERVICE_ROLE_KEY.*supabaseServiceRoleKeyConfigured":false/i);
   });
 
   it('fails the workflow when the cron rejects the request', async () => {
