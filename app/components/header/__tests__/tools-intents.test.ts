@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getToolIntentSections, getToolQuickActions } from '@/components/header/tools-intents';
+import { filterToolIntentSections, getToolIntentSections, getToolQuickActions } from '@/components/header/tools-intents';
 import type { NavItem } from '@/components/header/types';
 
 describe('header/tools-intents', () => {
@@ -68,5 +68,20 @@ describe('header/tools-intents', () => {
       icon: '⚡',
       href: '/tools',
     });
+  });
+
+  it('finds tools by label, description, and task section without losing source order', () => {
+    const navItems: NavItem[] = [
+      { label: 'Risk Check', href: '/tools/risk-check', desc: 'Acquisition exposure' },
+      { label: 'Accessibility Calculator', href: '/tools/accessibility', desc: 'Travel-time scenarios' },
+      { label: 'Valuation Index', href: '/tools/valuation-index', desc: 'Market guidance values' },
+    ];
+
+    expect(filterToolIntentSections(navItems, 'travel').flatMap((section) => section.items).map((item) => item.href))
+      .toEqual(['/tools/accessibility']);
+    expect(filterToolIntentSections(navItems, 'market intelligence').flatMap((section) => section.items).map((item) => item.href))
+      .toEqual(['/tools/valuation-index']);
+    expect(filterToolIntentSections(navItems, 'no such tool')).toEqual([]);
+    expect(filterToolIntentSections(navItems, '  ')).toEqual(getToolIntentSections(navItems));
   });
 });

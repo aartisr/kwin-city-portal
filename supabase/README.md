@@ -12,7 +12,7 @@ If the Supabase CLI is installed and linked to the target project, use `supabase
 
 ## Change discipline
 
-- Never edit an applied migration. Add a file with the next unused number (currently `0007_descriptive_change.sql`), then update the domain model and its repository adapter.
+- Never edit an applied migration. Add a file with the next unused number (currently `0008_descriptive_change.sql`), then update the domain model and its repository adapter.
 - Keep application code dependent on domain repository ports, not on database SDK types.
 - Keep provider-specific SQL, RLS policies, and indexes here. This isolates Supabase/Postgres details from the business layer and makes a future database adapter a bounded change.
 - Run `npm run db:verify:migrations` before committing a schema change.

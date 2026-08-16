@@ -79,6 +79,26 @@ export function getToolIntentSections(items: NavItem[]) {
   })).filter((section) => section.items.length > 0);
 }
 
+export function filterToolIntentSections(items: NavItem[], query: string) {
+  const normalizedQuery = query.trim().toLocaleLowerCase();
+  const sections = getToolIntentSections(items);
+
+  if (!normalizedQuery) return sections;
+
+  return sections
+    .map((section) => ({
+      ...section,
+      items: section.items.filter((item) =>
+        [item.label, item.desc, section.title]
+          .filter(Boolean)
+          .join(' ')
+          .toLocaleLowerCase()
+          .includes(normalizedQuery),
+      ),
+    }))
+    .filter((section) => section.items.length > 0);
+}
+
 export function getToolQuickActions(items: NavItem[]) {
   const byHref = new Map(items.map((item) => [item.href, item]));
 
