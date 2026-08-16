@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks, @typescript-eslint/triple-slash-reference -- Playwright's fixture continuation is not a React Hook; this local declaration shim is compile-time only. */
 /// <reference path="./deps-shim.d.ts" />
 
 import { test as base, expect } from '@playwright/test';

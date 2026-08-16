@@ -105,7 +105,7 @@ test.describe('Performance & Reliability', () => {
 
       try {
         observer.observe({ type: 'layout-shift', buffered: true });
-      } catch (e) {
+      } catch {
         console.warn('LayoutShift observer not supported');
       }
     });

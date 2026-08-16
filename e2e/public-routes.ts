@@ -7,6 +7,7 @@
 export const PUBLIC_ROUTES = [
   "/",
   "/about",
+  "/aarti-s-ravikumar",
   "/account",
   "/analytics",
   "/community",

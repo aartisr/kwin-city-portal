@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { capturePostHogEvent, initPostHog } from '@/lib/analytics/posthog';
 
@@ -9,14 +9,14 @@ export default function PostHogInit() {
   const searchParams = useSearchParams();
   const lastTrackedUrlRef = useRef<string>('');
 
-  const trackCurrentPageview = (currentUrl: string) => {
+  const trackCurrentPageview = useCallback((currentUrl: string) => {
     lastTrackedUrlRef.current = currentUrl;
     capturePostHogEvent('$pageview', {
       $current_url: window.location.href,
       pathname,
       query: searchParams?.toString() || null,
     });
-  };
+  }, [pathname, searchParams]);
 
   useEffect(() => {
     let cancelled = false;
@@ -51,7 +51,7 @@ export default function PostHogInit() {
       cancelled = true;
       browser.clearTimeout(timeoutId);
     };
-  }, [pathname, searchParams]);
+  }, [pathname, searchParams, trackCurrentPageview]);
 
   useEffect(() => {
     const query = searchParams?.toString();
@@ -62,7 +62,7 @@ export default function PostHogInit() {
     }
 
     trackCurrentPageview(currentUrl);
-  }, [pathname, searchParams]);
+  }, [pathname, searchParams, trackCurrentPageview]);
 
   return null;
 }
