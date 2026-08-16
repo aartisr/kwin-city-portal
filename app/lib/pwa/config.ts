@@ -10,6 +10,9 @@ export const PWA_CONFIG = {
   serviceWorkerUrl: "/sw.js",
   serviceWorkerScope: "/",
   installDismissalDays: 30,
+  installRepeatOfferDays: 90,
+  installMinimumIosVisits: 3,
+  installRevealDelayMs: 20_000,
   updateCheckIntervalMs: 60 * 60 * 1000,
   shortcuts: [
     {

@@ -58,6 +58,8 @@ export default async function TermsPage() {
               </p>
               <p className="mt-3">
                 {l({ en: 'Website owner: BAJA Associates. Author: Aarti S Ravikumar.', kn: 'ವೆಬ್‌ಸೈಟ್ ಮಾಲೀಕ: BAJA Associates. ಲೇಖಕಿ: Aarti S Ravikumar.', hi: 'वेबसाइट स्वामी: BAJA Associates. लेखिका: Aarti S Ravikumar.', ta: 'இணையதள உரிமையாளர்: BAJA Associates. ஆசிரியர்: Aarti S Ravikumar.' })}
+                {' '}<a href="https://baja.kwin-city.com" className="font-semibold text-cyan-800 underline underline-offset-2">BAJA Associates ↗</a>
+                {' · '}<a href="https://ai-aarti.com" rel="me" className="font-semibold text-cyan-800 underline underline-offset-2">Aarti S Ravikumar ↗</a>
               </p>
             </div>
 

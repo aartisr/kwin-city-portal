@@ -4,13 +4,17 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { PWA_CONFIG } from "@/lib/pwa/config";
+import {
+  PWA_INSTALL_STORAGE_KEYS,
+  readInstallPromptState,
+  recordVisit,
+  shouldOfferInstall,
+} from "@/lib/pwa/install-policy";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
   userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
 }
-
-const DISMISSAL_KEY = "kwin-pwa-install-dismissed-at";
 
 function isStandalone() {
   const navigatorWithStandalone = navigator as Navigator & {
@@ -20,16 +24,6 @@ function isStandalone() {
     window.matchMedia("(display-mode: standalone)").matches ||
     navigatorWithStandalone.standalone === true
   );
-}
-
-function dismissalIsActive() {
-  try {
-    const dismissedAt = Number(localStorage.getItem(DISMISSAL_KEY));
-    const lifetime = PWA_CONFIG.installDismissalDays * 24 * 60 * 60 * 1000;
-    return Number.isFinite(dismissedAt) && Date.now() - dismissedAt < lifetime;
-  } catch {
-    return false;
-  }
 }
 
 export default function PwaInstallPrompt() {
@@ -45,27 +39,48 @@ export default function PwaInstallPrompt() {
   );
 
   useEffect(() => {
-    if (isStandalone() || dismissalIsActive()) return;
+    const standalone = isStandalone();
+    if (standalone) {
+      setInstalled(true);
+      try { localStorage.setItem(PWA_INSTALL_STORAGE_KEYS.installedAt, String(Date.now())); } catch { /* optional persistence */ }
+      return;
+    }
     let revealTimer: ReturnType<typeof setTimeout> | undefined;
+    let visits = 0;
+    try { visits = recordVisit(localStorage, sessionStorage); } catch { /* Storage is optional. */ }
 
-    const reveal = () => {
+    const reveal = (nativePrompt: boolean) => {
+      let eligible = nativePrompt;
+      try {
+        eligible = shouldOfferInstall({
+          state: { ...readInstallPromptState(localStorage, PWA_CONFIG.installDismissalDays), visitCount: visits },
+          now: Date.now(), isStandalone: false, isIos, hasNativePrompt: nativePrompt,
+          minimumIosVisits: PWA_CONFIG.installMinimumIosVisits,
+          repeatOfferDays: PWA_CONFIG.installRepeatOfferDays,
+        });
+      } catch { /* Native browser eligibility remains the fallback. */ }
+      if (!eligible) return;
       if (revealTimer) clearTimeout(revealTimer);
-      revealTimer = setTimeout(() => setVisible(true), 5_000);
+      revealTimer = setTimeout(() => {
+        setVisible(true);
+        try { localStorage.setItem(PWA_INSTALL_STORAGE_KEYS.lastShownAt, String(Date.now())); } catch { /* optional */ }
+      }, PWA_CONFIG.installRevealDelayMs);
     };
     const onPrompt = (event: Event) => {
       event.preventDefault();
       setPrompt(event as BeforeInstallPromptEvent);
-      reveal();
+      reveal(true);
     };
     const onInstalled = () => {
       setInstalled(true);
       setVisible(false);
       setPrompt(null);
+      try { localStorage.setItem(PWA_INSTALL_STORAGE_KEYS.installedAt, String(Date.now())); } catch { /* optional */ }
     };
 
     window.addEventListener("beforeinstallprompt", onPrompt);
     window.addEventListener("appinstalled", onInstalled);
-    if (isIos) reveal();
+    if (isIos) reveal(false);
 
     return () => {
       if (revealTimer) clearTimeout(revealTimer);
@@ -82,7 +97,15 @@ export default function PwaInstallPrompt() {
     try {
       await prompt.prompt();
       const choice = await prompt.userChoice;
-      if (choice.outcome === "accepted") setInstalled(true);
+      if (choice.outcome === "accepted") {
+        setInstalled(true);
+        try { localStorage.setItem(PWA_INSTALL_STORAGE_KEYS.installedAt, String(Date.now())); } catch { /* optional */ }
+      } else {
+        try {
+          const until = Date.now() + PWA_CONFIG.installDismissalDays * 86_400_000;
+          localStorage.setItem(PWA_INSTALL_STORAGE_KEYS.dismissedUntil, String(until));
+        } catch { /* optional */ }
+      }
     } finally {
       setPrompt(null);
       setVisible(false);
@@ -92,10 +115,16 @@ export default function PwaInstallPrompt() {
   const dismiss = () => {
     setVisible(false);
     try {
-      localStorage.setItem(DISMISSAL_KEY, String(Date.now()));
+      const until = Date.now() + PWA_CONFIG.installDismissalDays * 86_400_000;
+      localStorage.setItem(PWA_INSTALL_STORAGE_KEYS.dismissedUntil, String(until));
     } catch {
       // Storage can be unavailable in private browsing; dismissal still works now.
     }
+  };
+
+  const optOut = () => {
+    setVisible(false);
+    try { localStorage.setItem(PWA_INSTALL_STORAGE_KEYS.optedOut, 'true'); } catch { /* optional */ }
   };
 
   return (
@@ -164,6 +193,10 @@ export default function PwaInstallPrompt() {
               >
                 Explore the app
               </Link>
+            </div>
+            <div className="mt-3 flex items-center justify-center gap-4 text-xs text-slate-400">
+              <button type="button" onClick={dismiss} className="hover:text-white hover:underline">Not now</button>
+              <button type="button" onClick={optOut} className="hover:text-white hover:underline">Don’t ask again</button>
             </div>
           </div>
         </motion.aside>

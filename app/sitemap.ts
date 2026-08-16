@@ -29,6 +29,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 1.0,
     },
+    {
+      url: `${SITE_URL}/aarti-s-ravikumar`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
     // ── Tier 2: Primary content pillars ───────────────────────────────────
     {
       url: `${SITE_URL}/why-north-bengaluru`,

@@ -351,7 +351,7 @@ export default function Footer({ locale, freshness }: { locale: Locale; freshnes
         <div className="mt-10 border-t border-white/10 pt-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] text-[#6C819A]">
-              <span className="text-[#8AA1BA]">© {year} BAJA Associates</span>
+              <a href="https://baja.kwin-city.com" className="text-[#8AA1BA] transition-colors hover:text-white hover:underline">© {year} BAJA Associates</a>
               <span className="hidden sm:inline h-1 w-1 rounded-full bg-white/20" />
               <a
                 href="https://ai-aarti.com"

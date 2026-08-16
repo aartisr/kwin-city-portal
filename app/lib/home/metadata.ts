@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
+import { SITE_IDENTITY } from '@/lib/identity';
 
 const SITE_URL = 'https://kwin-city.com';
 const OG_IMAGE = `${SITE_URL}/opengraph-image`;
@@ -20,6 +21,9 @@ export async function generateHomeMetadata(): Promise<Metadata> {
   return {
     title,
     description,
+    authors: [{ name: SITE_IDENTITY.person.name, url: SITE_IDENTITY.person.profileUrl }],
+    creator: SITE_IDENTITY.person.name,
+    publisher: 'KWIN City',
     alternates: {
       canonical: SITE_URL,
     },
@@ -42,6 +46,7 @@ export async function generateHomeMetadata(): Promise<Metadata> {
       title,
       description,
       images: [OG_IMAGE],
+      creator: '@KwinPortal',
     },
   };
 }
