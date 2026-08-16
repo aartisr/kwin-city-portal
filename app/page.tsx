@@ -3,6 +3,7 @@ import BengaluruPride from '@/components/BengaluruPride';
 import SiteFrame from '@/components/SiteFrame';
 import HomeSummary from '@/components/HomeSummary';
 import HomeProgressiveDisclosure from '@/components/HomeProgressiveDisclosure';
+import InteractiveIntelligenceLauncher from '@/components/InteractiveIntelligenceLauncher';
 import HomeTrustSnapshot from '@/components/HomeTrustSnapshot';
 import HomeRouteGrid from '@/components/HomeRouteGrid';
 import EvidencePreview from '@/components/EvidencePreview';
@@ -23,6 +24,7 @@ export default function Home() {
       <main id="main-content" role="main">
         <Hero />
         <HomeSummary />
+        <InteractiveIntelligenceLauncher />
         <HomeProgressiveDisclosure>
           <ImageStrip />
           <InnovationCanvas />

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import ToolFinder from '@/components/header/ToolFinder';
 import { GROUP_STORIES, type HeaderLabels } from '@/components/header/config';
-import { getToolIntentSections, getToolQuickActions } from '@/components/header/tools-intents';
 import type { AuthUser, NavGroup } from '@/components/header/types';
 import type { Locale } from '@/lib/i18n/locales';
 
@@ -85,8 +85,6 @@ export default function MobileMenuSheet({
           {menuGroups.map((group) => {
             const isOpen = mobileOpenGroup === group.key;
             const groupStory = GROUP_STORIES[group.key] ?? GROUP_STORIES.discover;
-            const toolIntentSections = group.key === 'tools' ? getToolIntentSections(group.items) : [];
-            const toolQuickActions = group.key === 'tools' ? getToolQuickActions(group.items) : [];
 
             return (
               <section
@@ -113,64 +111,7 @@ export default function MobileMenuSheet({
                 {isOpen ? (
                   <div className="border-t border-slate-200 px-3 pb-3 pt-2">
                     {group.key === 'tools' ? (
-                      <div className="space-y-2.5">
-                        <section className="rounded-2xl border border-slate-200 bg-[linear-gradient(135deg,rgba(245,250,255,0.94),rgba(255,250,240,0.94))] p-3">
-                          <div className="flex items-center justify-between gap-2">
-                            <h4 className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#6F3F00]">Quick Actions</h4>
-                            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-600">Fast launch</p>
-                          </div>
-                          <div className="mt-2 grid grid-cols-2 gap-2">
-                            {toolQuickActions.map((action) => (
-                              <Link
-                                key={action.key}
-                                href={action.href}
-                                onClick={onCloseMenu}
-                                className={`rounded-xl border px-2.5 py-2 text-left transition-all duration-200 ${
-                                  isActive(action.href)
-                                    ? 'border-amber-200 bg-amber-50 text-[#6F3F00]'
-                                    : 'border-slate-200 bg-white text-slate-900 hover:border-amber-200'
-                                }`}
-                              >
-                                <div className="flex items-center gap-1.5 text-xs font-bold">
-                                  <span aria-hidden="true">{action.icon}</span>
-                                  <span className="truncate">{action.title}</span>
-                                </div>
-                              </Link>
-                            ))}
-                          </div>
-                        </section>
-
-                        {toolIntentSections.map((section) => (
-                          <section key={section.key} className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-                            <h4 className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#6F3F00]">{section.title}</h4>
-                            <p className="mt-1 text-xs leading-5 text-slate-700">{section.summary}</p>
-                            <div className="mt-2 space-y-1">
-                              {section.items.map((item) => (
-                                <Link
-                                  key={item.href}
-                                  href={item.href}
-                                  className={`flex items-start gap-3 rounded-2xl px-3 py-3 transition-colors ${
-                                    isActive(item.href) ? 'bg-amber-50 text-[#6F3F00]' : 'bg-white hover:bg-slate-100 text-slate-900'
-                                  }`}
-                                  onClick={onCloseMenu}
-                                >
-                                  {item.icon ? (
-                                    <span className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white text-lg shadow-[0_10px_24px_rgba(15,23,42,0.06)]">
-                                      {item.icon}
-                                    </span>
-                                  ) : (
-                                    <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-gradient-to-r from-[#E8A020] to-cyan-400" />
-                                  )}
-                                  <span className="min-w-0">
-                                    <span className="block text-sm font-semibold">{item.label}</span>
-                                    {item.desc ? <span className="mt-1 block text-xs leading-5 text-slate-700">{item.desc}</span> : null}
-                                  </span>
-                                </Link>
-                              ))}
-                            </div>
-                          </section>
-                        ))}
-                      </div>
+                      <ToolFinder items={group.items} isActive={isActive} onNavigate={onCloseMenu} compact />
                     ) : (
                       <div className="space-y-1">
                         {group.items.map((item) => (

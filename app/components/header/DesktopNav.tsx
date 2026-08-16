@@ -1,7 +1,7 @@
 import type { RefObject } from 'react';
 import Link from 'next/link';
+import ToolFinder from '@/components/header/ToolFinder';
 import { NAV_TONES } from '@/components/header/navigation';
-import { getToolIntentSections, getToolQuickActions } from '@/components/header/tools-intents';
 import type { HeaderStory } from '@/components/header/config';
 import type { NavGroup } from '@/components/header/types';
 
@@ -14,7 +14,6 @@ type DesktopNavProps = {
   activeGroupLabel: (group: NavGroup) => string;
   isActive: (href: string) => boolean;
   isGroupActive: (group: NavGroup) => boolean;
-  onOpenGroup: (key: string) => void;
   onToggleGroup: (key: string) => void;
   onCloseMenu: () => void;
 };
@@ -28,15 +27,9 @@ export default function DesktopNav({
   activeGroupLabel,
   isActive,
   isGroupActive,
-  onOpenGroup,
   onToggleGroup,
   onCloseMenu,
 }: DesktopNavProps) {
-  const toolIntentSections =
-    activeDesktopMenu?.key === 'tools' ? getToolIntentSections(activeDesktopMenu.items) : [];
-  const toolQuickActions =
-    activeDesktopMenu?.key === 'tools' ? getToolQuickActions(activeDesktopMenu.items) : [];
-
   return (
     <div data-testid="desktop-header-navigation" className="hidden min-w-0 items-center justify-center lg:flex">
       <div ref={desktopNavRef as RefObject<HTMLDivElement>} className="relative z-[320] flex min-w-0 max-w-[min(48vw,760px)] flex-1 justify-center 2xl:max-w-[min(56vw,860px)]">
@@ -49,11 +42,8 @@ export default function DesktopNav({
               <button
                 key={group.key}
                 type="button"
-                onMouseEnter={() => onOpenGroup(group.key)}
-                onFocus={() => onOpenGroup(group.key)}
                 onClick={() => onToggleGroup(group.key)}
                 aria-expanded={isOpen}
-                aria-haspopup="true"
                 aria-controls={menuId}
                 className={`group inline-flex h-9 items-center gap-1.5 rounded-full px-2.5 py-2 text-[0.84rem] whitespace-nowrap transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 2xl:px-3 2xl:text-[0.92rem] ${activeGroupLabel(group)} ${
                   isOpen ? 'bg-slate-950 text-white shadow-[0_10px_22px_rgba(15,23,42,0.14)] ring-0 hover:text-white' : ''
@@ -84,12 +74,12 @@ export default function DesktopNav({
         {activeDesktopMenu && desktopStory ? (
           <div
             id={`menu-${activeDesktopMenu.key}`}
-            role="menu"
             aria-label={`${activeDesktopMenu.label} menu`}
             className="absolute left-1/2 top-full z-[360] w-[min(980px,calc(100vw-3rem))] -translate-x-1/2 pt-4 pointer-events-auto"
           >
-            <div className="overflow-hidden rounded-[24px] border border-slate-300 bg-white shadow-[0_28px_72px_rgba(2,6,23,0.16)] ring-1 ring-slate-200/90">
-              <div className="grid lg:grid-cols-[0.88fr_1.12fr]">
+            <div className="max-h-[calc(100dvh-var(--kwin-header-height)-1.5rem)] overflow-y-auto overscroll-contain rounded-[24px] border border-slate-300 bg-white shadow-[0_28px_72px_rgba(2,6,23,0.16)] ring-1 ring-slate-200/90">
+              <div className={`grid ${activeDesktopMenu.key === 'tools' ? '' : 'lg:grid-cols-[0.88fr_1.12fr]'}`}>
+                {activeDesktopMenu.key !== 'tools' ? (
                 <div className={`relative overflow-hidden border-b border-slate-200 lg:border-b-0 lg:border-r ${desktopStory.accent}`}>
                   <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.78),rgba(255,255,255,0.94))]" aria-hidden="true" />
                   <div className="relative px-5 pt-5 pb-4 lg:px-6 lg:pt-6 lg:pb-5">
@@ -119,74 +109,11 @@ export default function DesktopNav({
                     </div>
                   </div>
                 </div>
+                ) : null}
 
-                <div className="p-4 lg:p-5">
+                <div className={`p-4 lg:p-5 ${activeDesktopMenu.key === 'tools' ? 'h-[min(660px,calc(100dvh-var(--kwin-header-height)-3.5rem))] min-h-[420px]' : ''}`}>
                   {activeDesktopMenu.key === 'tools' ? (
-                    <div className="space-y-3">
-                      <section className="rounded-[18px] border border-slate-200 bg-[linear-gradient(135deg,rgba(245,250,255,0.94),rgba(255,250,240,0.94))] p-3">
-                        <div className="flex items-center justify-between gap-2">
-                          <h4 className="text-[0.78rem] font-extrabold uppercase tracking-[0.18em] text-[#6F3F00]">Quick Actions</h4>
-                          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-slate-600">One tap launches</p>
-                        </div>
-                        <div className="mt-2.5 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-                          {toolQuickActions.map((action) => (
-                            <Link
-                              key={action.key}
-                              href={action.href}
-                              onClick={onCloseMenu}
-                              className={`group rounded-xl border px-2.5 py-2.5 transition-all duration-200 ${
-                                isActive(action.href)
-                                  ? 'border-amber-200 bg-amber-50 shadow-[0_8px_20px_rgba(245,166,35,0.10)]'
-                                  : 'border-slate-200 bg-white hover:border-amber-200 hover:shadow-[0_10px_24px_rgba(15,23,42,0.06)]'
-                              }`}
-                            >
-                              <div className="flex items-center gap-1.5 text-[0.78rem] font-bold text-slate-900">
-                                <span aria-hidden="true">{action.icon}</span>
-                                <span className="truncate">{action.title}</span>
-                              </div>
-                              {action.desc ? <p className="mt-1 line-clamp-2 text-[0.68rem] leading-4 text-slate-700">{action.desc}</p> : null}
-                            </Link>
-                          ))}
-                        </div>
-                      </section>
-
-                      <div className="grid gap-2.5 lg:grid-cols-2">
-                        {toolIntentSections.map((section) => (
-                          <section key={section.key} className="rounded-[18px] border border-slate-200 bg-slate-50 p-3">
-                            <h4 className="text-[0.82rem] font-extrabold uppercase tracking-[0.14em] text-[#6F3F00]">{section.title}</h4>
-                            <p className="mt-1 text-[0.74rem] leading-5 text-slate-700">{section.summary}</p>
-                            <div className="mt-2.5 space-y-1.5">
-                              {section.items.map((item) => (
-                                <Link
-                                  key={item.href}
-                                  href={item.href}
-                                  onClick={onCloseMenu}
-                                  className={`group flex min-h-[64px] items-start gap-2.5 rounded-2xl border px-3 py-2.5 transition-all duration-200 ${
-                                    isActive(item.href)
-                                      ? 'border-amber-200 bg-amber-50 shadow-[0_8px_20px_rgba(245,166,35,0.10)]'
-                                      : 'border-transparent bg-white hover:border-slate-200 hover:shadow-[0_10px_24px_rgba(15,23,42,0.06)]'
-                                  }`}
-                                >
-                                  {item.icon ? (
-                                    <span className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-slate-50 text-sm shadow-[0_8px_18px_rgba(15,23,42,0.05)]">
-                                      {item.icon}
-                                    </span>
-                                  ) : (
-                                    <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-gradient-to-r from-[#E8A020] to-cyan-400" />
-                                  )}
-                                  <div className="min-w-0">
-                                    <div className={`text-[0.9rem] font-bold leading-5 ${isActive(item.href) ? NAV_TONES.dropdownActive : NAV_TONES.dropdownIdle}`}>
-                                      {item.label}
-                                    </div>
-                                    {item.desc ? <div className="mt-0.5 text-[0.72rem] leading-5 text-slate-700">{item.desc}</div> : null}
-                                  </div>
-                                </Link>
-                              ))}
-                            </div>
-                          </section>
-                        ))}
-                      </div>
-                    </div>
+                    <ToolFinder items={activeDesktopMenu.items} isActive={isActive} onNavigate={onCloseMenu} />
                   ) : (
                     <div className="grid gap-2.5 sm:grid-cols-2">
                       {desktopColumns.map((column, columnIndex) => (

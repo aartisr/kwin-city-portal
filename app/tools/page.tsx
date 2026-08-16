@@ -1,10 +1,12 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import SiteFrame from "@/components/SiteFrame";
+import JsonLd from "@/components/JsonLd";
 import PageIntro from "@/components/PageIntro";
 import ToolsPowerPalette from "@/tools/ToolsPowerPalette";
 import ToolsUsageStrip from "@/tools/ToolsUsageStrip";
 import { getServerLocale, pickByLocale } from "@/lib/i18n/server";
+import { interactiveApplicationsSchema } from "@/lib/tools/web-application-schema";
 
 const TOOL_ROUTES = [
   {
@@ -259,6 +261,7 @@ export default async function ToolsIndexPage() {
 
   return (
     <SiteFrame>
+      <JsonLd data={interactiveApplicationsSchema()} />
       <ToolsPowerPalette options={powerOptions} />
       <main id="main-content" role="main">
         <PageIntro

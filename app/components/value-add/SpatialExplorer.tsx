@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import StrategicLocationMap from '@/components/StrategicLocationMap';
 import type { AcquisitionPhaseId, AcquisitionPhaseVisibility } from '@/components/strategic-map/mapbox';
 import type { SpatialExplorerResponse, ValueAddEnvelope } from '@/types/value-add';
+import { parseSpatialView, spatialViewSearch } from '@/lib/tools/spatial-view';
 
 type Phase = SpatialExplorerResponse['phase'];
 
@@ -19,6 +20,34 @@ export default function SpatialExplorer() {
   const [result, setResult] = useState<ValueAddEnvelope<SpatialExplorerResponse> | null>(null);
   const [exporting, setExporting] = useState(false);
   const [exportMessage, setExportMessage] = useState<string | null>(null);
+  const [viewMessage, setViewMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const initial = parseSpatialView(window.location.search);
+    setPhase(initial.phase);
+    setAcquisitionPhaseVisibility(initial.acquisition);
+  }, []);
+
+  useEffect(() => {
+    const search = spatialViewSearch({ phase, acquisition: acquisitionPhaseVisibility });
+    window.history.replaceState(null, '', `${window.location.pathname}${search}${window.location.hash}`);
+  }, [phase, acquisitionPhaseVisibility]);
+
+  async function shareView() {
+    const url = window.location.href;
+    try {
+      await navigator.clipboard.writeText(url);
+      setViewMessage('Shareable view link copied.');
+    } catch {
+      setViewMessage(url);
+    }
+  }
+
+  function saveView() {
+    const view = { phase, acquisition: acquisitionPhaseVisibility, savedAt: new Date().toISOString() };
+    localStorage.setItem('kwin-spatial-saved-view', JSON.stringify(view));
+    setViewMessage('View saved on this device.');
+  }
 
   useEffect(() => {
     let cancelled = false;
@@ -201,9 +230,11 @@ export default function SpatialExplorer() {
           <p className="mt-2 text-slate-600">Interactive map plus phase-specific zoning, transport, and anchor overlays.</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
+          <span className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-bold text-blue-900">Latest verified + derived layers</span>
           <label className="text-sm font-medium text-slate-700">
             Phase
             <select
+              data-testid="spatial-phase-select"
               value={phase}
               onChange={(event) => setPhase(event.target.value as Phase)}
               className="ml-2 rounded-xl border border-slate-300 px-3 py-2 text-slate-900 focus:border-slate-500 focus:outline-none"
@@ -213,6 +244,9 @@ export default function SpatialExplorer() {
               <option value="phase-3">Phase 3</option>
             </select>
           </label>
+
+          <button type="button" onClick={shareView} className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50">Copy view link</button>
+          <button type="button" onClick={saveView} className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50">Save view</button>
 
           <div className="flex flex-wrap items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-[#6F3F00]">
             <span className="font-semibold">Acquisition overlays (derived):</span>
@@ -267,6 +301,8 @@ export default function SpatialExplorer() {
           </div>
         </div>
       </div>
+
+      {viewMessage ? <p className="mt-3 text-sm font-medium text-blue-800" role="status">{viewMessage}</p> : null}
 
       <div className="mt-6">
         <StrategicLocationMap acquisitionPhaseVisibility={acquisitionPhaseVisibility} />

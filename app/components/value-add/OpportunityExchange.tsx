@@ -61,11 +61,12 @@ export default function OpportunityExchange() {
         return;
       }
 
+      const submitted = (payload as ValueAddEnvelope<OpportunityLead>).data;
       setName('');
       setEmail('');
       setRequirement('');
       setBudgetBand('');
-      setSubmitMessage('Request submitted. The exchange board has been updated.');
+      setSubmitMessage(`Request ${submitted.id} submitted with status: ${submitted.status}. Save this reference for follow-up.`);
       await loadLeads();
     } catch {
       setError('Unable to contact the service. Please try again.');
@@ -83,6 +84,8 @@ export default function OpportunityExchange() {
         <label className="text-sm font-medium text-slate-700">
           Name
           <input
+            required
+            autoComplete="name"
             value={name}
             onChange={(event) => setName(event.target.value)}
             className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2 text-slate-900 focus:border-slate-500 focus:outline-none"
@@ -92,6 +95,9 @@ export default function OpportunityExchange() {
         <label className="text-sm font-medium text-slate-700">
           Email
           <input
+            required
+            type="email"
+            autoComplete="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2 text-slate-900 focus:border-slate-500 focus:outline-none"
@@ -124,6 +130,8 @@ export default function OpportunityExchange() {
         <label className="text-sm font-medium text-slate-700 md:col-span-2">
           Requirement
           <textarea
+            required
+            minLength={20}
             value={requirement}
             onChange={(event) => setRequirement(event.target.value)}
             rows={4}
@@ -140,9 +148,10 @@ export default function OpportunityExchange() {
           >
             {submitState === 'submitting' ? 'Submitting...' : 'Submit requirement'}
           </button>
-          {submitMessage ? <span className="text-sm font-medium text-emerald-700">{submitMessage}</span> : null}
-          {error ? <span className="text-sm font-medium text-rose-700">{error}</span> : null}
+          {submitMessage ? <span role="status" className="text-sm font-medium text-emerald-700">{submitMessage}</span> : null}
+          {error ? <span role="alert" className="text-sm font-medium text-rose-700">{error}</span> : null}
         </div>
+        <p className="text-xs leading-5 text-slate-500 md:col-span-2">Your contact details are used to process this requirement and are not displayed on the public exchange board. Submissions are preliminary and do not create an investment, brokerage, or matching commitment.</p>
       </form>
 
       <div className="mt-6">

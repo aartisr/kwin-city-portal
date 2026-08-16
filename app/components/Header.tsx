@@ -118,6 +118,11 @@ export default function Header({
       }
 
       if (event.key === 'Escape') {
+        if (desktopOpenGroup) {
+          document.querySelector<HTMLButtonElement>(`button[aria-controls="menu-${desktopOpenGroup}"]`)?.focus();
+        } else if (mobileMenuOpen) {
+          document.querySelector<HTMLButtonElement>('[data-testid="mobile-header-menu"]')?.focus();
+        }
         setDesktopOpenGroup(null);
         setMobileMenuOpen(false);
         setMobileOpenGroup(null);
@@ -127,7 +132,7 @@ export default function Header({
 
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
-  }, []);
+  }, [desktopOpenGroup, mobileMenuOpen]);
 
   const currentPath = pathname ?? '/';
   const isActive = (href: string) => (href === '/' ? currentPath === '/' : currentPath.startsWith(href));
@@ -187,7 +192,6 @@ export default function Header({
                 activeGroupLabel={activeGroupLabel}
                 isActive={isActive}
                 isGroupActive={isGroupActive}
-                onOpenGroup={setDesktopOpenGroup}
                 onToggleGroup={(key) => setDesktopOpenGroup((curr) => (curr === key ? null : key))}
                 onCloseMenu={() => setDesktopOpenGroup(null)}
               />
