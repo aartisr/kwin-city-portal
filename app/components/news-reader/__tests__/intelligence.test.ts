@@ -20,14 +20,14 @@ describe('reader intelligence', () => {
     vi.useRealTimers();
   });
 
-  it('clusters overlapping independent coverage and preserves provenance', () => {
+  it('clusters overlapping coverage without claiming publisher independence', () => {
     const clusters = clusterReaderItems([
       item({ link: 'https://gov.in/a', source: 'Government' }),
       item({ link: 'https://publisher.example/b', source: 'Publisher', provenance: 'direct-publisher', sourceTier: 'primary' }),
     ]);
     expect(clusters).toHaveLength(1);
     expect(clusters[0].sourceCount).toBe(2);
-    expect(clusters[0].whyThisMatters.join(' ')).toContain('independent sources');
+    expect(clusters[0].whyThisMatters.join(' ')).toContain('distinct publisher domains');
   });
 
   it('prioritizes direct institutional evidence for significance', () => {

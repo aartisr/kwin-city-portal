@@ -33,6 +33,23 @@ export type ReaderCluster = {
   score: number;
 };
 
+export type IntelligenceLens = 'resident' | 'investor' | 'government' | 'researcher';
+
+export type EvidenceStatus = 'confirmed-primary' | 'publisher-reported' | 'corroborated' | 'discovery-only';
+
+export type IntelligenceBrief = {
+  whatHappened: string;
+  whyItMatters: string[];
+  evidenceStatus: EvidenceStatus;
+  evidenceLabel: string;
+  known: string[];
+  unknown: string[];
+  timeline: Array<{ at: string | null; label: string; source: string; provenance: ReaderProvenance }>;
+  lensCopy: Record<IntelligenceLens, string>;
+  questions: Array<{ id: string; question: string; answer: string }>;
+  generatedAt: string;
+};
+
 export type ReaderSourceTier = 'primary' | 'official' | 'contextual';
 
 export type ReaderResponse = {

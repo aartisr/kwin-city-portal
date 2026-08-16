@@ -23,6 +23,7 @@ import { formatDate, getDomain, isInTimeWindow } from '@/components/news-reader/
 import { LAST_READER_STATE_STORAGE_KEY } from '@/components/news-reader/constants';
 import { clusterReaderItems, rankKwinClusters, rankRegionalClusters, sortReaderClusters } from '@/components/news-reader/intelligence';
 import { useReaderLibrary } from '@/components/news-reader/useReaderLibrary';
+import { SavedBriefsPanel } from '@/components/news-reader/SavedBriefsPanel';
 
 function normalizeTrendingText(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
@@ -213,7 +214,7 @@ export default function NewsReaderExperience() {
     const handleKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setSelectedItem(null);
       else if (event.key.toLowerCase() === 's' && !event.metaKey && !event.ctrlKey) {
-        event.preventDefault(); library.toggleSaved(selectedItem.link);
+        event.preventDefault(); library.toggleSaved(selectedItem.link, selectedItem);
       } else if (event.key.toLowerCase() === 'm' && !event.metaKey && !event.ctrlKey) {
         event.preventDefault(); library.toggleMutedDomain(getDomain(selectedItem.originalLink || selectedItem.link)); setSelectedItem(null);
       } else if (event.key === 'j' || event.key === 'k') {
@@ -404,11 +405,12 @@ export default function NewsReaderExperience() {
               <div className="flex items-center gap-2">
                 <span className="text-xs text-slate-500">{library.saved.length} saved · {library.read.length} read</span>
                 <button onClick={() => {
-                  const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), saved: library.saved, clusters }, null, 2)], { type: 'application/json' });
+                  const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), savedBriefs: library.savedBriefs, followedTopics: library.followedTopics, clusters }, null, 2)], { type: 'application/json' });
                   const url = URL.createObjectURL(blob); const anchor = document.createElement('a'); anchor.href = url; anchor.download = 'kwin-reader-export.json'; anchor.click(); URL.revokeObjectURL(url);
                 }} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold hover:bg-slate-100">Export workspace</button>
               </div>
             </div>
+            <SavedBriefsPanel briefs={library.savedBriefs} onRemove={library.toggleSaved} />
             </>
           ) : null}
 
@@ -473,7 +475,16 @@ export default function NewsReaderExperience() {
       </section>
 
       {selectedItem ? (
-        <ReaderDrawer item={selectedItem} locale={locale} l={l} onClose={() => setSelectedItem(null)} />
+        <ReaderDrawer
+          item={selectedItem}
+          locale={locale}
+          l={l}
+          onClose={() => setSelectedItem(null)}
+          isSaved={library.saved.includes(selectedItem.link)}
+          onToggleSaved={library.toggleSaved}
+          followedTopics={library.followedTopics}
+          onToggleFollowedTopic={library.toggleFollowedTopic}
+        />
       ) : null}
     </main>
   );

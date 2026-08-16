@@ -42,7 +42,7 @@ export function explainReaderRank(item: ReaderItem, clusterSize = 1) {
   else if (item.provenance === 'source-filtered-discovery') reasons.push('source-filtered discovery signal');
   else reasons.push('contextual monitoring signal');
   if (item.publishedAt && Date.now() - new Date(item.publishedAt).getTime() < 86_400_000) reasons.push('published in the last 24 hours');
-  if (clusterSize > 1) reasons.push(`${clusterSize} independent sources cover this story`);
+  if (clusterSize > 1) reasons.push(`${clusterSize} distinct publisher domains cover this story`);
   return reasons;
 }
 

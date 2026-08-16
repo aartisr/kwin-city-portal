@@ -1,5 +1,9 @@
+'use client';
+
+import { useEffect, useRef } from 'react';
 import { formatDate, getDomain } from './utils';
 import type { ReaderCluster, ReaderItem, ReaderLocale, ReaderText } from './types';
+import { IntelligenceBriefPanel } from './IntelligenceBriefPanel';
 
 function getSourceTierCopy(
   l: ReaderText,
@@ -30,10 +34,40 @@ type ReaderDrawerProps = {
   locale: ReaderLocale;
   l: ReaderText;
   onClose: () => void;
+  isSaved?: boolean;
+  onToggleSaved?: (id: string, item?: ReaderItem) => void;
+  followedTopics?: string[];
+  onToggleFollowedTopic?: (topic: string) => void;
 };
 
-export function ReaderDrawer({ item, locale, l, onClose }: ReaderDrawerProps) {
+export function ReaderDrawer({ item, locale, l, onClose, isSaved = false, onToggleSaved, followedTopics = [], onToggleFollowedTopic }: ReaderDrawerProps) {
   const cluster = (item as ReaderItem & { cluster?: ReaderCluster }).cluster;
+  const followTopic = item.kwinRelevanceReasons?.[0] ?? cluster?.whyThisMatters?.[0];
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    dialogRef.current?.focus();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+      if (event.key !== 'Tab' || !dialogRef.current) return;
+      const focusable = [...dialogRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])')];
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = previousOverflow;
+      previouslyFocused?.focus();
+    };
+  }, [onClose]);
+
   return (
     <>
       <div
@@ -43,6 +77,8 @@ export function ReaderDrawer({ item, locale, l, onClose }: ReaderDrawerProps) {
       />
 
       <div
+        ref={dialogRef}
+        tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-label={item.title}
@@ -91,14 +127,18 @@ export function ReaderDrawer({ item, locale, l, onClose }: ReaderDrawerProps) {
           ) : (
             <>
               <p className="leading-8 text-slate-700">{item.summary}</p>
-              <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+              <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
                 <strong>
-                  {l({ en: 'Full article not available in RSS feed.', kn: 'RSS ಫೀಡ್‌ನಲ್ಲಿ ಸಂಪೂರ್ಣ ಲೇಖನ ಲಭ್ಯವಿಲ್ಲ.', hi: 'RSS फ़ीड में पूरा लेख उपलब्ध नहीं है।', ta: 'RSS ஊட்டத்தில் முழு கட்டுரை கிடைக்கவில்லை.' })}
+                  {l({ en: 'Publisher content boundary.', kn: 'ಪ್ರಕಾಶಕರ ವಿಷಯದ ಮಿತಿ.', hi: 'प्रकाशक सामग्री सीमा।', ta: 'வெளியீட்டாளர் உள்ளடக்க வரம்பு.' })}
                 </strong>{' '}
-                {l({ en: 'Open the original source to read the complete story.', kn: 'ಪೂರ್ಣ ಕಥೆ ಓದಲು ಮೂಲ ಮೂಲವನ್ನು ತೆರೆಯಿರಿ.', hi: 'पूरी कहानी पढ़ने के लिए मूल स्रोत खोलें।', ta: 'முழு செய்தியைப் படிக்க மூலத்தைத் திறக்கவும்.' })}
+                {l({ en: 'The feed did not include the complete article. KWIN does not reconstruct or republish missing publisher text. The intelligence brief below uses only visible feed metadata and source provenance.', kn: 'ಫೀಡ್ ಸಂಪೂರ್ಣ ಲೇಖನವನ್ನು ಒಳಗೊಂಡಿಲ್ಲ. KWIN ಕಾಣೆಯಾದ ಪ್ರಕಾಶಕರ ಪಠ್ಯವನ್ನು ಮರುರಚಿಸುವುದಿಲ್ಲ ಅಥವಾ ಮರುಪ್ರಕಟಿಸುವುದಿಲ್ಲ.', hi: 'फ़ीड में पूरा लेख शामिल नहीं था। KWIN अनुपलब्ध प्रकाशक सामग्री का पुनर्निर्माण या पुनर्प्रकाशन नहीं करता।', ta: 'ஊட்டத்தில் முழுக் கட்டுரை இல்லை. விடுபட்ட வெளியீட்டாளர் உரையை KWIN மீளுருவாக்கவோ மறுபதிப்பிடவோ செய்யாது.' })}
               </div>
             </>
           )}
+
+          <div className="mt-8">
+            <IntelligenceBriefPanel item={item} cluster={cluster} locale={locale} />
+          </div>
 
           <section className="mt-8 border-t border-slate-200 pt-6">
             <p className="text-xs font-bold uppercase tracking-[0.12em] text-slate-500">Why this appears</p>
@@ -109,7 +149,7 @@ export function ReaderDrawer({ item, locale, l, onClose }: ReaderDrawerProps) {
 
           {cluster && cluster.items.length > 1 ? (
             <section className="mt-6 rounded-xl border border-cyan-200 bg-cyan-50 p-4">
-              <p className="text-xs font-bold uppercase tracking-[0.12em] text-cyan-900">Compare coverage · {cluster.sourceCount} sources</p>
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-cyan-900">Compare coverage · {cluster.sourceCount} distinct publisher domains</p>
               <div className="mt-3 space-y-3">
                 {cluster.items.map((coverage) => (
                   <a key={coverage.link} href={coverage.originalLink || coverage.link} target="_blank" rel="noreferrer" className="block rounded-lg bg-white p-3 text-sm shadow-sm hover:bg-slate-50">
@@ -129,6 +169,17 @@ export function ReaderDrawer({ item, locale, l, onClose }: ReaderDrawerProps) {
             ·{' '}
             · <span className="font-semibold">{item.source}</span>
           </span>
+          <div className="flex flex-wrap justify-end gap-2">
+          {followTopic && onToggleFollowedTopic ? (
+            <button type="button" onClick={() => onToggleFollowedTopic(followTopic)} className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:border-cyan-500">
+              {followedTopics.includes(followTopic) ? 'Following topic' : 'Follow topic'}
+            </button>
+          ) : null}
+          {onToggleSaved ? (
+            <button type="button" onClick={() => onToggleSaved(item.link, item)} className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:border-cyan-500">
+              {isSaved ? 'Saved offline' : 'Save brief'}
+            </button>
+          ) : null}
           <a
             href={item.link}
             target="_blank"
@@ -137,6 +188,7 @@ export function ReaderDrawer({ item, locale, l, onClose }: ReaderDrawerProps) {
           >
             {l({ en: 'Read full article at', kn: 'ಪೂರ್ಣ ಲೇಖನ ಓದಿ:', hi: 'पूरा लेख पढ़ें:', ta: 'முழு கட்டுரையைப் படிக்க:' })} {getDomain(item.link)} ↗
           </a>
+          </div>
         </div>
       </div>
     </>
