@@ -64,8 +64,6 @@ test.describe('Phase 4: Form & Modal Accessibility', () => {
     
     // Verify search input has label
     const searchInput = page.locator('input[type="search"]').first();
-    const searchLabel = page.locator('label').filter({ has: searchInput });
-    
     expect(await searchInput.isVisible()).toBeTruthy();
     
     // Test keyboard navigation (arrow up/down, enter, escape)
@@ -311,8 +309,6 @@ test.describe('Form Accessibility', () => {
           const input = inputs.nth(i);
           const id = await input.getAttribute('id');
           const type = await input.getAttribute('type');
-          const placeholder = await input.getAttribute('placeholder');
-
           // Should have associated label OR aria-label
           let hasLabel = false;
           if (id) {

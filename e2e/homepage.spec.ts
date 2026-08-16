@@ -110,7 +110,7 @@ test.describe('Homepage - Navigation & Discovery', () => {
 
     // Test keyboard navigation
     await page.keyboard.press('Tab');
-    let focusedElement = await page.evaluate(() =>
+    const focusedElement = await page.evaluate(() =>
       document.activeElement?.getAttribute('role')
     );
     expect(['link', 'button', null]).toContain(focusedElement);

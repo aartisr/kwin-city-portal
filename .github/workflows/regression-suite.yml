@@ -14,6 +14,20 @@ jobs:
   regression:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: kwin_migration_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d kwin_migration_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
 
     steps:
       - name: Checkout
@@ -31,8 +45,13 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Critical lint gate
-        run: npm run lint:critical
+      - name: Full zero-warning lint gate
+        run: npm run lint
+
+      - name: Execute migration chain against ephemeral PostgreSQL
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/kwin_migration_test
+        run: npm run db:test:migrations
 
       - name: Verify Vercel deployment configuration
         run: npm run deploy:verify-vercel-config
@@ -55,6 +74,16 @@ jobs:
         env:
           PW_TEST_HTML_REPORT_OPEN: never
         run: npm run e2e:a11y-smoke
+
+      - name: Mobile critical-route contracts
+        env:
+          PW_TEST_HTML_REPORT_OPEN: never
+        run: npm run e2e:mobile-contract
+
+      - name: Author identity and PWA consent contracts
+        env:
+          PW_TEST_HTML_REPORT_OPEN: never
+        run: npx playwright test e2e/identity-and-pwa-contracts.spec.ts --project=chromium --reporter=line --workers=1
 
       - name: Upload coverage report
         if: always()
