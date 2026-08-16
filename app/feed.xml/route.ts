@@ -36,6 +36,7 @@ export async function GET() {
   <pubDate>${new Date(entry.date).toUTCString()}</pubDate>
   <description><![CDATA[${description}]]></description>
   <category>${escapeXml(entry.category)}</category>
+  <dc:creator>Aarti S Ravikumar</dc:creator>
 </item>`;
     })
     .join('\n');
@@ -47,6 +48,7 @@ export async function GET() {
   <pubDate>${new Date(agencyRun.dailyArticle.publishedAt).toUTCString()}</pubDate>
   <description><![CDATA[<p>${escapeXml(agencyRun.dailyArticle.dek)}</p><p><strong>Primary keyword:</strong> ${escapeXml(agencyRun.dailyBrief.primaryKeyword)}</p><p><strong>Evidence:</strong> ${escapeXml(agencyRun.dailyArticle.evidenceStatus)}</p>]]></description>
   <category>seo-agency</category>
+  <dc:creator>Aarti S Ravikumar</dc:creator>
 </item>`
     : '';
 
@@ -55,12 +57,16 @@ export async function GET() {
   const lastBuildDate = new Date(Math.max(newestEntryDate, agencyDate)).toUTCString();
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
 <channel>
   <title>KWIN City Updates Feed</title>
   <link>${escapeXml(siteUrl)}</link>
   <description>Official milestones, announcements, and verified updates for KWIN City.</description>
   <language>en-IN</language>
+  <managingEditor>Aarti S Ravikumar</managingEditor>
+  <webMaster>BAJA Associates</webMaster>
+  <dc:creator>Aarti S Ravikumar</dc:creator>
+  <dc:rights>Copyright BAJA Associates</dc:rights>
   <lastBuildDate>${lastBuildDate}</lastBuildDate>
   <atom:link href="${escapeXml(`${siteUrl}/feed.xml`)}" rel="self" type="application/rss+xml" />
   ${agencyItem}

@@ -1,4 +1,5 @@
 import { SITE_CONFIG } from '@/config/site.config';
+import { personReference } from '@/lib/identity';
 
 const SITE_URL = SITE_CONFIG.url;
 const LAST_UPDATED = `${SITE_CONFIG.lastUpdatedISO}T00:00:00+05:30`;
@@ -38,6 +39,8 @@ export function getHomeSchemas() {
     isPartOf: {
       '@id': `${SITE_URL}/#website`,
     },
+    creator: personReference(),
+    author: personReference(),
     about: {
       '@type': 'Thing',
       name: 'KWIN City',

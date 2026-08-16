@@ -5,6 +5,7 @@ import JsonLd from '@/components/JsonLd';
 import SiteFrame from '@/components/SiteFrame';
 import { SITE_CONFIG } from '@/config/site.config';
 import { getUpdateBySlug, getUpdateEntries, getUpdatePath, getUpdateUrl } from '@/lib/updates/content';
+import { legalOwnerSchema, personReference } from '@/lib/identity';
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -123,11 +124,8 @@ export default async function UpdateDetailPage({ params }: PageProps) {
       keywords: entry.tags,
       mainEntityOfPage: pageUrl,
       url: pageUrl,
-      author: {
-        '@type': 'Organization',
-        name: 'KWIN City Research Team',
-        url: SITE_URL,
-      },
+      author: personReference(),
+      copyrightHolder: legalOwnerSchema(),
       publisher: {
         '@type': 'Organization',
         name: 'KWIN City',

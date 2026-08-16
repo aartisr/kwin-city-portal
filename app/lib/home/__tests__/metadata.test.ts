@@ -15,5 +15,7 @@ describe('home/metadata', () => {
     expect(String(metadata.description).length).toBeGreaterThanOrEqual(25);
     expect(String(metadata.description).length).toBeLessThanOrEqual(160);
     expect(metadata.alternates?.canonical).toBe('https://kwin-city.com');
+    expect(metadata.authors).toEqual([{ name: 'Aarti S Ravikumar', url: 'https://kwin-city.com/aarti-s-ravikumar' }]);
+    expect(metadata.creator).toBe('Aarti S Ravikumar');
   });
 });

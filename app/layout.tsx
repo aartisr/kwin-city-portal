@@ -7,6 +7,7 @@ import I18nProvider from "@/lib/i18n/I18nProvider";
 import { SITE_CONFIG } from "@/config/site.config";
 import { getLocaleDefinition, normalizeLocale } from "@/lib/i18n/messages";
 import { Analytics } from "@vercel/analytics/next";
+import { legalOwnerSchema, SITE_IDENTITY, personReference, personSchema } from "@/lib/identity";
 
 const SITE_URL = "https://kwin-city.com";
 const OG_IMAGE = `${SITE_URL}/opengraph-image`;
@@ -48,8 +49,8 @@ export const metadata: Metadata = {
     "STRR corridor",
     "Bengaluru airport city",
   ],
-  authors: [{ name: "KWIN City Research Team", url: SITE_URL }],
-  creator: "KWIN City Portal",
+  authors: [{ name: SITE_IDENTITY.person.name, url: SITE_IDENTITY.person.profileUrl }],
+  creator: SITE_IDENTITY.person.name,
   publisher: "KWIN City",
   category: "Urban Development, Smart Cities, Investment",
   formatDetection: {
@@ -119,10 +120,16 @@ export const metadata: Metadata = {
   other: {
     "ai-policy": `${SITE_URL}/ai.txt`,
     "llms-policy": `${SITE_URL}/llms.txt`,
+    author: SITE_IDENTITY.person.name,
+    "copyright-holder": SITE_IDENTITY.legalOwner.name,
   },
 };
 
 const GLOBAL_DISCOVERY_SCHEMA = [
+  {
+    "@context": "https://schema.org",
+    ...personSchema(),
+  },
   {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -159,7 +166,6 @@ const GLOBAL_DISCOVERY_SCHEMA = [
       "Research and innovation districts",
     ],
     sameAs: [
-      "https://kiadb.karnataka.gov.in/",
       SITE_CONFIG.socialLinks.x,
       SITE_CONFIG.socialLinks.facebook,
       SITE_CONFIG.socialLinks.instagram,
@@ -177,6 +183,9 @@ const GLOBAL_DISCOVERY_SCHEMA = [
     publisher: {
       "@id": `${SITE_URL}/#organization`,
     },
+    creator: personReference(),
+    author: personReference(),
+    copyrightHolder: legalOwnerSchema(),
     potentialAction: {
       "@type": "SearchAction",
       target: {

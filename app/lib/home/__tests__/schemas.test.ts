@@ -26,6 +26,10 @@ describe('home/schemas', () => {
     expect(collectionPage).toBeDefined();
     expect(collectionPage?.hasPart).toContain('https://kwin-city.com/updates');
     expect(collectionPage?.hasPart).toContain('https://kwin-city.com/trust');
+    expect(collectionPage).toMatchObject({
+      author: { '@id': 'https://kwin-city.com/aarti-s-ravikumar#person' },
+      creator: { '@id': 'https://kwin-city.com/aarti-s-ravikumar#person' },
+    });
   });
 
   it('keeps FAQ markup off the homepage because FAQ content lives on /faq', () => {

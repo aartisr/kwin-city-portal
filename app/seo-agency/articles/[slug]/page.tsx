@@ -6,6 +6,7 @@ import SiteFrame from '@/components/SiteFrame';
 import { SITE_CONFIG } from '@/config/site.config';
 import { getSeoAgencyRunByArticleSlug } from '@/lib/seo-agency/store';
 import type { DailyArticle, EvidenceStatus, KwinSeoAgencyRun } from '@/lib/seo-agency/types';
+import { legalOwnerSchema, personReference } from '@/lib/identity';
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -74,11 +75,8 @@ function getSchema(run: KwinSeoAgencyRun) {
       articleSection: run.topic.pillar,
       keywords: [run.dailyBrief.primaryKeyword, ...run.dailyBrief.secondaryKeywords],
       articleBody: article.sections.flatMap((section) => section.paragraphs).join('\n\n'),
-      author: {
-        '@type': 'Organization',
-        name: 'KWIN City SEO Agency',
-        url: `${SITE_URL}/seo-agency`,
-      },
+      author: personReference(),
+      copyrightHolder: legalOwnerSchema(),
       publisher: {
         '@type': 'Organization',
         name: 'KWIN City',

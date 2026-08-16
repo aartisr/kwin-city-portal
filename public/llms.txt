@@ -7,4 +7,9 @@ AI Policy: https://kwin-city.com/ai.txt
 Last Updated: 2026-08-10
 
 Source of truth: this policy is generated dynamically at runtime by app/llms.txt/route.ts.
+Author and creator: Aarti S Ravikumar
+Author profile: https://kwin-city.com/aarti-s-ravikumar
+Author identity reference: https://ai-aarti.com
+Legal and copyright owner: BAJA Associates
+Legal owner URL: https://baja.kwin-city.com
 If this fallback file and runtime output differ, rely on the runtime endpoint.
