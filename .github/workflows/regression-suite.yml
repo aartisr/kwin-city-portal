@@ -83,7 +83,7 @@ jobs:
       - name: Author identity and PWA consent contracts
         env:
           PW_TEST_HTML_REPORT_OPEN: never
-        run: npx playwright test e2e/identity-and-pwa-contracts.spec.ts --project=chromium --reporter=line --workers=1
+        run: npx playwright test e2e/identity-and-pwa-contracts.spec.ts e2e/cognitive-load-contracts.spec.ts --project=chromium --reporter=line --workers=1
 
       - name: Upload coverage report
         if: always()
