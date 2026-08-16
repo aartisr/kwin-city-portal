@@ -10,7 +10,7 @@
 
 - `npm run type-check`: pass
 - `npm run lint`: pass
-- `npm test`: pass (65 files, 282 tests)
+- `npm test`: pass (66 files, 283 tests)
 - `npm run test:coverage`: pass (thresholds met)
 - `npm run build:ci`: pass
 - `npm run e2e:smoke`: pass (45 routes)
@@ -19,6 +19,7 @@
 - Ephemeral PostgreSQL migration execution and atomic-RPC contract: enforced in CI
 - PWA static/service-worker contract: pass
 - Critical mobile layout contracts: enforced across four high-value routes
+- Homepage cognitive-load contract: orientation-first progressive disclosure enforced
 - `npm run quality:verify-doc`: pass
 
 ## Scorecard
@@ -31,7 +32,7 @@
 | Accessibility | 9.2/10 | Automated route-level accessibility gate | Medium |
 | Performance and optimization | 9.1/10 | Production build gate and optimized application assets | Medium |
 | Security | 9.3/10 | Database privilege, migration, CSRF, throttling, and evidence-integrity controls | Medium |
-| Testing and quality gates | 9.9/10 | 282 tests plus executable database, static, build, browser, and live gates | Low |
+| Testing and quality gates | 9.9/10 | 283 tests plus executable database, static, build, browser, and live gates | Low |
 | Error boundaries and recovery | 9.2/10 | Global boundaries, offline recovery, and fail-closed evidence behavior | Medium |
 | Observability and monitoring | 9.1/10 | Structured telemetry and traceable operational evidence | Medium |
 | E2E resilience | 9.8/10 | Canonical 45-route inventory plus identity, consent, accessibility, and mobile contracts | Low |
@@ -56,6 +57,7 @@
 - Added browser contracts for author/legal-owner semantics and permanent PWA install opt-out.
 - Added disposable PostgreSQL 16 CI execution of every migration, including rerun and atomic-RPC behavior.
 - Added non-fragile mobile viewport contracts for the home, news, evidence, and author experiences.
+- Reduced the homepage’s initial decision surface to three common questions and one optional deep-dive control while retaining server-rendered content.
 
 ## Remaining Priorities
 

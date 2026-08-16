@@ -54,7 +54,7 @@
     "release:android": "bash scripts/release-android.sh",
     "quality:gate:static": "npm run lint && npm run type-check && npm run db:verify:migrations && npm run pwa:verify && npm run quality:verify-facts && npm run discovery:verify-signals && npm run sources:verify",
     "quality:gate:test": "npm run test:coverage && npm run build:ci",
-    "quality:gate:browser": "npm run e2e:smoke && npm run e2e:a11y-smoke && npm run e2e:mobile-contract && npx playwright test e2e/identity-and-pwa-contracts.spec.ts --project=chromium --reporter=line --workers=1",
+    "quality:gate:browser": "npm run e2e:smoke && npm run e2e:a11y-smoke && npm run e2e:mobile-contract && npx playwright test e2e/identity-and-pwa-contracts.spec.ts e2e/cognitive-load-contracts.spec.ts --project=chromium --reporter=line --workers=1",
     "quality:gate:live": "npm run operations:verify-current && npm run sources:verify-primary-health",
     "quality:gate": "npm run quality:gate:static && npm run quality:gate:test && npm run quality:gate:browser && npm run quality:gate:live"
   },
