@@ -24,6 +24,32 @@ describe('news-reader/useReaderLibrary', () => {
     });
     expect(result.current.read).toEqual(['story-2']);
     expect(result.current.mutedDomains).toEqual(['example.com']);
+    expect(result.current.followedTopics).toEqual([]);
+    expect(result.current.savedBriefs).toEqual({});
+  });
+
+  it('stores a bounded offline brief snapshot and followed topic without cluster objects', async () => {
+    const { result } = renderHook(() => useReaderLibrary());
+    const story = {
+      title: 'KWIN policy update', link: 'https://example.com/story', summary: 'A policy update.',
+      source: 'Example', sourceFeedUrl: 'https://example.com/rss', sourceTier: 'official' as const,
+      provenance: 'direct-institutional' as const, isKwinRelated: true,
+      authenticity: 'verified-feed' as const, publishedAt: '2026-08-15T10:00:00.000Z',
+    };
+
+    act(() => {
+      result.current.toggleSaved(story.link, story);
+      result.current.toggleFollowedTopic('policy, planning, or regulation');
+    });
+
+    expect(result.current.savedBriefs[story.link]).toMatchObject({ title: story.title, source: story.source });
+    expect(result.current.followedTopics).toEqual(['policy, planning, or regulation']);
+    expect(result.current.savedBriefs[story.link]).not.toHaveProperty('fullContent');
+
+    await waitFor(() => {
+      const persisted = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      expect(persisted.savedBriefs[story.link].title).toBe(story.title);
+    });
   });
 
   it('toggles saved and muted domains and marks read once', async () => {

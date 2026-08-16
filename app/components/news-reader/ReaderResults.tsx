@@ -35,7 +35,7 @@ type ReaderResultsProps = {
   onSelectItem: (item: ReaderItem) => void;
   savedIds?: string[];
   readIds?: string[];
-  onToggleSaved?: (id: string) => void;
+  onToggleSaved?: (id: string, item?: ReaderItem) => void;
   onToggleMutedDomain?: (domain: string) => void;
 };
 
@@ -119,7 +119,7 @@ export function ReaderResults({
                 {l({ en: 'Read in Reader', kn: 'ರೀಡರ್‌ನಲ್ಲಿ ಓದಿ', hi: 'रीडर में पढ़ें', ta: 'ரீடரில் படிக்க' })}
               </button>
               <div className="flex items-center gap-2">
-                <button onClick={() => onToggleSaved?.(item.link)} className="text-xs font-semibold text-slate-600 hover:text-slate-950">
+                <button onClick={() => onToggleSaved?.(item.link, item)} className="text-xs font-semibold text-slate-600 hover:text-slate-950">
                   {savedIds.includes(item.link) ? 'Saved' : 'Save'}
                 </button>
                 <button onClick={() => onToggleMutedDomain?.(new URL(item.originalLink || item.link).hostname.replace(/^www\./, ''))} className="text-xs font-semibold text-slate-500 hover:text-slate-950">
