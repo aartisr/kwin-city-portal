@@ -38,7 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
     title: pickByLocale(locale, {
-      en: 'Why North Bengaluru | Airport, STRR, Growth Corridor & Regional Advantage',
+      en: 'Why North Bengaluru: Airport, STRR & Growth',
       kn: 'ಉತ್ತರ ಬೆಂಗಳೂರು ಯಾಕೆ | ಏರ್‌ಪೋರ್ಟ್ ಸಿಟಿ · STRR ಕಾರಿಡಾರ್ · ವೇಗವಾಗಿ ಬೆಳೆಯುತ್ತಿರುವ ಪ್ರದೇಶ',
       hi: 'नॉर्थ बेंगलुरु क्यों | एयरपोर्ट सिटी · STRR कॉरिडोर · सबसे तेज़ी से बढ़ता क्षेत्र',
     }),

@@ -19,9 +19,13 @@ export function LoadingExperience() {
             </div>
 
             <p className="eyebrow mb-3 text-amber-700">KWIN City Reader</p>
-            <h1 className="max-w-xl text-balance text-3xl font-black tracking-[-0.04em] text-slate-950 sm:text-5xl">
+            <p
+              role="status"
+              aria-live="polite"
+              className="max-w-xl text-balance text-3xl font-black tracking-[-0.04em] text-slate-950 sm:text-5xl"
+            >
               Quietly assembling your next set of source-linked stories.
-            </h1>
+            </p>
             <p className="mt-4 max-w-2xl text-pretty text-base leading-8 text-slate-600 sm:text-lg">
               The reader is balancing official, primary, and discovery signals so the first frame feels deliberate, calm, and useful.
             </p>

@@ -60,7 +60,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const url = getUpdateUrl(slug);
-  const title = `${entry.title} | KWIN City Updates`;
+  // The root metadata template appends "| KWIN City" to page titles.
+  // Keeping the update headline here preserves a unique, concise title tag.
+  const title = entry.title;
   const description = entry.summary;
   const imageUrl = `${SITE_URL}/updates/${slug}/opengraph-image`;
 

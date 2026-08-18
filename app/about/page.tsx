@@ -18,7 +18,7 @@ const breadcrumb = {
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   const title = pickByLocale(locale, {
-    en: 'About KWIN City | Project Overview, Scale, Vision & Verification Boundaries',
+    en: 'About KWIN City: Vision, Scale & Evidence',
     kn: 'KWIN City ಬಗ್ಗೆ | ಜ್ಞಾನ · ಕ್ಷೇಮ · ನವೀನತೆ ಟೌನ್‌ಶಿಪ್',
     hi: 'KWIN City के बारे में | ज्ञान · कल्याण · नवाचार टाउनशिप',
     ta: 'KWIN City பற்றி | அறிவு · நல்வாழ்வு · புதுமை நகரம்',
