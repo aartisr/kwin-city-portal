@@ -8,7 +8,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
     title: pickByLocale(locale, {
-      en: 'KWIN Data Insights Lab | North Bengaluru Charts, Open Data & Regional Analytics',
+      en: 'Data Insights: North Bengaluru Open Data',
       kn: 'ಡೇಟಾ ಒಳನೋಟ ಪ್ರಯೋಗಾಲಯ | ಲೈವ್ ಚಾರ್ಟ್‌ಗಳು · ಪ್ರಾದೇಶಿಕ ವಿಶ್ಲೇಷಣೆ · ಮುಕ್ತ ಡೇಟಾ',
       hi: 'डेटा इनसाइट्स लैब | लाइव चार्ट · क्षेत्रीय विश्लेषण · ओपन डेटा',
       ta: 'தரவு நுண்ணறிவு ஆய்வகம் | நேரடி வரைபடங்கள் · பிராந்திய பகுப்பாய்வு · திறந்த தரவு',

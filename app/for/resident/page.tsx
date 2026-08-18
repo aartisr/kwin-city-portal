@@ -6,7 +6,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
   title: pickByLocale(locale, {
-    en: 'For Residents | KWIN City — Livability, Healthcare, Green Cover & Connectivity',
+    en: 'Resident Guide: Livability & Connectivity',
     kn: 'ನಿವಾಸಿಗಳಿಗಾಗಿ | KWIN City — ವಾಸಸ್ಥಿತಿ, ಆರೋಗ್ಯ, ಹಸಿರು ಆವರಣ ಮತ್ತು ಸಂಪರ್ಕತೆ',
     hi: 'निवासियों के लिए | KWIN City — जीवन गुणवत्ता, स्वास्थ्य, ग्रीन कवर और कनेक्टिविटी',
   }),

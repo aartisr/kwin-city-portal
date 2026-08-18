@@ -28,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
     title: pickByLocale(locale, {
-      en: "Contact KWIN City | Investor, Research, Media and Resident Enquiries",
+      en: "Contact: Investors, Research & Media",
       kn: "ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ",
       hi: "संपर्क करें",
     }),

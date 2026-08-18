@@ -8,7 +8,7 @@ import { getServerLocale, pickByLocale } from '@/lib/i18n/server';
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
-    title: pickByLocale(locale, { en: 'KWIN City Updates | Milestones, Official Signals, Portal Releases & Project Changes', kn: 'KWIN City ನವೀಕರಣಗಳು — ಮೈಲಿಗಲ್ಲುಗಳು ಮತ್ತು ಘೋಷಣೆಗಳು', hi: 'KWIN City अपडेट्स — माइलस्टोन और घोषणाएँ' }),
+    title: pickByLocale(locale, { en: 'Updates: Milestones & Official Signals', kn: 'KWIN City ನವೀಕರಣಗಳು — ಮೈಲಿಗಲ್ಲುಗಳು ಮತ್ತು ಘೋಷಣೆಗಳು', hi: 'KWIN City अपडेट्स — माइलस्टोन और घोषणाएँ' }),
     description: pickByLocale(locale, {
       en: 'Browse KWIN City milestones, official signals, portal releases, and project changes with transparent verification labels and permanent update URLs.',
       kn: 'KWIN Cityಗಾಗಿ ಅಧಿಕೃತ ಮೈಲಿಗಲ್ಲುಗಳು, ಪೋರ್ಟಲ್ ಸುಧಾರಣೆಗಳು ಮತ್ತು ಘೋಷಣೆಗಳು.',
