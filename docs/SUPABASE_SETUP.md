@@ -80,6 +80,15 @@ Or set these environment variables in your deployment platform:
 - **Railway**: Project settings → Variables
 - **Render**: Environment → Environment Variables
 
+### Production heartbeat
+
+The Vercel deployment includes a protected, daily `GET /api/cron/supabase-heartbeat`
+job. It performs one read-only query against `seo_agency_runs`; this provides a
+small, legitimate activity signal for Free-plan projects and reports configuration
+errors in Vercel logs. It requires `KWIN_PERSISTENCE_PROVIDER=supabase`,
+`KWIN_SUPABASE_URL`, `KWIN_SUPABASE_SERVICE_ROLE_KEY`, and a `CRON_SECRET` in
+the Vercel **Production** environment. Redeploy after adding or changing them.
+
 ### Step 5: (Optional) Seed Initial Data
 
 The schema file includes seed posts. If you want to add more data or different seed data:

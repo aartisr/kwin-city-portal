@@ -5,6 +5,10 @@
     {
       "path": "/api/cron/kwin-seo-agency",
       "schedule": "11 3 * * *"
+    },
+    {
+      "path": "/api/cron/supabase-heartbeat",
+      "schedule": "41 15 * * *"
     }
   ]
 }
