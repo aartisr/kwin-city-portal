@@ -48,6 +48,27 @@ Published URL:
 
 - `https://aartisr.github.io/kwin-city-portal/`
 
+## IndexNow
+
+After each GitHub Pages deployment, `.github/workflows/deploy-github-pages.yml`
+submits the published `sitemap.xml` to IndexNow. The Pages artifact includes the
+required key file at:
+
+- `https://aartisr.github.io/kwin-city-portal/57AA00BD-4FE7-48FB-932C-A0EBDB93354B.txt`
+
+The production site continues to submit its own sitemap under `kwin-city.com`.
+IndexNow verification is host-specific, so these are intentionally separate
+submissions.
+
+### GitHub Wiki pages
+
+GitHub Wiki URLs are served from `github.com`, not this repository's
+`aartisr.github.io` host. The repository cannot place an IndexNow verification
+file at the `github.com` host, so it cannot directly submit GitHub Wiki URLs to
+IndexNow. Keep wiki pages discoverable through internal links and their GitHub
+repository metadata; mirror any pages that require IndexNow notifications into
+the `github-pages/` hub under the `aartisr.github.io` host.
+
 ## Vercel Compatibility
 
 This hub is standalone and does not change Next.js runtime paths or `vercel.json` behavior.

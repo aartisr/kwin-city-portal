@@ -3,11 +3,13 @@ import { resolve } from 'node:path';
 
 const SITE_URL = process.env.SITE_URL ?? 'https://kwin-city.com';
 const SITE_ORIGIN = new URL(SITE_URL).origin;
+const SITE_BASE_URL = SITE_URL.replace(/\/$/, '');
 const HOST = new URL(SITE_ORIGIN).host;
-const SITEMAP_URL = process.env.INDEXNOW_SITEMAP_URL ?? `${SITE_ORIGIN}/sitemap.xml`;
+const SITEMAP_URL = process.env.INDEXNOW_SITEMAP_URL ?? `${SITE_BASE_URL}/sitemap.xml`;
 const ENDPOINT = process.env.INDEXNOW_ENDPOINT ?? 'https://api.indexnow.org/indexnow';
 const KEY = process.env.INDEXNOW_KEY ?? '57AA00BD-4FE7-48FB-932C-A0EBDB93354B';
-const KEY_LOCATION = process.env.INDEXNOW_KEY_LOCATION ?? `${SITE_ORIGIN}/${KEY}.txt`;
+const KEY_LOCATION = process.env.INDEXNOW_KEY_LOCATION ?? `${SITE_BASE_URL}/${KEY}.txt`;
+const KEY_FILE_DIRECTORY = process.env.INDEXNOW_KEY_FILE_DIRECTORY ?? 'public';
 const DRY_RUN = process.env.INDEXNOW_DRY_RUN === '1';
 
 function parseSitemapUrls(xml) {
@@ -21,13 +23,13 @@ function parseSitemapUrls(xml) {
 }
 
 function verifyLocalKeyFile() {
-  const keyFile = resolve(process.cwd(), 'public', `${KEY}.txt`);
+  const keyFile = resolve(process.cwd(), KEY_FILE_DIRECTORY, `${KEY}.txt`);
   if (!existsSync(keyFile)) {
-    throw new Error(`Missing IndexNow verification file: public/${KEY}.txt`);
+    throw new Error(`Missing IndexNow verification file: ${KEY_FILE_DIRECTORY}/${KEY}.txt`);
   }
 
   if (readFileSync(keyFile, 'utf8').trim() !== KEY) {
-    throw new Error(`public/${KEY}.txt must contain exactly the IndexNow key.`);
+    throw new Error(`${KEY_FILE_DIRECTORY}/${KEY}.txt must contain exactly the IndexNow key.`);
   }
 }
 
