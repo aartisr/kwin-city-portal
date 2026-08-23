@@ -47,6 +47,12 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+      - name: Submit GitHub Pages sitemap to IndexNow
+        env:
+          SITE_URL: ${{ steps.deployment.outputs.page_url }}
+          INDEXNOW_KEY_FILE_DIRECTORY: github-pages
+        run: npm run indexnow:submit
+
       - name: Verify published discovery assets
         env:
           PAGES_URL: ${{ steps.deployment.outputs.page_url }}
