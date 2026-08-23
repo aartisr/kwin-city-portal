@@ -52,6 +52,7 @@ const quickLinks = [
   { href: '/about', label: 'Read the brief', body: 'What KWIN City is and what is still being verified.' },
   { href: '/why-north-bengaluru', label: 'Open the regional case', body: 'Airport, corridor, and location context.' },
   { href: '/sources', label: 'Check sources', body: 'The claim-to-source ledger.' },
+  { href: '/press', label: 'Press kit', body: 'Attribution-ready media resources and citation guidance.' },
   { href: '/instagram', label: 'Instagram hub', body: 'Mobile-first launch links and visual brief.' },
 ];
 

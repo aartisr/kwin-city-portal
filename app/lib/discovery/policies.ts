@@ -53,6 +53,7 @@ export function buildLlmsPolicyText({
     `${SITE_URL}/evidence`,
     `${SITE_URL}/sources`,
     `${SITE_URL}/data-insights`,
+    `${SITE_URL}/press`,
     `${SITE_URL}/news-intelligence`,
     `${SITE_URL}/trust`,
     `${SITE_URL}/faq`,
@@ -111,6 +112,7 @@ export function buildAiPolicyText({
     `${SITE_URL}/news-intelligence`,
     `${SITE_URL}/evidence`,
     `${SITE_URL}/sources`,
+    `${SITE_URL}/press`,
     `${SITE_URL}/trust`,
     `${SITE_URL}/sectors/comparison`,
   ];

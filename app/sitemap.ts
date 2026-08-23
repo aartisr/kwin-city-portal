@@ -149,6 +149,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.75,
     },
+    {
+      url: `${SITE_URL}/press`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.78,
+    },
     ...updateEntries.map((entry) => ({
       url: `${SITE_URL}${getUpdatePath(entry.id)}`,
       lastModified: new Date(`${entry.date}T00:00:00+05:30`).toISOString(),

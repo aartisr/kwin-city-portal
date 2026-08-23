@@ -110,6 +110,15 @@ const PAGES: SearchEntry[] = [
     tags: ['share', 'social', 'brief', 'launch carousel', 'instagram'],
   },
   {
+    id: 'page-press',
+    title: 'Press Kit',
+    description: 'Citation-ready media resources, attribution guidance, and source-linked editorial assets.',
+    category: 'Page',
+    href: '/press',
+    icon: '🧾',
+    tags: ['press', 'media kit', 'journalist', 'citations', 'attribution', 'editorial'],
+  },
+  {
     id: 'page-for',
     title: 'Audience Hubs',
     description: 'Tailored content pathways for investors, residents, researchers, journalists, and citizens.',
