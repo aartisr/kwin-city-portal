@@ -16,6 +16,7 @@ Complete Stable-Route Directory: https://aartisr.github.io/kwin-city-portal/main
 - https://kwin-city.com/sources
 - https://kwin-city.com/trust
 - https://kwin-city.com/data-insights
+- https://kwin-city.com/press
 - https://kwin-city.com/updates
 - https://kwin-city.com/news-intelligence
 - https://kwin-city.com/faq

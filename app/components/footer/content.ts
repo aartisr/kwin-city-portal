@@ -59,6 +59,16 @@ export function buildFooterContent(locale: Locale): FooterContentModel {
       }),
       accent: true,
     },
+    {
+      href: '/press',
+      label: l({ en: 'Press Kit', kn: 'ಪ್ರೆಸ್ ಕಿಟ್', hi: 'प्रेस किट', ta: 'பிரஸ் கிட்' }),
+      desc: l({
+        en: 'Editorial citation guidance and media-ready source links.',
+        kn: 'ಸಂಪಾದಕೀಯ ಉಲ್ಲೇಖ ಮಾರ್ಗದರ್ಶಿ ಮತ್ತು ಮಾಧ್ಯಮಕ್ಕೆ ಸಿದ್ಧ ಮೂಲ ಲಿಂಕ್‌ಗಳು.',
+        hi: 'संपादकीय उद्धरण मार्गदर्शन और मीडिया-तैयार स्रोत लिंक।',
+        ta: 'தொகுப்பாசிரியர் மேற்கோள் வழிகாட்டி மற்றும் ஊடகத் தயாரான மூல இணைப்புகள்.',
+      }),
+    },
   ];
 
   const signalCards: FooterSignalCard[] = [
@@ -137,6 +147,7 @@ export function buildFooterContent(locale: Locale): FooterContentModel {
         { href: '/news-intelligence', label: t('header.items./news-intelligence.label') },
         { href: '/news-reader', label: t('header.items./news-reader.label') },
         { href: '/share', label: l({ en: 'Share Kit', kn: 'ಹಂಚಿಕೆ ಕಿಟ್', hi: 'शेयर किट', ta: 'பகிர்வு கிட்' }), accent: true },
+        { href: '/press', label: l({ en: 'Press Kit', kn: 'ಪ್ರೆಸ್ ಕಿಟ್', hi: 'प्रेस किट', ta: 'பிரஸ் கிட்' }) },
         { href: '/instagram', label: l({ en: 'Instagram Hub', kn: 'Instagram ಹಬ್', hi: 'Instagram हब', ta: 'Instagram மையம்' }) },
         { href: '/downloads', label: t('header.items./downloads.label') },
         { href: '/contact', label: t('common.contact') },
