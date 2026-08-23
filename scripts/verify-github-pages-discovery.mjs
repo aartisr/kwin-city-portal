@@ -20,7 +20,7 @@ const VALID_PRIMARY_PATHS = new Set([
   '/updates', '/news-intelligence', '/faq', '/region-map', '/sectors/comparison',
   '/why-north-bengaluru', '/sustainability', '/search', '/sitemap.xml', '/feed.xml',
   '/llms.txt', '/robots.txt', '/ai.txt', '/opensearch.xml', '/sectors', '/news-reader',
-  '/seo-agency', '/updates/change-tracker', '/updates/regulatory-news',
+  '/seo-agency', '/press', '/updates/change-tracker', '/updates/regulatory-news',
   '/updates/satellite-tracker', '/updates/update-2025-12-phase1-infra',
   '/updates/update-2024-12-kiadb-approvals', '/updates/update-2024-10-inauguration',
   '/instagram', '/share', '/download', '/downloads', '/for', '/for/investor',
