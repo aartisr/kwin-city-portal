@@ -69,12 +69,12 @@ async function run() {
   });
   const responseBody = (await response.text()).trim();
 
-  if (response.status !== 200) {
+  if (response.status !== 200 && response.status !== 202) {
     const detail = responseBody ? ` — ${responseBody}` : '';
     throw new Error(`IndexNow submission failed: HTTP ${response.status}${detail}`);
   }
 
-  console.log(`IndexNow submission succeeded: HTTP 200 accepted ${urlList.length} URL(s).`);
+  console.log(`IndexNow submission accepted: HTTP ${response.status} for ${urlList.length} URL(s).`);
 }
 
 run().catch((error) => {
