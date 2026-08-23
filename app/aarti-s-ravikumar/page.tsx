@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import JsonLd from '@/components/JsonLd';
 import SiteFrame from '@/components/SiteFrame';
+import RiskCheckForm from '@/components/value-add/RiskCheckForm';
 import { SITE_CONFIG } from '@/config/site.config';
 import { SITE_IDENTITY, personReference, personSchema } from '@/lib/identity';
+import { INTERACTIVE_APPLICATIONS } from '@/lib/tools/web-application-schema';
 
 const PROFILE = SITE_IDENTITY.person.profileUrl;
 const UPDATED = `${SITE_CONFIG.lastUpdatedISO}T00:00:00+05:30`;
@@ -51,13 +53,23 @@ const schema = {
   description: SITE_IDENTITY.person.description,
   dateModified: UPDATED,
   mainEntity: personSchema(),
-  hasPart: WORK.map((work) => ({
-    '@type': 'CreativeWork',
-    name: work.title,
-    description: work.description,
-    url: `${SITE_CONFIG.url}${work.href}`,
-    creator: personReference(),
-  })),
+  hasPart: [
+    ...WORK.map((work) => ({
+      '@type': 'CreativeWork',
+      name: work.title,
+      description: work.description,
+      url: `${SITE_CONFIG.url}${work.href}`,
+      creator: personReference(),
+    })),
+    ...INTERACTIVE_APPLICATIONS.map((application) => ({
+      '@type': 'WebApplication',
+      name: application.name,
+      description: application.features.join(', '),
+      applicationCategory: application.category,
+      url: `${SITE_CONFIG.url}${application.path}`,
+      creator: personReference(),
+    })),
+  ],
 };
 
 export default function AartiProfilePage() {
@@ -89,6 +101,26 @@ export default function AartiProfilePage() {
                   <span className="mt-4 inline-block text-xs font-black uppercase tracking-wide text-cyan-800">Explore work →</span>
                 </Link>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="container mt-8 max-w-5xl" aria-labelledby="live-demo-title">
+          <div className="border-y border-cyan-200 bg-cyan-50 px-6 py-8 sm:px-10 sm:py-10">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-cyan-800">Live artifact demo</p>
+                <h2 id="live-demo-title" className="mt-2 text-3xl font-black tracking-[-0.04em] text-slate-950">Run a KWIN Risk Check</h2>
+                <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-700">
+                  This is the working software, embedded here for a quick evaluation. Use the full tool for a dedicated due-diligence workflow.
+                </p>
+              </div>
+              <Link href="/tools/risk-check" className="rounded-xl border border-cyan-800 bg-white px-4 py-2.5 text-sm font-bold text-cyan-950 hover:bg-cyan-100">
+                Open full tool
+              </Link>
+            </div>
+            <div className="mt-7">
+              <RiskCheckForm />
             </div>
           </div>
         </section>
