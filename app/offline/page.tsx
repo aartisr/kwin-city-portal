@@ -23,7 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function OfflinePage() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 bg-[linear-gradient(150deg,#040714_0%,#0D1640_50%,#07131F_100%)] text-white">
+    <main id="main-content" className="relative isolate flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 bg-[linear-gradient(150deg,#040714_0%,#0D1640_50%,#07131F_100%)] text-white">
       {/* Top ambient glow */}
       <div
         aria-hidden="true"
@@ -72,6 +72,6 @@ export default function OfflinePage() {
 
         <ReloadButton />
       </div>
-    </div>
+    </main>
   );
 }
