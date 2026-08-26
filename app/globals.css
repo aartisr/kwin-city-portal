@@ -462,6 +462,16 @@ a:hover { color: #1D4ED8; }
   background: rgba(255,255,255,0.08);
 }
 
+.footer-disclosure[open] .footer-disclosure-icon {
+  transform: rotate(45deg);
+}
+
+@media (min-width: 768px) {
+  .footer-disclosure:not([open]) > div {
+    display: block;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-orb-a,
   .hero-orb-b,
@@ -512,6 +522,48 @@ body {
   overflow-x: hidden;
 }
 
+/* Route-level resilience: long translated labels, media, charts, and tables
+   stay within their parent instead of forcing a horizontal page scroll. */
+main,
+section,
+article,
+nav,
+aside {
+  min-width: 0;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  max-inline-size: 100%;
+}
+
+input,
+select,
+textarea {
+  max-inline-size: 100%;
+}
+
+h1,
+h2,
+h3,
+p,
+li,
+td,
+th,
+a,
+button,
+label {
+  overflow-wrap: break-word;
+}
+
+:focus-visible {
+  outline: 3px solid var(--kwin-gold);
+  outline-offset: 3px;
+}
+
 /* Minimum 44px touch target for interactive elements */
 .btn {
   min-height: 44px;
@@ -521,6 +573,17 @@ body {
 @media (max-width: 360px) {
   h1 { font-size: 1.875rem; }
   h2 { font-size: 1.5rem; }
+}
+
+@media (max-width: 639px) {
+  .container {
+    padding-inline: 1rem;
+  }
+
+  .card,
+  .card-dark {
+    padding: 1.25rem;
+  }
 }
 
 /* === ACCESSIBILITY === */

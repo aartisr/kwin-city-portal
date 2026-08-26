@@ -808,11 +808,11 @@ export default function EnhancedRegionMap() {
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-3"
+            className="w-[calc(100%-4px)] min-w-0 max-w-full lg:w-auto lg:col-span-3"
           >
             <div
               ref={mapContainerRef}
-              className="relative h-[640px] w-full overflow-hidden rounded-3xl border-2 border-slate-200 shadow-[0_20px_50px_rgba(15,23,42,0.12)]"
+              className="relative box-border h-[640px] w-full max-w-full overflow-hidden rounded-3xl border-2 border-slate-200 shadow-[0_20px_50px_rgba(15,23,42,0.12)]"
             />
           </motion.div>
         </div>
