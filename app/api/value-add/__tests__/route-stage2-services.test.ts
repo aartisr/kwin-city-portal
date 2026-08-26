@@ -172,8 +172,8 @@ describe('value-add stage2 route coverage', () => {
       json: vi.fn().mockResolvedValue({
         name: 'Aarti',
         email: 'aarti@example.com',
-        role: 'investor',
-        requirement: 'Looking for 40-60 acre industrial land near corridor link.',
+        role: 'institution',
+        requirement: 'Looking for a research and training campus near corridor link.',
         budgetBand: 'INR 20Cr-40Cr',
       }),
       headers: { get: vi.fn() },
@@ -184,7 +184,7 @@ describe('value-add stage2 route coverage', () => {
 
     expect(validResponse.status).toBe(201);
     expect(validBody.status).toBe('success');
-    expect(validBody.data.role).toBe('investor');
+    expect(validBody.data.role).toBe('institution');
     expect(validBody.data.id.length).toBeGreaterThan(0);
 
     const listReq = {

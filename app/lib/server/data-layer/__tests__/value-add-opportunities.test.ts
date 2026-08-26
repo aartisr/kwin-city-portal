@@ -6,17 +6,17 @@ import {
 } from '@/lib/server/data-layer/value-add-opportunities';
 
 const {
-  mockGetSupabase,
+  mockGetSupabaseAdmin,
   mockReadJsonFile,
   mockWriteJsonFile,
 } = vi.hoisted(() => ({
-  mockGetSupabase: vi.fn(),
+  mockGetSupabaseAdmin: vi.fn(),
   mockReadJsonFile: vi.fn(),
   mockWriteJsonFile: vi.fn(),
 }));
 
 vi.mock('@/lib/server/supabase-client', () => ({
-  getSupabase: mockGetSupabase,
+  getSupabaseAdmin: mockGetSupabaseAdmin,
 }));
 
 vi.mock('@/lib/server/store', () => ({
@@ -41,7 +41,7 @@ describe('server/data-layer value-add-opportunities', () => {
   it('creates lead records in Supabase when insert succeeds', async () => {
     const insert = vi.fn().mockResolvedValue({ error: null });
     const from = vi.fn().mockReturnValue({ insert });
-    mockGetSupabase.mockReturnValue({ from });
+    mockGetSupabaseAdmin.mockReturnValue({ from });
 
     const lead = await createOpportunityLeadRecord({
       name: 'Aarti',
@@ -65,7 +65,7 @@ describe('server/data-layer value-add-opportunities', () => {
   it('falls back to file storage when Supabase insert fails', async () => {
     const insert = vi.fn().mockResolvedValue({ error: { code: 'insert-failed' } });
     const from = vi.fn().mockReturnValue({ insert });
-    mockGetSupabase.mockReturnValue({ from });
+    mockGetSupabaseAdmin.mockReturnValue({ from });
     mockReadJsonFile.mockResolvedValue([]);
 
     const lead = await createOpportunityLeadRecord({
@@ -85,7 +85,7 @@ describe('server/data-layer value-add-opportunities', () => {
   it('falls back to file storage when Supabase insert throws', async () => {
     const insert = vi.fn().mockRejectedValue(new Error('insert exploded'));
     const from = vi.fn().mockReturnValue({ insert });
-    mockGetSupabase.mockReturnValue({ from });
+    mockGetSupabaseAdmin.mockReturnValue({ from });
     mockReadJsonFile.mockResolvedValue([]);
 
     const lead = await createOpportunityLeadRecord({
@@ -116,7 +116,7 @@ describe('server/data-layer value-add-opportunities', () => {
     const order = vi.fn().mockReturnValue({ limit });
     const select = vi.fn().mockReturnValue({ order });
     const from = vi.fn().mockReturnValue({ select });
-    mockGetSupabase.mockReturnValue({ from });
+    mockGetSupabaseAdmin.mockReturnValue({ from });
 
     const leads = await listOpportunityLeadRecords(Number.NaN);
 
@@ -138,7 +138,7 @@ describe('server/data-layer value-add-opportunities', () => {
     const order = vi.fn().mockReturnValue({ limit });
     const select = vi.fn().mockReturnValue({ order });
     const from = vi.fn().mockReturnValue({ select });
-    mockGetSupabase.mockReturnValue({ from });
+    mockGetSupabaseAdmin.mockReturnValue({ from });
     mockReadJsonFile.mockResolvedValue([
       {
         id: 'lead-old',
@@ -166,7 +166,7 @@ describe('server/data-layer value-add-opportunities', () => {
   });
 
   it('caps requested limit to 100 for fallback reads', async () => {
-    mockGetSupabase.mockReturnValue(null);
+    mockGetSupabaseAdmin.mockReturnValue(null);
     mockReadJsonFile.mockResolvedValue(
       Array.from({ length: 120 }, (_, index) => ({
         id: `lead-${index + 1}`,
@@ -187,7 +187,7 @@ describe('server/data-layer value-add-opportunities', () => {
     const order = vi.fn().mockReturnValue({ limit });
     const select = vi.fn().mockReturnValue({ order });
     const from = vi.fn().mockReturnValue({ select });
-    mockGetSupabase.mockReturnValue({ from });
+    mockGetSupabaseAdmin.mockReturnValue({ from });
     mockReadJsonFile.mockResolvedValue([
       {
         id: 'lead-fallback-1',

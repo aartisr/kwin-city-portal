@@ -12,7 +12,9 @@ import {
   addKwinBoundary,
   addLocationMarkers,
   createFallbackMarkup,
+  setMapPresentation,
   setAcquisitionNotificationVisibility,
+  type MapPresentation,
 } from '@/components/strategic-map/mapbox';
 
 const DEFAULT_ACQUISITION_PHASE_VISIBILITY: AcquisitionPhaseVisibility = {
@@ -23,8 +25,10 @@ const DEFAULT_ACQUISITION_PHASE_VISIBILITY: AcquisitionPhaseVisibility = {
 
 export default function StrategicLocationMap({
   acquisitionPhaseVisibility = DEFAULT_ACQUISITION_PHASE_VISIBILITY,
+  presentation = 'overview',
 }: {
   acquisitionPhaseVisibility?: AcquisitionPhaseVisibility;
+  presentation?: MapPresentation;
 }) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -88,6 +92,11 @@ export default function StrategicLocationMap({
     if (!map.current) return;
     setAcquisitionNotificationVisibility(map.current, acquisitionPhaseVisibility);
   }, [acquisitionPhaseVisibility]);
+
+  useEffect(() => {
+    if (!map.current) return;
+    setMapPresentation(map.current, presentation);
+  }, [presentation]);
 
   return (
     <div className="space-y-6">

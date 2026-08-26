@@ -20,5 +20,11 @@ export function normalizeLeadLimit(input: string | null): number {
 }
 
 export function isValidOpportunityRole(value: string): value is OpportunityRequest['role'] {
-  return value === 'landowner' || value === 'developer' || value === 'investor';
+  return (
+    value === 'landowner' ||
+    value === 'developer' ||
+    value === 'investor' ||
+    value === 'institution' ||
+    value === 'operator'
+  );
 }

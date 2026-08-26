@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import { readJsonFile, writeJsonFile } from '../store';
-import { getSupabase } from '../supabase-client';
+import { getSupabaseAdmin } from '../supabase-client';
 import type { OpportunityLead, OpportunityRequest } from '@/types/value-add';
 
 const STORE_FILE = 'value-add-opportunity-leads.json';
@@ -39,7 +39,10 @@ export async function createOpportunityLeadRecord(input: OpportunityRequest): Pr
     status: 'new',
   };
 
-  const supabase = getSupabase();
+  // Opportunity submissions contain private contact details. RLS intentionally
+  // denies browser/anon access; the API is the sole writer and uses the
+  // server-only service-role client after origin, rate-limit, and CSRF checks.
+  const supabase = getSupabaseAdmin();
   if (supabase) {
     try {
       const client = supabase as unknown as OpportunitiesSupabaseLooseClient;
@@ -74,7 +77,7 @@ export async function createOpportunityLeadRecord(input: OpportunityRequest): Pr
 export async function listOpportunityLeadRecords(limit: number): Promise<OpportunityLead[]> {
   const normalizedLimit = Number.isFinite(limit) && limit > 0 ? Math.min(Math.floor(limit), 100) : 20;
 
-  const supabase = getSupabase();
+  const supabase = getSupabaseAdmin();
   if (supabase) {
     try {
       const client = supabase as unknown as OpportunitiesSupabaseLooseClient;

@@ -176,7 +176,7 @@ export interface InvestmentRadarResponse {
 export interface OpportunityRequest {
   name: string;
   email: string;
-  role: 'landowner' | 'developer' | 'investor';
+  role: 'landowner' | 'developer' | 'investor' | 'institution' | 'operator';
   requirement: string;
   budgetBand?: string;
 }
