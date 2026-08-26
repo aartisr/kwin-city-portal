@@ -29,6 +29,7 @@ export const HIGH_LEVEL_MENUS: NavGroup[] = [
       { label: 'Data Insights', href: '/data-insights', desc: 'Live evidence dashboards' },
       { label: 'Evidence Vault', href: '/evidence', desc: 'What each dataset can prove' },
       { label: 'Sources & Claims', href: '/sources', desc: 'Full claim-to-source ledger' },
+      { label: 'Document Library', href: '/documents', icon: '📚', desc: 'Official records and evidence-labeled discovery paths' },
       { label: 'Document Downloads', href: '/downloads', icon: '📥', desc: 'Reports, briefs & open datasets' },
       { label: 'News Intelligence', href: '/news-intelligence', desc: 'Attribution-first media observatory' },
       { label: 'Live News Reader', href: '/news-reader', desc: 'On-demand OPML summary reader' },

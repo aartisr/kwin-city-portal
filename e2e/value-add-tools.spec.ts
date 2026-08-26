@@ -84,6 +84,16 @@ test.describe('Value-Add Tools Smoke', () => {
     await expect(phase3).not.toBeChecked();
   });
 
+  test('spatial explorer offers a clearly qualified 3D context mode', async ({ page }: any) => {
+    await page.goto('/tools/spatial-explorer');
+
+    const threeDimensional = page.getByRole('button', { name: '3D context' });
+    await expect(threeDimensional).toHaveAttribute('aria-pressed', 'false');
+    await threeDimensional.click();
+    await expect(threeDimensional).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByText(/does not depict a verified KWIN site plan/i)).toBeVisible();
+  });
+
   test('spatial explorer lists future projects with original and mirror source links', async ({ page }: any) => {
     await page.goto('/tools/spatial-explorer');
 

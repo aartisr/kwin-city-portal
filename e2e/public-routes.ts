@@ -15,6 +15,7 @@ export const PUBLIC_ROUTES = [
   "/data-insights",
   "/download",
   "/downloads",
+  "/documents",
   "/evidence",
   "/evidence-library",
   "/faq",

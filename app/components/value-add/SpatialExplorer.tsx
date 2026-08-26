@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import StrategicLocationMap from '@/components/StrategicLocationMap';
-import type { AcquisitionPhaseId, AcquisitionPhaseVisibility } from '@/components/strategic-map/mapbox';
+import type { AcquisitionPhaseId, AcquisitionPhaseVisibility, MapPresentation } from '@/components/strategic-map/mapbox';
 import type { SpatialExplorerResponse, ValueAddEnvelope } from '@/types/value-add';
 import { parseSpatialView, spatialViewSearch } from '@/lib/tools/spatial-view';
 
@@ -21,6 +21,7 @@ export default function SpatialExplorer() {
   const [exporting, setExporting] = useState(false);
   const [exportMessage, setExportMessage] = useState<string | null>(null);
   const [viewMessage, setViewMessage] = useState<string | null>(null);
+  const [presentation, setPresentation] = useState<MapPresentation>('overview');
 
   useEffect(() => {
     const initial = parseSpatialView(window.location.search);
@@ -245,6 +246,25 @@ export default function SpatialExplorer() {
             </select>
           </label>
 
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-1" aria-label="Map presentation">
+            <button
+              type="button"
+              onClick={() => setPresentation('overview')}
+              aria-pressed={presentation === 'overview'}
+              className={`min-h-10 rounded-lg px-3 text-sm font-semibold transition ${presentation === 'overview' ? 'bg-slate-950 text-white shadow-sm' : 'text-slate-700 hover:bg-white'}`}
+            >
+              Overview
+            </button>
+            <button
+              type="button"
+              onClick={() => setPresentation('immersive')}
+              aria-pressed={presentation === 'immersive'}
+              className={`min-h-10 rounded-lg px-3 text-sm font-semibold transition ${presentation === 'immersive' ? 'bg-slate-950 text-white shadow-sm' : 'text-slate-700 hover:bg-white'}`}
+            >
+              3D context
+            </button>
+          </div>
+
           <button type="button" onClick={shareView} className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50">Copy view link</button>
           <button type="button" onClick={saveView} className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50">Save view</button>
 
@@ -305,7 +325,15 @@ export default function SpatialExplorer() {
       {viewMessage ? <p className="mt-3 text-sm font-medium text-blue-800" role="status">{viewMessage}</p> : null}
 
       <div className="mt-6">
-        <StrategicLocationMap acquisitionPhaseVisibility={acquisitionPhaseVisibility} />
+        <StrategicLocationMap
+          acquisitionPhaseVisibility={acquisitionPhaseVisibility}
+          presentation={presentation}
+        />
+        {presentation === 'immersive' ? (
+          <p className="mt-3 rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs leading-5 text-blue-950">
+            3D context uses available Mapbox building coverage for orientation only. It does not depict a verified KWIN site plan, building design, or delivery status.
+          </p>
+        ) : null}
       </div>
 
       {loading ? <p className="mt-6 text-sm text-slate-600">Loading layer metadata...</p> : null}

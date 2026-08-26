@@ -134,6 +134,50 @@ const ACQ_SOURCE_ID = 'acquisition-notification-buffers-derived';
 export const ACQ_PHASES = ['phase-1', 'phase-2', 'phase-3'] as const;
 export type AcquisitionPhaseId = (typeof ACQ_PHASES)[number];
 export type AcquisitionPhaseVisibility = Record<AcquisitionPhaseId, boolean>;
+export type MapPresentation = 'overview' | 'immersive';
+
+const THREE_DIMENSIONAL_BUILDINGS_LAYER_ID = 'kwin-context-buildings-3d';
+
+/**
+ * Switches between an orientation-first overview and Mapbox's available 3D
+ * building context. The building layer is deliberately contextual: it is not
+ * a KWIN masterplan or a representation of proposed project assets.
+ */
+export function setMapPresentation(map: mapboxgl.Map, presentation: MapPresentation) {
+  if (presentation === 'overview') {
+    if (map.getLayer(THREE_DIMENSIONAL_BUILDINGS_LAYER_ID)) {
+      map.setLayoutProperty(THREE_DIMENSIONAL_BUILDINGS_LAYER_ID, 'visibility', 'none');
+    }
+    map.easeTo({ pitch: 0, bearing: 0, duration: 700, essential: true });
+    return;
+  }
+
+  try {
+    if (!map.getLayer(THREE_DIMENSIONAL_BUILDINGS_LAYER_ID)) {
+      map.addLayer({
+        id: THREE_DIMENSIONAL_BUILDINGS_LAYER_ID,
+        source: 'composite',
+        'source-layer': 'building',
+        filter: ['==', ['get', 'extrude'], 'true'],
+        type: 'fill-extrusion',
+        minzoom: 13,
+        paint: {
+          'fill-extrusion-color': '#94a3b8',
+          'fill-extrusion-height': ['coalesce', ['get', 'height'], 0],
+          'fill-extrusion-base': ['coalesce', ['get', 'min_height'], 0],
+          'fill-extrusion-opacity': 0.72,
+        },
+      });
+    } else {
+      map.setLayoutProperty(THREE_DIMENSIONAL_BUILDINGS_LAYER_ID, 'visibility', 'visible');
+    }
+  } catch {
+    // Some Mapbox styles may not expose a composite building source. The
+    // pitched contextual orientation remains useful without it.
+  }
+
+  map.easeTo({ pitch: 58, bearing: -24, zoom: Math.max(map.getZoom(), 12.5), duration: 900, essential: true });
+}
 
 function getAcqPhaseFillLayerId(phase: AcquisitionPhaseId) {
   return `acquisition-notification-buffers-${phase}-fill`;

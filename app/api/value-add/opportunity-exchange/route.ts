@@ -9,6 +9,8 @@ import {
   listOpportunityLeads,
   normalizeLeadLimit,
 } from '@/lib/server/value-add/opportunity-exchange';
+import { notifyOpportunityLead } from '@/lib/server/value-add/opportunity-notification';
+import { logger } from '@/lib/logger';
 import type { OpportunityRequest } from '@/types/value-add';
 
 function isValidEmail(value: string) {
@@ -85,6 +87,22 @@ export async function POST(req: NextRequest) {
         requirement,
         budgetBand,
       });
+
+      const notification = await notifyOpportunityLead(lead, {
+        name,
+        email,
+        role,
+        requirement,
+        budgetBand,
+      });
+      if (notification.kind === 'failed') {
+        logger.warn('Opportunity lead saved but notification email was not delivered', {
+          requestId,
+          leadId: lead.id,
+          recipient: notification.recipient,
+          status: notification.status,
+        });
+      }
 
       return NextResponse.json(
         createEnvelope({

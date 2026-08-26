@@ -5,13 +5,13 @@ test.describe('Value-Add Expansion Smoke', () => {
     await page.goto('/tools');
     await page.waitForLoadState('networkidle');
 
-    await expect(page.locator('a[href="/tools/spatial-explorer"]')).toBeVisible();
-    await expect(page.locator('a[href="/tools/valuation-index"]')).toBeVisible();
-    await expect(page.locator('a[href="/tools/investment-radar"]')).toBeVisible();
-    await expect(page.locator('a[href="/tools/opportunity-exchange"]')).toBeVisible();
-    await expect(page.locator('a[href="/tools/open-data-studio"]')).toBeVisible();
-    await expect(page.locator('a[href="/updates/satellite-tracker"]')).toBeVisible();
-    await expect(page.locator('a[href="/updates/regulatory-news"]')).toBeVisible();
+    await expect(page.locator('a[href="/tools/spatial-explorer"]').first()).toBeVisible();
+    await expect(page.locator('a[href="/tools/valuation-index"]').first()).toBeVisible();
+    await expect(page.locator('a[href="/tools/investment-radar"]').first()).toBeVisible();
+    await expect(page.locator('a[href="/tools/opportunity-exchange"]').first()).toBeVisible();
+    await expect(page.locator('a[href="/tools/open-data-studio"]').first()).toBeVisible();
+    await expect(page.locator('a[href="/updates/satellite-tracker"]').first()).toBeVisible();
+    await expect(page.locator('a[href="/updates/regulatory-news"]').first()).toBeVisible();
   });
 
   test('spatial explorer renders map and phase metadata', async ({ page }: any) => {
@@ -21,7 +21,7 @@ test.describe('Value-Add Expansion Smoke', () => {
     await expect(page.getByRole('heading', { name: 'Spatial Explorer' }).first()).toBeVisible();
     await Promise.all([
       page.waitForResponse((response: any) => response.url().includes('/api/value-add/spatial-explorer?phase=phase-2') && response.ok()),
-      page.getByLabel('Phase').selectOption('phase-2'),
+      page.getByTestId('spatial-phase-select').selectOption('phase-2'),
     ]);
     await expect(page.getByText('Highlights')).toBeVisible({ timeout: 15000 });
   });
