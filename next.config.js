@@ -9,7 +9,19 @@ const baseConfig = {
   // Optimize bundle
   productionBrowserSourceMaps: false, // Disable source maps in prod (smaller bundles)
   compress: true,
-
+experimental: {
+    optimizePackageImports: [
+      "lucide-react",
+      "date-fns",
+      "lodash-es",
+      "@radix-ui/react-accordion",
+      "@radix-ui/react-dialog",
+      "@radix-ui/react-dropdown-menu",
+      "@radix-ui/react-popover",
+      "@radix-ui/react-select",
+      "@radix-ui/react-tooltip",
+    ],
+  },
   // Image optimization - critical for performance
   images: {
     remotePatterns: [
