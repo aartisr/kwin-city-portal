@@ -1,0 +1,6 @@
+{
+  "name": "DevCloud Workspace",
+  "description": "An elegant dark cloud IDE and GitHub repository workspace for cloning, inspecting, and editing projects.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
