@@ -1,0 +1,250 @@
+'use client';
+
+import dynamic from 'next/dynamic';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import BrandLockup from '@/components/header/BrandLockup';
+import { GROUP_STORIES, splitItems, type HeaderLabels } from '@/components/header/config';
+import DesktopNav from '@/components/header/DesktopNav';
+import HeaderUtilities from '@/components/header/HeaderUtilities';
+import MobileHeaderActions from '@/components/header/MobileHeaderActions';
+import MobileMenuSheet from '@/components/header/MobileMenuSheet';
+import { NAV_TONES } from '@/components/header/navigation';
+import { useHeaderSession } from '@/components/header/useHeaderSession';
+import type { NavGroup } from '@/components/header/types';
+import { useLocale } from '@/lib/i18n/locale-context';
+
+const SearchModal = dynamic(() => import('@/components/SearchModal'), {
+  ssr: false,
+});
+
+const MIN_HEADER_CHROME_HEIGHT = 92;
+
+export default function Header({
+  trustBannerVisible,
+  onToggleTrustBanner,
+  menuGroups,
+  labels,
+}: {
+  trustBannerVisible: boolean;
+  onToggleTrustBanner: () => void;
+  menuGroups: NavGroup[];
+  labels: HeaderLabels;
+}) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileOpenGroup, setMobileOpenGroup] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+  const [desktopOpenGroup, setDesktopOpenGroup] = useState<string | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const currentUser = useHeaderSession();
+  const pathname = usePathname();
+  const { locale, setLocale } = useLocale();
+  const headerRef = useRef<HTMLElement>(null);
+  const headerFrameRef = useRef<HTMLDivElement>(null);
+  const headerBarRef = useRef<HTMLDivElement>(null);
+  const desktopNavRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let frameId = 0;
+
+    const updateHeaderHeight = () => {
+      window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(() => {
+        const header = headerRef.current;
+        const frame = headerFrameRef.current;
+        const bar = headerBarRef.current;
+
+        if (!header || !frame || !bar) return;
+
+        const frameStyles = window.getComputedStyle(frame);
+        const headerStyles = window.getComputedStyle(header);
+        const frameBottomPadding = Number.parseFloat(frameStyles.paddingBottom) || 0;
+        const safeAreaTop = Number.parseFloat(headerStyles.paddingTop) || 0;
+        const measuredHeight =
+          bar.getBoundingClientRect().bottom - header.getBoundingClientRect().top + frameBottomPadding;
+        const height = Math.ceil(Math.max(measuredHeight, safeAreaTop + MIN_HEADER_CHROME_HEIGHT));
+
+        if (height > 0) {
+          document.documentElement.style.setProperty('--kwin-header-height', `${height}px`);
+        }
+      });
+    };
+
+    updateHeaderHeight();
+
+    const observer = 'ResizeObserver' in window ? new ResizeObserver(updateHeaderHeight) : null;
+    if (observer && headerBarRef.current) observer.observe(headerBarRef.current);
+    if (observer && headerFrameRef.current) observer.observe(headerFrameRef.current);
+    window.addEventListener('resize', updateHeaderHeight);
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      observer?.disconnect();
+      window.removeEventListener('resize', updateHeaderHeight);
+    };
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 18);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const handler = (event: MouseEvent) => {
+      if (desktopNavRef.current && !desktopNavRef.current.contains(event.target as Node)) {
+        setDesktopOpenGroup(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = mobileMenuOpen || searchOpen ? 'hidden' : previousOverflow;
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [mobileMenuOpen, searchOpen]);
+
+  useEffect(() => {
+    const handler = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        setSearchOpen((value) => !value);
+      }
+
+      if (event.key === 'Escape') {
+        if (desktopOpenGroup) {
+          document.querySelector<HTMLButtonElement>(`button[aria-controls="menu-${desktopOpenGroup}"]`)?.focus();
+        } else if (mobileMenuOpen) {
+          document.querySelector<HTMLButtonElement>('[data-testid="mobile-header-menu"]')?.focus();
+        }
+        setDesktopOpenGroup(null);
+        setMobileMenuOpen(false);
+        setMobileOpenGroup(null);
+        setSearchOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [desktopOpenGroup, mobileMenuOpen]);
+
+  const currentPath = pathname ?? '/';
+  const isActive = (href: string) => (href === '/' ? currentPath === '/' : currentPath.startsWith(href));
+
+  const isGroupActive = (group: NavGroup) => group.items.some((item) => isActive(item.href));
+
+  const activeGroupLabel = (group: NavGroup) =>
+    isGroupActive(group) ? NAV_TONES.active : scrolled ? NAV_TONES.idleScrolled : NAV_TONES.idleTop;
+
+  const activeDesktopMenu = useMemo(
+    () => menuGroups.find((group) => group.key === desktopOpenGroup) ?? null,
+    [desktopOpenGroup, menuGroups],
+  );
+
+  const desktopStory = activeDesktopMenu ? GROUP_STORIES[activeDesktopMenu.key] ?? GROUP_STORIES.discover : null;
+  const desktopColumns = activeDesktopMenu ? splitItems(activeDesktopMenu.items) : [[], []];
+
+  return (
+    <>
+      <header
+        ref={headerRef}
+        data-testid="site-header"
+        className="fixed inset-x-0 top-0 z-[300] pt-[var(--kwin-safe-area-top)]"
+      >
+        <div ref={headerFrameRef} className="mx-auto w-full max-w-[1560px] px-3 py-2.5 sm:px-6 lg:px-8">
+          <div
+            ref={headerBarRef}
+            className={`relative isolate overflow-visible rounded-[28px] border transition-all duration-500 ${
+              scrolled
+                ? 'border-slate-200/90 bg-white/97 shadow-[0_18px_60px_rgba(2,6,23,0.12)] backdrop-blur-2xl'
+                : trustBannerVisible
+                ? 'border-slate-200/80 bg-white/95 shadow-[0_18px_54px_rgba(2,6,23,0.10)] backdrop-blur-2xl'
+                : 'border-white/75 bg-white/94 shadow-[0_18px_52px_rgba(2,6,23,0.09)] backdrop-blur-2xl'
+            }`}
+          >
+            <div
+              aria-hidden="true"
+              className={`pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent transition-opacity duration-500 ${
+                scrolled ? 'opacity-0' : 'opacity-100'
+              }`}
+            />
+            <div
+              aria-hidden="true"
+              className={`pointer-events-none absolute inset-x-10 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-300/70 to-transparent transition-opacity duration-500 ${
+                !trustBannerVisible && !scrolled ? 'opacity-100' : 'opacity-0'
+              }`}
+            />
+
+              <nav className="grid h-[72px] grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-3 md:px-4 lg:grid-cols-[minmax(11rem,auto)_minmax(0,1fr)_auto]">
+              <BrandLockup />
+              <DesktopNav
+                menuGroups={menuGroups}
+                desktopNavRef={desktopNavRef}
+                activeDesktopMenu={activeDesktopMenu}
+                desktopStory={desktopStory}
+                desktopColumns={desktopColumns}
+                activeGroupLabel={activeGroupLabel}
+                isActive={isActive}
+                isGroupActive={isGroupActive}
+                onToggleGroup={(key) => setDesktopOpenGroup((curr) => (curr === key ? null : key))}
+                onCloseMenu={() => setDesktopOpenGroup(null)}
+              />
+              <HeaderUtilities
+                labels={labels}
+                locale={locale}
+                setLocale={setLocale}
+                trustBannerVisible={trustBannerVisible}
+                onToggleTrustBanner={onToggleTrustBanner}
+                onOpenSearch={() => setSearchOpen(true)}
+                menuOpen={mobileMenuOpen}
+                onToggleMenu={() => {
+                  setMobileMenuOpen((value) => !value);
+                  setMobileOpenGroup(null);
+                }}
+                currentUser={currentUser}
+              />
+              <MobileHeaderActions
+                labels={labels}
+                trustBannerVisible={trustBannerVisible}
+                mobileMenuOpen={mobileMenuOpen}
+                onOpenSearch={() => setSearchOpen(true)}
+                onToggleTrustBanner={onToggleTrustBanner}
+                onToggleMobileMenu={() => {
+                  setMobileMenuOpen((value) => !value);
+                  setMobileOpenGroup(null);
+                }}
+              />
+            </nav>
+          </div>
+
+          {mobileMenuOpen ? (
+            <MobileMenuSheet
+              menuGroups={menuGroups}
+              labels={labels}
+              locale={locale}
+              setLocale={setLocale}
+              currentUser={currentUser}
+              mobileOpenGroup={mobileOpenGroup}
+              isActive={isActive}
+              isGroupActive={isGroupActive}
+              onToggleGroup={(key) => setMobileOpenGroup((curr) => (curr === key ? null : key))}
+              onCloseMenu={() => {
+                setMobileMenuOpen(false);
+                setMobileOpenGroup(null);
+              }}
+              onOpenSearch={() => setSearchOpen(true)}
+            />
+          ) : null}
+        </div>
+      </header>
+
+      {searchOpen ? <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} locale={locale} /> : null}
+    </>
+  );
+}

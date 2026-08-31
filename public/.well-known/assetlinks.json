@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.kwincity.portal",
+      "sha256_cert_fingerprints": [
+        "8E:74:B2:C9:1B:D6:71:84:C9:ED:18:91:70:89:E0:D1:A7:00:EA:39:D1:E3:49:1C:B8:7B:56:C6:81:79:D8:32"
+      ]
+    }
+  }
+]

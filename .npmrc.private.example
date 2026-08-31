@@ -1,0 +1,4 @@
+# Local-only private npm profile. Copy to .npmrc.private (which is ignored).
+registry=https://edgeinternal1uhg.optum.com/artifactory/api/npm/tenant-compass-npm-vir
+always-auth=true
+//edgeinternal1uhg.optum.com/artifactory/api/npm/tenant-compass-npm-vir/:_authToken=${KWIN_PRIVATE_NPM_TOKEN}

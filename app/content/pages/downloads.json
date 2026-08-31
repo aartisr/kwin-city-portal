@@ -1,0 +1,145 @@
+{
+  "id": "downloads",
+  "title": "Document Downloads",
+  "description": "Official documents, research reports, policy briefs, and open datasets related to KWIN City — all in one transparent, verified library.",
+  "categories": [
+    {
+      "id": "official",
+      "label": "Official Government",
+      "icon": "🏛️",
+      "description": "Documents originating from Karnataka state agencies and the central government."
+    },
+    {
+      "id": "project-brief",
+      "label": "Project Briefs",
+      "icon": "📋",
+      "description": "Overview documents describing KWIN City's vision, pillars, and investment scope."
+    },
+    {
+      "id": "data",
+      "label": "Open Data",
+      "icon": "📊",
+      "description": "Publicly accessible datasets used in KWIN City's Data Insights Lab."
+    },
+    {
+      "id": "research",
+      "label": "Research & Context",
+      "icon": "🔬",
+      "description": "Technical and policy research providing context for KWIN City's development."
+    }
+  ],
+  "documents": [
+    {
+      "id": "kiadb-notification",
+      "title": "KIADB Official Project Notification",
+      "description": "Official Karnataka Industrial Areas Development Board notification designating the KWIN City development area. This is the primary legal instrument for the project.",
+      "category": "official",
+      "fileType": "PDF",
+      "verificationTier": "verified",
+      "publisher": "Karnataka Industrial Areas Development Board (KIADB)",
+      "publishedDate": "2024",
+      "language": "English / Kannada",
+      "href": "https://kiadb.karnataka.gov.in/",
+      "isExternal": true,
+      "tags": ["kiadb", "government", "notification", "legal", "designation"]
+    },
+    {
+      "id": "kwin-project-brief",
+      "title": "KWIN City Project Overview Brief",
+      "description": "Comprehensive overview covering the three pillars (Knowledge, Wellbeing, Innovation), investment vision of ₹40,000 Crore, and projected employment numbers.",
+      "category": "project-brief",
+      "fileType": "PDF",
+      "verificationTier": "pending",
+      "publisher": "KWIN City / KIADB",
+      "publishedDate": "2024",
+      "language": "English",
+      "href": "https://kiadb.karnataka.gov.in/",
+      "isExternal": true,
+      "tags": ["brief", "overview", "investment", "pillars", "employment"]
+    },
+    {
+      "id": "opencity-aviation",
+      "title": "Bengaluru Aviation Traffic Dataset",
+      "description": "Kempegowda International Airport traffic data from OpenCity.in — used in KWIN City's Data Insights Lab for connectivity and demand analysis.",
+      "category": "data",
+      "fileType": "CSV",
+      "verificationTier": "verified",
+      "publisher": "OpenCity.in / CKAN",
+      "publishedDate": "2024",
+      "language": "English",
+      "href": "https://data.opencity.in/dataset/bengaluru-aviation-traffic-data",
+      "isExternal": true,
+      "tags": ["aviation", "airport", "traffic", "data", "opencity", "connectivity"]
+    },
+    {
+      "id": "opencity-population",
+      "title": "North Bengaluru Population Data",
+      "description": "Demographic dataset covering North Bengaluru growth corridors — supports workforce and demand projections for KWIN City.",
+      "category": "data",
+      "fileType": "CSV",
+      "verificationTier": "contextual",
+      "publisher": "OpenCity.in / CKAN",
+      "publishedDate": "2023",
+      "language": "English",
+      "href": "https://data.opencity.in/",
+      "isExternal": true,
+      "tags": ["population", "demographics", "bengaluru", "workforce", "growth"]
+    },
+    {
+      "id": "karnataka-economic-survey",
+      "title": "Karnataka Economic Survey",
+      "description": "Annual economic survey from Government of Karnataka providing industrial policy, investment climate, and infrastructure spending data used as KWIN context.",
+      "category": "research",
+      "fileType": "PDF",
+      "verificationTier": "verified",
+      "publisher": "Government of Karnataka",
+      "publishedDate": "2023",
+      "language": "English",
+      "href": "https://finance.karnataka.gov.in/",
+      "isExternal": true,
+      "tags": ["karnataka", "economic survey", "policy", "investment climate", "infrastructure"]
+    },
+    {
+      "id": "strr-corridor-report",
+      "title": "Satellite Town Ring Road (STRR) Corridor Development Plan",
+      "description": "BBMP/NHAI document outlining the STRR alignment through North Bengaluru — directly relevant to KWIN City's connectivity case.",
+      "category": "research",
+      "fileType": "PDF",
+      "verificationTier": "contextual",
+      "publisher": "NHAI / BBMP",
+      "publishedDate": "2023",
+      "language": "English",
+      "href": "https://bbmp.gov.in/",
+      "isExternal": true,
+      "tags": ["STRR", "road", "connectivity", "infrastructure", "north bengaluru"]
+    },
+    {
+      "id": "smart-city-guidelines",
+      "title": "Smart Cities Mission — Integrated Command & Control Guidelines",
+      "description": "Union Ministry of Housing and Urban Affairs guidelines for smart city development, providing the national policy context for KWIN's design standards.",
+      "category": "research",
+      "fileType": "PDF",
+      "verificationTier": "verified",
+      "publisher": "Ministry of Housing and Urban Affairs, GoI",
+      "publishedDate": "2023",
+      "language": "English",
+      "href": "https://smartcities.gov.in/",
+      "isExternal": true,
+      "tags": ["smart city", "urban", "policy", "ministry", "guidelines", "india"]
+    },
+    {
+      "id": "kwin-portal-open-data-guide",
+      "title": "KWIN City Portal — Open Data Methodology Note",
+      "description": "Internal methodology note explaining how this portal sources, verifies, and tiers its data — our editorial commitment to transparency.",
+      "category": "project-brief",
+      "fileType": "PDF",
+      "verificationTier": "verified",
+      "publisher": "KWIN City Portal",
+      "publishedDate": "2026-03-26",
+      "language": "English",
+      "href": "/trust",
+      "isExternal": false,
+      "tags": ["methodology", "transparency", "editorial", "sources", "evidence", "portal"]
+    }
+  ]
+}

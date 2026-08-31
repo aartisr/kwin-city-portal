@@ -1,0 +1,272 @@
+import { MetadataRoute } from 'next';
+import { SITE_CONFIG } from '@/config/site.config';
+import { getLatestSeoAgencyRun } from '@/lib/seo-agency/store';
+import { getUpdateEntries, getUpdatePath } from '@/lib/updates/content';
+
+const SITE_URL = SITE_CONFIG.url;
+
+/**
+ * Dynamic XML sitemap — automatically discovered by Google Search Console,
+ * Bing Webmaster Tools, and all crawlers that check /sitemap.xml.
+ *
+ * Priority guide:
+ *   1.0 — homepage
+ *   0.9 — primary pillar pages (sectors, sustainability, why-north-bengaluru)
+ *   0.8 — supporting content (evidence, data-insights, timeline, sources)
+ *   0.7 — persona pages
+ *   0.6 — about / terms
+ */
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const lastModified = new Date(`${SITE_CONFIG.lastUpdatedISO}T00:00:00+05:30`).toISOString();
+  const updateEntries = getUpdateEntries();
+  const agencyRun = await getLatestSeoAgencyRun();
+
+  return [
+    // ── Tier 1: Homepage ───────────────────────────────────────────────────
+    {
+      url: SITE_URL,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 1.0,
+    },
+    {
+      url: `${SITE_URL}/aarti-s-ravikumar`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
+    // ── Tier 2: Primary content pillars ───────────────────────────────────
+    {
+      url: `${SITE_URL}/why-north-bengaluru`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/sectors`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/sectors/comparison`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.75,
+    },
+    {
+      url: `${SITE_URL}/sustainability`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    // ── Tier 3: Research & evidence ────────────────────────────────────────
+    {
+      url: `${SITE_URL}/evidence`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/data-insights`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/region-map`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/trust`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/news-intelligence`,
+      lastModified,
+      changeFrequency: 'daily',
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/news-reader`,
+      lastModified,
+      changeFrequency: 'daily',
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/seo-agency`,
+      lastModified,
+      changeFrequency: 'daily',
+      priority: 0.85,
+    },
+    ...(agencyRun
+      ? [
+          {
+            url: agencyRun.dailyArticle.canonicalUrl,
+            lastModified: agencyRun.dailyArticle.updatedAt,
+            changeFrequency: 'daily' as const,
+            priority: 0.82,
+          },
+        ]
+      : []),
+    {
+      url: `${SITE_URL}/updates`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/updates/change-tracker`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.75,
+    },
+    {
+      url: `${SITE_URL}/updates/regulatory-news`,
+      lastModified,
+      changeFrequency: 'daily',
+      priority: 0.75,
+    },
+    {
+      url: `${SITE_URL}/updates/satellite-tracker`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/instagram`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.75,
+    },
+    {
+      url: `${SITE_URL}/share`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.75,
+    },
+    {
+      url: `${SITE_URL}/press`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.78,
+    },
+    ...updateEntries.map((entry) => ({
+      url: `${SITE_URL}${getUpdatePath(entry.id)}`,
+      lastModified: new Date(`${entry.date}T00:00:00+05:30`).toISOString(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.75,
+    })),
+    {
+      url: `${SITE_URL}/download`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/downloads`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/timeline`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/sources`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    // ── Tier 4: Persona hub & individual personas ─────────────────────────
+    {
+      url: `${SITE_URL}/for`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/for/investor`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/for/resident`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/for/researcher`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/for/journalist`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/for/curious-citizens`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    // ── Tier 5: About / legal ──────────────────────────────────────────────
+    {
+      url: `${SITE_URL}/about`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${SITE_URL}/faq`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${SITE_URL}/contact`,
+      lastModified,
+      changeFrequency: 'yearly',
+      priority: 0.5,
+    },
+    {
+      url: `${SITE_URL}/tools`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    ...[
+      'accessibility',
+      'investment-radar',
+      'open-data-studio',
+      'opportunity-exchange',
+      'regulatory-navigator',
+      'risk-check',
+      'spatial-explorer',
+      'valuation-index',
+    ].map((tool) => ({
+      url: `${SITE_URL}/tools/${tool}`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.65,
+    })),
+    {
+      url: `${SITE_URL}/terms`,
+      lastModified,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+  ];
+}

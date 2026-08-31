@@ -1,0 +1,77 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import ReloadButton from "./ReloadButton";
+import { getServerLocale, pickByLocale } from "@/lib/i18n/server";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+  return {
+    title: pickByLocale(locale, {
+      en: "You Are Offline",
+      kn: "ನೀವು ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿ ಇದ್ದೀರಿ",
+      hi: "आप ऑफ़लाइन हैं",
+    }),
+    description: pickByLocale(locale, {
+      en: "You are offline, but recently cached KWIN City pages may still be available for reading until your connection returns. Reconnect to refresh data, charts, and updates.",
+      kn: "ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಇಲ್ಲ. ನಿಮ್ಮ ಕ್ಯಾಶ್ ಆದ KWIN City ಪುಟಗಳು ಇನ್ನೂ ಲಭ್ಯವಿವೆ.",
+      hi: "इंटरनेट कनेक्शन नहीं है। आपके कैश किए गए KWIN City पेज अभी भी उपलब्ध हैं।",
+    }),
+    alternates: { canonical: "https://kwin-city.com/offline" },
+    robots: { index: false },
+  };
+}
+
+export default function OfflinePage() {
+  return (
+    <main id="main-content" className="relative isolate flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 bg-[linear-gradient(150deg,#040714_0%,#0D1640_50%,#07131F_100%)] text-white">
+      {/* Top ambient glow */}
+      <div
+        aria-hidden="true"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full blur-[120px] bg-amber-500/10 pointer-events-none"
+      />
+
+      <div className="relative z-10 text-center max-w-lg mx-auto">
+        {/* KWIN Logo */}
+        <div className="w-20 h-20 mx-auto rounded-2xl flex items-center justify-center font-extrabold text-3xl text-[#040714] bg-[linear-gradient(135deg,#F5A623,#E8A020)] shadow-2xl shadow-amber-500/30 mb-8">
+          K
+        </div>
+
+        <p className="text-[11px] font-bold tracking-[0.22em] uppercase text-amber-400 mb-3">
+          No Connection
+        </p>
+
+        <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-4 leading-tight">
+          You&apos;re offline right now
+        </h1>
+
+        <p className="kwin-text-on-dark-secondary mb-8 text-base leading-7">
+          The KWIN City portal needs an internet connection to load fresh data.
+          Reconnect to refresh live data. Public pages explicitly saved by your
+          browser may remain available.
+        </p>
+
+        {/* Public page quick links; uncached destinations return here while offline. */}
+        <div className="grid grid-cols-2 gap-2.5 mb-8 text-sm">
+          {[
+            { href: "/", label: "Home" },
+            { href: "/about", label: "About KWIN" },
+            { href: "/why-north-bengaluru", label: "Why North Bengaluru" },
+            { href: "/sectors", label: "Sectors" },
+            { href: "/timeline", label: "Timeline" },
+            { href: "/data-insights", label: "Data Insights" },
+          ].map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="px-4 py-2.5 rounded-xl border border-white/10 bg-white/[0.05] text-[#94A3B8] hover:text-white hover:border-white/20 hover:bg-white/[0.08] transition-all font-medium"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+
+        <ReloadButton />
+      </div>
+    </main>
+  );
+}

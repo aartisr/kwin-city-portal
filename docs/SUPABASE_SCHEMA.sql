@@ -1,0 +1,7 @@
+-- This file is retained for backward-compatible links only.
+--
+-- The canonical, versioned database schema is in:
+--   supabase/migrations/0001_initial_schema.sql
+--
+-- Apply SQL migrations in lexical order. Do not maintain a second schema copy
+-- here; see docs/DATABASE.md and supabase/README.md for the runbook.

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+  <head>
+    <title>KWIN City Evidence and Strategic Regional Feeds</title>
+    <dateModified>Sat, 15 Aug 2026 21:30:00 GMT</dateModified>
+    <ownerName>BAJA Associates; authored by Aarti S Ravikumar</ownerName>
+    <ownerEmail>info@kwin-city.com</ownerEmail>
+  </head>
+  <body>
+    <outline text="KWIN Critical Alerts" title="KWIN Critical Alerts">
+      <outline type="rss" text="Bing News — KWIN City summaries" title="Bing News — KWIN City summaries" xmlUrl="https://www.bing.com/news/search?q=%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29&amp;format=rss" htmlUrl="https://www.bing.com/news/" />
+      <outline type="rss" text="KWIN City — comprehensive exact-name watch" title="KWIN City — comprehensive exact-name watch" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%20OR%20%22Knowledge%20Wellbeing%20and%20Innovation%20City%22%20OR%20%22%E0%B2%95%E0%B3%8D%E0%B2%B5%E0%B2%BF%E0%B2%A8%E0%B3%8D%20%E0%B2%B8%E0%B2%BF%E0%B2%9F%E0%B2%BF%22%29%20Bengaluru&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://news.google.com/" />
+    </outline>
+
+    <outline text="Official Government, State &amp; Central Original-Source Signals" title="Official Government, State &amp; Central Original-Source Signals">
+      <outline type="rss" text="Invest Karnataka — KWIN/KHIR" title="Invest Karnataka — KWIN/KHIR" xmlUrl="https://news.google.com/rss/search?q=site:investkarnataka.co.in%20%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://investkarnataka.co.in/" />
+      <outline type="rss" text="KIADB — KWIN/KHIR" title="KIADB — KWIN/KHIR" xmlUrl="https://news.google.com/rss/search?q=site:kiadb.karnataka.gov.in%20%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://kiadb.karnataka.gov.in/" />
+      <outline type="rss" text="Karnataka Legislature — KWIN/KHIR" title="Karnataka Legislature — KWIN/KHIR" xmlUrl="https://news.google.com/rss/search?q=site:kla.kar.nic.in%20%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://kla.kar.nic.in/" />
+      <outline type="rss" text="Karnataka Government — KWIN/KHIR" title="Karnataka Government — KWIN/KHIR" xmlUrl="https://news.google.com/rss/search?q=site:karnataka.gov.in%20%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://karnataka.gov.in/" />
+      <outline type="rss" text="Karnataka Industries — KWIN/KHIR" title="Karnataka Industries — KWIN/KHIR" xmlUrl="https://news.google.com/rss/search?q=site:industry.karnataka.gov.in%20%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://industry.karnataka.gov.in/" />
+      <outline type="rss" text="Karnataka Public Procurement — KWIN" title="Karnataka Public Procurement — KWIN" xmlUrl="https://news.google.com/rss/search?q=site:kppp.karnataka.gov.in%20%22KWIN%20City%22&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://kppp.karnataka.gov.in/" />
+    </outline>
+
+    <outline text="Publisher-Specific KWIN Filters" title="Publisher-Specific KWIN Filters">
+      <outline type="rss" text="Deccan Herald — KWIN" title="Deccan Herald — KWIN" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29%20site:deccanherald.com&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://www.deccanherald.com/" />
+      <outline type="rss" text="The Hindu — KWIN" title="The Hindu — KWIN" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29%20site:thehindu.com&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://www.thehindu.com/" />
+      <outline type="rss" text="Times of India — KWIN" title="Times of India — KWIN" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29%20site:timesofindia.indiatimes.com&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://timesofindia.indiatimes.com/" />
+      <outline type="rss" text="New Indian Express — KWIN" title="New Indian Express — KWIN" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29%20site:newindianexpress.com&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://www.newindianexpress.com/" />
+      <outline type="rss" text="Indian Express — KWIN" title="Indian Express — KWIN" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29%20site:indianexpress.com&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://indianexpress.com/" />
+      <outline type="rss" text="Hindustan Times — KWIN" title="Hindustan Times — KWIN" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29%20site:hindustantimes.com&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://www.hindustantimes.com/" />
+      <outline type="rss" text="Economic Times — KWIN" title="Economic Times — KWIN" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29%20site:economictimes.indiatimes.com&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://economictimes.indiatimes.com/" />
+      <outline type="rss" text="Business Standard — KWIN" title="Business Standard — KWIN" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29%20site:business-standard.com&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://www.business-standard.com/" />
+      <outline type="rss" text="Mint — KWIN" title="Mint — KWIN" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29%20site:livemint.com&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://www.livemint.com/" />
+      <outline type="rss" text="BusinessLine — KWIN" title="BusinessLine — KWIN" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29%20site:thehindubusinessline.com&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://www.thehindubusinessline.com/" />
+      <outline type="rss" text="Financial Express — KWIN" title="Financial Express — KWIN" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29%20site:financialexpress.com&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://www.financialexpress.com/" />
+      <outline type="rss" text="Moneycontrol — KWIN" title="Moneycontrol — KWIN" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29%20site:moneycontrol.com&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://www.moneycontrol.com/" />
+      <outline type="rss" text="CNBC-TV18 — KWIN" title="CNBC-TV18 — KWIN" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29%20site:cnbctv18.com&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://www.cnbctv18.com/" />
+      <outline type="rss" text="NDTV — KWIN" title="NDTV — KWIN" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29%20site:ndtv.com&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://www.ndtv.com/" />
+      <outline type="rss" text="India Today — KWIN" title="India Today — KWIN" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29%20site:indiatoday.in&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://www.indiatoday.in/" />
+      <outline type="rss" text="News18 — KWIN" title="News18 — KWIN" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22KHIR%20City%22%29%20site:news18.com&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://www.news18.com/" />
+    </outline>
+
+    <outline text="Kannada KWIN Watch" title="Kannada KWIN Watch">
+      <outline type="rss" text="Prajavani — ಕ್ವಿನ್ ಸಿಟಿ" title="Prajavani — ಕ್ವಿನ್ ಸಿಟಿ" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22%E0%B2%95%E0%B3%8D%E0%B2%B5%E0%B2%BF%E0%B2%A8%E0%B3%8D%20%E0%B2%B8%E0%B2%BF%E0%B2%9F%E0%B2%BF%22%29%20site:prajavani.net&amp;hl=kn&amp;gl=IN&amp;ceid=IN:kn" htmlUrl="https://www.prajavani.net/" />
+      <outline type="rss" text="Vijaya Karnataka — ಕ್ವಿನ್ ಸಿಟಿ" title="Vijaya Karnataka — ಕ್ವಿನ್ ಸಿಟಿ" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22%E0%B2%95%E0%B3%8D%E0%B2%B5%E0%B2%BF%E0%B2%A8%E0%B3%8D%20%E0%B2%B8%E0%B2%BF%E0%B2%9F%E0%B2%BF%22%29%20site:vijaykarnataka.com&amp;hl=kn&amp;gl=IN&amp;ceid=IN:kn" htmlUrl="https://vijaykarnataka.com/" />
+      <outline type="rss" text="Kannada Prabha — ಕ್ವಿನ್ ಸಿಟಿ" title="Kannada Prabha — ಕ್ವಿನ್ ಸಿಟಿ" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22%E0%B2%95%E0%B3%8D%E0%B2%B5%E0%B2%BF%E0%B2%A8%E0%B3%8D%20%E0%B2%B8%E0%B2%BF%E0%B2%9F%E0%B2%BF%22%29%20site:kannadaprabha.com&amp;hl=kn&amp;gl=IN&amp;ceid=IN:kn" htmlUrl="https://www.kannadaprabha.com/" />
+      <outline type="rss" text="OneIndia Kannada — ಕ್ವಿನ್ ಸಿಟಿ" title="OneIndia Kannada — ಕ್ವಿನ್ ಸಿಟಿ" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22%E0%B2%95%E0%B3%8D%E0%B2%B5%E0%B2%BF%E0%B2%A8%E0%B3%8D%20%E0%B2%B8%E0%B2%BF%E0%B2%9F%E0%B2%BF%22%29%20site:kannada.oneindia.com&amp;hl=kn&amp;gl=IN&amp;ceid=IN:kn" htmlUrl="https://kannada.oneindia.com/" />
+      <outline type="rss" text="The Federal Kannada — ಕ್ವಿನ್ ಸಿಟಿ" title="The Federal Kannada — ಕ್ವಿನ್ ಸಿಟಿ" xmlUrl="https://news.google.com/rss/search?q=%28%22KWIN%20City%22%20OR%20%22%E0%B2%95%E0%B3%8D%E0%B2%B5%E0%B2%BF%E0%B2%A8%E0%B3%8D%20%E0%B2%B8%E0%B2%BF%E0%B2%9F%E0%B2%BF%22%29%20site:karnataka.thefederal.com&amp;hl=kn&amp;gl=IN&amp;ceid=IN:kn" htmlUrl="https://karnataka.thefederal.com/" />
+    </outline>
+
+    <outline text="Strategic Context Signals" title="Strategic Context Signals">
+      <outline type="rss" text="Doddaballapura/Dabaspete strategic development" title="Doddaballapura/Dabaspete strategic development" xmlUrl="https://news.google.com/rss/search?q=%28Doddaballapura%20OR%20Doddaballapur%20OR%20Dabaspete%20OR%20Dobbaspet%29%20%28infrastructure%20OR%20investment%20OR%20policy%20OR%20KIADB%20OR%20metro%20OR%20rail%20OR%20highway%29&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://news.google.com/" />
+      <outline type="rss" text="North Bengaluru strategic development" title="North Bengaluru strategic development" xmlUrl="https://news.google.com/rss/search?q=%22North%20Bengaluru%22%20%28infrastructure%20OR%20investment%20OR%20policy%20OR%20industrial%20OR%20transit%29&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://news.google.com/" />
+      <outline type="rss" text="Bengaluru Rural official development" title="Bengaluru Rural official development" xmlUrl="https://news.google.com/rss/search?q=site:bengalururural.nic.in%20%28Doddaballapura%20OR%20Dabaspete%20OR%20KWIN%29&amp;hl=en-IN&amp;gl=IN&amp;ceid=IN:en" htmlUrl="https://bengalururural.nic.in/" />
+    </outline>
+  </body>
+</opml>
