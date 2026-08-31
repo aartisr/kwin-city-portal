@@ -4,7 +4,7 @@ An evidence-first civic knowledge platform for Bengaluru.
 
 ## Media Brief (Immediate Public Use)
 
-KWIN City Portal is a public-interest information platform designed to make complex urban-development narratives understandable, verifiable, and humane.
+KWIN City Portal is a public-interest information platform designed to make complex urban-development narratives understandable, verifiable, and "humane".
 
 If you are a journalist, editor, researcher, civic leader, or policy observer, this repository is your fast on-ramp to source-linked facts and transparent claim status.
 
