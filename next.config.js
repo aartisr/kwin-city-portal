@@ -45,6 +45,10 @@ experimental: {
         protocol: "https",
         hostname: "launchbuff.com",
       },
+      {
+        protocol: "https",
+        hostname: "api.producthunt.com",
+      },
     ],
     formats: ["image/avif", "image/webp"],
     // Responsive images

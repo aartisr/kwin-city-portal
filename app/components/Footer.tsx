@@ -330,19 +330,35 @@ export default function Footer({
             </Link>
           </div>
         </div>
-        <div className="flex justify-center pt-5 md:justify-end">
+        <div className="flex flex-wrap items-center justify-center gap-3 pt-5 md:justify-end">
           <a
             href="https://launchbuff.com/products/kwin-city-portal-hy4ydg"
             target="_blank"
             rel="noopener noreferrer"
             title="Featured on LaunchBuff"
-            className="opacity-60 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5A623]"
+            className="rounded-lg opacity-60 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5A623]"
           >
             <Image
               src="https://launchbuff.com/badge-featured-dark.svg"
               alt="Featured on LaunchBuff"
               width={256}
               height={80}
+              className="h-10 w-auto"
+            />
+          </a>
+          <a
+            href="https://www.producthunt.com/products/kwin-city-portal?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-kwin-city-portal"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="KWIN City Portal on Product Hunt"
+            className="rounded-lg opacity-60 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5A623]"
+          >
+            <Image
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1237354&theme=light&t=1788268691950"
+              alt="KWIN City Portal — knowledge, wellbeing, and innovation city. | Product Hunt"
+              width={250}
+              height={54}
+              className="h-10 w-auto"
             />
           </a>
         </div>
