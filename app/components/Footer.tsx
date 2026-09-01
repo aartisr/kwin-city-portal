@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import DeferredNewsletterSignup from "@/components/DeferredNewsletterSignup";
@@ -328,6 +329,22 @@ export default function Footer({
               {t("common.contact")}
             </Link>
           </div>
+        </div>
+        <div className="flex justify-center pt-5 md:justify-end">
+          <a
+            href="https://launchbuff.com/products/kwin-city-portal-hy4ydg"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Featured on LaunchBuff"
+            className="opacity-60 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5A623]"
+          >
+            <Image
+              src="https://launchbuff.com/badge-featured-dark.svg"
+              alt="Featured on LaunchBuff"
+              width={256}
+              height={80}
+            />
+          </a>
         </div>
       </div>
     </footer>
