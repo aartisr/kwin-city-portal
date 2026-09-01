@@ -41,6 +41,10 @@ experimental: {
         protocol: "https",
         hostname: "upload.wikimedia.org",
       },
+      {
+        protocol: "https",
+        hostname: "launchbuff.com",
+      },
     ],
     formats: ["image/avif", "image/webp"],
     // Responsive images
