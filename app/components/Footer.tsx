@@ -332,6 +332,21 @@ export default function Footer({
         </div>
         <div className="flex flex-wrap items-center justify-center gap-3 pt-5 md:justify-end">
           <a
+            href="https://launchnest.io/p/kwin-city"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="KWIN City on LaunchNest"
+            className="rounded-lg opacity-60 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5A623]"
+          >
+              <Image
+                src="/launch-nest-listed.svg"
+                alt="KWIN City on LaunchNest"
+                width={220}
+                height={56}
+                className="h-10 w-auto"
+              />
+          </a>
+          <a
             href="https://launchbuff.com/products/kwin-city-portal-hy4ydg"
             target="_blank"
             rel="noopener noreferrer"
