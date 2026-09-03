@@ -338,13 +338,15 @@ export default function Footer({
             title="KWIN City on LaunchNest"
             className="rounded-lg opacity-60 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5A623]"
           >
-              <Image
-                src="/launch-nest-listed.svg"
-                alt="KWIN City on LaunchNest"
-                width={220}
-                height={56}
-                className="h-10 w-auto"
-              />
+            {/* LaunchNest requires this direct image URL to verify the listing. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://launchnest.io/badge/kwin-city.svg?variant=listed"
+              alt="KWIN City on LaunchNest"
+              width="220"
+              height="56"
+              className="h-10 w-auto"
+            />
           </a>
           <a
             href="https://launchbuff.com/products/kwin-city-portal-hy4ydg"
