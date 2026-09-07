@@ -10,10 +10,10 @@
 
 - `npm run type-check`: pass
 - `npm run lint`: pass
-- `npm test`: pass (68 files, 286 tests)
+- `npm test`: pass (69 files, 289 tests)
 - `npm run test:coverage`: pass (thresholds met)
 - `npm run build:ci`: pass
-- `npm run e2e:smoke`: pass (45 routes)
+- `npm run e2e:smoke`: pass (46 routes)
 - Author/ownership and PWA consent browser contracts: pass (2 tests)
 - Supabase migration continuity and `SECURITY DEFINER` search-path policy: pass
 - Ephemeral PostgreSQL migration execution and atomic-RPC contract: enforced in CI
@@ -33,10 +33,10 @@
 | Accessibility | 9.2/10 | Automated route-level accessibility gate | Medium |
 | Performance and optimization | 9.1/10 | Production build gate and optimized application assets | Medium |
 | Security | 9.3/10 | Database privilege, migration, CSRF, throttling, and evidence-integrity controls | Medium |
-| Testing and quality gates | 9.9/10 | 286 tests plus executable database, static, build, browser, and live gates | Low |
+| Testing and quality gates | 9.9/10 | 289 tests plus executable database, static, build, browser, and live gates | Low |
 | Error boundaries and recovery | 9.2/10 | Global boundaries, offline recovery, and fail-closed evidence behavior | Medium |
 | Observability and monitoring | 9.1/10 | Structured telemetry and traceable operational evidence | Medium |
-| E2E resilience | 9.8/10 | Canonical 45-route inventory plus identity, consent, accessibility, and mobile contracts | Low |
+| E2E resilience | 9.8/10 | Canonical 46-route inventory plus identity, consent, accessibility, and mobile contracts | Low |
 | Documentation quality | 9.3/10 | Evidence-backed standards and operational runbooks | Low |
 
 ## Hardening Completed
