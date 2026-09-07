@@ -1,0 +1,100 @@
+name: Regression Suite
+
+on:
+  pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
+
+concurrency:
+  group: regression-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: kwin_migration_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d kwin_migration_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Full zero-warning lint gate
+        run: npm run lint
+
+      - name: Execute migration chain against ephemeral PostgreSQL
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/kwin_migration_test
+        run: npm run db:test:migrations
+
+      - name: Verify Vercel deployment configuration
+        run: npm run deploy:verify-vercel-config
+
+      - name: Type check
+        run: npm run type-check
+
+      - name: Build (lint-free gate)
+        run: npm run build:ci
+
+      - name: Unit tests with coverage thresholds
+        run: npm run test:coverage
+
+      - name: E2E smoke tests
+        env:
+          PW_TEST_HTML_REPORT_OPEN: never
+        run: npm run e2e:smoke
+
+      - name: A11y smoke tests
+        env:
+          PW_TEST_HTML_REPORT_OPEN: never
+        run: npm run e2e:a11y-smoke
+
+      - name: Mobile critical-route contracts
+        env:
+          PW_TEST_HTML_REPORT_OPEN: never
+        run: npm run e2e:mobile-contract
+
+      - name: Author identity and PWA consent contracts
+        env:
+          PW_TEST_HTML_REPORT_OPEN: never
+        run: npx playwright test e2e/identity-and-pwa-contracts.spec.ts e2e/cognitive-load-contracts.spec.ts e2e/interactive-intelligence-contracts.spec.ts --project=chromium --reporter=line --workers=1
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report

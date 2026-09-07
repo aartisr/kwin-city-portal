@@ -1,0 +1,68 @@
+plugins {
+    id 'com.android.application'
+}
+
+def hasReleaseSigning =
+        project.hasProperty('KWIN_RELEASE_STORE_FILE') &&
+        project.hasProperty('KWIN_RELEASE_STORE_PASSWORD') &&
+        project.hasProperty('KWIN_RELEASE_KEY_ALIAS') &&
+        project.hasProperty('KWIN_RELEASE_KEY_PASSWORD')
+
+def ciVersionName = (project.findProperty('KWIN_VERSION_NAME') ?: '1.0.0').toString()
+def ciVersionCode = (project.findProperty('KWIN_VERSION_CODE') ?: '1').toString().toInteger()
+
+android {
+    namespace 'com.kwincity.portal'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.kwincity.portal'
+        minSdk 21
+        targetSdk 34
+        versionCode ciVersionCode
+        versionName ciVersionName
+
+        manifestPlaceholders = [hostName: 'kwin-city.com']
+    }
+
+    signingConfigs {
+        release {
+            if (hasReleaseSigning) {
+                // Resolve from android/ root so CI value "app/kwin-release.jks" maps correctly.
+                storeFile rootProject.file(project.property('KWIN_RELEASE_STORE_FILE'))
+                storePassword project.property('KWIN_RELEASE_STORE_PASSWORD')
+                keyAlias project.property('KWIN_RELEASE_KEY_ALIAS')
+                keyPassword project.property('KWIN_RELEASE_KEY_PASSWORD')
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig hasReleaseSigning ? signingConfigs.release : signingConfigs.debug
+        }
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    // No Java/Kotlin sources — everything is via androidbrowserhelper
+    sourceSets {
+        main {
+            java.srcDirs = []
+        }
+    }
+}
+
+dependencies {
+    // Trusted Web Activity shell — no Java code needed
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.5.0'
+}

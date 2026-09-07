@@ -1,8 +1,67 @@
+# Dependencies
 node_modules/
-build/
-dist/
-coverage/
+/.pnp
+.pnp.js
+pnpm-lock.yaml
+
+# Testing
+/coverage
+.nyc_output/
+/playwright-report/
+/test-results/
+
+# Production & Build
+/build
+/dist
+/.next
+/.next-dev
+/out
+.vercel/
+
+# Misc & OS
 .DS_Store
+*.pem
+*.key
+*.crt
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Debug & Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*-debug.log
 *.log
+
+# Local env files
 .env*
 !.env.example
+.npmrc.private
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# TypeScript
+*.tsbuildinfo
+dist-types/
+
+# Cache
+.cache/
+.turbo/
+.eslintcache
+.stylelintcache
+.prettier-cache
+
+# Android
+*.jks
+*.keystore
+android/*.jks
+android/.gradle/
+
+# Local file-based storage
+.data/

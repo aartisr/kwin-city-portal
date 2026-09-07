@@ -1,0 +1,21 @@
+import { describe, expect, it, vi } from 'vitest';
+import { generateHomeMetadata } from '@/lib/home/metadata';
+
+vi.mock('@/lib/i18n/server', () => ({
+  getServerLocale: vi.fn(async () => 'en'),
+  pickByLocale: (_locale: string, values: { en: string }) => values.en,
+}));
+
+describe('home/metadata', () => {
+  it('generates canonical metadata for homepage', async () => {
+    const metadata = await generateHomeMetadata();
+
+    expect(metadata.title).toBeTruthy();
+    expect(metadata.description).toBeTruthy();
+    expect(String(metadata.description).length).toBeGreaterThanOrEqual(25);
+    expect(String(metadata.description).length).toBeLessThanOrEqual(160);
+    expect(metadata.alternates?.canonical).toBe('https://kwin-city.com');
+    expect(metadata.authors).toEqual([{ name: 'Aarti S Ravikumar', url: 'https://kwin-city.com/aarti-s-ravikumar' }]);
+    expect(metadata.creator).toBe('Aarti S Ravikumar');
+  });
+});

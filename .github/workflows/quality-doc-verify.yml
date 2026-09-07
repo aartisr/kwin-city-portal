@@ -1,0 +1,53 @@
+name: Quality Standards Verification
+
+on:
+  pull_request:
+    branches: [main, master]
+    paths:
+      - QUALITY_STANDARDS.md
+      - scripts/verify-quality-standards.mjs
+      - package.json
+      - app/**
+      - e2e/**
+      - playwright.config.ts
+      - vitest.config.ts
+  workflow_dispatch:
+
+concurrency:
+  group: quality-doc-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-quality-doc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify quality standards snapshot
+        env:
+          PW_TEST_HTML_REPORT_OPEN: never
+        run: npm run quality:verify-doc
+
+      - name: Verify factual integrity guardrails
+        run: npm run quality:verify-facts
+
+      - name: Verify AI discovery and citation signals
+        run: npm run discovery:verify-signals
+
+      - name: Verify GitHub Pages discovery hub
+        run: npm run discovery:verify-github-pages

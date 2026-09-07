@@ -1,0 +1,14 @@
+# KWIN City AI Crawling and Usage Policy
+
+Site: https://kwin-city.com/
+LLM Guidance: https://kwin-city.com/llms.txt
+Author and creator: Aarti S Ravikumar
+Author profile: https://kwin-city.com/aarti-s-ravikumar
+Legal and copyright owner: BAJA Associates
+Legal owner URL: https://baja.kwin-city.com
+Sitemap: https://kwin-city.com/sitemap.xml
+Feed: https://kwin-city.com/feed.xml
+Last Updated: 2026-08-10
+
+Source of truth: this policy is generated dynamically at runtime by app/ai.txt/route.ts.
+If this fallback file and runtime output differ, rely on the runtime endpoint.

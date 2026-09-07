@@ -1,0 +1,64 @@
+const DEFAULT_TIMEOUT_MS = 120_000;
+
+function configuredValue(name) {
+  const value = process.env[name]?.trim();
+  if (!value) {
+    throw new Error(`${name} must be configured.`);
+  }
+  return value;
+}
+
+export async function triggerSeoAgencyRefresh({
+  refreshUrl = configuredValue('SITE_REFRESH_URL'),
+  cronSecret = configuredValue('CRON_SECRET'),
+  fetchImpl = fetch,
+  timeoutMs = DEFAULT_TIMEOUT_MS,
+  invocationId = process.env.GITHUB_RUN_ID
+    ? `${process.env.GITHUB_RUN_ID}:${process.env.GITHUB_RUN_ATTEMPT || '1'}`
+    : null,
+} = {}) {
+  const response = await fetchImpl(refreshUrl, {
+    headers: {
+      authorization: `Bearer ${cronSecret}`,
+      'x-kwin-trigger-provider': 'github_actions',
+      ...(invocationId ? { 'x-github-run-id': invocationId } : {}),
+    },
+    signal: AbortSignal.timeout(timeoutMs),
+  });
+
+  const bodyText = await response.text();
+  let body;
+  try {
+    body = JSON.parse(bodyText);
+  } catch {
+    throw new Error(`SEO agency refresh returned invalid JSON: HTTP ${response.status}${bodyText ? ` — ${bodyText}` : ''}`);
+  }
+
+  if (!response.ok || body?.success !== true) {
+    throw new Error(`SEO agency refresh failed: HTTP ${response.status}${body?.error ? ` — ${body.error}` : ''}`);
+  }
+
+  if (body.storageBackend !== 'supabase') {
+    const diagnostic = body.persistence ? ` — diagnostics: ${JSON.stringify(body.persistence)}` : '';
+    throw new Error(
+      `SEO agency refresh did not persist to Supabase (storageBackend: ${body.storageBackend ?? 'missing'})` +
+        `${body.warning ? ` — ${body.warning}` : ''}${diagnostic}`,
+    );
+  }
+
+  if (body.liveInputStatus !== 'live' || body.evidence?.qualified !== true) {
+    throw new Error(`SEO agency refresh completed but did not qualify freshness: liveInputStatus=${body.liveInputStatus ?? 'missing'}, evidenceQualified=${body.evidence?.qualified ?? false}${body.evidence?.warning ? ` — ${body.evidence.warning}` : ''}`);
+  }
+
+  console.log(
+    `SEO agency refresh persisted to Supabase: runDate=${body.runDate}, generatedAt=${body.generatedAt}, durationMs=${body.durationMs}.`,
+  );
+  return body;
+}
+
+if (process.argv[1]?.endsWith('trigger-seo-agency-refresh.mjs')) {
+  triggerSeoAgencyRefresh().catch((error) => {
+    console.error(error instanceof Error ? error.message : error);
+    process.exitCode = 1;
+  });
+}

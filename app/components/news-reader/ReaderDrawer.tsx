@@ -1,0 +1,196 @@
+'use client';
+
+import { useEffect, useRef } from 'react';
+import { formatDate, getDomain } from './utils';
+import type { ReaderCluster, ReaderItem, ReaderLocale, ReaderText } from './types';
+import { IntelligenceBriefPanel } from './IntelligenceBriefPanel';
+
+function getSourceTierCopy(
+  l: ReaderText,
+  tier: ReaderItem['sourceTier'],
+): { label: string; className: string } {
+  if (tier === 'primary') {
+    return {
+      label: l({ en: 'Primary', kn: 'ಪ್ರಾಥಮಿಕ', hi: 'प्राथमिक', ta: 'முதன்மை' }),
+      className: 'border-emerald-200 bg-emerald-50 text-emerald-800',
+    };
+  }
+
+  if (tier === 'official') {
+    return {
+      label: l({ en: 'Official', kn: 'ಅಧಿಕೃತ', hi: 'आधिकारिक', ta: 'அதிகாரப்பூர்வ' }),
+      className: 'border-sky-200 bg-sky-50 text-sky-800',
+    };
+  }
+
+  return {
+    label: l({ en: 'Discovery', kn: 'ಅನ್ವೇಷಣೆ', hi: 'खोज', ta: 'கண்டுபிடிப்பு' }),
+    className: 'border-slate-200 bg-slate-100 text-slate-700',
+  };
+}
+
+type ReaderDrawerProps = {
+  item: ReaderItem;
+  locale: ReaderLocale;
+  l: ReaderText;
+  onClose: () => void;
+  isSaved?: boolean;
+  onToggleSaved?: (id: string, item?: ReaderItem) => void;
+  followedTopics?: string[];
+  onToggleFollowedTopic?: (topic: string) => void;
+};
+
+export function ReaderDrawer({ item, locale, l, onClose, isSaved = false, onToggleSaved, followedTopics = [], onToggleFollowedTopic }: ReaderDrawerProps) {
+  const cluster = (item as ReaderItem & { cluster?: ReaderCluster }).cluster;
+  const followTopic = item.kwinRelevanceReasons?.[0] ?? cluster?.whyThisMatters?.[0];
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    dialogRef.current?.focus();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+      if (event.key !== 'Tab' || !dialogRef.current) return;
+      const focusable = [...dialogRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])')];
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = previousOverflow;
+      previouslyFocused?.focus();
+    };
+  }, [onClose]);
+
+  return (
+    <>
+      <div
+        className="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
+      <div
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-label={item.title}
+        className="fixed inset-y-0 right-0 z-50 flex w-full max-w-2xl flex-col bg-white shadow-2xl"
+      >
+        <div className="flex items-center justify-between gap-4 border-b border-slate-200 px-5 py-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <span
+              className={`rounded-full border px-2.5 py-1 text-[11px] font-bold tracking-[0.08em] uppercase ${getSourceTierCopy(l, item.sourceTier).className}`}
+            >
+              {getSourceTierCopy(l, item.sourceTier).label}
+            </span>
+            <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-semibold tracking-[0.06em] uppercase text-slate-600">
+              {item.source}
+            </span>
+            <span className="text-[11px] text-slate-500">{formatDate(item.publishedAt, locale)}</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <a
+              href={item.link}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+            >
+              {l({ en: 'Open Original', kn: 'ಮೂಲ ತೆರೆ', hi: 'मूल खोलें', ta: 'மூலத்தைத் திற' })} ↗
+            </a>
+            <button
+              onClick={onClose}
+              aria-label={l({ en: 'Close reader', kn: 'ರೀಡರ್ ಮುಚ್ಚಿ', hi: 'रीडर बंद करें', ta: 'ரீடரை மூடு' })}
+              className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
+                <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div className="flex-1 overflow-y-auto px-6 py-6">
+          <h1 className="text-2xl font-extrabold leading-tight text-slate-900 mb-5">{item.title}</h1>
+
+          {item.fullContent && item.fullContent.length > item.summary.length + 20 ? (
+            <div className="prose prose-slate prose-sm max-w-none leading-8 text-slate-700 whitespace-pre-line">
+              {item.fullContent}
+            </div>
+          ) : (
+            <>
+              <p className="leading-8 text-slate-700">{item.summary}</p>
+              <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                <strong>
+                  {l({ en: 'Publisher content boundary.', kn: 'ಪ್ರಕಾಶಕರ ವಿಷಯದ ಮಿತಿ.', hi: 'प्रकाशक सामग्री सीमा।', ta: 'வெளியீட்டாளர் உள்ளடக்க வரம்பு.' })}
+                </strong>{' '}
+                {l({ en: 'The feed did not include the complete article. KWIN does not reconstruct or republish missing publisher text. The intelligence brief below uses only visible feed metadata and source provenance.', kn: 'ಫೀಡ್ ಸಂಪೂರ್ಣ ಲೇಖನವನ್ನು ಒಳಗೊಂಡಿಲ್ಲ. KWIN ಕಾಣೆಯಾದ ಪ್ರಕಾಶಕರ ಪಠ್ಯವನ್ನು ಮರುರಚಿಸುವುದಿಲ್ಲ ಅಥವಾ ಮರುಪ್ರಕಟಿಸುವುದಿಲ್ಲ.', hi: 'फ़ीड में पूरा लेख शामिल नहीं था। KWIN अनुपलब्ध प्रकाशक सामग्री का पुनर्निर्माण या पुनर्प्रकाशन नहीं करता।', ta: 'ஊட்டத்தில் முழுக் கட்டுரை இல்லை. விடுபட்ட வெளியீட்டாளர் உரையை KWIN மீளுருவாக்கவோ மறுபதிப்பிடவோ செய்யாது.' })}
+              </div>
+            </>
+          )}
+
+          <div className="mt-8">
+            <IntelligenceBriefPanel item={item} cluster={cluster} locale={locale} />
+          </div>
+
+          <section className="mt-8 border-t border-slate-200 pt-6">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-slate-500">Why this appears</p>
+            <ul className="mt-2 space-y-1 text-sm text-slate-700">
+              {(cluster?.whyThisMatters ?? [item.provenance.replace(/-/g, ' ')]).map((reason) => <li key={reason}>• {reason}</li>)}
+            </ul>
+          </section>
+
+          {cluster && cluster.items.length > 1 ? (
+            <section className="mt-6 rounded-xl border border-cyan-200 bg-cyan-50 p-4">
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-cyan-900">Compare coverage · {cluster.sourceCount} distinct publisher domains</p>
+              <div className="mt-3 space-y-3">
+                {cluster.items.map((coverage) => (
+                  <a key={coverage.link} href={coverage.originalLink || coverage.link} target="_blank" rel="noreferrer" className="block rounded-lg bg-white p-3 text-sm shadow-sm hover:bg-slate-50">
+                    <span className="font-bold text-slate-900">{coverage.source}</span><span className="ml-2 text-xs text-slate-500">{coverage.provenance.replace(/-/g, ' ')}</span>
+                    <p className="mt-1 font-medium text-slate-800">{coverage.title}</p>
+                  </a>
+                ))}
+              </div>
+            </section>
+          ) : null}
+        </div>
+
+        <div className="border-t border-slate-200 bg-slate-50 px-6 py-4 flex items-center justify-between gap-3">
+          <span className="text-xs text-slate-500">
+            {l({ en: 'Trust tier', kn: 'ನಂಬಿಕೆ ಹಂತ', hi: 'विश्वास स्तर', ta: 'நம்பிக்கை நிலை' })}:{' '}
+            <span className="font-semibold text-slate-700">{getSourceTierCopy(l, item.sourceTier).label}</span>{' '}
+            ·{' '}
+            · <span className="font-semibold">{item.source}</span>
+          </span>
+          <div className="flex flex-wrap justify-end gap-2">
+          {followTopic && onToggleFollowedTopic ? (
+            <button type="button" onClick={() => onToggleFollowedTopic(followTopic)} className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:border-cyan-500">
+              {followedTopics.includes(followTopic) ? 'Following topic' : 'Follow topic'}
+            </button>
+          ) : null}
+          {onToggleSaved ? (
+            <button type="button" onClick={() => onToggleSaved(item.link, item)} className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:border-cyan-500">
+              {isSaved ? 'Saved offline' : 'Save brief'}
+            </button>
+          ) : null}
+          <a
+            href={item.link}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
+          >
+            {l({ en: 'Read full article at', kn: 'ಪೂರ್ಣ ಲೇಖನ ಓದಿ:', hi: 'पूरा लेख पढ़ें:', ta: 'முழு கட்டுரையைப் படிக்க:' })} {getDomain(item.link)} ↗
+          </a>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
