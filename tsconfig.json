@@ -20,7 +20,9 @@
         "./*",
         "./src/*",
         "./app/*"
-      ]
+      ],
+      "next": ["./shims/next/index.ts"],
+      "next/*": ["./shims/next/*"]
     },
     "allowImportingTsExtensions": true,
     "noEmit": true
