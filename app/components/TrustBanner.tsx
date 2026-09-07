@@ -58,29 +58,7 @@ export default function TrustBanner({
   factualAuditAgeDays = 0,
   executionStatusAgeDays = 0,
 }: TrustBannerProps) {
-  const [isScrollHidden, setIsScrollHidden] = useState(false);
   const bannerRef = useRef<HTMLElement>(null);
-  const lastY = useRef(0);
-
-  useEffect(() => {
-    const onScroll = () => {
-      const currentY = window.scrollY;
-      const delta = currentY - lastY.current;
-
-      if (currentY < 120) {
-        setIsScrollHidden(false);
-      } else if (delta > 6) {
-        setIsScrollHidden(true);
-      } else if (delta < -6) {
-        setIsScrollHidden(false);
-      }
-
-      lastY.current = currentY;
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     let frameId = 0;
@@ -88,7 +66,7 @@ export default function TrustBanner({
     const updateBannerHeight = () => {
       window.cancelAnimationFrame(frameId);
       frameId = window.requestAnimationFrame(() => {
-        if (!visible || isScrollHidden) {
+        if (!visible) {
           document.documentElement.style.setProperty(
             "--kwin-trust-banner-height",
             "0px",
@@ -99,10 +77,12 @@ export default function TrustBanner({
         const height = Math.ceil(
           bannerRef.current?.getBoundingClientRect().height ?? 0,
         );
-        document.documentElement.style.setProperty(
-          "--kwin-trust-banner-height",
-          `${height}px`,
-        );
+        if (height > 0) {
+          document.documentElement.style.setProperty(
+            "--kwin-trust-banner-height",
+            `${height}px`,
+          );
+        }
       });
     };
 
@@ -119,14 +99,9 @@ export default function TrustBanner({
       window.cancelAnimationFrame(frameId);
       observer?.disconnect();
       window.removeEventListener("resize", updateBannerHeight);
-      document.documentElement.style.setProperty(
-        "--kwin-trust-banner-height",
-        "0px",
-      );
     };
-  }, [visible, expanded, isScrollHidden]);
+  }, [visible, expanded]);
 
-  const isVisible = visible && !isScrollHidden;
   const oldestSignalAgeDays = Math.max(
     contentAgeDays,
     factualAuditAgeDays,
@@ -144,9 +119,9 @@ export default function TrustBanner({
   return (
     <>
       <div
-        className="transition-all duration-300"
+        className="transition-[height] duration-200 ease-out"
         style={{
-          height: isVisible ? "var(--kwin-trust-banner-height)" : "0px",
+          height: visible ? "var(--kwin-trust-banner-height)" : "0px",
         }}
         aria-hidden="true"
       />
@@ -156,12 +131,12 @@ export default function TrustBanner({
         data-testid="trust-banner"
         role="region"
         aria-label="Trust banner"
-        className={`fixed left-0 right-0 top-[var(--kwin-header-height)] z-40 border-b shadow-[0_10px_24px_rgba(15,23,42,0.08)] backdrop-blur-xl transition-all duration-300 ${
+        className={`fixed left-0 right-0 top-[var(--kwin-header-height)] z-40 border-b shadow-[0_10px_24px_rgba(15,23,42,0.08)] backdrop-blur-xl transition-all duration-200 ${
           degraded
             ? "border-amber-200 bg-[linear-gradient(90deg,rgba(255,251,235,0.96)_0%,rgba(254,242,242,0.96)_100%)]"
             : "border-cyan-100 bg-[linear-gradient(90deg,rgba(236,254,255,0.96)_0%,rgba(248,250,252,0.96)_45%,rgba(255,251,235,0.96)_100%)]"
         } ${
-          isVisible
+          visible
             ? "translate-y-0 opacity-100"
             : "-translate-y-full opacity-0 pointer-events-none"
         }`}

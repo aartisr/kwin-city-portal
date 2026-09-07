@@ -39,9 +39,6 @@ export default function SiteChrome({
   headerLabels,
   trustBannerCopy,
 }: SiteChromeProps) {
-  const [trustBannerVisible, setTrustBannerVisible] = useState(false);
-  const [freshnessIncidentDismissed, setFreshnessIncidentDismissed] =
-    useState(false);
   const freshnessIncident =
     trustBannerCopy.incidentKey ??
     [
@@ -50,13 +47,39 @@ export default function SiteChrome({
       trustBannerCopy.executionStatusAgeDays ?? 0,
     ].join(":");
 
+  const [trustBannerVisible, setTrustBannerVisible] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      return localStorage.getItem("kwin-trust-banner-visible") === "true";
+    } catch {
+      return false;
+    }
+  });
+
+  const [freshnessIncidentDismissed, setFreshnessIncidentDismissed] =
+    useState<boolean>(() => {
+      if (typeof window === "undefined") return false;
+      try {
+        return (
+          localStorage.getItem("kwin-freshness-dismissed-incident") ===
+          freshnessIncident
+        );
+      } catch {
+        return false;
+      }
+    });
+
   useEffect(() => {
-    const stored = localStorage.getItem("kwin-trust-banner-visible");
-    if (stored === "true") setTrustBannerVisible(true);
-    setFreshnessIncidentDismissed(
-      localStorage.getItem("kwin-freshness-dismissed-incident") ===
-        freshnessIncident,
-    );
+    try {
+      const stored = localStorage.getItem("kwin-trust-banner-visible");
+      if (stored === "true") setTrustBannerVisible(true);
+      setFreshnessIncidentDismissed(
+        localStorage.getItem("kwin-freshness-dismissed-incident") ===
+          freshnessIncident,
+      );
+    } catch {
+      // Storage unavailable
+    }
   }, [freshnessIncident]);
 
   const toggleTrustBanner = () => {
