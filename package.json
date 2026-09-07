@@ -13,7 +13,10 @@
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
     "type-check": "tsc --noEmit",
-    "test": "node -e 'console.log(\"Tests passed\")'",
+    "test": "vitest run",
+    "pretest:coverage": "node scripts/verify-node-runtime.mjs",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest",
     "operations:verify-current": "node scripts/verify-always-current-operations.mjs",
     "operations:submit-evidence": "node scripts/submit-operational-evidence.mjs",
     "sources:verify-primary-health": "node scripts/verify-primary-source-health.mjs",
@@ -22,10 +25,20 @@
     "quality:verify-facts": "node scripts/verify-factual-integrity.mjs",
     "quality:verify-doc": "node scripts/verify-quality-standards.mjs",
     "discovery:verify-signals": "node scripts/verify-discovery-signals.mjs && node scripts/verify-author-identity.mjs",
+    "discovery:verify-github-pages": "node scripts/verify-github-pages-discovery.mjs",
+    "discovery:verify-published-github-pages": "node scripts/verify-published-github-pages.mjs",
     "deploy:verify-vercel-config": "node scripts/verify-vercel-cron.mjs",
     "pwa:verify": "node scripts/verify-pwa.mjs && node --check public/sw.js",
     "db:verify:migrations": "node scripts/verify-supabase-migrations.mjs",
-    "audit:refresh": "node scripts/refresh-factual-audit.mjs"
+    "db:test:migrations": "node scripts/test-supabase-migrations.mjs",
+    "audit:refresh": "node scripts/refresh-factual-audit.mjs",
+    "notify:search": "node scripts/ping-search-engines.mjs",
+    "indexnow:submit": "node scripts/submit-indexnow.mjs",
+    "e2e": "playwright test",
+    "e2e:smoke": "playwright test e2e/routes-regression.spec.ts --project=chromium --reporter=line",
+    "e2e:a11y-smoke": "playwright test e2e/accessibility-smoke.spec.ts --project=chromium --reporter=line --workers=1",
+    "e2e:mobile-contract": "playwright test e2e/mobile-critical-contracts.spec.ts --project=chromium --reporter=line --workers=1",
+    "e2e:contrast": "playwright test e2e/contrast-audit.spec.ts --project=chromium --reporter=line --workers=1"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
@@ -44,14 +57,23 @@
     "vite": "^6.2.3"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
     "@types/express": "^4.17.21",
     "@types/node": "^22.14.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@vitest/coverage-v8": "^5.0.0",
     "autoprefixer": "^10.4.21",
+    "axe-core": "^4.13.0",
     "esbuild": "^0.25.0",
+    "jsdom": "^30.0.1",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.21.0",
-    "typescript": "~5.8.2"
+    "typescript": "~5.8.2",
+    "vitest": "^5.0.0"
   }
 }
