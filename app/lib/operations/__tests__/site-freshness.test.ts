@@ -37,8 +37,8 @@ describe("getSiteFreshnessStatus", () => {
     const { getSiteFreshnessStatus } = await import("../site-freshness");
     const status = getSiteFreshnessStatus();
 
-    expect(status.factualAudit.isoDate).toBe("2026-08-09");
-    expect(status.executionStatus.isoDate).toBe("2026-08-08");
+    expect(status.factualAudit.isoDate).toBe("2026-09-07");
+    expect(status.executionStatus.isoDate).toBe("2026-09-07");
     expect(status.factualAudit.ageDays).toBeGreaterThanOrEqual(0);
     expect(status.executionStatus.ageDays).toBeGreaterThanOrEqual(0);
   });
