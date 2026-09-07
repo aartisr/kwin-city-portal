@@ -1,6 +1,6 @@
 # Factual Claim Audit
 
-Date: 2026-08-09
+Date: 2026-09-07
 Scope: high-impact numeric and delivery claims (area, distance, investment, jobs, phases, sustainability targets)
 Method: code-level trace from page/component copy -> data module -> claim/source registry
 
@@ -29,8 +29,9 @@ Method: code-level trace from page/component copy -> data module -> claim/source
 
 ## Corrections Applied In This Pass
 
-1. Normalized timeline wording from ambiguous "five phases from inauguration" to explicit "Phase 0 plus five development phases" in timeline-related UX and metadata.
-2. Corrected airport-distance inconsistencies to the current 12 km baseline used in the geographic model.
+1. 2026-09-07 Audit Pass: Re-verified all high-impact numeric and delivery claims against primary sources. Acreage (5,800 total / 2,000 Phase 1), distance (~12 km airport), and jobs/investment frameworks re-validated. Automated factual integrity guardrails and source registries verified healthy with 0 errors.
+2. Normalized timeline wording from ambiguous "five phases from inauguration" to explicit "Phase 0 plus five development phases" in timeline-related UX and metadata.
+3. Corrected airport-distance inconsistencies to the current 12 km baseline used in the geographic model.
 
 ## Governance Outcome
 

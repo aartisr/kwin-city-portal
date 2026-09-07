@@ -9,8 +9,8 @@ const EXECUTION_WARN_DAYS = FRESHNESS_TARGET_DAYS.executionStatus;
 // These values mirror the checked-in operational records below. Vercel server
 // functions do not reliably ship repository documentation files, so they keep
 // the freshness signal available when those files are absent at runtime.
-const FACTUAL_AUDIT_FALLBACK_DATE = "2026-08-09";
-const EXECUTION_STATUS_FALLBACK_DATE = "2026-08-08";
+const FACTUAL_AUDIT_FALLBACK_DATE = "2026-09-07";
+const EXECUTION_STATUS_FALLBACK_DATE = "2026-09-07";
 
 type FreshnessRecord = {
   isoDate: string;

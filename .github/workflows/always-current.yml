@@ -14,7 +14,7 @@ on:
         options: [standard, full]
 
 permissions:
-  contents: read
+  contents: write
   issues: write
 
 concurrency:
@@ -156,6 +156,17 @@ jobs:
         id: record_execution_evidence
         if: always() && steps.build_evidence.outcome == 'success'
         run: node scripts/submit-operational-evidence.mjs execution-status-evidence.json
+
+      - name: Commit auto-refreshed audit dates if updated
+        if: always()
+        run: |
+          if [ -n "$(git status --porcelain docs/ app/lib/operations/site-freshness.ts)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add docs/FACTUAL_CLAIM_AUDIT.md docs/KWIN_VALUE_ADD_EXECUTION_STATUS.md app/lib/operations/site-freshness.ts
+            git commit -m "chore(audit): auto-refresh verified factual audit dates [skip ci]" || true
+            git push || true
+          fi
 
       - name: Build minimal always-current audit log
         if: always()

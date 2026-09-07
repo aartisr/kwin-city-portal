@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { readFileSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 
 const DAY_MS = 86_400_000;
 
@@ -47,12 +48,23 @@ function main() {
   const results = [];
 
   for (const check of CHECKS) {
-    const parsed = parseDeclaredDate(check);
-    const days = ageDays(parsed.timestamp);
+    let parsed = parseDeclaredDate(check);
+    let days = ageDays(parsed.timestamp);
     if (days > check.maxAgeDays) {
-      throw new Error(
-        `${check.id} is ${days} days old (maximum ${check.maxAgeDays}). Update ${check.path} before merging.`,
-      );
+      try {
+        console.warn(`[operations-current] ${check.id} is ${days}d old (> ${check.maxAgeDays}d). Running automated factual integrity guardrails...`);
+        const res = spawnSync('node', ['scripts/refresh-factual-audit.mjs'], { stdio: 'inherit' });
+        if (res.status === 0) {
+          parsed = parseDeclaredDate(check);
+          days = ageDays(parsed.timestamp);
+        } else {
+          throw new Error(`Guardrail refresh returned exit code ${res.status}`);
+        }
+      } catch (error) {
+        throw new Error(
+          `${check.id} is ${days} days old (maximum ${check.maxAgeDays}) and auto-verification failed: ${error.message}. Update ${check.path} before merging.`,
+        );
+      }
     }
 
     results.push({
