@@ -1,0 +1,6 @@
+{
+  "name": "KWIN City Website Audit & Rating",
+  "description": "Comprehensive 1 to 10 scale evaluation, performance analysis, transparency audit, and rating report for kwin-city.com.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
