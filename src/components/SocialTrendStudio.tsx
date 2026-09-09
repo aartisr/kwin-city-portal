@@ -789,15 +789,31 @@ export const SocialTrendStudio: React.FC = () => {
                       <p className="text-xs text-emerald-200 leading-relaxed">
                         {activePlatform === 'instagram' 
                           ? 'Your update and visual container have been published live directly to @hellokwincityconnect on Instagram!'
-                          : 'Your update has been published live directly to the official Kwin City Bengaluru Facebook page. You can now use the Commenting tool on the left sidebar to engage!'}
+                          : 'Your update has been published live directly to the official KWIN City Bengaluru Facebook page.'}
                       </p>
-                      <div className="pt-2">
+                      <div className="pt-2 space-y-2">
+                        <a
+                          href={activePlatform === 'instagram' 
+                            ? "https://www.instagram.com/hellokwincityconnect/" 
+                            : "https://www.facebook.com/kwincity"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 py-2.5 text-xs font-bold text-white hover:brightness-110 transition-all shadow-lg cursor-pointer"
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                          <span>
+                            {activePlatform === 'instagram' 
+                              ? 'View Post on Instagram (@hellokwincityconnect)' 
+                              : 'View Post on Facebook Page'}
+                          </span>
+                        </a>
+
                         <button
                           type="button"
                           onClick={() => setShowPublishModal(false)}
-                          className="w-full rounded-xl border border-slate-700 bg-slate-800 py-2.5 text-xs font-semibold text-slate-300 hover:text-white transition-colors cursor-pointer"
+                          className="w-full rounded-xl border border-slate-700 bg-slate-800 py-2 text-xs font-semibold text-slate-300 hover:text-white transition-colors cursor-pointer"
                         >
-                          Fantastic!
+                          Close
                         </button>
                       </div>
                     </>
