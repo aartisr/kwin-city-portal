@@ -3,19 +3,30 @@
 
 User-agent: *
 Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /sitemap.xml
+Allow: /openapi.json
 
-# Directives for AI Search Crawlers & LLM Scrapers
+# Specialized AI Search & Research Bots Directives
 User-agent: GPTBot
 Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
 
 User-agent: ChatGPT-User
 Allow: /
 
 User-agent: ClaudeBot
 Allow: /
+Allow: /llms.txt
+
+User-agent: Claude-Web
+Allow: /
 
 User-agent: PerplexityBot
 Allow: /
+Allow: /llms.txt
 
 User-agent: Google-Extended
 Allow: /
@@ -26,5 +37,8 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-# Sitemap Directive
+# Sitemap Location
 Sitemap: https://kwin-city.com/sitemap.xml
+
+# LLM Manifest
+Link: <https://kwin-city.com/llms.txt>; rel="llms-txt"
