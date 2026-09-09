@@ -5,6 +5,10 @@ interface Props { children: React.ReactNode; }
 interface State { hasError: boolean; }
 
 export class ErrorBoundary extends React.Component<Props, State> {
+  props!: Props;
+  constructor(props: Props) {
+    super(props);
+  }
   state: State = { hasError: false };
 
   static getDerivedStateFromError() {

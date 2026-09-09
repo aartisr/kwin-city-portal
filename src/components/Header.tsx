@@ -17,7 +17,8 @@ import {
   ShieldAlert,
   Briefcase,
   Satellite,
-  Mail
+  Mail,
+  Users
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -60,6 +61,7 @@ export const Header: React.FC<HeaderProps> = ({
     { id: 'valuation', label: 'Valuation Index', icon: BarChart3, desc: '10-year land appreciation curves' },
     { id: 'feasibility', label: 'Survey Feasibility', icon: Compass, desc: 'Survey lookup, KIADB payout & ROI' },
     { id: 'regulatory', label: 'Regulatory', icon: Layers, desc: 'Single-window statutory clearances' },
+    { id: 'discourse', label: 'Discourse Lab', icon: Users, desc: 'Evidence-first citizen dialogue & AI guide' },
   ];
 
   const secondaryTools: NavItem[] = [

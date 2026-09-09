@@ -165,3 +165,70 @@ export interface EvidenceVerification {
   evidenceNotes: string;
   sha256Digest: string;
 }
+
+export type CategoryType = 
+  | "Knowledge" 
+  | "Wellbeing" 
+  | "Innovation" 
+  | "Transit & Infrastructure" 
+  | "Land & Environment";
+
+export type CommentType = 
+  | "seeking_verification" 
+  | "adding_evidence" 
+  | "citizen_perspective" 
+  | "planner_update";
+
+export interface Evidence {
+  id: string;
+  sourceName: string;
+  type: 'official_document' | 'court_filing' | 'news_report' | 'academic_study' | 'satellite_imagery';
+  description: string;
+  url?: string;
+  verifiedAt: string;
+}
+
+export interface Comment {
+  id: string;
+  author: string;
+  role: string;
+  type: CommentType;
+  content: string;
+  createdAt: string;
+  upvotes: number;
+  citationTitle?: string;
+  citationUrl?: string;
+}
+
+export interface Thread {
+  id: string;
+  title: string;
+  category: CategoryType;
+  author: string;
+  role: string;
+  content: string;
+  createdAt: string;
+  upvotes: number;
+  evidenceScore: number;
+  comments: Comment[];
+  isPinned?: boolean;
+}
+
+export interface Claim {
+  id: string;
+  statement: string;
+  status: 'confirmed' | 'proposed' | 'debated';
+  category: CategoryType;
+  description: string;
+  upvotes: number;
+  evidenceList: Evidence[];
+  unverifiedClaims?: string[];
+}
+
+export interface ChatMessage {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  createdAt: string;
+}
+

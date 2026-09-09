@@ -16,6 +16,7 @@ import { SocialTrendStudio } from './components/SocialTrendStudio';
 import { SatelliteTracker } from './components/SatelliteTracker';
 import { EvidenceVault } from './components/EvidenceVault';
 import { ContactView } from './components/ContactView';
+import DiscourseLab from './components/DiscourseLab';
 import { DiscoverabilityLayer } from './components/DiscoverabilityLayer';
 import { ViralTickerBar } from './components/ViralTickerBar';
 import { PowerPalette } from './components/PowerPalette';
@@ -107,6 +108,12 @@ export default function App() {
 
         {activeTab === 'contact' && (
           <ContactView />
+        )}
+
+        {activeTab === 'discourse' && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-slate-800">
+            <DiscourseLab />
+          </div>
         )}
 
       </main>

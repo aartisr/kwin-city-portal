@@ -13,7 +13,8 @@ export type PortalTab =
   | 'social' 
   | 'satellite' 
   | 'evidence' 
-  | 'contact';
+  | 'contact'
+  | 'discourse';
 
 const tabPaths: Record<PortalTab, string> = {
   overview: '/',
@@ -29,6 +30,7 @@ const tabPaths: Record<PortalTab, string> = {
   satellite: '/satellite',
   evidence: '/evidence',
   contact: '/contact',
+  discourse: '/discourse',
 };
 
 const pathTabs = Object.entries(tabPaths).reduce<Record<string, PortalTab>>((paths, [tab, path]) => {
