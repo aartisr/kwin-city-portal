@@ -783,11 +783,13 @@ export const SocialTrendStudio: React.FC = () => {
                   <div className="flex justify-center">
                     <CheckCircle2 className="h-8 w-8 text-emerald-400" />
                   </div>
-                  {activePlatform === 'facebook' ? (
+                  {activePlatform === 'facebook' || activePlatform === 'instagram' ? (
                     <>
                       <h4 className="text-sm font-bold text-white">Published Live Successfully!</h4>
                       <p className="text-xs text-emerald-200 leading-relaxed">
-                        Your update has been published live directly to the official <strong>Kwin City Bengaluru</strong> Facebook page. You can now use the Commenting tool on the left sidebar to engage!
+                        {activePlatform === 'instagram' 
+                          ? 'Your update and visual container have been published live directly to @hellokwincityconnect on Instagram!'
+                          : 'Your update has been published live directly to the official Kwin City Bengaluru Facebook page. You can now use the Commenting tool on the left sidebar to engage!'}
                       </p>
                       <div className="pt-2">
                         <button
