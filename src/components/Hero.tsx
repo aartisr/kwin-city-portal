@@ -109,7 +109,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigateToTool }) => {
         {/* Quick Access CTA Buttons */}
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <Button
-            variant="emerald"
+            variant="primary"
             size="md"
             icon={MapPin}
             onClick={() => onNavigateToTool('spatial')}
@@ -118,7 +118,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigateToTool }) => {
           </Button>
 
           <Button
-            variant="secondary"
+            variant="outline"
             size="md"
             icon={TrendingUp}
             onClick={() => onNavigateToTool('valuation')}
@@ -127,7 +127,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigateToTool }) => {
           </Button>
 
           <Button
-            variant="secondary"
+            variant="outline"
             size="md"
             icon={Compass}
             onClick={() => onNavigateToTool('feasibility')}
@@ -136,7 +136,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigateToTool }) => {
           </Button>
 
           <Button
-            variant="secondary"
+            variant="outline"
             size="md"
             icon={Layers}
             onClick={() => onNavigateToTool('regulatory')}

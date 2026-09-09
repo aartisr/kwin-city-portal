@@ -260,7 +260,10 @@ export const DataInsightsHub: React.FC = () => {
                   paddingAngle={5}
                   dataKey="count"
                   nameKey="agency"
-                  label={(entry) => `${entry.agency} (${entry.pct}%)`}
+                  label={(entry) => {
+                    const datum = entry.payload as { agency?: string; pct?: number } | undefined;
+                    return `${datum?.agency ?? ''} (${datum?.pct ?? 0}%)`;
+                  }}
                 >
                   <Cell fill="#3B82F6" />
                   <Cell fill="#06B6D4" />

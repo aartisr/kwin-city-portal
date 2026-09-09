@@ -47,6 +47,19 @@ export const DiscoverabilityLayer: React.FC<DiscoverabilityLayerProps> = ({ acti
       evaluation: '2026 Architectural Evaluation Whitepaper | KWIN City Portal',
       contact: 'Contact & Inquiry Desk | Aarti S Ravikumar & Baja Associates'
     };
+    const tabDescriptions: Record<string, string> = {
+      overview: 'Independent, evidence-first research on KWIN City in North Bengaluru: masterplan context, regional data, and source-linked decision tools.',
+      spatial: 'Explore KWIN City masterplan context, districts, and spatial research layers for North Bengaluru.',
+      valuation: 'Review KWIN City land valuation research, assumptions, and directional scenario modelling.',
+      regulatory: 'Navigate source-linked KIADB regulatory and clearance research for KWIN City.',
+      insights: 'Explore North Bengaluru aviation, groundwater, and economic context datasets used in KWIN City research.',
+      risks: 'Run a preliminary, source-linked KWIN City land and corridor risk check.',
+      opportunities: 'Submit a structured KWIN City investor, developer, institutional, or landowner inquiry.',
+      news: 'Read source-labelled KWIN City, KIADB, and North Bengaluru research updates.',
+      satellite: 'Review satellite and earth-observation context for KWIN City research.',
+      evidence: 'Inspect the KWIN City evidence vault, claim status, and source limitations.',
+      contact: 'Contact the KWIN City independent research desk for data, survey, media, or partnership inquiries.'
+    };
 
     const title = tabTitles[activeTab] || tabTitles.overview;
     document.title = title;
@@ -57,6 +70,12 @@ export const DiscoverabilityLayer: React.FC<DiscoverabilityLayerProps> = ({ acti
 
     const twitterTitle = document.querySelector('meta[name="twitter:title"]');
     if (twitterTitle) twitterTitle.setAttribute('content', title);
+
+    const description = tabDescriptions[activeTab] || tabDescriptions.overview;
+    document.querySelector('meta[name="description"]')?.setAttribute('content', description);
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content', description);
+    document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', description);
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', `https://kwin-city.com${window.location.pathname}`);
   }, [activeTab]);
 
   const copyToClipboard = (text: string, id: string) => {

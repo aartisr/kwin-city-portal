@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { OverviewDashboard } from './components/OverviewDashboard';
@@ -19,6 +21,7 @@ import { ViralTickerBar } from './components/ViralTickerBar';
 import { PowerPalette } from './components/PowerPalette';
 import { Footer } from './components/Footer';
 import { useKwinPortal } from './hooks/useKwinPortal';
+import { trackPortalEvent } from './services/observability';
 
 export default function App() {
   const {
@@ -28,6 +31,10 @@ export default function App() {
     openSearch,
     closeSearch,
   } = useKwinPortal('overview');
+
+  useEffect(() => {
+    trackPortalEvent('portal_route_viewed', { route: activeTab });
+  }, [activeTab]);
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-['Inter',sans-serif] antialiased selection:bg-emerald-500/30 selection:text-emerald-200">
@@ -46,16 +53,12 @@ export default function App() {
       <main className="flex-1">
         
         {activeTab === 'overview' && (
-          <>
+          <section className="research-home">
             <Hero
               onNavigateToTool={(toolId) => setActiveTab(toolId)}
             />
             <OverviewDashboard onNavigateToTool={(toolId) => setActiveTab(toolId)} />
-          </>
-        )}
-
-        {(activeTab === 'overview' || activeTab === 'tools') && activeTab === 'tools' && (
-          <OverviewDashboard onNavigateToTool={(toolId) => setActiveTab(toolId)} />
+          </section>
         )}
 
         {activeTab === 'spatial' && (
@@ -120,6 +123,8 @@ export default function App() {
 
       {/* Plug-and-Play Discoverability & AI Search Layer */}
       <DiscoverabilityLayer activeTab={activeTab} />
+      <Analytics />
+      <SpeedInsights route={window.location.pathname} sampleRate={0.5} />
 
     </div>
   );

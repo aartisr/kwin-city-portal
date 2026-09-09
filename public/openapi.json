@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "KWIN City Spatial Intelligence & Land Valuation API",
-    "description": "API endpoints for accessing verified KWIN City masterplan specs, land CAGR valuations, statutory KIADB clearances, and survey number risk checks by Aarti S Ravikumar & Baja Associates.",
+    "description": "Read-only independent research context for KWIN City. It is not an authoritative government record or decision-making service.",
     "version": "1.0.0",
     "contact": {
       "name": "Aarti S Ravikumar & Baja Associates",
@@ -19,18 +19,18 @@
   "paths": {
     "/masterplan": {
       "get": {
-        "summary": "Get KWIN City 5,800-Acre Masterplan Specs",
+        "summary": "Get portal-reported masterplan context",
         "operationId": "getMasterplanSpecs",
         "responses": {
           "200": {
-            "description": "Successful retrieval of district allocations, land acreages, and zoning parameters."
+            "description": "Portal research context and primary-reference links."
           }
         }
       }
     },
     "/valuation": {
       "get": {
-        "summary": "Calculate Land CAGR and Price Projections",
+        "summary": "Get valuation-model context and limitations",
         "operationId": "getLandValuationModel",
         "parameters": [
           {
@@ -44,20 +44,27 @@
         ],
         "responses": {
           "200": {
-            "description": "Historical price benchmarks, CAGR rates, and 2030 projected value."
+            "description": "A scenario-model summary, not a valuation or investment recommendation."
           }
         }
       }
     },
     "/regulatory": {
       "get": {
-        "summary": "Get Single-Window KIADB Statutory Clearance Steps",
+        "summary": "Get regulatory research context and authoritative source links",
         "operationId": "getRegulatorySteps",
         "responses": {
           "200": {
-            "description": "Timeline, SLAs, and required statutory approvals."
+            "description": "Independent research context and links to the responsible authorities."
           }
         }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Check public API availability",
+        "operationId": "getHealth",
+        "responses": { "200": { "description": "Service is available." } }
       }
     }
   }

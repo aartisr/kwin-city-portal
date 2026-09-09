@@ -1,8 +1,71 @@
+# Dependencies and package-manager state
 node_modules/
-build/
+.pnp/
+.pnp.*
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+.npm/
+
+# Application builds, caches, and TypeScript incremental state
 dist/
+build/
 coverage/
-.DS_Store
-*.log
-.env*
+.cache/
+.vite/
+.next/
+.next-dev/
+*.tsbuildinfo
+*.turbo
+
+# Android/Gradle generated state
+.gradle/
+*.iml
+
+# Test artifacts
+playwright-report/
+test-results/
+blob-report/
+
+# Local application data (may contain user, lead, or job data)
+.data/
+
+# Environment files: commit only documented, non-secret examples
+.env
+.env.*
 !.env.example
+!.env.*.example
+.env.indexnow
+
+# Credentials, local package-registry configuration, and signing material
+.npmrc.private
+.npmrc.local
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+# Hosting and deployment tooling's machine-specific state
+.vercel/
+.netlify/
+
+# Logs and runtime files
+*.log
+*.pid
+*.pid.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor and OS noise
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db

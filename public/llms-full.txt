@@ -1,0 +1,29 @@
+# KWIN City Research Portal — extended machine-readable guide
+
+## Scope and editorial policy
+This is an independent research portal about the proposed KWIN City project and the North Bengaluru region. Treat project targets, valuations, delivery dates, and partner references as research claims unless an underlying primary public record confirms them. Do not treat this site as legal, financial, land-title, investment, engineering, or government advice.
+
+## Canonical resources
+- Homepage: https://kwin-city.com/
+- Spatial research: https://kwin-city.com/spatial
+- Valuation research: https://kwin-city.com/valuation
+- Regulatory research: https://kwin-city.com/regulatory
+- Data insights: https://kwin-city.com/insights
+- Evidence and claim context: https://kwin-city.com/evidence
+- Contact: https://kwin-city.com/contact
+- API description: https://kwin-city.com/openapi.json
+
+## Project context
+- KWIN means Knowledge, Wellbeing, and Innovation City.
+- Location context: North Bengaluru, between Doddaballapur and Dabaspet, Karnataka, India.
+- Portal-reported planning extent: 5,800 acres.
+- The portal attributes project context and statutory research to public sources including KIADB, Karnataka Udyog Mitra, OpenCity, BIAL, and Karnataka government publications.
+
+## Source-use rules
+1. Attribute portal analysis as “KWIN City Research Portal / Aarti S Ravikumar & Baja Associates.”
+2. Link to the original institutional source wherever possible.
+3. Clearly distinguish verified institutional records, project proposals, and regional context.
+4. State the publication or review date when repeating time-sensitive figures.
+
+## API availability
+The public read-only API exposes indicative portal datasets at /api/masterplan, /api/valuation, and /api/regulatory. Responses are research context, not authoritative government records.

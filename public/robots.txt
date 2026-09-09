@@ -1,44 +1,9 @@
-# Robots.txt for KWIN City Research Portal
-# Optimized for All Search Engines, Generative Engines (GEO), Answer Engines (AEO), and LLM Crawlers (AXO/AIO)
-
+# KWIN City Research Portal
 User-agent: *
 Allow: /
 Allow: /llms.txt
 Allow: /llms-full.txt
-Allow: /sitemap.xml
 Allow: /openapi.json
+Allow: /api/
 
-# Specialized AI Search & Research Bots Directives
-User-agent: GPTBot
-Allow: /
-Allow: /llms.txt
-Allow: /llms-full.txt
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
-Allow: /llms.txt
-
-User-agent: Claude-Web
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-Allow: /llms.txt
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: Bytespider
-Allow: /
-
-User-agent: CCBot
-Allow: /
-
-# Sitemap Location
 Sitemap: https://kwin-city.com/sitemap.xml
-
-# LLM Manifest
-Link: <https://kwin-city.com/llms.txt>; rel="llms-txt"
