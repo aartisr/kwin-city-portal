@@ -4,10 +4,59 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// Initialize internal Gemini SDK for back-end background tasks
+// Initialize internal Gemini SDK for back-end background tasks with telemetry headers
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
+  httpOptions: {
+    headers: {
+      'User-Agent': 'aistudio-build',
+    }
+  }
 });
+
+/**
+ * Robust retry helper with exponential backoff and jitter for handling transient API spikes (e.g. 503, 429, or network exceptions)
+ */
+async function retryWithBackoff<T>(
+  action: () => Promise<T>,
+  maxAttempts: number = 3,
+  baseDelayMs: number = 1000
+): Promise<T> {
+  let attempt = 0;
+  while (true) {
+    try {
+      return await action();
+    } catch (error: any) {
+      attempt++;
+      
+      const status = error.status || error.statusCode;
+      const message = error.message || String(error);
+      
+      // Classify whether the error is transient and should be retried
+      const isTransient = 
+        !status || // Network drop or socket timeout
+        status === 503 || // Service Unavailable / High demand
+        status === 429 || // Too Many Requests / Rate limit
+        status === 502 || // Bad Gateway
+        status === 504 || // Gateway Timeout
+        message.includes("503") ||
+        message.includes("429") ||
+        message.includes("UNAVAILABLE") ||
+        message.includes("high demand") ||
+        message.includes("temp") ||
+        message.includes("timeout");
+
+      if (attempt >= maxAttempts || !isTransient) {
+        throw error;
+      }
+
+      // Calculate exponential delay with a randomized jitter component
+      const delay = baseDelayMs * Math.pow(2, attempt) + Math.random() * 500;
+      console.warn(`[Gemini Retry] Attempt ${attempt} failed with a transient error (${message}). Retrying in ${Math.round(delay)}ms...`);
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+}
 
 export interface PublishLog {
   date: string; // YYYY-MM-DD
@@ -94,10 +143,13 @@ export async function generateTrendingPost(trendingTopics: string[]): Promise<st
       6. Limit the entire post to 180 words for maximum legibility.
     `;
 
-    const response = await ai.models.generateContent({
-      model: "gemini-3.8-flash",
-      contents: prompt,
-    });
+    // Wrapped in an exponential backoff retry mechanism to mitigate high-demand 503/429 spikes
+    const response = await retryWithBackoff(() => 
+      ai.models.generateContent({
+        model: "gemini-3.8-flash",
+        contents: prompt,
+      })
+    );
 
     return response.text || "Daily update from KWIN City: Connecting citizens with verified planning, sustainable transit progress, and civic research dialogues.";
   } catch (error) {

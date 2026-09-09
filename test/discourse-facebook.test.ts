@@ -12,6 +12,27 @@ vi.mock("../src/services/supabaseServer", () => ({
   supabase: null
 }));
 
+// Mock GoogleGenAI class cleanly to keep unit tests completely local, deterministic and fast
+vi.mock("@google/genai", () => {
+  return {
+    GoogleGenAI: class MockGoogleGenAI {
+      models = {
+        generateContent: async ({ model, contents }: any) => {
+          // If the compiled prompt contains our special keyword, simulate a 503 unavailable error
+          if (contents && contents.includes("TRIGGER_OFFLINE_ERROR")) {
+            const err = new Error("This model is currently experiencing high demand. Spikes in demand are usually temporary.");
+            (err as any).status = 503;
+            throw err;
+          }
+          return {
+            text: "Mocked KWIN City Dynamic Intelligence Update: Exploring green district corridors, smart microgrids, and verified land records. #KWINCity"
+          };
+        }
+      };
+    }
+  };
+});
+
 describe("KWIN Civic Discourse & Facebook Auto-Publisher Regression Test Suite", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -19,12 +40,13 @@ describe("KWIN Civic Discourse & Facebook Auto-Publisher Regression Test Suite",
 
   describe("Trending Content Generation", () => {
     it("should generate a fallback post content if Gemini is offline", async () => {
-      // Intentionally pass an empty array to trigger robust content generation
-      const result = await generateTrendingPost([]);
+      // Pass the special trigger keyword to force the mocked Gemini API to throw a 503 error
+      const result = await generateTrendingPost(["TRIGGER_OFFLINE_ERROR"]);
       expect(result).toBeDefined();
       expect(typeof result).toBe("string");
-      expect(result.length).toBeGreaterThan(10);
-    });
+      // The output should be the resilient offline fallback string
+      expect(result).toContain("KWIN City Daily Brief:");
+    }, 25000);
 
     it("should incorporate custom trending topics inside the content guidelines", async () => {
       const result = await generateTrendingPost([
@@ -33,6 +55,7 @@ describe("KWIN Civic Discourse & Facebook Auto-Publisher Regression Test Suite",
       ]);
       expect(result).toBeDefined();
       expect(typeof result).toBe("string");
+      expect(result).toContain("Mocked KWIN City Dynamic Intelligence Update");
     });
   });
 
