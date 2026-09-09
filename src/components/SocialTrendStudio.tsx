@@ -233,13 +233,16 @@ export const SocialTrendStudio: React.FC = () => {
     setRealPublishError(null);
     setPublishingStep(1);
 
-    if (activePlatform === 'facebook') {
+    if (activePlatform === 'facebook' || activePlatform === 'instagram') {
       try {
         setPublishingStep(2);
         const res = await fetch('/api/facebook/publish-now', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ customMessage: currentContent.caption })
+          body: JSON.stringify({ 
+            customMessage: currentContent.caption,
+            platform: activePlatform
+          })
         });
         
         let data;
@@ -255,7 +258,7 @@ export const SocialTrendStudio: React.FC = () => {
             setIsPublishing(false);
             setPublishSuccess(true);
             
-            if (data.log?.postId) {
+            if (data.log?.postId && activePlatform === 'facebook') {
               setCommentPostId(data.log.postId);
             }
 
@@ -265,20 +268,22 @@ export const SocialTrendStudio: React.FC = () => {
               platform: activePlatform,
               trendTopic: selectedTrend.topic,
               timestamp: 'Just now (Published Live)',
-              postUrl: `https://www.facebook.com/${data.log?.postId || 'kwincity'}`,
+              postUrl: activePlatform === 'instagram' 
+                ? 'https://instagram.com/hellokwincityconnect' 
+                : `https://www.facebook.com/${data.log?.postId || 'kwincity'}`,
               status: 'Published',
-              handle: targetAccount?.handle || 'facebook.com/kwincity'
+              handle: targetAccount?.handle || (activePlatform === 'instagram' ? '@hellokwincityconnect' : 'facebook.com/kwincity')
             };
 
             setPublishedHistory(prev => [newPost, ...prev]);
           }, 800);
         } else {
           setIsPublishing(false);
-          setRealPublishError(data.log?.message || data.error || "Failed to publish.");
+          setRealPublishError(data.log?.message || data.error || `Failed to publish to ${activePlatform}.`);
         }
       } catch (err: any) {
         setIsPublishing(false);
-        setRealPublishError(err.message || "Failed to connect to the auto-publisher API.");
+        setRealPublishError(err.message || `Failed to connect to the auto-publisher API for ${activePlatform}.`);
       }
     } else {
       // Simulation for other platforms

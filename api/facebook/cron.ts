@@ -2,6 +2,7 @@ import {
   getFacebookPublishLogs, 
   saveFacebookPublishLogs, 
   publishToFacebook, 
+  publishToInstagram,
   generateTrendingPost,
   PublishLog 
 } from './_publisher';
@@ -19,38 +20,57 @@ export default async function handler(req: any, res: any) {
     const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
     const logs = await getFacebookPublishLogs();
 
-    // Idempotency: Verify if a post has already succeeded for today
-    const alreadyPostedToday = logs.some(log => log.date === today && log.success);
-    if (alreadyPostedToday) {
-      return sendJson(res, {
-        message: `A Facebook update has already been published for today (${today}). Skipping to avoid duplication.`,
+    // Check if Facebook has already been posted today
+    const fbAlreadyPosted = logs.some(log => log.date === today && log.success && !log.message.startsWith("Instagram"));
+    // Check if Instagram has already been posted today
+    const igAlreadyPosted = logs.some(log => log.date === today && log.success && log.message.startsWith("Instagram"));
+
+    const postBody = await generateTrendingPost();
+    const newLogs: PublishLog[] = [];
+
+    // 1. Automated Facebook Publish
+    let fbResult: { success: boolean; postId?: string; error?: string } | null = null;
+    if (!fbAlreadyPosted) {
+      fbResult = await publishToFacebook(postBody);
+      newLogs.push({
         date: today,
-        skipped: true
+        success: fbResult.success,
+        message: fbResult.success 
+          ? `Facebook Daily Cron: "${postBody.substring(0, 75)}..."` 
+          : `Facebook Daily Cron Failed: ${fbResult.error}`,
+        postId: fbResult.postId,
+        timestamp: new Date().toISOString(),
       });
     }
 
-    // Generate dynamic post using today's civic pillar rotation + anti-duplication engine
-    const postBody = await generateTrendingPost();
-    const result = await publishToFacebook(postBody);
+    // 2. Automated Instagram Publish (if account configured)
+    let igResult: { success: boolean; postId?: string; error?: string } | null = null;
+    const hasInstagram = !!(process.env.INSTAGRAM_ACCOUNT_ID || process.env.FACEBOOK_PAGE_ACCESS_TOKEN);
+    if (!igAlreadyPosted && hasInstagram) {
+      // Instagram captions format with link in bio instruction
+      const igCaption = `${postBody}\n\n🔗 Verified links, GIS maps & public records available at the link in our bio!`;
+      igResult = await publishToInstagram(igCaption);
+      if (igResult.success) {
+        newLogs.push({
+          date: today,
+          success: true,
+          message: `Instagram Daily Cron: "${postBody.substring(0, 75)}..."`,
+          postId: igResult.postId,
+          timestamp: new Date().toISOString(),
+        });
+      }
+    }
 
-    const newLog: PublishLog = {
-      date: today,
-      success: result.success,
-      message: result.success 
-        ? `Daily Automated Cron Success: "${postBody.substring(0, 75)}..."` 
-        : `Daily Automated Cron Failed: ${result.error}`,
-      postId: result.postId,
-      timestamp: new Date().toISOString(),
-    };
-
-    const updatedLogs = [newLog, ...logs].slice(0, 30);
-    await saveFacebookPublishLogs(updatedLogs);
+    if (newLogs.length > 0) {
+      const updatedLogs = [...newLogs, ...logs].slice(0, 30);
+      await saveFacebookPublishLogs(updatedLogs);
+    }
 
     return sendJson(res, {
-      message: result.success ? "Daily Facebook post published successfully" : "Failed to publish post",
-      success: result.success,
-      postId: result.postId,
-      log: newLog
+      date: today,
+      facebook: fbResult ? { published: fbResult.success, postId: fbResult.postId } : { skipped: fbAlreadyPosted },
+      instagram: igResult ? { published: igResult.success, postId: igResult.postId } : { skipped: igAlreadyPosted },
+      logsCreated: newLogs.length
     });
   } catch (error: any) {
     console.error("Error in daily cron publisher:", error);

@@ -362,3 +362,106 @@ export async function publishToFacebook(messageContent: string): Promise<{ succe
     };
   }
 }
+
+/**
+ * 8. Instagram Graph API Publisher (2-Step Media Container Creation + Publish)
+ * Instagram Content Publishing API requires an Instagram Business or Creator account connected to your Facebook Page.
+ * It uses the Meta Graph API container endpoint (/media) followed by publish (/media_publish).
+ */
+export async function publishToInstagram(
+  caption: string, 
+  imageUrl?: string
+): Promise<{ success: boolean; postId?: string; error?: string }> {
+  const activePageAccessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN;
+  let instagramAccountId = process.env.INSTAGRAM_ACCOUNT_ID;
+  const activePageId = process.env.FACEBOOK_PAGE_ID || "kwincity";
+
+  if (!activePageAccessToken) {
+    return {
+      success: false,
+      error: "FACEBOOK_PAGE_ACCESS_TOKEN is required to publish to Instagram Graph API."
+    };
+  }
+
+  try {
+    // 1. If INSTAGRAM_ACCOUNT_ID is not provided directly, auto-discover it from the linked Facebook Page
+    if (!instagramAccountId) {
+      const pageInfoUrl = `https://graph.facebook.com/v18.0/${activePageId}?fields=instagram_business_account&access_token=${activePageAccessToken}`;
+      const pageInfoRes = await fetch(pageInfoUrl);
+      if (pageInfoRes.ok) {
+        const pageInfo = await pageInfoRes.json();
+        if (pageInfo?.instagram_business_account?.id) {
+          instagramAccountId = pageInfo.instagram_business_account.id;
+        }
+      }
+    }
+
+    if (!instagramAccountId) {
+      return {
+        success: false,
+        error: "No linked Instagram Business Account found. Link your Instagram account to your Facebook Page or set INSTAGRAM_ACCOUNT_ID in environment variables."
+      };
+    }
+
+    // Instagram Content Publishing requires a publicly accessible image URL.
+    // Use the provided image, configured default image, or high-res KWIN masterplan asset.
+    const targetImageUrl = imageUrl || 
+      process.env.INSTAGRAM_DEFAULT_IMAGE_URL || 
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80";
+
+    // Step A: Create the IG Media Container
+    const containerUrl = `https://graph.facebook.com/v18.0/${instagramAccountId}/media`;
+    const containerRes = await fetch(containerUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        image_url: targetImageUrl,
+        caption: caption,
+        access_token: activePageAccessToken,
+      }),
+    });
+
+    const containerData = await containerRes.json();
+    if (!containerRes.ok || !containerData?.id) {
+      return {
+        success: false,
+        error: containerData?.error?.message || "Failed to create Instagram media container."
+      };
+    }
+
+    const creationId = containerData.id;
+
+    // Wait 1.5 seconds for Instagram CDN to ingest the container
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
+    // Step B: Publish the container
+    const publishUrl = `https://graph.facebook.com/v18.0/${instagramAccountId}/media_publish`;
+    const publishRes = await fetch(publishUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        creation_id: creationId,
+        access_token: activePageAccessToken,
+      }),
+    });
+
+    const publishData = await publishRes.json();
+    if (!publishRes.ok || !publishData?.id) {
+      return {
+        success: false,
+        error: publishData?.error?.message || "Failed to publish Instagram media container."
+      };
+    }
+
+    return {
+      success: true,
+      postId: publishData.id
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      error: err.message || "Exception while communicating with Instagram Graph API."
+    };
+  }
+}
+
