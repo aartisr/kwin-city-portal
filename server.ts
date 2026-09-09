@@ -175,9 +175,71 @@ app.post("/api/discourse/claims", async (req, res) => {
   res.json({ success: true, message: "Claims state synchronized successfully." });
 });
 
+// ==========================================
+// AUTOMATED FACEBOOK AUTO-PUBLISHING HUB
+// ==========================================
+import { 
+  getFacebookPublishLogs, 
+  runDailyAutoPublishCheck, 
+  startFacebookPublishingScheduler, 
+  isFacebookConfigured,
+  generateTrendingPost,
+  publishToFacebook,
+  saveFacebookPublishLogs
+} from "./src/services/facebookPublisher";
+
+function getTrendingTopics(): string[] {
+  try {
+    const threadTitles = (inMemoryThreads || []).slice(0, 2).map(t => t.title);
+    const claimTitles = (inMemoryClaims || []).slice(0, 2).map(c => c.statement);
+    return [...threadTitles, ...claimTitles];
+  } catch (e) {
+    return [];
+  }
+}
+
+// Endpoint to inspect Facebook integration status and logs
+app.get("/api/facebook/status", async (req, res) => {
+  const logs = await getFacebookPublishLogs();
+  res.json({
+    configured: isFacebookConfigured,
+    pageId: process.env.FACEBOOK_PAGE_ID || "kwincity",
+    logs
+  });
+});
+
+// Endpoint to force publish a trending update immediately for verification/testing
+app.post("/api/facebook/publish-now", async (req, res) => {
+  const topics = getTrendingTopics();
+  const postBody = await generateTrendingPost(topics);
+  const result = await publishToFacebook(postBody);
+
+  const newLog = {
+    date: new Date().toISOString().split("T")[0],
+    success: result.success,
+    message: result.success 
+      ? `Manual Trigger Success: "${postBody.substring(0, 75)}..."` 
+      : `Manual Trigger Failed: ${result.error}`,
+    postId: result.postId,
+    timestamp: new Date().toISOString(),
+  };
+
+  const currentLogs = await getFacebookPublishLogs();
+  const updatedLogs = [newLog, ...currentLogs].slice(0, 30);
+  await saveFacebookPublishLogs(updatedLogs);
+
+  res.json({
+    success: result.success,
+    log: newLog
+  });
+});
+
 // Start the server with Vite middleware in development or express.static in production
 
 async function init() {
+  // Start automated publishing scheduler checks in the background
+  startFacebookPublishingScheduler(getTrendingTopics);
+
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
       server: { middlewareMode: true },
