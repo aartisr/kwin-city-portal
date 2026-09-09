@@ -32,19 +32,31 @@ async function retryWithBackoff<T>(
       const status = error.status || error.statusCode;
       const message = error.message || String(error);
       
+      // If we hit a hard daily quota limit (RESOURCE_EXHAUSTED), do not retry and waste time/logs
+      const isDailyQuotaExceeded = 
+        status === 429 && (
+          message.includes("quota") || 
+          message.includes("Quota exceeded") || 
+          message.includes("RESOURCE_EXHAUSTED") ||
+          message.includes("generativelanguage") ||
+          message.includes("Daily")
+        );
+
       // Classify whether the error is transient and should be retried
       const isTransient = 
-        !status || // Network drop or socket timeout
-        status === 503 || // Service Unavailable / High demand
-        status === 429 || // Too Many Requests / Rate limit
-        status === 502 || // Bad Gateway
-        status === 504 || // Gateway Timeout
-        message.includes("503") ||
-        message.includes("429") ||
-        message.includes("UNAVAILABLE") ||
-        message.includes("high demand") ||
-        message.includes("temp") ||
-        message.includes("timeout");
+        !isDailyQuotaExceeded && (
+          !status || // Network drop or socket timeout
+          status === 503 || // Service Unavailable / High demand
+          status === 429 || // Too Many Requests / Rate limit (RPM)
+          status === 502 || // Bad Gateway
+          status === 504 || // Gateway Timeout
+          message.includes("503") ||
+          message.includes("429") ||
+          message.includes("UNAVAILABLE") ||
+          message.includes("high demand") ||
+          message.includes("temp") ||
+          message.includes("timeout")
+        );
 
       if (attempt >= maxAttempts || !isTransient) {
         throw error;
@@ -146,7 +158,7 @@ export async function generateTrendingPost(trendingTopics: string[]): Promise<st
     // Wrapped in an exponential backoff retry mechanism to mitigate high-demand 503/429 spikes
     const response = await retryWithBackoff(() => 
       ai.models.generateContent({
-        model: "gemini-3.8-flash",
+        model: "gemini-flash-latest",
         contents: prompt,
       })
     );

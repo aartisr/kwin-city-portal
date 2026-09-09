@@ -67,7 +67,7 @@ app.post("/api/chat", async (req, res) => {
 
     // Start chat with system instructions in config
     const chat = ai.chats.create({
-      model: "gemini-3.8-flash",
+      model: "gemini-flash-latest",
       config: {
         systemInstruction: KWIN_CITY_KNOWLEDGE,
         temperature: 0.7,
