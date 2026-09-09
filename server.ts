@@ -210,29 +210,43 @@ app.get("/api/facebook/status", async (req, res) => {
 
 // Endpoint to force publish a trending update immediately for verification/testing
 app.post("/api/facebook/publish-now", async (req, res) => {
-  const { customMessage } = req.body || {};
-  const topics = getTrendingTopics();
-  const postBody = customMessage || await generateTrendingPost(topics);
-  const result = await publishToFacebook(postBody);
+  try {
+    const { customMessage } = req.body || {};
+    const topics = getTrendingTopics();
+    const postBody = customMessage || await generateTrendingPost(topics);
+    const result = await publishToFacebook(postBody);
 
-  const newLog = {
-    date: new Date().toISOString().split("T")[0],
-    success: result.success,
-    message: result.success 
-      ? `Manual Trigger Success: "${postBody.substring(0, 75)}..."` 
-      : `Manual Trigger Failed: ${result.error}`,
-    postId: result.postId,
-    timestamp: new Date().toISOString(),
-  };
+    const newLog = {
+      date: new Date().toISOString().split("T")[0],
+      success: result.success,
+      message: result.success 
+        ? `Manual Trigger Success: "${postBody.substring(0, 75)}..."` 
+        : `Manual Trigger Failed: ${result.error}`,
+      postId: result.postId,
+      timestamp: new Date().toISOString(),
+    };
 
-  const currentLogs = await getFacebookPublishLogs();
-  const updatedLogs = [newLog, ...currentLogs].slice(0, 30);
-  await saveFacebookPublishLogs(updatedLogs);
+    const currentLogs = await getFacebookPublishLogs();
+    const updatedLogs = [newLog, ...currentLogs].slice(0, 30);
+    await saveFacebookPublishLogs(updatedLogs);
 
-  res.json({
-    success: result.success,
-    log: newLog
-  });
+    res.json({
+      success: result.success,
+      log: newLog
+    });
+  } catch (error: any) {
+    console.error("Critical Exception in /api/facebook/publish-now:", error);
+    res.status(500).json({
+      success: false,
+      error: error.message || "An unexpected server-side error occurred while publishing.",
+      log: {
+        date: new Date().toISOString().split("T")[0],
+        success: false,
+        message: `Internal Server Error: ${error.message || "Unknown error"}`,
+        timestamp: new Date().toISOString()
+      }
+    });
+  }
 });
 
 // Endpoint to publish a comment on a post as KWIN City

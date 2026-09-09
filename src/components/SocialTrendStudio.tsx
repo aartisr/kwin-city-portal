@@ -241,7 +241,13 @@ export const SocialTrendStudio: React.FC = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ customMessage: currentContent.caption })
         });
-        const data = await res.json();
+        
+        let data;
+        try {
+          data = await res.json();
+        } catch (jsonErr) {
+          throw new Error(`Server returned a non-JSON response (HTTP ${res.status}). This usually means the production container credentials or API keys are not configured in the AI Studio Settings menu.`);
+        }
         
         if (data.success) {
           setPublishingStep(3);
@@ -317,7 +323,13 @@ export const SocialTrendStudio: React.FC = () => {
           message: commentMessage
         })
       });
-      const data = await res.json();
+      
+      let data;
+      try {
+        data = await res.json();
+      } catch (jsonErr) {
+        throw new Error(`Server returned a non-JSON response (HTTP ${res.status}). Verify your credential configurations in the settings panel.`);
+      }
 
       if (data.success) {
         setCommentStatus({ success: true, message: `Comment posted! ID: ${data.commentId.substring(0, 15)}...` });
