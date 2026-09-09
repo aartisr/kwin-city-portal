@@ -246,7 +246,7 @@ export const SocialTrendStudio: React.FC = () => {
         try {
           data = await res.json();
         } catch (jsonErr) {
-          throw new Error(`Server returned a non-JSON response (HTTP ${res.status}). This usually means the production container credentials or API keys are not configured in the AI Studio Settings menu.`);
+          throw new Error(`Server returned a non-JSON response (HTTP ${res.status}). Verify your application's configuration or environment variables.`);
         }
         
         if (data.success) {
