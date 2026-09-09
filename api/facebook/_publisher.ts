@@ -449,38 +449,56 @@ export async function publishToInstagram(
 
     // Step A: Create the IG Media Container
     const containerUrl = `https://graph.facebook.com/v18.0/${instagramAccountId}/media`;
+    const containerParams = new URLSearchParams();
+    containerParams.append('image_url', targetImageUrl);
+    containerParams.append('caption', caption);
+    containerParams.append('access_token', activePageAccessToken);
+
     const containerRes = await fetch(containerUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        image_url: targetImageUrl,
-        caption: caption,
-        access_token: activePageAccessToken,
-      }),
+      body: containerParams,
     });
 
     const containerData = await containerRes.json();
     if (!containerRes.ok || !containerData?.id) {
+      let errMsg = containerData?.error?.message || "Failed to create Instagram media container.";
+      
+      // Auto-diagnose missing permissions if Meta returns unsupported or permission error
+      if (errMsg.includes("Unsupported post request") || errMsg.includes("permissions") || errMsg.includes("Object with ID")) {
+        try {
+          const permRes = await fetch(`https://graph.facebook.com/v18.0/me/permissions?access_token=${activePageAccessToken}`);
+          if (permRes.ok) {
+            const permData = await permRes.json();
+            const granted = (permData.data || [])
+              .filter((p: any) => p.status === "granted")
+              .map((p: any) => p.permission);
+            if (!granted.includes("instagram_content_publish")) {
+              errMsg = `Token is missing 'instagram_content_publish' permission. Currently granted: [${granted.join(', ') || 'none'}]. Please add 'instagram_content_publish' in Meta Graph API Explorer.`;
+            }
+          }
+        } catch (_) {}
+      }
+
       return {
         success: false,
-        error: containerData?.error?.message || "Failed to create Instagram media container."
+        error: errMsg
       };
     }
 
     const creationId = containerData.id;
 
-    // Wait 1.5 seconds for Instagram CDN to ingest the container
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // Wait 2 seconds for Instagram CDN to ingest the container
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Step B: Publish the container
     const publishUrl = `https://graph.facebook.com/v18.0/${instagramAccountId}/media_publish`;
+    const publishParams = new URLSearchParams();
+    publishParams.append('creation_id', creationId);
+    publishParams.append('access_token', activePageAccessToken);
+
     const publishRes = await fetch(publishUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        creation_id: creationId,
-        access_token: activePageAccessToken,
-      }),
+      body: publishParams,
     });
 
     const publishData = await publishRes.json();
