@@ -51,6 +51,15 @@ export interface PublishedPost {
 
 export const SOCIAL_TRENDS: SocialTrend[] = [
   {
+    id: 'trend-nobel',
+    topic: 'KWIN City: The Nobel-Grade Frontier of Science & Civilization',
+    hashtag: '#NobelFrontier #KWINCity',
+    volume: 'Global Visionary 🏆',
+    category: 'Deep Tech',
+    sentiment: 'Viral',
+    kwinAngle: 'A 5,800-acre planetary knowledge metropolis uniting Nobel-caliber R&D in quantum computing, genomics, and net-zero urbanism.'
+  },
+  {
     id: 'trend-1',
     topic: 'Bengaluru Airport Corridor Growth & STRR Highway',
     hashtag: '#STRRExpressway',
@@ -149,8 +158,17 @@ export const SocialTrendStudio: React.FC = () => {
     const topic = selectedTrend.topic;
     const hashtag = selectedTrend.hashtag;
     const angle = selectedTrend.kwinAngle;
+    const isNobel = selectedTrend.id === 'trend-nobel';
 
     if (activePlatform === 'instagram') {
+      if (isNobel) {
+        return {
+          type: 'Nobel-Grade Instagram Reel Script & Visual Manifesto (0:45)',
+          caption: `🏆 THE GEOMETRY OF HUMAN DESTINY: Inside KWIN City.\n\n"What if the next Nobel Prize in Medicine, Physics, and Sustainable Economics isn’t discovered in Boston, Cambridge, or Geneva... but right here in Bengaluru?"\n\nWelcome to KWIN City. 5,800 acres of pure human audacity.\n\nNot merely an urban expansion, but a planetary singularity designed for frontier knowledge:\n🔬 1,500-Acre Academic Superblock: Uniting global top-50 universities and quantum research labs.\n🧬 1,400-Acre Life Sciences Sanctuary: Accelerating breakthrough cellular biology, genomic cures, and robotic surgery.\n⚡ 100% Net-Zero Energy: Powered by a captive 465-acre solar microgrid.\n🛣️ STRR Express Corridor: 45 congestion-free minutes to Kempegowda International Airport.\n\nCivilizations are never measured by how fast they grow — but by the depth of what they discover.\n\nKWIN City. The gravity of human genius.\n\n📍 Doddaballapur-Nelamangala Corridor, North Bengaluru\n🔗 Explore the statutory masterplan: https://kwin-city.com/\n\n#KWINCity #NobelPrize #FrontierScience #FutureOfCities #Bengaluru #InnovateInKarnataka #DeepTech #Genomics #QuantumComputing #SmartMetropolis #SustainableFuture`,
+          visualConcept: 'Cinematic 9:16 vertical Reel: Hans Zimmer sonic pulse -> macro zoom from satellite orbital view of South Asia directly into KWIN City’s 5,800-acre masterplan boundary -> kinetic typography & glowing quantum laboratory schematics -> golden hour sunrise over KWIN Central Knowledge Plaza.',
+        };
+      }
+
       return {
         type: 'Instagram Reel & Post Script',
         caption: `🚀 TRENDING IN BENGALURU: ${topic}!\n\nAs discussion around ${hashtag} accelerates, KWIN City is setting the benchmark in North Bengaluru. Spanning 5,800 acres in Doddaballapur, KWIN integrates Knowledge, Health, Innovation, and Research into South Asia’s premier metropolis.\n\n✨ Key Highlights:\n• ${angle}\n• Direct connectivity to Kempegowda International Airport (45 min via STRR)\n• 100% stamp duty waiver & single-window clearance via Karnataka Udyog Mitra\n\n🔗 Tap the link in bio to explore the interactive masterplan & gazette records!\n\n${hashtag} #KWINCity #NorthBengaluru #BengaluruInfrastructure #InvestKarnataka #SmartCitiesIndia #InnovateInKarnataka #Doddaballapur`,
@@ -413,6 +431,40 @@ export const SocialTrendStudio: React.FC = () => {
               </a>
             );
           })}
+        </div>
+      </div>
+
+      {/* Spotlight: Nobel-Grade Reel & Manifesto */}
+      <div className="rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-950/40 via-purple-950/30 to-slate-900/80 p-5 space-y-3 shadow-xl ring-1 ring-amber-500/20">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-400 bg-amber-950/80 px-2 py-0.5 rounded border border-amber-500/30 flex items-center gap-1">
+                <span>🏆 NOBEL-GRADE REEL TREATMENT</span>
+              </span>
+              <span className="text-[10px] text-purple-300 font-mono">0:45 Cinematic Vertical Video</span>
+            </div>
+            <h4 className="text-base font-bold text-white flex items-center gap-2">
+              <span>"The Geometry of Human Destiny: Inside KWIN City"</span>
+            </h4>
+            <p className="text-xs text-slate-300 max-w-2xl leading-relaxed">
+              Award-winning script connecting KWIN’s 5,800-acre Knowledge & Life Sciences Sanctuary directly to frontier Nobel-caliber breakthroughs in genomics, quantum intelligence, and net-zero civilization.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => {
+                setSelectedTrend(SOCIAL_TRENDS[0]);
+                setActivePlatform('instagram');
+                handleAutoPublish();
+              }}
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 via-rose-600 to-pink-600 px-4 py-2.5 text-xs font-bold text-white hover:brightness-110 transition-all shadow-lg shadow-amber-500/20 cursor-pointer"
+            >
+              <Zap className="h-4 w-4 text-amber-200" />
+              <span>Publish Nobel Reel to Instagram</span>
+            </button>
+          </div>
         </div>
       </div>
 
