@@ -384,10 +384,37 @@ export async function publishToInstagram(
   }
 
   try {
-    // 1. If INSTAGRAM_ACCOUNT_ID is not provided directly, auto-discover it using multiple Meta Graph API fallback strategies
+    let effectiveAccessToken = activePageAccessToken;
+
+    // Strategy 1: Always check me/accounts to:
+    // a) Derive the specific Page Access Token if a User Token was provided
+    // b) Auto-discover the linked Instagram Business Account ID if not set
+    try {
+      const accountsUrl = `https://graph.facebook.com/v18.0/me/accounts?fields=id,name,access_token,instagram_business_account&access_token=${activePageAccessToken}`;
+      const accountsRes = await fetch(accountsUrl);
+      if (accountsRes.ok) {
+        const accountsData = await accountsRes.json();
+        const pages = accountsData?.data || [];
+        const matchedPage = pages.find(
+          (p: any) => p.id === activePageId || (p.name && p.name.toLowerCase().includes("kwin")) || p.instagram_business_account?.id
+        ) || pages[0];
+
+        if (matchedPage) {
+          if (matchedPage.access_token) {
+            effectiveAccessToken = matchedPage.access_token;
+          }
+          if (!instagramAccountId && matchedPage.instagram_business_account?.id) {
+            instagramAccountId = matchedPage.instagram_business_account.id;
+          }
+        }
+      }
+    } catch (accountsErr) {
+      console.error("Exception during me/accounts resolution:", accountsErr);
+    }
+
     if (!instagramAccountId) {
-      // Strategy A: Direct page lookup
-      const pageInfoUrl = `https://graph.facebook.com/v18.0/${activePageId}?fields=instagram_business_account&access_token=${activePageAccessToken}`;
+      // Strategy 2: Direct page lookup
+      const pageInfoUrl = `https://graph.facebook.com/v18.0/${activePageId}?fields=instagram_business_account&access_token=${effectiveAccessToken}`;
       const pageInfoRes = await fetch(pageInfoUrl);
       if (pageInfoRes.ok) {
         const pageInfo = await pageInfoRes.json();
@@ -395,42 +422,21 @@ export async function publishToInstagram(
           instagramAccountId = pageInfo.instagram_business_account.id;
         }
       }
+    }
 
-      // Strategy B: me/accounts lookup if Strategy A did not find it
-      if (!instagramAccountId) {
-        try {
-          const accountsUrl = `https://graph.facebook.com/v18.0/me/accounts?fields=id,name,instagram_business_account&access_token=${activePageAccessToken}`;
-          const accountsRes = await fetch(accountsUrl);
-          if (accountsRes.ok) {
-            const accountsData = await accountsRes.json();
-            const matchedPage = accountsData?.data?.find(
-              (p: any) => p.id === activePageId || p.instagram_business_account?.id
-            );
-            if (matchedPage?.instagram_business_account?.id) {
-              instagramAccountId = matchedPage.instagram_business_account.id;
-            } else if (accountsData?.data?.[0]?.instagram_business_account?.id) {
-              instagramAccountId = accountsData.data[0].instagram_business_account.id;
-            }
+    if (!instagramAccountId) {
+      // Strategy 3: Check /me directly
+      try {
+        const meUrl = `https://graph.facebook.com/v18.0/me?fields=instagram_business_account&access_token=${effectiveAccessToken}`;
+        const meRes = await fetch(meUrl);
+        if (meRes.ok) {
+          const meData = await meRes.json();
+          if (meData?.instagram_business_account?.id) {
+            instagramAccountId = meData.instagram_business_account.id;
           }
-        } catch (accountsErr) {
-          console.error("Exception during me/accounts Instagram discovery:", accountsErr);
         }
-      }
-
-      // Strategy C: Check /me directly if Page Token represents the page itself
-      if (!instagramAccountId) {
-        try {
-          const meUrl = `https://graph.facebook.com/v18.0/me?fields=instagram_business_account&access_token=${activePageAccessToken}`;
-          const meRes = await fetch(meUrl);
-          if (meRes.ok) {
-            const meData = await meRes.json();
-            if (meData?.instagram_business_account?.id) {
-              instagramAccountId = meData.instagram_business_account.id;
-            }
-          }
-        } catch (meErr) {
-          console.error("Exception during /me Instagram discovery:", meErr);
-        }
+      } catch (meErr) {
+        console.error("Exception during /me Instagram discovery:", meErr);
       }
     }
 
@@ -445,14 +451,14 @@ export async function publishToInstagram(
     // Use the provided image, configured default image, or high-res KWIN masterplan asset.
     const targetImageUrl = imageUrl || 
       process.env.INSTAGRAM_DEFAULT_IMAGE_URL || 
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80";
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&h=1200&q=80";
 
     // Step A: Create the IG Media Container
     const containerUrl = `https://graph.facebook.com/v18.0/${instagramAccountId}/media`;
     const containerParams = new URLSearchParams();
     containerParams.append('image_url', targetImageUrl);
     containerParams.append('caption', caption);
-    containerParams.append('access_token', activePageAccessToken);
+    containerParams.append('access_token', effectiveAccessToken);
 
     const containerRes = await fetch(containerUrl, {
       method: "POST",
@@ -494,7 +500,7 @@ export async function publishToInstagram(
     const publishUrl = `https://graph.facebook.com/v18.0/${instagramAccountId}/media_publish`;
     const publishParams = new URLSearchParams();
     publishParams.append('creation_id', creationId);
-    publishParams.append('access_token', activePageAccessToken);
+    publishParams.append('access_token', effectiveAccessToken);
 
     const publishRes = await fetch(publishUrl, {
       method: "POST",
