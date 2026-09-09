@@ -246,10 +246,11 @@ export const SocialTrendStudio: React.FC = () => {
         });
         
         let data;
+        const resText = await res.text();
         try {
-          data = await res.json();
+          data = JSON.parse(resText);
         } catch (jsonErr) {
-          throw new Error(`Server returned a non-JSON response (HTTP ${res.status}). Verify your application's configuration or environment variables.`);
+          throw new Error(`Server returned status ${res.status}: ${resText.slice(0, 160) || 'Check server logs & environment variables'}`);
         }
         
         if (data.success) {

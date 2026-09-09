@@ -176,52 +176,52 @@ app.post("/api/discourse/claims", async (req, res) => {
 });
 
 // ==========================================
-// AUTOMATED FACEBOOK AUTO-PUBLISHING HUB
+// AUTOMATED FACEBOOK & INSTAGRAM AUTO-PUBLISHING HUB
 // ==========================================
 import { 
   getFacebookPublishLogs, 
-  runDailyAutoPublishCheck, 
-  startFacebookPublishingScheduler, 
-  isFacebookConfigured,
-  generateTrendingPost,
+  saveFacebookPublishLogs, 
   publishToFacebook,
-  saveFacebookPublishLogs
-} from "./src/services/facebookPublisher";
+  publishToInstagram,
+  generateTrendingPost
+} from "./api/facebook/_publisher";
 
-function getTrendingTopics(): string[] {
-  try {
-    const threadTitles = (inMemoryThreads || []).slice(0, 2).map(t => t.title);
-    const claimTitles = (inMemoryClaims || []).slice(0, 2).map(c => c.statement);
-    return [...threadTitles, ...claimTitles];
-  } catch (e) {
-    return [];
-  }
-}
-
-// Endpoint to inspect Facebook integration status and logs
+// Endpoint to inspect Facebook & Instagram integration status and logs
 app.get("/api/facebook/status", async (req, res) => {
-  const logs = await getFacebookPublishLogs();
-  res.json({
-    configured: isFacebookConfigured,
-    pageId: process.env.FACEBOOK_PAGE_ID || "kwincity",
-    logs
-  });
+  try {
+    const logs = await getFacebookPublishLogs();
+    res.json({
+      configured: !!(process.env.FACEBOOK_PAGE_ACCESS_TOKEN),
+      pageId: process.env.FACEBOOK_PAGE_ID || "kwincity",
+      instagramConfigured: !!(process.env.INSTAGRAM_ACCOUNT_ID || process.env.FACEBOOK_PAGE_ACCESS_TOKEN),
+      logs
+    });
+  } catch (err: any) {
+    console.error("Status error:", err);
+    res.status(500).json({ error: err.message || "Failed to retrieve status." });
+  }
 });
 
 // Endpoint to force publish a trending update immediately for verification/testing
 app.post("/api/facebook/publish-now", async (req, res) => {
   try {
-    const { customMessage } = req.body || {};
-    const topics = getTrendingTopics();
-    const postBody = customMessage || await generateTrendingPost(topics);
-    const result = await publishToFacebook(postBody);
+    const { customMessage, platform = "facebook", imageUrl = "" } = req.body || {};
+    const postBody = customMessage || await generateTrendingPost();
+    
+    let result: { success: boolean; postId?: string; error?: string };
+    if (platform === "instagram") {
+      result = await publishToInstagram(postBody, imageUrl);
+    } else {
+      result = await publishToFacebook(postBody);
+    }
 
+    const platformLabel = platform === "instagram" ? "Instagram" : "Facebook";
     const newLog = {
       date: new Date().toISOString().split("T")[0],
       success: result.success,
       message: result.success 
-        ? `Manual Trigger Success: "${postBody.substring(0, 75)}..."` 
-        : `Manual Trigger Failed: ${result.error}`,
+        ? `${platformLabel} Manual Trigger Success: "${postBody.substring(0, 75)}..."` 
+        : `${platformLabel} Manual Trigger Failed: ${result.error}`,
       postId: result.postId,
       timestamp: new Date().toISOString(),
     };
@@ -232,6 +232,9 @@ app.post("/api/facebook/publish-now", async (req, res) => {
 
     res.json({
       success: result.success,
+      platform,
+      postId: result.postId,
+      error: result.error,
       log: newLog
     });
   } catch (error: any) {
@@ -290,9 +293,6 @@ app.post("/api/facebook/comment", async (req, res) => {
 // Start the server with Vite middleware in development or express.static in production
 
 async function init() {
-  // Start automated publishing scheduler checks in the background
-  startFacebookPublishingScheduler(getTrendingTopics);
-
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
       server: { middlewareMode: true },
