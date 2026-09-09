@@ -53,6 +53,7 @@ blob-report/
 .netlify/
 
 # Logs and runtime files
+facebook-publish-logs.json
 *.log
 *.pid
 *.pid.lock

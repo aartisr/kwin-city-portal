@@ -210,8 +210,9 @@ app.get("/api/facebook/status", async (req, res) => {
 
 // Endpoint to force publish a trending update immediately for verification/testing
 app.post("/api/facebook/publish-now", async (req, res) => {
+  const { customMessage } = req.body || {};
   const topics = getTrendingTopics();
-  const postBody = await generateTrendingPost(topics);
+  const postBody = customMessage || await generateTrendingPost(topics);
   const result = await publishToFacebook(postBody);
 
   const newLog = {
@@ -232,6 +233,44 @@ app.post("/api/facebook/publish-now", async (req, res) => {
     success: result.success,
     log: newLog
   });
+});
+
+// Endpoint to publish a comment on a post as KWIN City
+app.post("/api/facebook/comment", async (req, res) => {
+  const { postId, message } = req.body;
+  if (!postId || !message) {
+    return res.status(400).json({ error: "postId and message are required." });
+  }
+
+  const pageAccessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN;
+  if (!pageAccessToken) {
+    return res.status(400).json({ error: "Facebook Page Access Token is not configured." });
+  }
+
+  try {
+    const url = `https://graph.facebook.com/v18.0/${postId}/comments`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message,
+        access_token: pageAccessToken,
+      }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      console.error("Facebook Comment API Error:", data);
+      return res.status(response.status).json({ error: data.error?.message || "Failed to post comment." });
+    }
+
+    res.json({ success: true, commentId: data.id });
+  } catch (error: any) {
+    console.error("Facebook Comment Exception:", error);
+    res.status(500).json({ error: error.message || "Failed to contact Meta Graph API." });
+  }
 });
 
 // Start the server with Vite middleware in development or express.static in production

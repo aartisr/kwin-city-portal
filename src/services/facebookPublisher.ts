@@ -1,6 +1,8 @@
 import { GoogleGenAI } from "@google/genai";
 import { supabase, isSupabaseConfigured } from "./supabaseServer";
 import dotenv from "dotenv";
+import fs from "fs";
+import path from "path";
 
 dotenv.config();
 
@@ -84,8 +86,28 @@ const pageAccessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN;
 
 export const isFacebookConfigured = !!(pageId && pageAccessToken);
 
-// Store logs in memory fallback if Supabase not connected
-let inMemoryPublishLogs: PublishLog[] = [];
+// Store logs in persistent JSON file on disk if Supabase not connected
+const LOGS_FILE_PATH = path.join(process.cwd(), "facebook-publish-logs.json");
+
+function readLogsFromFile(): PublishLog[] {
+  try {
+    if (fs.existsSync(LOGS_FILE_PATH)) {
+      const content = fs.readFileSync(LOGS_FILE_PATH, "utf-8");
+      return JSON.parse(content);
+    }
+  } catch (e) {
+    console.warn("[Facebook Sync] Failed to read Facebook publish logs from disk:", e);
+  }
+  return [];
+}
+
+function writeLogsToFile(logs: PublishLog[]) {
+  try {
+    fs.writeFileSync(LOGS_FILE_PATH, JSON.stringify(logs, null, 2), "utf-8");
+  } catch (e) {
+    console.error("[Facebook Sync] Failed to write Facebook publish logs to disk:", e);
+  }
+}
 
 /**
  * Retrieves the posting logs history
@@ -102,22 +124,22 @@ export async function getFacebookPublishLogs(): Promise<PublishLog[]> {
       if (error) {
         if (error.code === "PGRST116") return []; // Key does not exist yet
         console.warn("Error fetching Facebook publish logs from Supabase:", error.message);
-        return inMemoryPublishLogs;
+        return readLogsFromFile();
       }
       return data?.value || [];
     } catch (e) {
       console.warn("Supabase connection issue. Utilizing local post logs.");
-      return inMemoryPublishLogs;
+      return readLogsFromFile();
     }
   }
-  return inMemoryPublishLogs;
+  return readLogsFromFile();
 }
 
 /**
  * Saves the posting logs history
  */
 export async function saveFacebookPublishLogs(logs: PublishLog[]): Promise<void> {
-  inMemoryPublishLogs = logs;
+  writeLogsToFile(logs);
   if (isSupabaseConfigured && supabase) {
     try {
       await supabase
@@ -142,17 +164,18 @@ export async function generateTrendingPost(trendingTopics: string[]): Promise<st
 
   try {
     const prompt = `
-      You are the official Social Intelligence Assistant for KWIN City (Knowledge, Wellbeing, and Innovation City).
-      Compose an engaging, highly professional, and informative update for the KWIN City Facebook Page.
+      You are the official social media publisher for KWIN City (Knowledge, Wellbeing, and Innovation City).
+      Compose an exceptionally appealing, high-engagement, and visually stunning update for the KWIN City Facebook Page.
       Focus on these active trending civic topics: ${topicsText}.
       
-      Requirements:
-      1. Outline the scientific or planning highlights of KWIN City (e.g., 50% water resilience, solar farms, or district plans).
-      2. Frame it in an evidence-first, inspiring, and neutral tone. Include 3 bulleted highlights.
-      3. Do NOT use fake promotional hype words like "supercharge", "empower", or "revolutionary".
-      4. Include official educational and feedback links (e.g., inviting citizens to contribute citations in the Discourse Lab).
-      5. Add relevant civic hashtags like #KWINCity #SustainablePlanning #UrbanInnovation #KarnatakaDevelopment.
-      6. Limit the entire post to 180 words for maximum legibility.
+      Formatting & Structure Requirements:
+      1. **Engaging Headline**: Start with a highly catchy, bold, emoji-rich headline that instantly grabs reader attention (e.g. "🚀 Transforming North Bengaluru: Inside KWIN City's Zero-Emission Future!").
+      2. **Civic Innovation Details**: Clearly detail KWIN City's cutting-edge scientific or planning milestones (e.g. 5,800-acre masterplan in Doddaballapur, 1,500-acre academic superblock, or 100% net-zero solar grids).
+      3. **Highly Visual Bullet Points**: Use beautiful, appropriate emojis for each bullet point to make it highly scannable and readable.
+      4. **Community Call to Action**: Invite readers to share their views, join the Discourse Lab, or review verified gazette documents on our interactive portal.
+      5. **No Clichés**: Do not use generic promotional hype verbs like "supercharge" or "empower", instead use precise, inspiring, data-driven planning terms.
+      6. **Perfect Hashtag Pairing**: Conclude with a clean block of high-traffic hashtags: #KWINCity #SustainableUrbanism #TechFDI #BengaluruRealEstate #SmartCitiesIndia #NorthBengaluru.
+      7. **Optimal Length**: Limit to 180-200 words for maximum legibility and social feed friendliness.
     `;
 
     // Wrapped in an exponential backoff retry mechanism to mitigate high-demand 503/429 spikes

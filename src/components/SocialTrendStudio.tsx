@@ -25,7 +25,8 @@ import {
   ShieldCheck,
   CheckCircle,
   X,
-  Share
+  Share,
+  XCircle
 } from 'lucide-react';
 
 export interface SocialTrend {
@@ -107,6 +108,13 @@ export const SocialTrendStudio: React.FC = () => {
   const [publishingStep, setPublishingStep] = useState<number>(0);
   const [publishSuccess, setPublishSuccess] = useState<boolean>(false);
   const [showPublishModal, setShowPublishModal] = useState<boolean>(false);
+  const [realPublishError, setRealPublishError] = useState<string | null>(null);
+
+  // Commenting State
+  const [commentPostId, setCommentPostId] = useState<string>('');
+  const [commentMessage, setCommentMessage] = useState<string>('');
+  const [isCommenting, setIsCommenting] = useState<boolean>(false);
+  const [commentStatus, setCommentStatus] = useState<{ success: boolean; message: string } | null>(null);
 
   const [publishedHistory, setPublishedHistory] = useState<PublishedPost[]>([
     {
@@ -215,40 +223,113 @@ export const SocialTrendStudio: React.FC = () => {
   };
 
   // Direct 1-Click Auto Publish as KWIN City Official / Hello KWIN City Connect
-  const handleAutoPublish = () => {
+  const handleAutoPublish = async () => {
     // Automatically copy caption text to clipboard
     handleCopy(currentContent.caption);
     
     setShowPublishModal(true);
     setIsPublishing(true);
     setPublishSuccess(false);
+    setRealPublishError(null);
     setPublishingStep(1);
 
-    setTimeout(() => {
-      setPublishingStep(2);
-    }, 800);
+    if (activePlatform === 'facebook') {
+      try {
+        setPublishingStep(2);
+        const res = await fetch('/api/facebook/publish-now', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ customMessage: currentContent.caption })
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          setPublishingStep(3);
+          setTimeout(() => {
+            setIsPublishing(false);
+            setPublishSuccess(true);
+            
+            if (data.log?.postId) {
+              setCommentPostId(data.log.postId);
+            }
 
-    setTimeout(() => {
-      setPublishingStep(3);
-    }, 1600);
+            const targetAccount = officialAccounts.find(a => a.key === activePlatform);
+            const newPost: PublishedPost = {
+              id: data.log?.postId || `pub-${Date.now()}`,
+              platform: activePlatform,
+              trendTopic: selectedTrend.topic,
+              timestamp: 'Just now (Published Live)',
+              postUrl: `https://www.facebook.com/${data.log?.postId || 'kwincity'}`,
+              status: 'Published',
+              handle: targetAccount?.handle || 'facebook.com/kwincity'
+            };
 
-    setTimeout(() => {
-      setIsPublishing(false);
-      setPublishSuccess(true);
+            setPublishedHistory(prev => [newPost, ...prev]);
+          }, 800);
+        } else {
+          setIsPublishing(false);
+          setRealPublishError(data.log?.message || data.error || "Failed to publish.");
+        }
+      } catch (err: any) {
+        setIsPublishing(false);
+        setRealPublishError(err.message || "Failed to connect to the auto-publisher API.");
+      }
+    } else {
+      // Simulation for other platforms
+      setTimeout(() => {
+        setPublishingStep(2);
+      }, 800);
 
-      const targetAccount = officialAccounts.find(a => a.key === activePlatform);
-      const newPost: PublishedPost = {
-        id: `pub-${Date.now()}`,
-        platform: activePlatform,
-        trendTopic: selectedTrend.topic,
-        timestamp: 'Just now (Prepared & Copied)',
-        postUrl: targetAccount?.url || 'https://www.facebook.com/kwincity/',
-        status: 'Published',
-        handle: targetAccount?.handle || 'facebook.com/kwincity'
-      };
+      setTimeout(() => {
+        setPublishingStep(3);
+      }, 1600);
 
-      setPublishedHistory([newPost, ...publishedHistory]);
-    }, 2400);
+      setTimeout(() => {
+        setIsPublishing(false);
+        setPublishSuccess(true);
+
+        const targetAccount = officialAccounts.find(a => a.key === activePlatform);
+        const newPost: PublishedPost = {
+          id: `pub-${Date.now()}`,
+          platform: activePlatform,
+          trendTopic: selectedTrend.topic,
+          timestamp: 'Just now (Prepared & Copied)',
+          postUrl: targetAccount?.url || 'https://www.facebook.com/kwincity/',
+          status: 'Published',
+          handle: targetAccount?.handle || 'facebook.com/kwincity'
+        };
+
+        setPublishedHistory(prev => [newPost, ...prev]);
+      }, 2400);
+    }
+  };
+
+  const handlePostComment = async () => {
+    setIsCommenting(true);
+    setCommentStatus(null);
+
+    try {
+      const res = await fetch('/api/facebook/comment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          postId: commentPostId,
+          message: commentMessage
+        })
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        setCommentStatus({ success: true, message: `Comment posted! ID: ${data.commentId.substring(0, 15)}...` });
+        setCommentMessage('');
+      } else {
+        setCommentStatus({ success: false, message: data.error || 'Failed to post comment.' });
+      }
+    } catch (err: any) {
+      setCommentStatus({ success: false, message: err.message || 'Connection failed.' });
+    } finally {
+      setIsCommenting(false);
+    }
   };
 
   return (
@@ -392,6 +473,57 @@ export const SocialTrendStudio: React.FC = () => {
                   </a>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Comment as Kwin City Card */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-4 space-y-3">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+              <div className="text-xs font-bold text-slate-200 flex items-center gap-2">
+                <MessageSquare className="h-3.5 w-3.5 text-pink-400" />
+                <span>Comment as Kwin City</span>
+              </div>
+              <span className="text-[10px] text-pink-400 font-mono font-semibold bg-pink-950/60 px-2 py-0.5 rounded border border-pink-500/20">Facebook Page</span>
+            </div>
+
+            <div className="space-y-3 text-xs">
+              <div className="space-y-1">
+                <label className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Post ID</label>
+                <input
+                  type="text"
+                  placeholder="e.g. 1009101682296061_122117439933300107"
+                  value={commentPostId}
+                  onChange={(e) => setCommentPostId(e.target.value)}
+                  className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-pink-500/50"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Comment Message</label>
+                <textarea
+                  placeholder="Write your official response or comment as Kwin City..."
+                  rows={2}
+                  value={commentMessage}
+                  onChange={(e) => setCommentMessage(e.target.value)}
+                  className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-pink-500/50 resize-none"
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={handlePostComment}
+                disabled={isCommenting || !commentPostId || !commentMessage}
+                className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-pink-600 hover:bg-pink-500 disabled:opacity-50 text-white font-bold py-2 px-4 transition-colors cursor-pointer"
+              >
+                {isCommenting ? <RefreshCw className="h-3.5 w-3.5 animate-spin" /> : <Send className="h-3.5 w-3.5" />}
+                <span>Post Comment</span>
+              </button>
+
+              {commentStatus && (
+                <p className={`text-[11px] font-semibold text-center mt-1 ${commentStatus.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                  {commentStatus.message}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -609,39 +741,76 @@ export const SocialTrendStudio: React.FC = () => {
                 </div>
               </div>
 
-              {publishSuccess && (
+              {realPublishError && (
+                <div className="rounded-xl border border-rose-500/40 bg-rose-500/15 p-4 text-center space-y-3">
+                  <div className="flex justify-center">
+                    <XCircle className="h-8 w-8 text-rose-400" />
+                  </div>
+                  <h4 className="text-sm font-bold text-white">Live Publication Failed</h4>
+                  <p className="text-xs text-rose-200 leading-relaxed">
+                    {realPublishError}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setShowPublishModal(false)}
+                    className="w-full rounded-xl border border-slate-700 bg-slate-800 py-2 text-xs font-semibold text-slate-300 hover:text-white transition-colors cursor-pointer"
+                  >
+                    Close & Fix
+                  </button>
+                </div>
+              )}
+
+              {publishSuccess && !realPublishError && (
                 <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/15 p-4 text-center space-y-3">
                   <div className="flex justify-center">
                     <CheckCircle2 className="h-8 w-8 text-emerald-400" />
                   </div>
-                  <h4 className="text-sm font-bold text-white">Post Text & Hashtags Copied to Clipboard!</h4>
-                  <p className="text-xs text-emerald-200 leading-relaxed">
-                    Meta & Facebook require human authorization to post directly to a Facebook Page. Click below to launch the Facebook composer and paste your generated update.
-                  </p>
+                  {activePlatform === 'facebook' ? (
+                    <>
+                      <h4 className="text-sm font-bold text-white">Published Live Successfully!</h4>
+                      <p className="text-xs text-emerald-200 leading-relaxed">
+                        Your update has been published live directly to the official <strong>Kwin City Bengaluru</strong> Facebook page. You can now use the Commenting tool on the left sidebar to engage!
+                      </p>
+                      <div className="pt-2">
+                        <button
+                          type="button"
+                          onClick={() => setShowPublishModal(false)}
+                          className="w-full rounded-xl border border-slate-700 bg-slate-800 py-2.5 text-xs font-semibold text-slate-300 hover:text-white transition-colors cursor-pointer"
+                        >
+                          Fantastic!
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <h4 className="text-sm font-bold text-white">Post Text & Hashtags Copied!</h4>
+                      <p className="text-xs text-emerald-200 leading-relaxed">
+                        Click below to launch the composer for {officialAccounts.find(a => a.key === activePlatform)?.name} and paste your update.
+                      </p>
 
-                  <div className="pt-2 space-y-2">
-                    <button
-                      onClick={() => {
-                        handleNativeShare();
-                        setShowPublishModal(false);
-                      }}
-                      className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 py-2.5 text-xs font-bold text-white hover:brightness-110 transition-all shadow-lg"
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                      <span>Open {officialAccounts.find(a => a.key === activePlatform)?.name} Composer Now</span>
-                    </button>
+                      <div className="pt-2 space-y-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            handleNativeShare();
+                            setShowPublishModal(false);
+                          }}
+                          className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 py-2.5 text-xs font-bold text-white hover:brightness-110 transition-all shadow-lg cursor-pointer"
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                          <span>Open Composer Now</span>
+                        </button>
 
-                    <button
-                      onClick={() => setShowPublishModal(false)}
-                      className="w-full rounded-xl border border-slate-700 bg-slate-800 py-2 text-xs font-semibold text-slate-300 hover:text-white transition-colors"
-                    >
-                      Close
-                    </button>
-                  </div>
-
-                  <div className="pt-2 border-t border-slate-800/80 text-[10px] text-slate-400 text-left">
-                    💡 <strong>Automated Meta Posting Note:</strong> Direct background posting without opening Facebook requires a registered <em>Meta Business App ID</em> with <code>pages_manage_posts</code> permissions and a permanent Page Access Token.
-                  </div>
+                        <button
+                          type="button"
+                          onClick={() => setShowPublishModal(false)}
+                          className="w-full rounded-xl border border-slate-700 bg-slate-800 py-2 text-xs font-semibold text-slate-300 hover:text-white transition-colors cursor-pointer"
+                        >
+                          Close
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
             </div>
