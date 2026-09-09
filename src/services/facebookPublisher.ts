@@ -6,15 +6,25 @@ import path from "path";
 
 dotenv.config();
 
-// Initialize internal Gemini SDK for back-end background tasks with telemetry headers
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-  httpOptions: {
-    headers: {
-      'User-Agent': 'aistudio-build',
+let aiClient: GoogleGenAI | null = null;
+
+function getGeminiClient(): GoogleGenAI {
+  if (!aiClient) {
+    const key = process.env.GEMINI_API_KEY;
+    if (!key) {
+      throw new Error("GEMINI_API_KEY environment variable is required.");
     }
+    aiClient = new GoogleGenAI({
+      apiKey: key,
+      httpOptions: {
+        headers: {
+          'User-Agent': 'aistudio-build',
+        }
+      }
+    });
   }
-});
+  return aiClient;
+}
 
 /**
  * Robust retry helper with exponential backoff and jitter for handling transient API spikes (e.g. 503, 429, or network exceptions)
@@ -89,7 +99,12 @@ export const isFacebookConfigured = !!(pageId && pageAccessToken);
 // Store logs in persistent JSON file on disk if Supabase not connected
 const LOGS_FILE_PATH = path.join(process.cwd(), "facebook-publish-logs.json");
 
+let inMemoryFallbackLogs: PublishLog[] = [];
+
 function readLogsFromFile(): PublishLog[] {
+  if (process.env.VERCEL === "1") {
+    return inMemoryFallbackLogs;
+  }
   try {
     if (fs.existsSync(LOGS_FILE_PATH)) {
       const content = fs.readFileSync(LOGS_FILE_PATH, "utf-8");
@@ -98,10 +113,14 @@ function readLogsFromFile(): PublishLog[] {
   } catch (e) {
     console.warn("[Facebook Sync] Failed to read Facebook publish logs from disk:", e);
   }
-  return [];
+  return inMemoryFallbackLogs;
 }
 
 function writeLogsToFile(logs: PublishLog[]) {
+  inMemoryFallbackLogs = logs;
+  if (process.env.VERCEL === "1") {
+    return;
+  }
   try {
     fs.writeFileSync(LOGS_FILE_PATH, JSON.stringify(logs, null, 2), "utf-8");
   } catch (e) {
@@ -180,7 +199,7 @@ export async function generateTrendingPost(trendingTopics: string[]): Promise<st
 
     // Wrapped in an exponential backoff retry mechanism to mitigate high-demand 503/429 spikes
     const response = await retryWithBackoff(() => 
-      ai.models.generateContent({
+      getGeminiClient().models.generateContent({
         model: "gemini-flash-latest",
         contents: prompt,
       })
