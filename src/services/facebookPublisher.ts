@@ -182,7 +182,31 @@ export async function publishToFacebook(messageContent: string): Promise<{ succe
   }
 
   try {
-    const url = `https://graph.facebook.com/v18.0/${pageId}/feed`;
+    let targetPageId = pageId;
+
+    // Robust check: If pageId is a textual handle or non-numeric username, automatically resolve the numeric Page ID from the Page Access Token using /me
+    const isNumeric = /^\d+$/.test(pageId);
+    if (!isNumeric) {
+      console.log(`[Facebook Sync] Page ID '${pageId}' is not numeric. Auto-resolving from Page Access Token...`);
+      try {
+        const meUrl = `https://graph.facebook.com/v18.0/me?fields=id,name&access_token=${pageAccessToken}`;
+        const meRes = await fetch(meUrl);
+        if (meRes.ok) {
+          const meData = await meRes.json();
+          if (meData.id) {
+            targetPageId = meData.id;
+            console.log(`[Facebook Sync] Successfully auto-resolved Page ID for '${meData.name}' to: ${targetPageId}`);
+          }
+        } else {
+          const meErr = await meRes.json();
+          console.error("[Facebook Sync] Failed to auto-resolve Page ID from token:", meErr);
+        }
+      } catch (meEx) {
+        console.error("[Facebook Sync] Exception while auto-resolving Page ID:", meEx);
+      }
+    }
+
+    const url = `https://graph.facebook.com/v18.0/${targetPageId}/feed`;
     const response = await fetch(url, {
       method: "POST",
       headers: {
