@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Dependencies
 node_modules/
 /.pnp
@@ -100,3 +101,13 @@ android/.gradle/
 
 # Local file-based storage (contains user data)
 .data/
+=======
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+>>>>>>> d9719c1 (feat: KWIN City Independent Research & Intelligence Portal production release with GEO/SEO layer and survey feasibility engine)

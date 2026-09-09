@@ -1,0 +1,64 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "KWIN City Spatial Intelligence & Land Valuation API",
+    "description": "API endpoints for accessing verified KWIN City masterplan specs, land CAGR valuations, statutory KIADB clearances, and survey number risk checks by Aarti S Ravikumar & Baja Associates.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Aarti S Ravikumar & Baja Associates",
+      "url": "https://kwin-city.com/",
+      "email": "connect@hellokwincity.org"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://kwin-city.com/api",
+      "description": "Primary Intelligence Server"
+    }
+  ],
+  "paths": {
+    "/masterplan": {
+      "get": {
+        "summary": "Get KWIN City 5,800-Acre Masterplan Specs",
+        "operationId": "getMasterplanSpecs",
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of district allocations, land acreages, and zoning parameters."
+          }
+        }
+      }
+    },
+    "/valuation": {
+      "get": {
+        "summary": "Calculate Land CAGR and Price Projections",
+        "operationId": "getLandValuationModel",
+        "parameters": [
+          {
+            "name": "district",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "example": "Knowledge & Academic Hub"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Historical price benchmarks, CAGR rates, and 2030 projected value."
+          }
+        }
+      }
+    },
+    "/regulatory": {
+      "get": {
+        "summary": "Get Single-Window KIADB Statutory Clearance Steps",
+        "operationId": "getRegulatorySteps",
+        "responses": {
+          "200": {
+            "description": "Timeline, SLAs, and required statutory approvals."
+          }
+        }
+      }
+    }
+  }
+}

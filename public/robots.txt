@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 User-Agent: *
 Allow: /
 Allow: /57AA00BD-4FE7-48FB-932C-A0EBDB93354B.txt
@@ -41,3 +42,49 @@ Sitemap: https://kwin-city.com/feed.xml
 # AI and LLM discoverability guidance
 # https://kwin-city.com/llms.txt
 # https://kwin-city.com/ai.txt
+=======
+# Robots.txt for KWIN City Research Portal
+# Optimized for All Search Engines, Generative Engines (GEO), Answer Engines (AEO), and LLM Crawlers (AXO/AIO)
+
+User-agent: *
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /sitemap.xml
+Allow: /openapi.json
+
+# Specialized AI Search & Research Bots Directives
+User-agent: GPTBot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+Allow: /llms.txt
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+Allow: /llms.txt
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Sitemap Location
+Sitemap: https://kwin-city.com/sitemap.xml
+
+# LLM Manifest
+Link: <https://kwin-city.com/llms.txt>; rel="llms-txt"
+>>>>>>> d9719c1 (feat: KWIN City Independent Research & Intelligence Portal production release with GEO/SEO layer and survey feasibility engine)
