@@ -1,4 +1,4 @@
-import { getFacebookPublishLogs, saveFacebookPublishLogs, publishToFacebook, generateTrendingPost } from '../../src/services/facebookPublisher';
+import { getFacebookPublishLogs, saveFacebookPublishLogs, publishToFacebook, generateTrendingPost } from './_publisher';
 import { sendJson } from '../_response';
 
 export default async function handler(req: any, res: any) {
@@ -10,7 +10,6 @@ export default async function handler(req: any, res: any) {
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
     const { customMessage } = body || {};
     
-    // Fallback topics for KWIN city
     const topics = ["Sustainable water infrastructure", "renewable monorail designs", "land valuation indices"];
     const postBody = customMessage || await generateTrendingPost(topics);
     const result = await publishToFacebook(postBody);

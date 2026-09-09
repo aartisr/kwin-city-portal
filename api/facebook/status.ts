@@ -1,11 +1,11 @@
-import { getFacebookPublishLogs, isFacebookConfigured } from '../../src/services/facebookPublisher';
+import { getFacebookPublishLogs, isSupabaseConfigured } from './_publisher';
 import { sendJson } from '../_response';
 
 export default async function handler(req: any, res: any) {
   try {
     const logs = await getFacebookPublishLogs();
     sendJson(res, {
-      configured: isFacebookConfigured,
+      configured: !!(process.env.FACEBOOK_PAGE_ID && process.env.FACEBOOK_PAGE_ACCESS_TOKEN),
       pageId: process.env.FACEBOOK_PAGE_ID || "kwincity",
       logs
     });

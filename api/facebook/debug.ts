@@ -15,19 +15,12 @@ export default async function handler(req: any, res: any) {
   };
 
   try {
-    diagnostics.imports.supabase = "Checking...";
-    const { supabase, isSupabaseConfigured } = await import('../../src/services/supabaseServer');
-    diagnostics.imports.supabase = `Loaded (Configured: ${isSupabaseConfigured})`;
+    diagnostics.imports.publisherModule = "Checking local _publisher...";
+    const { getFacebookPublishLogs, isSupabaseConfigured } = await import('./_publisher');
+    const logs = await getFacebookPublishLogs();
+    diagnostics.imports.publisherModule = `Loaded successfully! Logs Count: ${logs.length}. Supabase status: ${isSupabaseConfigured}`;
   } catch (e: any) {
-    diagnostics.imports.supabase = `Failed: ${e.message}\n${e.stack}`;
-  }
-
-  try {
-    diagnostics.imports.facebookPublisher = "Checking...";
-    const pub = await import('../../src/services/facebookPublisher');
-    diagnostics.imports.facebookPublisher = "Loaded successfully!";
-  } catch (e: any) {
-    diagnostics.imports.facebookPublisher = `Failed: ${e.message}\n${e.stack}`;
+    diagnostics.imports.publisherModule = `Failed: ${e.message}\n${e.stack}`;
   }
 
   try {
