@@ -384,8 +384,9 @@ export async function publishToInstagram(
   }
 
   try {
-    // 1. If INSTAGRAM_ACCOUNT_ID is not provided directly, auto-discover it from the linked Facebook Page
+    // 1. If INSTAGRAM_ACCOUNT_ID is not provided directly, auto-discover it using multiple Meta Graph API fallback strategies
     if (!instagramAccountId) {
+      // Strategy A: Direct page lookup
       const pageInfoUrl = `https://graph.facebook.com/v18.0/${activePageId}?fields=instagram_business_account&access_token=${activePageAccessToken}`;
       const pageInfoRes = await fetch(pageInfoUrl);
       if (pageInfoRes.ok) {
@@ -394,12 +395,49 @@ export async function publishToInstagram(
           instagramAccountId = pageInfo.instagram_business_account.id;
         }
       }
+
+      // Strategy B: me/accounts lookup if Strategy A did not find it
+      if (!instagramAccountId) {
+        try {
+          const accountsUrl = `https://graph.facebook.com/v18.0/me/accounts?fields=id,name,instagram_business_account&access_token=${activePageAccessToken}`;
+          const accountsRes = await fetch(accountsUrl);
+          if (accountsRes.ok) {
+            const accountsData = await accountsRes.json();
+            const matchedPage = accountsData?.data?.find(
+              (p: any) => p.id === activePageId || p.instagram_business_account?.id
+            );
+            if (matchedPage?.instagram_business_account?.id) {
+              instagramAccountId = matchedPage.instagram_business_account.id;
+            } else if (accountsData?.data?.[0]?.instagram_business_account?.id) {
+              instagramAccountId = accountsData.data[0].instagram_business_account.id;
+            }
+          }
+        } catch (accountsErr) {
+          console.error("Exception during me/accounts Instagram discovery:", accountsErr);
+        }
+      }
+
+      // Strategy C: Check /me directly if Page Token represents the page itself
+      if (!instagramAccountId) {
+        try {
+          const meUrl = `https://graph.facebook.com/v18.0/me?fields=instagram_business_account&access_token=${activePageAccessToken}`;
+          const meRes = await fetch(meUrl);
+          if (meRes.ok) {
+            const meData = await meRes.json();
+            if (meData?.instagram_business_account?.id) {
+              instagramAccountId = meData.instagram_business_account.id;
+            }
+          }
+        } catch (meErr) {
+          console.error("Exception during /me Instagram discovery:", meErr);
+        }
+      }
     }
 
     if (!instagramAccountId) {
       return {
         success: false,
-        error: "No linked Instagram Business Account found. Link your Instagram account to your Facebook Page or set INSTAGRAM_ACCOUNT_ID in environment variables."
+        error: "No linked Instagram Business Account found. In Meta Business Suite, ensure your Instagram account is linked as a Professional account to your Facebook Page, or explicitly set INSTAGRAM_ACCOUNT_ID in environment variables."
       };
     }
 
