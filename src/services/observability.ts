@@ -8,6 +8,26 @@ type ClientError = {
 
 const MAX_MESSAGE_LENGTH = 500;
 
+// Filter out benign or external browser extension errors (e.g. MetaMask, phantom, third-party wallet injects)
+const IGNORED_ERROR_PATTERNS = [
+  /metamask/i,
+  /ethereum/i,
+  /web3/i,
+  /phantom/i,
+  /coinbase/i,
+  /chrome-extension:\/\//i,
+  /moz-extension:\/\//i,
+  /safari-extension:\/\//i,
+  /failed to connect to metamask/i,
+  /user rejected the request/i,
+  /ResizeObserver loop limit exceeded/i,
+  /Script error\./i,
+];
+
+function shouldIgnoreError(message: string): boolean {
+  return IGNORED_ERROR_PATTERNS.some((pattern) => pattern.test(message));
+}
+
 function sanitize(value: string): string {
   return value
     .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, '[redacted-email]')
@@ -24,6 +44,12 @@ export function reportClientError(error: unknown, source: ClientError['source'])
   const normalized = error instanceof Error
     ? { name: error.name, message: error.message }
     : { name: 'UnknownError', message: String(error) };
+
+  // If the error comes from an external browser extension (like MetaMask) or noise, ignore it
+  if (shouldIgnoreError(normalized.message)) {
+    return;
+  }
+
   const payload: ClientError = { ...normalized, message: sanitize(normalized.message), source };
 
   trackPortalEvent('client_error', { source, error_name: payload.name ?? 'UnknownError' });
@@ -38,6 +64,20 @@ export function reportClientError(error: unknown, source: ClientError['source'])
 }
 
 export function registerGlobalErrorHandlers() {
-  window.addEventListener('error', (event) => reportClientError(event.error ?? event.message, 'window-error'));
-  window.addEventListener('unhandledrejection', (event) => reportClientError(event.reason, 'unhandled-rejection'));
+  window.addEventListener('error', (event) => {
+    const rawMsg = String(event.error?.message || event.message || '');
+    if (shouldIgnoreError(rawMsg)) {
+      return;
+    }
+    reportClientError(event.error ?? event.message, 'window-error');
+  });
+
+  window.addEventListener('unhandledrejection', (event) => {
+    const rawMsg = String(event.reason?.message || event.reason || '');
+    if (shouldIgnoreError(rawMsg)) {
+      event.preventDefault(); // prevent logging extension noise to console
+      return;
+    }
+    reportClientError(event.reason, 'unhandled-rejection');
+  });
 }

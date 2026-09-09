@@ -4,6 +4,16 @@ import { reportClientError } from '../services/observability';
 interface Props { children: React.ReactNode; }
 interface State { hasError: boolean; }
 
+// External wallet or injected extension errors that should never break the portal UI
+const IGNORED_BOUNDARY_ERRORS = [
+  /metamask/i,
+  /ethereum/i,
+  /web3/i,
+  /phantom/i,
+  /coinbase/i,
+  /failed to connect/i,
+];
+
 export class ErrorBoundary extends React.Component<Props, State> {
   props!: Props;
   constructor(props: Props) {
@@ -11,7 +21,11 @@ export class ErrorBoundary extends React.Component<Props, State> {
   }
   state: State = { hasError: false };
 
-  static getDerivedStateFromError() {
+  static getDerivedStateFromError(error: Error) {
+    const message = String(error?.message || error || '');
+    if (IGNORED_BOUNDARY_ERRORS.some((pattern) => pattern.test(message))) {
+      return { hasError: false };
+    }
     return { hasError: true };
   }
 
