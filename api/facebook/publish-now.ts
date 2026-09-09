@@ -436,6 +436,91 @@ async function publishToInstagram(
   }
 }
 
+function formatForWhatsApp(rawText: string): string {
+  const todayFormatted = new Date().toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  });
+
+  return `📢 *KWIN CITY OFFICIAL DAILY BULLETIN* 🚀\n_North Bengaluru Knowledge, Health, Innovation & Research Metropolis_\n📅 *${todayFormatted}*\n\n${rawText}\n\n━━━━━━━━━━━━━━━━━━━━\n📍 *KWIN City Masterplan Facts:*\n• *5,800 Acres* in Doddaballapur & Nelamangala\n• *45 Mins* to Kempegowda Intl Airport via STRR NH-648\n• *100% Stamp Duty Exemption* for Knowledge, AI & Bio FDI\n• *465-Acre Captive Solar Microgrid* for 24x7 Clean Power\n\n🔗 *Official Portal & Verified Gazettes:*\nhttps://kwin-city.com/\n\n_Forward this update to your investor, faculty & leadership network!_`;
+}
+
+async function publishToWhatsApp(
+  message: string,
+  mediaUrl?: string
+): Promise<{ success: boolean; messageId?: string; error?: string }> {
+  const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
+  const accessToken = process.env.WHATSAPP_ACCESS_TOKEN || process.env.FACEBOOK_PAGE_ACCESS_TOKEN;
+  const recipient = process.env.WHATSAPP_RECIPIENT_NUMBER || process.env.WHATSAPP_TO_NUMBER;
+
+  if (!phoneNumberId || !accessToken) {
+    return {
+      success: false,
+      error: "WhatsApp Cloud API credentials not configured. Please set WHATSAPP_PHONE_NUMBER_ID and WHATSAPP_ACCESS_TOKEN in environment variables."
+    };
+  }
+
+  if (!recipient) {
+    return {
+      success: false,
+      error: "No recipient phone number configured. Set WHATSAPP_RECIPIENT_NUMBER in environment variables."
+    };
+  }
+
+  try {
+    const url = `https://graph.facebook.com/v18.0/${phoneNumberId}/messages`;
+    const cleanRecipient = recipient.replace(/[^0-9]/g, "");
+
+    const bodyPayload = mediaUrl ? {
+      messaging_product: "whatsapp",
+      recipient_type: "individual",
+      to: cleanRecipient,
+      type: "image",
+      image: {
+        link: mediaUrl,
+        caption: message
+      }
+    } : {
+      messaging_product: "whatsapp",
+      recipient_type: "individual",
+      to: cleanRecipient,
+      type: "text",
+      text: {
+        preview_url: true,
+        body: message
+      }
+    };
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(bodyPayload)
+    });
+
+    const data = await res.json();
+    if (!res.ok || !data?.messages?.[0]?.id) {
+      return {
+        success: false,
+        error: data?.error?.message || "WhatsApp Cloud API failed to deliver message."
+      };
+    }
+
+    return {
+      success: true,
+      messageId: data.messages[0].id
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      error: err.message || "Exception while contacting WhatsApp Cloud API."
+    };
+  }
+}
+
 // Handler
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {
@@ -456,15 +541,23 @@ export default async function handler(req: any, res: any) {
     
     const postBody = customMessage || await generateTrendingPost();
 
-    let result: { success: boolean; postId?: string; error?: string };
+    let result: { success: boolean; postId?: string; messageId?: string; error?: string };
 
     if (platform === 'instagram') {
       result = await publishToInstagram(postBody, imageUrl);
+    } else if (platform === 'whatsapp') {
+      const waMessage = formatForWhatsApp(postBody);
+      const waRes = await publishToWhatsApp(waMessage, imageUrl);
+      result = {
+        success: waRes.success,
+        postId: waRes.messageId,
+        error: waRes.error
+      };
     } else {
       result = await publishToFacebook(postBody);
     }
 
-    const platformLabel = platform === 'instagram' ? 'Instagram' : 'Facebook';
+    const platformLabel = platform === 'instagram' ? 'Instagram' : platform === 'whatsapp' ? 'WhatsApp' : 'Facebook';
     const newLog = {
       date: new Date().toISOString().split("T")[0],
       success: result.success,

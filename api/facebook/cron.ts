@@ -436,14 +436,183 @@ async function publishToInstagram(
   }
 }
 
-// Handler
+function formatForWhatsApp(rawText: string): string {
+  const todayFormatted = new Date().toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  });
+
+  return `📢 *KWIN CITY OFFICIAL DAILY BULLETIN* 🚀\n_North Bengaluru Knowledge, Health, Innovation & Research Metropolis_\n📅 *${todayFormatted}*\n\n${rawText}\n\n━━━━━━━━━━━━━━━━━━━━\n📍 *KWIN City Masterplan Facts:*\n• *5,800 Acres* in Doddaballapur & Nelamangala\n• *45 Mins* to Kempegowda Intl Airport via STRR NH-648\n• *100% Stamp Duty Exemption* for Knowledge, AI & Bio FDI\n• *465-Acre Captive Solar Microgrid* for 24x7 Clean Power\n\n🔗 *Official Portal & Verified Gazettes:*\nhttps://kwin-city.com/\n\n_Forward this update to your investor, faculty & leadership network!_`;
+}
+
+async function publishToWhatsApp(
+  message: string,
+  mediaUrl?: string
+): Promise<{ success: boolean; messageId?: string; error?: string }> {
+  const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
+  const accessToken = process.env.WHATSAPP_ACCESS_TOKEN || process.env.FACEBOOK_PAGE_ACCESS_TOKEN;
+  const recipient = process.env.WHATSAPP_RECIPIENT_NUMBER || process.env.WHATSAPP_TO_NUMBER;
+
+  if (!phoneNumberId || !accessToken) {
+    return {
+      success: false,
+      error: "WhatsApp Cloud API credentials not configured."
+    };
+  }
+
+  if (!recipient) {
+    return {
+      success: false,
+      error: "No recipient phone number configured in WHATSAPP_RECIPIENT_NUMBER."
+    };
+  }
+
+  try {
+    const url = `https://graph.facebook.com/v18.0/${phoneNumberId}/messages`;
+    const cleanRecipient = recipient.replace(/[^0-9]/g, "");
+
+    const bodyPayload = mediaUrl ? {
+      messaging_product: "whatsapp",
+      recipient_type: "individual",
+      to: cleanRecipient,
+      type: "image",
+      image: {
+        link: mediaUrl,
+        caption: message
+      }
+    } : {
+      messaging_product: "whatsapp",
+      recipient_type: "individual",
+      to: cleanRecipient,
+      type: "text",
+      text: {
+        preview_url: true,
+        body: message
+      }
+    };
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(bodyPayload)
+    });
+
+    const data = await res.json();
+    if (!res.ok || !data?.messages?.[0]?.id) {
+      return {
+        success: false,
+        error: data?.error?.message || "WhatsApp Cloud API failed to deliver message."
+      };
+    }
+
+    return {
+      success: true,
+      messageId: data.messages[0].id
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      error: err.message || "Exception while contacting WhatsApp Cloud API."
+    };
+  }
+}
+
+async function publishToLinkedIn(
+  message: string
+): Promise<{ success: boolean; postId?: string; error?: string }> {
+  const accessToken = process.env.LINKEDIN_ACCESS_TOKEN;
+  const orgId = process.env.LINKEDIN_ORGANIZATION_ID || process.env.LINKEDIN_ORG_ID;
+  const personUrn = process.env.LINKEDIN_PERSON_URN;
+
+  if (!accessToken) {
+    return { success: false, error: "LinkedIn access token not configured." };
+  }
+
+  const author = orgId ? `urn:li:organization:${orgId}` : (personUrn || "");
+  if (!author) {
+    return { success: false, error: "LinkedIn Author URN missing." };
+  }
+
+  try {
+    const url = "https://api.linkedin.com/v2/ugcPosts";
+    const payload = {
+      author,
+      lifecycleState: "PUBLISHED",
+      specificContent: {
+        "com.linkedin.ugc.ShareContent": {
+          shareCommentary: { text: message },
+          shareMediaCategory: "NONE"
+        }
+      },
+      visibility: { "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC" }
+    };
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+        "X-Restli-Protocol-Version": "2.0.0"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    if (!res.ok || !data?.id) {
+      return { success: false, error: data?.message || "LinkedIn API failed." };
+    }
+    return { success: true, postId: data.id };
+  } catch (err: any) {
+    return { success: false, error: err.message || "Exception contacting LinkedIn API." };
+  }
+}
+
+async function publishToTwitter(
+  message: string
+): Promise<{ success: boolean; postId?: string; error?: string }> {
+  const bearerToken = process.env.TWITTER_BEARER_TOKEN || process.env.TWITTER_API_KEY;
+  if (!bearerToken) {
+    return { success: false, error: "X / Twitter token not configured." };
+  }
+
+  try {
+    const tweetText = message.length > 275 ? message.substring(0, 270) + "..." : message;
+    const url = "https://api.twitter.com/2/tweets";
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${bearerToken}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ text: tweetText })
+    });
+
+    const data = await res.json();
+    if (!res.ok || !data?.data?.id) {
+      return { success: false, error: data?.detail || data?.title || "X API failed." };
+    }
+    return { success: true, postId: data.data.id };
+  } catch (err: any) {
+    return { success: false, error: err.message || "Exception contacting X API." };
+  }
+}
+
+// Single Master Daily Social Media Cron Handler (Facebook, Instagram, WhatsApp, LinkedIn, X)
 export default async function handler(req: any, res: any) {
   try {
     const today = new Date().toISOString().split("T")[0];
     const logs = await getFacebookPublishLogs();
 
-    const fbAlreadyPosted = logs.some(log => log.date === today && log.success && !log.message.startsWith("Instagram"));
+    const fbAlreadyPosted = logs.some(log => log.date === today && log.success && !log.message.startsWith("Instagram") && !log.message.startsWith("WhatsApp") && !log.message.startsWith("LinkedIn") && !log.message.startsWith("X / Twitter"));
     const igAlreadyPosted = logs.some(log => log.date === today && log.success && log.message.startsWith("Instagram"));
+    const waAlreadyPosted = logs.some(log => log.date === today && log.success && log.message.startsWith("WhatsApp"));
+    const liAlreadyPosted = logs.some(log => log.date === today && log.success && log.message.startsWith("LinkedIn"));
+    const xAlreadyPosted = logs.some(log => log.date === today && log.success && log.message.startsWith("X / Twitter"));
 
     const postBody = await generateTrendingPost();
     const newLogs: PublishLog[] = [];
@@ -487,19 +656,81 @@ export default async function handler(req: any, res: any) {
       }
     }
 
+    // 3. Automated WhatsApp Daily Broadcast
+    let waResult: { success: boolean; messageId?: string; error?: string } | null = null;
+    const hasWhatsApp = !!(process.env.WHATSAPP_PHONE_NUMBER_ID && (process.env.WHATSAPP_ACCESS_TOKEN || process.env.FACEBOOK_PAGE_ACCESS_TOKEN));
+    if (!waAlreadyPosted && hasWhatsApp) {
+      const waMessage = formatForWhatsApp(postBody);
+      waResult = await publishToWhatsApp(waMessage);
+      if (waResult.success) {
+        newLogs.push({
+          date: today,
+          success: true,
+          message: `WhatsApp Daily Broadcast: "${postBody.substring(0, 75)}..."`,
+          postId: waResult.messageId,
+          timestamp: new Date().toISOString(),
+        });
+      } else {
+        newLogs.push({
+          date: today,
+          success: false,
+          message: `WhatsApp Daily Broadcast Failed: ${waResult.error}`,
+          timestamp: new Date().toISOString(),
+        });
+      }
+    }
+
+    // 4. Automated LinkedIn Thought Leadership Broadcast (if configured)
+    let liResult: { success: boolean; postId?: string; error?: string } | null = null;
+    const hasLinkedIn = !!(process.env.LINKEDIN_ACCESS_TOKEN && (process.env.LINKEDIN_ORGANIZATION_ID || process.env.LINKEDIN_ORG_ID || process.env.LINKEDIN_PERSON_URN));
+    if (!liAlreadyPosted && hasLinkedIn) {
+      const liPost = `${postBody}\n\nRead the empirical statutory gazette and masterplan: https://kwin-city.com/\n#KWINCity #Karnataka #Innovation #SmartMetropolis #FDI`;
+      liResult = await publishToLinkedIn(liPost);
+      newLogs.push({
+        date: today,
+        success: liResult.success,
+        message: liResult.success 
+          ? `LinkedIn Daily Cron: "${postBody.substring(0, 75)}..."` 
+          : `LinkedIn Daily Cron Failed: ${liResult.error}`,
+        postId: liResult.postId,
+        timestamp: new Date().toISOString(),
+      });
+    }
+
+    // 5. Automated X / Twitter Broadcast (if configured)
+    let xResult: { success: boolean; postId?: string; error?: string } | null = null;
+    const hasTwitter = !!(process.env.TWITTER_BEARER_TOKEN || process.env.TWITTER_API_KEY);
+    if (!xAlreadyPosted && hasTwitter) {
+      const tweetText = `${postBody.substring(0, 210)}...\n\n🔗 https://kwin-city.com/ #KWINCity`;
+      xResult = await publishToTwitter(tweetText);
+      newLogs.push({
+        date: today,
+        success: xResult.success,
+        message: xResult.success 
+          ? `X / Twitter Daily Cron: "${postBody.substring(0, 75)}..."` 
+          : `X / Twitter Daily Cron Failed: ${xResult.error}`,
+        postId: xResult.postId,
+        timestamp: new Date().toISOString(),
+      });
+    }
+
     if (newLogs.length > 0) {
       const updatedLogs = [...newLogs, ...logs].slice(0, 30);
       await saveFacebookPublishLogs(updatedLogs);
     }
 
     return sendJson(res, {
+      job: "unified_daily_social_media_cron",
       date: today,
       facebook: fbResult ? { published: fbResult.success, postId: fbResult.postId } : { skipped: fbAlreadyPosted },
       instagram: igResult ? { published: igResult.success, postId: igResult.postId } : { skipped: igAlreadyPosted },
+      whatsapp: waResult ? { published: waResult.success, messageId: waResult.messageId } : { skipped: waAlreadyPosted || !hasWhatsApp },
+      linkedin: liResult ? { published: liResult.success, postId: liResult.postId } : { skipped: liAlreadyPosted || !hasLinkedIn },
+      twitter: xResult ? { published: xResult.success, postId: xResult.postId } : { skipped: xAlreadyPosted || !hasTwitter },
       logsCreated: newLogs.length
     });
   } catch (error: any) {
-    console.error("Error in daily cron publisher:", error);
+    console.error("Error in daily unified social media cron publisher:", error);
     return sendJson(res, {
       success: false,
       error: error.message || "An unexpected error occurred in the daily cron job."

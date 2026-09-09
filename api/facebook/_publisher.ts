@@ -527,3 +527,218 @@ export async function publishToInstagram(
   }
 }
 
+/**
+ * Format plain text/markdown for WhatsApp (uses *bold*, _italics_, and standard emojis)
+ */
+export function formatForWhatsApp(rawText: string): string {
+  const todayFormatted = new Date().toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  });
+
+  return `📢 *KWIN CITY OFFICIAL DAILY BULLETIN* 🚀\n_North Bengaluru Knowledge, Health, Innovation & Research Metropolis_\n📅 *${todayFormatted}*\n\n${rawText}\n\n━━━━━━━━━━━━━━━━━━━━\n📍 *KWIN City Masterplan Facts:*\n• *5,800 Acres* in Doddaballapur & Nelamangala\n• *45 Mins* to Kempegowda Intl Airport via STRR NH-648\n• *100% Stamp Duty Exemption* for Knowledge, AI & Bio FDI\n• *465-Acre Captive Solar Microgrid* for 24x7 Clean Power\n\n🔗 *Official Portal & Verified Gazettes:*\nhttps://kwin-city.com/\n\n_Forward this update to your investor, faculty & leadership network!_`;
+}
+
+/**
+ * Publish / Broadcast an update via Meta's WhatsApp Cloud API
+ */
+export async function publishToWhatsApp(
+  message: string,
+  mediaUrl?: string,
+  targetRecipient?: string
+): Promise<{ success: boolean; messageId?: string; error?: string }> {
+  const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
+  const accessToken = process.env.WHATSAPP_ACCESS_TOKEN || process.env.FACEBOOK_PAGE_ACCESS_TOKEN;
+  const recipient = targetRecipient || process.env.WHATSAPP_RECIPIENT_NUMBER || process.env.WHATSAPP_TO_NUMBER;
+
+  if (!phoneNumberId || !accessToken) {
+    return {
+      success: false,
+      error: "WhatsApp Cloud API credentials not configured. Please set WHATSAPP_PHONE_NUMBER_ID and WHATSAPP_ACCESS_TOKEN in environment variables."
+    };
+  }
+
+  if (!recipient) {
+    return {
+      success: false,
+      error: "No recipient phone number configured. Set WHATSAPP_RECIPIENT_NUMBER in environment variables or provide a target recipient."
+    };
+  }
+
+  try {
+    const url = `https://graph.facebook.com/v18.0/${phoneNumberId}/messages`;
+    const cleanRecipient = recipient.replace(/[^0-9]/g, "");
+
+    const bodyPayload = mediaUrl ? {
+      messaging_product: "whatsapp",
+      recipient_type: "individual",
+      to: cleanRecipient,
+      type: "image",
+      image: {
+        link: mediaUrl,
+        caption: message
+      }
+    } : {
+      messaging_product: "whatsapp",
+      recipient_type: "individual",
+      to: cleanRecipient,
+      type: "text",
+      text: {
+        preview_url: true,
+        body: message
+      }
+    };
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(bodyPayload)
+    });
+
+    const data = await res.json();
+    if (!res.ok || !data?.messages?.[0]?.id) {
+      return {
+        success: false,
+        error: data?.error?.message || "WhatsApp Cloud API failed to deliver message."
+      };
+    }
+
+    return {
+      success: true,
+      messageId: data.messages[0].id
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      error: err.message || "Exception while contacting WhatsApp Cloud API."
+    };
+  }
+}
+
+/**
+ * Publish an update to LinkedIn Organization or Personal Page
+ */
+export async function publishToLinkedIn(
+  message: string,
+  mediaUrl?: string
+): Promise<{ success: boolean; postId?: string; error?: string }> {
+  const accessToken = process.env.LINKEDIN_ACCESS_TOKEN;
+  const orgId = process.env.LINKEDIN_ORGANIZATION_ID || process.env.LINKEDIN_ORG_ID;
+  const personUrn = process.env.LINKEDIN_PERSON_URN;
+
+  if (!accessToken) {
+    return {
+      success: false,
+      error: "LinkedIn access token not configured. Set LINKEDIN_ACCESS_TOKEN in environment variables."
+    };
+  }
+
+  const author = orgId ? `urn:li:organization:${orgId}` : (personUrn || "");
+  if (!author) {
+    return {
+      success: false,
+      error: "LinkedIn Author URN missing. Set LINKEDIN_ORGANIZATION_ID or LINKEDIN_PERSON_URN in environment variables."
+    };
+  }
+
+  try {
+    const url = "https://api.linkedin.com/v2/ugcPosts";
+    const payload = {
+      author,
+      lifecycleState: "PUBLISHED",
+      specificContent: {
+        "com.linkedin.ugc.ShareContent": {
+          shareCommentary: {
+            text: message
+          },
+          shareMediaCategory: "NONE"
+        }
+      },
+      visibility: {
+        "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
+      }
+    };
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+        "X-Restli-Protocol-Version": "2.0.0"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    if (!res.ok || !data?.id) {
+      return {
+        success: false,
+        error: data?.message || "LinkedIn API failed to publish post."
+      };
+    }
+
+    return {
+      success: true,
+      postId: data.id
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      error: err.message || "Exception while communicating with LinkedIn API."
+    };
+  }
+}
+
+/**
+ * Publish a tweet / post to X (Twitter)
+ */
+export async function publishToTwitter(
+  message: string
+): Promise<{ success: boolean; postId?: string; error?: string }> {
+  const bearerToken = process.env.TWITTER_BEARER_TOKEN || process.env.TWITTER_API_KEY;
+  if (!bearerToken) {
+    return {
+      success: false,
+      error: "X / Twitter Bearer Token not configured. Set TWITTER_BEARER_TOKEN in environment variables."
+    };
+  }
+
+  try {
+    // Truncate cleanly for 280-character standard X tweets if not already truncated
+    const tweetText = message.length > 275 ? message.substring(0, 270) + "..." : message;
+    const url = "https://api.twitter.com/2/tweets";
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${bearerToken}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ text: tweetText })
+    });
+
+    const data = await res.json();
+    if (!res.ok || !data?.data?.id) {
+      return {
+        success: false,
+        error: data?.detail || data?.title || "X / Twitter API failed to post tweet."
+      };
+    }
+
+    return {
+      success: true,
+      postId: data.data.id
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      error: err.message || "Exception while contacting X / Twitter API."
+    };
+  }
+}
+
+

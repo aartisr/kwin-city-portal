@@ -183,8 +183,16 @@ import {
   saveFacebookPublishLogs, 
   publishToFacebook,
   publishToInstagram,
+  publishToWhatsApp,
+  formatForWhatsApp,
   generateTrendingPost
 } from "./api/facebook/_publisher";
+import cronHandler from "./api/facebook/cron";
+
+// Unified Master Daily Social Media Cron (Facebook, Instagram, WhatsApp, LinkedIn, X)
+app.all(["/api/cron", "/api/facebook/cron"], async (req, res) => {
+  await cronHandler(req, res);
+});
 
 // Endpoint to inspect Facebook & Instagram integration status and logs
 app.get("/api/facebook/status", async (req, res) => {
@@ -194,6 +202,7 @@ app.get("/api/facebook/status", async (req, res) => {
       configured: !!(process.env.FACEBOOK_PAGE_ACCESS_TOKEN),
       pageId: process.env.FACEBOOK_PAGE_ID || "kwincity",
       instagramConfigured: !!(process.env.INSTAGRAM_ACCOUNT_ID || process.env.FACEBOOK_PAGE_ACCESS_TOKEN),
+      whatsappConfigured: !!(process.env.WHATSAPP_PHONE_NUMBER_ID && (process.env.WHATSAPP_ACCESS_TOKEN || process.env.FACEBOOK_PAGE_ACCESS_TOKEN)),
       logs
     });
   } catch (err: any) {
@@ -211,11 +220,19 @@ app.post("/api/facebook/publish-now", async (req, res) => {
     let result: { success: boolean; postId?: string; error?: string };
     if (platform === "instagram") {
       result = await publishToInstagram(postBody, imageUrl);
+    } else if (platform === "whatsapp") {
+      const waMsg = formatForWhatsApp(postBody);
+      const waRes = await publishToWhatsApp(waMsg, imageUrl);
+      result = {
+        success: waRes.success,
+        postId: waRes.messageId,
+        error: waRes.error
+      };
     } else {
       result = await publishToFacebook(postBody);
     }
 
-    const platformLabel = platform === "instagram" ? "Instagram" : "Facebook";
+    const platformLabel = platform === "instagram" ? "Instagram" : platform === "whatsapp" ? "WhatsApp" : "Facebook";
     const newLog = {
       date: new Date().toISOString().split("T")[0],
       success: result.success,

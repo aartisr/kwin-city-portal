@@ -26,7 +26,8 @@ import {
   CheckCircle,
   X,
   Share,
-  XCircle
+  XCircle,
+  MessageCircle
 } from 'lucide-react';
 
 export interface SocialTrend {
@@ -41,7 +42,7 @@ export interface SocialTrend {
 
 export interface PublishedPost {
   id: string;
-  platform: 'instagram' | 'facebook' | 'linkedin' | 'x' | 'youtube';
+  platform: 'instagram' | 'facebook' | 'whatsapp' | 'linkedin' | 'x' | 'youtube';
   trendTopic: string;
   timestamp: string;
   postUrl: string;
@@ -149,6 +150,7 @@ export const SocialTrendStudio: React.FC = () => {
   const officialAccounts = [
     { name: 'Instagram', key: 'instagram', handle: '@hellokwincityconnect', url: 'https://instagram.com/hellokwincityconnect', icon: Instagram, color: 'text-pink-400 border-pink-500/30 bg-pink-500/10' },
     { name: 'Facebook', key: 'facebook', handle: 'facebook.com/kwincity', url: 'https://www.facebook.com/kwincity/', icon: Facebook, color: 'text-blue-400 border-blue-500/30 bg-blue-500/10' },
+    { name: 'WhatsApp', key: 'whatsapp', handle: 'KWIN Daily Broadcast', url: 'https://whatsapp.com/channel/kwin-city', icon: MessageCircle, color: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10' },
     { name: 'LinkedIn', key: 'linkedin', handle: 'linkedin.com/company/kwin-city', url: 'https://linkedin.com/company/kwin-city', icon: Linkedin, color: 'text-cyan-400 border-cyan-500/30 bg-cyan-500/10' },
     { name: 'X (Twitter)', key: 'x', handle: '@KWINCity', url: 'https://x.com/KWINCity', icon: Twitter, color: 'text-slate-200 border-slate-700 bg-slate-800' },
     { name: 'YouTube', key: 'youtube', handle: 'youtube.com/@KWINCity', url: 'https://youtube.com/@KWINCity', icon: Youtube, color: 'text-red-400 border-red-500/30 bg-red-500/10' },
@@ -159,6 +161,20 @@ export const SocialTrendStudio: React.FC = () => {
     const hashtag = selectedTrend.hashtag;
     const angle = selectedTrend.kwinAngle;
     const isNobel = selectedTrend.id === 'trend-nobel';
+
+    if (activePlatform === 'whatsapp') {
+      const todayFormatted = new Date().toLocaleDateString('en-IN', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+      });
+
+      return {
+        type: 'WhatsApp Official Daily Bulletin & Community Dispatch',
+        caption: `📢 *KWIN CITY OFFICIAL DAILY DISPATCH* 🚀\n_Knowledge, Health, Innovation & Research Hub, North Bengaluru_\n📅 *${todayFormatted}*\n\n*HEADLINE:* ${topic}\n\n*Key Developments:*\n• ${angle}\n• *Strategic Location:* 5,800-acre masterplan in Doddaballapur & Nelamangala.\n• *STRR Connectivity:* 45-min congestion-free corridor to Kempegowda Intl Airport.\n• *Statutory Benefits:* 100% stamp duty exemption & fast-track clearance via Karnataka Udyog Mitra.\n• *Sustainability:* Captive 465-acre solar microgrid for 24x7 green power.\n\n━━━━━━━━━━━━━━━━━━━━\n🔗 *Official Portal & Verified Gazettes:* https://kwin-city.com/\n\n_Forward this update to your investor, faculty & founder network!_`,
+        visualConcept: 'WhatsApp-optimized 1:1 infographic card with high-contrast bold metrics: 5,800 Acres, 45 Min to Airport, 100% Clean Energy.',
+      };
+    }
 
     if (activePlatform === 'instagram') {
       if (isNobel) {
@@ -227,7 +243,9 @@ export const SocialTrendStudio: React.FC = () => {
     const text = encodeURIComponent(currentContent.caption);
     const url = encodeURIComponent('https://kwin-city.com/');
 
-    if (activePlatform === 'x') {
+    if (activePlatform === 'whatsapp') {
+      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+    } else if (activePlatform === 'x') {
       window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
     } else if (activePlatform === 'facebook') {
       window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank');
@@ -251,7 +269,7 @@ export const SocialTrendStudio: React.FC = () => {
     setRealPublishError(null);
     setPublishingStep(1);
 
-    if (activePlatform === 'facebook' || activePlatform === 'instagram') {
+    if (activePlatform === 'facebook' || activePlatform === 'instagram' || activePlatform === 'whatsapp') {
       try {
         setPublishingStep(2);
         const res = await fetch('/api/facebook/publish-now', {
@@ -287,11 +305,13 @@ export const SocialTrendStudio: React.FC = () => {
               platform: activePlatform,
               trendTopic: selectedTrend.topic,
               timestamp: 'Just now (Published Live)',
-              postUrl: activePlatform === 'instagram' 
-                ? 'https://instagram.com/hellokwincityconnect' 
-                : `https://www.facebook.com/${data.log?.postId || 'kwincity'}`,
+              postUrl: activePlatform === 'whatsapp'
+                ? `https://api.whatsapp.com/send?text=${encodeURIComponent(currentContent.caption)}`
+                : activePlatform === 'instagram' 
+                  ? 'https://instagram.com/hellokwincityconnect' 
+                  : `https://www.facebook.com/${data.log?.postId || 'kwincity'}`,
               status: 'Published',
-              handle: targetAccount?.handle || (activePlatform === 'instagram' ? '@hellokwincityconnect' : 'facebook.com/kwincity')
+              handle: targetAccount?.handle || (activePlatform === 'whatsapp' ? 'KWIN Daily Broadcast' : activePlatform === 'instagram' ? '@hellokwincityconnect' : 'facebook.com/kwincity')
             };
 
             setPublishedHistory(prev => [newPost, ...prev]);
@@ -641,6 +661,18 @@ export const SocialTrendStudio: React.FC = () => {
               </button>
 
               <button
+                onClick={() => setActivePlatform('whatsapp')}
+                className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all ${
+                  activePlatform === 'whatsapp'
+                    ? 'border border-emerald-500/40 bg-emerald-500/20 text-emerald-200 shadow-sm shadow-emerald-500/10'
+                    : 'border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                <MessageCircle className="h-3.5 w-3.5 text-emerald-400" />
+                <span>WhatsApp</span>
+              </button>
+
+              <button
                 onClick={() => setActivePlatform('x')}
                 className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all ${
                   activePlatform === 'x'
@@ -835,28 +867,40 @@ export const SocialTrendStudio: React.FC = () => {
                   <div className="flex justify-center">
                     <CheckCircle2 className="h-8 w-8 text-emerald-400" />
                   </div>
-                  {activePlatform === 'facebook' || activePlatform === 'instagram' ? (
+                  {activePlatform === 'facebook' || activePlatform === 'instagram' || activePlatform === 'whatsapp' ? (
                     <>
-                      <h4 className="text-sm font-bold text-white">Published Live Successfully!</h4>
+                      <h4 className="text-sm font-bold text-white">
+                        {activePlatform === 'whatsapp' ? 'WhatsApp Daily Broadcast Ready & Sent!' : 'Published Live Successfully!'}
+                      </h4>
                       <p className="text-xs text-emerald-200 leading-relaxed">
-                        {activePlatform === 'instagram' 
-                          ? 'Your update and visual container have been published live directly to @hellokwincityconnect on Instagram!'
-                          : 'Your update has been published live directly to the official KWIN City Bengaluru Facebook page.'}
+                        {activePlatform === 'whatsapp'
+                          ? 'Your formatted daily bulletin has been generated and dispatched via WhatsApp Cloud API / prepared for instant 1-click broadcast.'
+                          : activePlatform === 'instagram' 
+                            ? 'Your update and visual container have been published live directly to @hellokwincityconnect on Instagram!'
+                            : 'Your update has been published live directly to the official KWIN City Bengaluru Facebook page.'}
                       </p>
                       <div className="pt-2 space-y-2">
                         <a
-                          href={activePlatform === 'instagram' 
-                            ? "https://www.instagram.com/hellokwincityconnect/" 
-                            : "https://www.facebook.com/kwincity"}
+                          href={activePlatform === 'whatsapp'
+                            ? `https://api.whatsapp.com/send?text=${encodeURIComponent(currentContent.caption)}`
+                            : activePlatform === 'instagram' 
+                              ? "https://www.instagram.com/hellokwincityconnect/" 
+                              : "https://www.facebook.com/kwincity"}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 py-2.5 text-xs font-bold text-white hover:brightness-110 transition-all shadow-lg cursor-pointer"
+                          className={`w-full inline-flex items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold text-white hover:brightness-110 transition-all shadow-lg cursor-pointer ${
+                            activePlatform === 'whatsapp'
+                              ? 'bg-gradient-to-r from-emerald-600 to-teal-600'
+                              : 'bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600'
+                          }`}
                         >
                           <ExternalLink className="h-4 w-4" />
                           <span>
-                            {activePlatform === 'instagram' 
-                              ? 'View Post on Instagram (@hellokwincityconnect)' 
-                              : 'View Post on Facebook Page'}
+                            {activePlatform === 'whatsapp' 
+                              ? 'Open WhatsApp to Broadcast / Forward'
+                              : activePlatform === 'instagram' 
+                                ? 'View Post on Instagram (@hellokwincityconnect)' 
+                                : 'View Post on Facebook Page'}
                           </span>
                         </a>
 
