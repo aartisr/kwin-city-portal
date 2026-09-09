@@ -174,7 +174,11 @@ export async function generateTrendingPost(trendingTopics: string[]): Promise<st
  * Publishes a dynamic post to Facebook using Graph API
  */
 export async function publishToFacebook(messageContent: string): Promise<{ success: boolean; postId?: string; error?: string }> {
-  if (!isFacebookConfigured) {
+  const activePageId = process.env.FACEBOOK_PAGE_ID || "kwincity";
+  const activePageAccessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN;
+  const isConfigured = !!(activePageId && activePageAccessToken);
+
+  if (!isConfigured) {
     return { 
       success: false, 
       error: "Facebook credentials are not fully configured. Set FACEBOOK_PAGE_ID and FACEBOOK_PAGE_ACCESS_TOKEN in the workspace environment settings." 
@@ -182,14 +186,14 @@ export async function publishToFacebook(messageContent: string): Promise<{ succe
   }
 
   try {
-    let targetPageId = pageId;
+    let targetPageId = activePageId;
 
     // Robust check: If pageId is a textual handle or non-numeric username, automatically resolve the numeric Page ID from the Page Access Token using /me
-    const isNumeric = /^\d+$/.test(pageId);
+    const isNumeric = /^\d+$/.test(activePageId);
     if (!isNumeric) {
-      console.log(`[Facebook Sync] Page ID '${pageId}' is not numeric. Auto-resolving from Page Access Token...`);
+      console.log(`[Facebook Sync] Page ID '${activePageId}' is not numeric. Auto-resolving from Page Access Token...`);
       try {
-        const meUrl = `https://graph.facebook.com/v18.0/me?fields=id,name&access_token=${pageAccessToken}`;
+        const meUrl = `https://graph.facebook.com/v18.0/me?fields=id,name&access_token=${activePageAccessToken}`;
         const meRes = await fetch(meUrl);
         if (meRes.ok) {
           const meData = await meRes.json();
@@ -214,7 +218,7 @@ export async function publishToFacebook(messageContent: string): Promise<{ succe
       },
       body: JSON.stringify({
         message: messageContent,
-        access_token: pageAccessToken,
+        access_token: activePageAccessToken,
       }),
     });
 

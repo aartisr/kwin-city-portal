@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { 
   generateTrendingPost, 
   getFacebookPublishLogs, 
@@ -100,6 +100,115 @@ describe("KWIN Civic Discourse & Facebook Auto-Publisher Regression Test Suite",
       
       // Since a post already exists for today, the rate-limiter must stop it (returning null)
       expect(decision).toBeNull();
+    });
+  });
+
+  describe("Facebook Page ID Auto-Resolution & Graph API Transport", () => {
+    let originalFetch: any;
+
+    beforeEach(() => {
+      originalFetch = global.fetch;
+    });
+
+    afterEach(() => {
+      global.fetch = originalFetch;
+    });
+
+    it("should automatically resolve the numeric Page ID from a text handle using the /me endpoint", async () => {
+      const mockPageId = "kwincity";
+      const mockResolvedId = "433861030990";
+      const mockToken = "EAGfUuwc...";
+
+      // Mock fetch requests
+      const fetchMock = vi.fn().mockImplementation((url: string) => {
+        if (url.includes("/me?fields=id,name")) {
+          return Promise.resolve({
+            ok: true,
+            json: () => Promise.resolve({ id: mockResolvedId, name: "KWIN City" })
+          });
+        }
+        if (url.includes("/feed")) {
+          expect(url).toContain(`/${mockResolvedId}/feed`);
+          return Promise.resolve({
+            ok: true,
+            json: () => Promise.resolve({ id: "post_98765" })
+          });
+        }
+        return Promise.reject(new Error("Unknown URL"));
+      });
+      global.fetch = fetchMock;
+
+      const { publishToFacebook } = await import("../src/services/facebookPublisher");
+      const result = await publishToFacebook("Test dynamic content");
+
+      expect(result.success).toBe(true);
+      expect(result.postId).toBe("post_98765");
+      expect(fetchMock).toHaveBeenCalled();
+    });
+
+    it("should use a numeric Page ID directly without calling the /me endpoint", async () => {
+      const mockPageId = "433861030990";
+      
+      const fetchMock = vi.fn().mockImplementation((url: string) => {
+        if (url.includes("/feed")) {
+          expect(url).toContain(`/${mockPageId}/feed`);
+          return Promise.resolve({
+            ok: true,
+            json: () => Promise.resolve({ id: "post_54321" })
+          });
+        }
+        return Promise.reject(new Error("Unknown URL"));
+      });
+      global.fetch = fetchMock;
+
+      // Mock process.env
+      vi.stubEnv("FACEBOOK_PAGE_ID", mockPageId);
+
+      const { publishToFacebook } = await import("../src/services/facebookPublisher");
+      const result = await publishToFacebook("Test direct numeric content");
+
+      expect(result.success).toBe(true);
+      expect(result.postId).toBe("post_54321");
+      
+      // Ensure the /me endpoint was NEVER called
+      const calls = fetchMock.mock.calls;
+      const calledMe = calls.some(call => call[0].includes("/me?"));
+      expect(calledMe).toBe(false);
+
+      vi.unstubAllEnvs();
+    });
+
+    it("should fall back to original Page ID handle if the /me endpoint fails or returns an error", async () => {
+      const mockPageId = "kwincity";
+
+      const fetchMock = vi.fn().mockImplementation((url: string) => {
+        if (url.includes("/me?fields=id,name")) {
+          return Promise.resolve({
+            ok: false,
+            json: () => Promise.resolve({ error: { message: "Invalid OAuth Token" } })
+          });
+        }
+        if (url.includes("/feed")) {
+          // Should fall back to the original text Page ID handle
+          expect(url).toContain(`/${mockPageId}/feed`);
+          return Promise.resolve({
+            ok: true,
+            json: () => Promise.resolve({ id: "post_fallback" })
+          });
+        }
+        return Promise.reject(new Error("Unknown URL"));
+      });
+      global.fetch = fetchMock;
+
+      vi.stubEnv("FACEBOOK_PAGE_ID", mockPageId);
+
+      const { publishToFacebook } = await import("../src/services/facebookPublisher");
+      const result = await publishToFacebook("Test fallback content");
+
+      expect(result.success).toBe(true);
+      expect(result.postId).toBe("post_fallback");
+
+      vi.unstubAllEnvs();
     });
   });
 });
