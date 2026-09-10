@@ -33,9 +33,10 @@ export const DiscoverabilityLayer: React.FC<DiscoverabilityLayerProps> = ({ acti
   // Dynamic Meta Tag Synchronizer on tab change
   useEffect(() => {
     const tabTitles: Record<string, string> = {
-      overview: 'KWIN City Independent Research & Intelligence Portal | Aarti S Ravikumar & Baja Associates',
+      overview: 'KWIN City Research Portal | North Bengaluru Intelligence',
       spatial: 'Spatial Masterplan Explorer (5,800 Acres) | KWIN City GIS Data',
       valuation: 'Econometric Land Valuation Index (14.2% CAGR) | KWIN City Investment',
+      feasibility: 'KWIN City Land Feasibility Analysis | North Bengaluru',
       regulatory: 'Statutory KIADB Regulatory Clearance Navigator | KWIN City',
       insights: 'OpenCity Data Insights & Aviation Telemetry | KWIN City',
       risks: 'Risk & Survey Title Clearance Scanner | KWIN City Land Audit',

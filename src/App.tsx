@@ -22,8 +22,25 @@ import { ViralTickerBar } from './components/ViralTickerBar';
 import { PowerPalette } from './components/PowerPalette';
 import { Footer } from './components/Footer';
 import { OfflineIndicator } from './components/OfflineIndicator';
-import { useKwinPortal } from './hooks/useKwinPortal';
+import { useKwinPortal, type PortalTab } from './hooks/useKwinPortal';
 import { trackPortalEvent } from './services/observability';
+
+const pageHeadings: Record<PortalTab, string> = {
+  overview: 'KWIN City Research Portal',
+  spatial: 'KWIN City Spatial Masterplan Explorer',
+  valuation: 'KWIN City Land Valuation Index',
+  feasibility: 'KWIN City Land Feasibility Analysis',
+  regulatory: 'KWIN City Regulatory Clearance Navigator',
+  insights: 'KWIN City Data Insights',
+  risks: 'KWIN City Land Risk Assessment',
+  opportunities: 'KWIN City Opportunities Exchange',
+  news: 'KWIN City News and Gazette Intelligence',
+  social: 'KWIN City Social Trends',
+  satellite: 'KWIN City Satellite Monitoring',
+  evidence: 'KWIN City Evidence Vault',
+  contact: 'Contact KWIN City Research',
+  discourse: 'KWIN City Research Discourse',
+};
 
 export default function App() {
   const {
@@ -53,6 +70,7 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1">
+        <h1 className="sr-only">{pageHeadings[activeTab]}</h1>
         
         {activeTab === 'overview' && (
           <div>

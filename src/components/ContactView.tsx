@@ -94,9 +94,9 @@ export const ContactView: React.FC = () => {
               <span>Independent Research Desk & Contact Portal</span>
             </span>
           </div>
-          <h1 id="contact-page-title" className="mt-3 font-['Cinzel',serif] text-2xl sm:text-4xl font-bold text-white">
+          <h2 id="contact-page-title" className="mt-3 font-['Cinzel',serif] text-2xl sm:text-4xl font-bold text-white">
             Contact & Inquiry Desk
-          </h1>
+          </h2>
           <p className="mt-2 text-sm text-slate-300 leading-relaxed font-light">
             Connect with lead researcher <strong className="text-white font-semibold">Aarti S Ravikumar</strong>, spatial consultancy <strong className="text-white font-semibold">Baja Associates</strong>, and the <strong className="text-emerald-300 font-semibold">Hello KWIN City Connect</strong> team for spatial dataset verification, land survey inquiries, masterplan documentation, or institutional research partnerships.
           </p>

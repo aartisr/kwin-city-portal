@@ -117,9 +117,9 @@ export default function DiscourseLab() {
               <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
               <span className="text-[10px] font-mono tracking-wider uppercase text-emerald-400 font-bold">Interactive Prototype</span>
             </div>
-            <h1 className="text-xl md:text-2xl font-bold text-white tracking-tight">
+            <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">
               KWIN City Civic Discourse Lab
-            </h1>
+            </h2>
             <p className="text-xs text-slate-400 max-w-xl mt-1 leading-relaxed">
               An evidence-first dialogue platform designed to facilitate collaboration, factual audits, and direct verification between citizens, investors, and urban planners.
             </p>

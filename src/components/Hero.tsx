@@ -47,9 +47,9 @@ export const Hero: React.FC<HeroProps> = ({ onNavigateToTool }) => {
 
         {/* Hero Title & Subtitle */}
         <div className="mt-6 max-w-4xl">
-          <h1 className="font-['Cinzel',serif] text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
+          <h2 className="font-['Cinzel',serif] text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
             KWIN CITY <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">RESEARCH PORTAL</span>
-          </h1>
+          </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed font-light">
             An independent research, spatial analytics, and empirical intelligence portal tracking South Asia’s premier 5,800-acre Knowledge, Wellbeing, and Innovation metropolis in North Bengaluru. Providing open-access spatial masterplans, econometric valuation indices, statutory regulatory workflows, and ground data.
           </p>
