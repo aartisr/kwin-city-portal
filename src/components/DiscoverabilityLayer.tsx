@@ -44,6 +44,7 @@ export const DiscoverabilityLayer: React.FC<DiscoverabilityLayerProps> = ({ acti
       satellite: 'Sentinel-2 Satellite Earth Radar | KWIN City Earth Observation',
       evidence: 'Cryptographic SHA-256 Evidence Vault | Fact Verification KWIN City',
       social: 'Social Media Trend & Content Studio | KWIN City Connect',
+      discourse: 'KWIN City Research Discourse | Evidence-led Public Discussion',
       evaluation: '2026 Architectural Evaluation Whitepaper | KWIN City Portal',
       contact: 'Contact & Inquiry Desk | Aarti S Ravikumar & Baja Associates'
     };
@@ -58,6 +59,7 @@ export const DiscoverabilityLayer: React.FC<DiscoverabilityLayerProps> = ({ acti
       news: 'Read source-labelled KWIN City, KIADB, and North Bengaluru research updates.',
       satellite: 'Review satellite and earth-observation context for KWIN City research.',
       evidence: 'Inspect the KWIN City evidence vault, claim status, and source limitations.',
+      discourse: 'Join a moderated, evidence-led discussion on KWIN City research, planning, and regional development.',
       contact: 'Contact the KWIN City independent research desk for data, survey, media, or partnership inquiries.'
     };
 
