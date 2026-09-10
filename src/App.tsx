@@ -1,22 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
-import { OverviewDashboard } from './components/OverviewDashboard';
-import { SpatialExplorer } from './components/SpatialExplorer';
-import { ValuationIndex } from './components/ValuationIndex';
-import { LandFeasibilityCalculator } from './components/LandFeasibilityCalculator';
-import { RegulatoryNavigator } from './components/RegulatoryNavigator';
-import { DataInsightsHub } from './components/DataInsightsHub';
-import { RiskCheckEngine } from './components/RiskCheckEngine';
-import { OpportunityExchange } from './components/OpportunityExchange';
-import { NewsIntelligence } from './components/NewsIntelligence';
-import { SocialTrendStudio } from './components/SocialTrendStudio';
-import { SatelliteTracker } from './components/SatelliteTracker';
-import { EvidenceVault } from './components/EvidenceVault';
-import { ContactView } from './components/ContactView';
-import DiscourseLab from './components/DiscourseLab';
 import { DiscoverabilityLayer } from './components/DiscoverabilityLayer';
 import { ViralTickerBar } from './components/ViralTickerBar';
 import { PowerPalette } from './components/PowerPalette';
@@ -24,6 +10,21 @@ import { Footer } from './components/Footer';
 import { OfflineIndicator } from './components/OfflineIndicator';
 import { useKwinPortal, type PortalTab } from './hooks/useKwinPortal';
 import { trackPortalEvent } from './services/observability';
+
+const OverviewDashboard = lazy(() => import('./components/OverviewDashboard').then(({ OverviewDashboard }) => ({ default: OverviewDashboard })));
+const SpatialExplorer = lazy(() => import('./components/SpatialExplorer').then(({ SpatialExplorer }) => ({ default: SpatialExplorer })));
+const ValuationIndex = lazy(() => import('./components/ValuationIndex').then(({ ValuationIndex }) => ({ default: ValuationIndex })));
+const LandFeasibilityCalculator = lazy(() => import('./components/LandFeasibilityCalculator').then(({ LandFeasibilityCalculator }) => ({ default: LandFeasibilityCalculator })));
+const RegulatoryNavigator = lazy(() => import('./components/RegulatoryNavigator').then(({ RegulatoryNavigator }) => ({ default: RegulatoryNavigator })));
+const DataInsightsHub = lazy(() => import('./components/DataInsightsHub').then(({ DataInsightsHub }) => ({ default: DataInsightsHub })));
+const RiskCheckEngine = lazy(() => import('./components/RiskCheckEngine').then(({ RiskCheckEngine }) => ({ default: RiskCheckEngine })));
+const OpportunityExchange = lazy(() => import('./components/OpportunityExchange').then(({ OpportunityExchange }) => ({ default: OpportunityExchange })));
+const NewsIntelligence = lazy(() => import('./components/NewsIntelligence').then(({ NewsIntelligence }) => ({ default: NewsIntelligence })));
+const SocialTrendStudio = lazy(() => import('./components/SocialTrendStudio').then(({ SocialTrendStudio }) => ({ default: SocialTrendStudio })));
+const SatelliteTracker = lazy(() => import('./components/SatelliteTracker').then(({ SatelliteTracker }) => ({ default: SatelliteTracker })));
+const EvidenceVault = lazy(() => import('./components/EvidenceVault').then(({ EvidenceVault }) => ({ default: EvidenceVault })));
+const ContactView = lazy(() => import('./components/ContactView').then(({ ContactView }) => ({ default: ContactView })));
+const DiscourseLab = lazy(() => import('./components/DiscourseLab'));
 
 const pageHeadings: Record<PortalTab, string> = {
   overview: 'KWIN City Research Portal',
@@ -71,69 +72,29 @@ export default function App() {
       {/* Main Content Area */}
       <main className="flex-1">
         <h1 className="sr-only">{pageHeadings[activeTab]}</h1>
-        
-        {activeTab === 'overview' && (
-          <div>
-            <Hero
-              onNavigateToTool={(toolId) => setActiveTab(toolId)}
-            />
-            <OverviewDashboard onNavigateToTool={(toolId) => setActiveTab(toolId)} />
-          </div>
-        )}
-
-        {activeTab === 'spatial' && (
-          <SpatialExplorer />
-        )}
-
-        {activeTab === 'valuation' && (
-          <ValuationIndex />
-        )}
-
-        {activeTab === 'feasibility' && (
-          <LandFeasibilityCalculator />
-        )}
-
-        {activeTab === 'regulatory' && (
-          <RegulatoryNavigator />
-        )}
-
-        {activeTab === 'insights' && (
-          <DataInsightsHub />
-        )}
-
-        {activeTab === 'risks' && (
-          <RiskCheckEngine />
-        )}
-
-        {activeTab === 'opportunities' && (
-          <OpportunityExchange />
-        )}
-
-        {activeTab === 'news' && (
-          <NewsIntelligence />
-        )}
-
-        {activeTab === 'social' && (
-          <SocialTrendStudio />
-        )}
-
-        {activeTab === 'satellite' && (
-          <SatelliteTracker />
-        )}
-
-        {activeTab === 'evidence' && (
-          <EvidenceVault />
-        )}
-
-        {activeTab === 'contact' && (
-          <ContactView />
-        )}
-
-        {activeTab === 'discourse' && (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <DiscourseLab />
-          </div>
-        )}
+        <Suspense fallback={<div className="mx-auto max-w-7xl px-4 py-16 text-center text-sm text-slate-400">Loading research workspace…</div>}>
+          {activeTab === 'overview' && (
+            <div>
+              <Hero onNavigateToTool={(toolId) => setActiveTab(toolId)} />
+              <OverviewDashboard onNavigateToTool={(toolId) => setActiveTab(toolId)} />
+            </div>
+          )}
+          {activeTab === 'spatial' && <SpatialExplorer />}
+          {activeTab === 'valuation' && <ValuationIndex />}
+          {activeTab === 'feasibility' && <LandFeasibilityCalculator />}
+          {activeTab === 'regulatory' && <RegulatoryNavigator />}
+          {activeTab === 'insights' && <DataInsightsHub />}
+          {activeTab === 'risks' && <RiskCheckEngine />}
+          {activeTab === 'opportunities' && <OpportunityExchange />}
+          {activeTab === 'news' && <NewsIntelligence />}
+          {activeTab === 'social' && <SocialTrendStudio />}
+          {activeTab === 'satellite' && <SatelliteTracker />}
+          {activeTab === 'evidence' && <EvidenceVault />}
+          {activeTab === 'contact' && <ContactView />}
+          {activeTab === 'discourse' && (
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><DiscourseLab /></div>
+          )}
+        </Suspense>
 
       </main>
 
