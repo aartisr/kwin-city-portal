@@ -20,6 +20,7 @@ import {
   Mail,
   Users
 } from 'lucide-react';
+import { PWAInstallBadge } from './PWAInstallBadge';
 
 interface HeaderProps {
   activeTab: string;
@@ -217,6 +218,9 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Action Controls */}
         <div className="flex items-center gap-2">
+          {/* Subtle PWA Install Indicator */}
+          <PWAInstallBadge variant="compact" />
+
           {/* Quick Search Trigger */}
           <button
             id="global-search-trigger"

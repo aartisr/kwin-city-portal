@@ -115,10 +115,10 @@ export const DiscoverabilityLayer: React.FC<DiscoverabilityLayerProps> = ({ acti
   return (
     <>
       {/* Floating Plug-and-Play Discoverability Trigger Badge */}
-      <div className="fixed bottom-5 left-5 z-40">
+      <div className="fixed bottom-5 right-5 z-40">
         <button
           onClick={() => setIsOpen(true)}
-          className="group flex items-center gap-2 rounded-full border border-emerald-500/40 bg-slate-900/95 px-3.5 py-2 text-xs font-semibold text-emerald-300 shadow-xl backdrop-blur-md hover:border-emerald-400 hover:bg-slate-800 transition-all hover:scale-105"
+          className="group flex items-center gap-2 rounded-full border border-emerald-500/40 bg-slate-900/95 px-3.5 py-2 text-xs font-semibold text-emerald-300 shadow-2xl backdrop-blur-md hover:border-emerald-400 hover:bg-slate-800 transition-all hover:scale-105"
         >
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>

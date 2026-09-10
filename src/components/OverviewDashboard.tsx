@@ -11,10 +11,14 @@ import {
   Award, 
   ArrowRight, 
   CheckCircle2,
-  Share2
+  Share2,
+  MapPin,
+  Sparkles
 } from 'lucide-react';
 import { DISTRICTS } from '../data/kwin-data';
 import { SectionHeader, Card, Badge, Button } from './ui';
+import { InteractiveSpatialMapPreview } from './InteractiveSpatialMapPreview';
+import { MilestoneSignalTracker } from './MilestoneSignalTracker';
 
 interface OverviewDashboardProps {
   onNavigateToTool: (toolId: string) => void;
@@ -24,7 +28,17 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({ onNavigate
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-12">
       
-      {/* Section 1: The 4 Core Districts Showcase */}
+      {/* Visual Polish Feature 1: Embedded Interactive Spatial Map Canvas */}
+      <InteractiveSpatialMapPreview 
+        onNavigateToFullGIS={() => onNavigateToTool('spatial')} 
+      />
+
+      {/* Real-Time Signal Feeds Feature 2: Dynamic Infrastructure Milestone Tracker */}
+      <MilestoneSignalTracker 
+        onNavigateToTool={onNavigateToTool} 
+      />
+
+      {/* Section: The 4 Core Districts Showcase */}
       <div>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-800 pb-4">
           <div>

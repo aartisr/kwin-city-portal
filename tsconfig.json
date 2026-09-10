@@ -21,6 +21,14 @@
       ]
     },
     "allowImportingTsExtensions": true,
-    "noEmit": true
-  }
+    "noEmit": true,
+    "types": ["vite/client", "vite-plugin-pwa/client"]
+  },
+  "exclude": [
+    "cloned_backup",
+    "test",
+    "test-results",
+    "node_modules",
+    "dist"
+  ]
 }

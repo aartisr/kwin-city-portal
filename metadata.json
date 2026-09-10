@@ -1,6 +1,6 @@
 {
   "name": "KWIN City Independent Research & Intelligence Portal",
-  "description": "Independent spatial research, open-access intelligence platform, masterplan explorer, economic valuation index, regulatory navigator, and risk engine covering KWIN City.",
-  "requestFramePermissions": ["geolocation"],
+  "description": "South Asia's premier spatial research clearinghouse for KWIN City (Doddaballapur & North Bengaluru). Masterplan GIS, land CAGR valuations, statutory KIADB clearances, and SHA-256 evidence vault.",
+  "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

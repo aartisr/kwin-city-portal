@@ -21,6 +21,7 @@ import { DiscoverabilityLayer } from './components/DiscoverabilityLayer';
 import { ViralTickerBar } from './components/ViralTickerBar';
 import { PowerPalette } from './components/PowerPalette';
 import { Footer } from './components/Footer';
+import { OfflineIndicator } from './components/OfflineIndicator';
 import { useKwinPortal } from './hooks/useKwinPortal';
 import { trackPortalEvent } from './services/observability';
 
@@ -54,12 +55,12 @@ export default function App() {
       <main className="flex-1">
         
         {activeTab === 'overview' && (
-          <section className="research-home">
+          <div>
             <Hero
               onNavigateToTool={(toolId) => setActiveTab(toolId)}
             />
             <OverviewDashboard onNavigateToTool={(toolId) => setActiveTab(toolId)} />
-          </section>
+          </div>
         )}
 
         {activeTab === 'spatial' && (
@@ -111,7 +112,7 @@ export default function App() {
         )}
 
         {activeTab === 'discourse' && (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-slate-800">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <DiscourseLab />
           </div>
         )}
@@ -130,6 +131,10 @@ export default function App() {
 
       {/* Plug-and-Play Discoverability & AI Search Layer */}
       <DiscoverabilityLayer activeTab={activeTab} />
+      
+      {/* Offline Status Connectivity Toast */}
+      <OfflineIndicator />
+
       <Analytics />
       <SpeedInsights route={window.location.pathname} sampleRate={0.5} />
 
