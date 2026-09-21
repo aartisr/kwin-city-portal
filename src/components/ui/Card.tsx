@@ -21,10 +21,10 @@ export const Card: React.FC<CardProps> = ({
     <div
       id={id}
       onClick={onClick}
-      className={`rounded-2xl bg-slate-900/80 p-6 backdrop-blur-sm transition-all ${
-        bordered ? 'border border-slate-800' : ''
+      className={`rounded-2xl bg-white dark:bg-slate-900/80 p-5 sm:p-6 shadow-xs dark:shadow-none transition-all ${
+        bordered ? 'border border-slate-200 dark:border-slate-800' : ''
       } ${
-        hoverable ? 'cursor-pointer hover:border-slate-700 hover:bg-slate-900/90 hover:shadow-xl' : ''
+        hoverable ? 'cursor-pointer hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-md' : ''
       } ${className}`}
     >
       {children}
@@ -33,17 +33,31 @@ export const Card: React.FC<CardProps> = ({
 };
 
 export const CardHeader: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
-  <div className={`flex items-center justify-between border-b border-slate-800 pb-3 mb-4 ${className}`}>
+  <div className={`flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 mb-4 ${className}`}>
     {children}
   </div>
 );
 
+export const CardTitle: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
+  <h3 className={`font-serif text-base sm:text-lg font-bold text-slate-900 dark:text-white ${className}`}>
+    {children}
+  </h3>
+);
+
+export const CardDescription: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
+  <p className={`text-xs text-slate-600 dark:text-slate-400 mt-0.5 ${className}`}>
+    {children}
+  </p>
+);
+
 export const CardBody: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
-  <div className={className}>{children}</div>
+  <div className={`space-y-4 ${className}`}>
+    {children}
+  </div>
 );
 
 export const CardFooter: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
-  <div className={`mt-4 pt-3 border-t border-slate-800 flex items-center justify-between ${className}`}>
+  <div className={`mt-5 pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between ${className}`}>
     {children}
   </div>
 );

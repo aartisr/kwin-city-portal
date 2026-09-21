@@ -17,10 +17,21 @@ import {
   Sparkles, 
   BarChart3, 
   Copy, 
-  Check 
+  Check,
+  BookmarkPlus,
+  BookmarkCheck,
+  Crown
 } from 'lucide-react';
+import { useUser } from '../context/UserContext';
+import { DueDiligencePDFModal } from './DueDiligencePDFModal';
+import { PricingAndCheckoutModal } from './PricingAndCheckoutModal';
 
 export const LandFeasibilityCalculator: React.FC = () => {
+  const { addToWatchlist, isParcelInWatchlist, tier } = useUser();
+  const [isPDFModalOpen, setIsPDFModalOpen] = useState(false);
+  const [isPricingModalOpen, setIsPricingModalOpen] = useState(false);
+  const [watchlistSuccess, setWatchlistSuccess] = useState(false);
+
   // Survey Lookup Form State
   const [village, setVillage] = useState('Tubagere Hobli');
   const [surveyNo, setSurveyNo] = useState('142/2A');
@@ -215,22 +226,71 @@ export const LandFeasibilityCalculator: React.FC = () => {
                     </h3>
                   </div>
 
-                  <button
-                    onClick={copyDossier}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-xs font-semibold text-emerald-300 hover:bg-emerald-500/20 transition-all"
-                  >
-                    {copiedDossier ? (
-                      <>
-                        <Check className="h-3.5 w-3.5 text-emerald-400" />
-                        <span>Dossier Copied!</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="h-3.5 w-3.5" />
-                        <span>Copy Dossier</span>
-                      </>
-                    )}
-                  </button>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button
+                      onClick={() => setIsPDFModalOpen(true)}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white shadow-md shadow-emerald-900/40 transition-all"
+                      title="Download Official Audit PDF"
+                    >
+                      <Download className="h-3.5 w-3.5" />
+                      <span>Export Audit PDF</span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        addToWatchlist({
+                          surveyNo,
+                          village,
+                          hobli: village.split(' ')[0],
+                          taluk: 'Doddaballapur',
+                          acreage,
+                          zone: selectedZone,
+                          guidanceRatePerAcreLakhs: currentVillage.guidanceVal,
+                          marketRatePerAcreLakhs: 395,
+                          kiadbStatus: currentVillage.kiadbStatus,
+                          riskRating: 'Low',
+                          alerts: {
+                            gazetteNotification: true,
+                            guidanceRevision: true,
+                            reraFilings: false,
+                          },
+                          notes: `Zone: ${selectedZone}. Evaluated on ${new Date().toLocaleDateString('en-IN')}`,
+                        });
+                        setWatchlistSuccess(true);
+                        setTimeout(() => setWatchlistSuccess(false), 2000);
+                      }}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-indigo-500/40 bg-indigo-500/10 text-xs font-semibold text-indigo-300 hover:bg-indigo-500/20 transition-all"
+                    >
+                      {isParcelInWatchlist(surveyNo, village) || watchlistSuccess ? (
+                        <>
+                          <BookmarkCheck className="h-3.5 w-3.5 text-emerald-400" />
+                          <span className="text-emerald-300">Tracked in Watchlist</span>
+                        </>
+                      ) : (
+                        <>
+                          <BookmarkPlus className="h-3.5 w-3.5 text-indigo-400" />
+                          <span>Track Parcel</span>
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      onClick={copyDossier}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-700 bg-slate-800 text-xs font-semibold text-slate-300 hover:bg-slate-700 transition-all"
+                    >
+                      {copiedDossier ? (
+                        <>
+                          <Check className="h-3.5 w-3.5 text-emerald-400" />
+                          <span>Copied!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="h-3.5 w-3.5" />
+                          <span>Copy</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
 
                 {/* KIADB Status Box */}
@@ -277,6 +337,34 @@ export const LandFeasibilityCalculator: React.FC = () => {
                     </div>
                     <div className="text-[10px] text-slate-500">5% Stamp + 1% Reg + 12% Surcharge</div>
                   </div>
+                </div>
+
+                {/* Institutional Audit & Bhoomi Integration Upsell */}
+                <div className="p-4 rounded-xl border border-amber-500/30 bg-amber-950/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center shrink-0 border border-amber-500/40">
+                      <Crown className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-white flex items-center gap-1.5">
+                        <span>Need Bhoomi Karnataka Title EC & Mutation Audit?</span>
+                        {tier !== 'free' && (
+                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                            {tier.toUpperCase()} UNLOCKED
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[11px] text-slate-400">
+                        Access 30-year mutation history, Section 28 gazette dispatch logs, and unwatermarked vector PDF dossiers.
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setIsPricingModalOpen(true)}
+                    className="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold whitespace-nowrap transition shadow-xs"
+                  >
+                    {tier === 'free' ? 'Upgrade Plan' : 'Manage Subscription'}
+                  </button>
                 </div>
 
                 <p className="text-[11px] text-slate-400 italic pt-2 border-t border-slate-800">
@@ -454,6 +542,30 @@ export const LandFeasibilityCalculator: React.FC = () => {
         </div>
 
       </div>
+
+      {/* Due Diligence PDF Generation Modal */}
+      <DueDiligencePDFModal
+        isOpen={isPDFModalOpen}
+        onClose={() => setIsPDFModalOpen(false)}
+        initialData={{
+          village,
+          surveyNo,
+          hobli: village.split(' ')[0],
+          taluk: 'Doddaballapur',
+          acreage,
+          guidanceRatePerAcreLakhs: currentVillage.guidanceVal,
+          marketRatePerAcreLakhs: 395,
+          kiadbStatus: currentVillage.kiadbStatus,
+          selectedZone,
+        }}
+        onOpenPricing={() => setIsPricingModalOpen(true)}
+      />
+
+      {/* Pricing & Checkout Modal */}
+      <PricingAndCheckoutModal
+        isOpen={isPricingModalOpen}
+        onClose={() => setIsPricingModalOpen(false)}
+      />
     </section>
   );
 };

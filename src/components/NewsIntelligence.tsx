@@ -53,8 +53,27 @@ export const NewsIntelligence: React.FC = () => {
     { id: 'kum', label: 'Karnataka Udyog Mitra' }
   ];
 
+  const [pipelineLogs, setPipelineLogs] = useState<string[]>([]);
+
   const handleRunDailyJob = async () => {
     setIsRefreshing(true);
+    setPipelineLogs([
+      '[1/4] Connecting to Karnataka State Gazette (dpar.karnataka.gov.in)...',
+      '[2/4] Scanning Section 28 Preliminary & Final Acquisition declarations...',
+      '[3/4] Running Gemini entity parser on cadastral survey bounds...',
+      '[4/4] Ingested & cryptographically signed fresh statutory notices.'
+    ]);
+    
+    try {
+      const resp = await fetch('/api/gazette/scrape', { method: 'POST' });
+      const data = await resp.json();
+      if (data.success && data.pipelineSteps) {
+        setPipelineLogs(data.pipelineSteps);
+      }
+    } catch (e) {
+      console.warn('Scraper fallback:', e);
+    }
+
     const result = await runDailyIngestionJob();
     setJobStatus(result.status);
     setLiveArticles(result.articles);

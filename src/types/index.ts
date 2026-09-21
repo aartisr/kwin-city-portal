@@ -232,3 +232,58 @@ export interface ChatMessage {
   createdAt: string;
 }
 
+export interface EvaluationPillar {
+  id: string;
+  name: string;
+  shortName: string;
+  category: 'trust' | 'content' | 'tech' | 'ux' | 'utility';
+  score: number; // 1 to 10
+  defaultWeight: number; // percentage (sums to 100)
+  iconName: string;
+  summary: string;
+  verdict: 'Excellent' | 'Good' | 'Fair' | 'Needs Improvement' | 'Critical Risk';
+  strengths: string[];
+  weaknesses: string[];
+  recommendations: string[];
+  metrics: {
+    label: string;
+    score: number;
+    description: string;
+  }[];
+}
+
+export interface ComparisonItem {
+  feature: string;
+  category: string;
+  kwinCityCom: {
+    status: 'yes' | 'partial' | 'no';
+    notes: string;
+  };
+  officialGov: {
+    status: 'yes' | 'partial' | 'no';
+    notes: string;
+  };
+  realtorPortals: {
+    status: 'yes' | 'partial' | 'no';
+    notes: string;
+  };
+}
+
+export interface DueDiligenceStep {
+  id: string;
+  title: string;
+  stepNumber: number;
+  objective: string;
+  officialSource: string;
+  actionItem: string;
+  riskFlag: string;
+}
+
+export interface KwinCityFact {
+  metric: string;
+  value: string;
+  context: string;
+  sourceType: string;
+}
+
+

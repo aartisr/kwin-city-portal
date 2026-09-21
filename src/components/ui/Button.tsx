@@ -14,12 +14,12 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: 'border border-emerald-500/40 bg-emerald-500/15 text-emerald-200 hover:bg-emerald-500/25 active:scale-[0.98]',
-  secondary: 'border border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 hover:text-white active:scale-[0.98]',
-  outline: 'border border-slate-800 bg-slate-900/80 text-slate-300 hover:border-slate-700 hover:text-white active:scale-[0.98]',
-  ghost: 'text-slate-300 hover:bg-slate-900 hover:text-white active:scale-[0.98]',
-  gradient: 'border border-pink-500/40 bg-gradient-to-r from-pink-600 via-rose-600 to-purple-600 text-white hover:brightness-110 shadow-lg shadow-pink-600/20 active:scale-[0.98]',
-  amber: 'border border-amber-500/40 bg-amber-500/15 text-amber-300 hover:bg-amber-500/25 active:scale-[0.98]',
+  primary: 'border border-emerald-600 bg-emerald-700 text-white hover:bg-emerald-800 dark:border-emerald-500/40 dark:bg-emerald-500/20 dark:text-emerald-200 dark:hover:bg-emerald-500/30 shadow-xs active:scale-[0.98]',
+  secondary: 'border border-slate-300 bg-white text-slate-900 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700 shadow-xs active:scale-[0.98]',
+  outline: 'border border-slate-300 bg-white text-slate-800 hover:bg-slate-50 hover:border-slate-400 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-200 dark:hover:border-slate-600 dark:hover:text-white shadow-2xs active:scale-[0.98]',
+  ghost: 'text-slate-700 hover:bg-slate-100 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white active:scale-[0.98]',
+  gradient: 'border border-pink-600 bg-gradient-to-r from-pink-600 via-rose-600 to-purple-600 text-white hover:brightness-110 shadow-md shadow-pink-600/20 active:scale-[0.98]',
+  amber: 'border border-amber-600 bg-amber-600 text-white hover:bg-amber-700 dark:border-amber-500/40 dark:bg-amber-500/20 dark:text-amber-200 dark:hover:bg-amber-500/30 shadow-xs active:scale-[0.98]',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {

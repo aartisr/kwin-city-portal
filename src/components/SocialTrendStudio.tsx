@@ -109,7 +109,7 @@ export const SOCIAL_TRENDS: SocialTrend[] = [
 
 export const SocialTrendStudio: React.FC = () => {
   const [selectedTrend, setSelectedTrend] = useState<SocialTrend>(SOCIAL_TRENDS[0]);
-  const [activePlatform, setActivePlatform] = useState<'instagram' | 'facebook' | 'linkedin' | 'x' | 'youtube'>('instagram');
+  const [activePlatform, setActivePlatform] = useState<'instagram' | 'facebook' | 'whatsapp' | 'linkedin' | 'x' | 'youtube'>('instagram');
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
 
@@ -392,40 +392,40 @@ export const SocialTrendStudio: React.FC = () => {
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
       
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-800 pb-6">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-6">
         <div>
           <div className="flex items-center gap-2">
-            <span className="rounded-full border border-pink-500/30 bg-pink-500/10 px-3 py-1 text-xs font-semibold text-pink-300">
+            <span className="rounded-full border border-pink-300 dark:border-pink-500/30 bg-pink-100/90 dark:bg-pink-500/10 px-3 py-1 text-xs font-semibold text-pink-800 dark:text-pink-300">
               Tool #11: Social Media Pulse & Auto-Publisher
             </span>
-            <span className="text-xs text-slate-400">
+            <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">
               Independent Research Trend Engine
             </span>
           </div>
-          <h2 className="mt-2 font-['Cinzel',serif] text-2xl sm:text-3xl font-bold text-white">
+          <h2 className="mt-2 font-['Cinzel',serif] text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
             Hello KWIN City Connect & Research Social Studio
           </h2>
-          <p className="mt-1 text-xs sm:text-sm text-slate-300 max-w-2xl">
-            Monitor real-time urban development trends across South Asia and automatically publish verified independent research updates directly to Instagram (<strong className="text-white font-semibold">@hellokwincityconnect</strong>), Facebook (<strong className="text-white font-semibold">facebook.com/kwincity</strong>), LinkedIn, X, and YouTube.
+          <p className="mt-1 text-xs sm:text-sm text-slate-700 dark:text-slate-300 max-w-2xl leading-relaxed">
+            Monitor real-time urban development trends across South Asia and automatically publish verified independent research updates directly to Instagram (<strong className="text-slate-900 dark:text-white font-semibold">@hellokwincityconnect</strong>), Facebook (<strong className="text-slate-900 dark:text-white font-semibold">facebook.com/kwincity</strong>), LinkedIn, X, and YouTube.
           </p>
         </div>
 
         {/* Live Social Radar Status */}
-        <div className="flex items-center gap-2 rounded-xl border border-pink-500/30 bg-pink-950/20 px-3.5 py-2 text-xs text-pink-300">
-          <Flame className="h-4 w-4 text-pink-400 animate-pulse" />
-          <span className="font-semibold">Auto-Publish Active: 5 Connected Handles</span>
+        <div className="flex items-center gap-2 rounded-xl border border-pink-300 dark:border-pink-500/30 bg-pink-50 dark:bg-pink-950/20 px-3.5 py-2 text-xs text-pink-800 dark:text-pink-300 font-semibold shadow-xs">
+          <Flame className="h-4 w-4 text-pink-600 dark:text-pink-400 animate-pulse" />
+          <span>Auto-Publish Active: 5 Connected Handles</span>
         </div>
       </div>
 
       {/* Social Media Channels */}
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-5 space-y-3">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 p-5 space-y-3 shadow-sm dark:shadow-none">
         <div className="flex items-center justify-between">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
-            <Globe className="h-4 w-4 text-emerald-400" />
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-300 flex items-center gap-2">
+            <Globe className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
             <span>Connected Hello KWIN City Connect & Research Accounts</span>
           </h3>
-          <span className="text-[11px] text-emerald-400 font-mono flex items-center gap-1">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+          <span className="text-[11px] text-emerald-700 dark:text-emerald-400 font-mono font-semibold flex items-center gap-1">
+            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>OAuth Tokens Connected</span>
           </span>
         </div>
@@ -439,14 +439,14 @@ export const SocialTrendStudio: React.FC = () => {
                 href={acc.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`rounded-xl border ${acc.color} p-3 transition-all hover:scale-[1.02] flex items-center gap-3 group`}
+                className={`rounded-xl border ${acc.color} p-3 transition-all hover:scale-[1.02] flex items-center gap-3 group shadow-xs`}
               >
-                <div className="p-2 rounded-lg bg-slate-950 shrink-0">
+                <div className="p-2 rounded-lg bg-slate-100 dark:bg-slate-950 shrink-0">
                   <IconComp className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-xs font-bold text-slate-100 group-hover:text-white truncate">{acc.name}</div>
-                  <div className="text-[10px] text-slate-400 truncate">{acc.handle}</div>
+                  <div className="text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-emerald-700 dark:group-hover:text-white truncate">{acc.name}</div>
+                  <div className="text-[10px] text-slate-600 dark:text-slate-400 truncate">{acc.handle}</div>
                 </div>
               </a>
             );
@@ -455,19 +455,19 @@ export const SocialTrendStudio: React.FC = () => {
       </div>
 
       {/* Spotlight: Nobel-Grade Reel & Manifesto */}
-      <div className="rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-950/40 via-purple-950/30 to-slate-900/80 p-5 space-y-3 shadow-xl ring-1 ring-amber-500/20">
+      <div className="rounded-2xl border border-amber-300 dark:border-amber-500/40 bg-gradient-to-r from-amber-50 via-purple-50/50 to-slate-50 dark:from-amber-950/40 dark:via-purple-950/30 dark:to-slate-900/80 p-5 space-y-3 shadow-sm dark:shadow-xl ring-1 ring-amber-500/20">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-400 bg-amber-950/80 px-2 py-0.5 rounded border border-amber-500/30 flex items-center gap-1">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-800 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/80 px-2 py-0.5 rounded border border-amber-300 dark:border-amber-500/30 flex items-center gap-1">
                 <span>🏆 NOBEL-GRADE REEL TREATMENT</span>
               </span>
-              <span className="text-[10px] text-purple-300 font-mono">0:45 Cinematic Vertical Video</span>
+              <span className="text-[10px] text-purple-700 dark:text-purple-300 font-mono font-semibold">0:45 Cinematic Vertical Video</span>
             </div>
-            <h4 className="text-base font-bold text-white flex items-center gap-2">
+            <h4 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <span>"The Geometry of Human Destiny: Inside KWIN City"</span>
             </h4>
-            <p className="text-xs text-slate-300 max-w-2xl leading-relaxed">
+            <p className="text-xs text-slate-700 dark:text-slate-300 max-w-2xl leading-relaxed">
               Award-winning script connecting KWIN’s 5,800-acre Knowledge & Life Sciences Sanctuary directly to frontier Nobel-caliber breakthroughs in genomics, quantum intelligence, and net-zero civilization.
             </p>
           </div>
@@ -494,11 +494,11 @@ export const SocialTrendStudio: React.FC = () => {
         {/* Left Col: Top Trending Topics Radar */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-pink-400" />
+            <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+              <TrendingUp className="h-4 w-4 text-pink-600 dark:text-pink-400" />
               <span>Top Trending Social Topics</span>
             </h3>
-            <span className="text-[10px] text-slate-400 font-mono">Updated Today</span>
+            <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono font-semibold">Updated Today</span>
           </div>
 
           <div className="space-y-3">
@@ -506,49 +506,49 @@ export const SocialTrendStudio: React.FC = () => {
               <div
                 key={trend.id}
                 onClick={() => setSelectedTrend(trend)}
-                className={`cursor-pointer rounded-2xl border p-4 transition-all ${
+                className={`cursor-pointer rounded-2xl border p-4 transition-all shadow-xs ${
                   selectedTrend.id === trend.id
-                    ? 'border-pink-500/50 bg-pink-950/20 text-white shadow-md ring-1 ring-pink-500/30'
-                    : 'border-slate-800 bg-slate-900/60 text-slate-300 hover:border-slate-700 hover:bg-slate-900'
+                    ? 'border-pink-500/70 bg-pink-50/90 dark:bg-pink-950/30 text-slate-900 dark:text-white shadow-md ring-1 ring-pink-500/30'
+                    : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 text-slate-800 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900'
                 }`}
               >
                 <div className="flex items-center justify-between gap-2 mb-1.5">
-                  <span className="text-[10px] font-mono font-bold uppercase text-pink-400 bg-pink-950/60 px-2 py-0.5 rounded border border-pink-500/20">
+                  <span className="text-[10px] font-mono font-bold uppercase text-pink-800 dark:text-pink-400 bg-pink-100/90 dark:bg-pink-950/60 px-2 py-0.5 rounded border border-pink-200 dark:border-pink-500/20">
                     {trend.hashtag}
                   </span>
-                  <span className="text-[10px] text-emerald-400 font-mono font-semibold bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/20">
+                  <span className="text-[10px] text-emerald-800 dark:text-emerald-400 font-mono font-bold bg-emerald-100/90 dark:bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-500/20">
                     {trend.volume}
                   </span>
                 </div>
 
-                <div className="text-xs font-bold text-slate-100 leading-snug">
+                <div className="text-xs font-bold text-slate-900 dark:text-slate-100 leading-snug">
                   {trend.topic}
                 </div>
 
-                <p className="mt-2 text-[11px] text-slate-400 font-light line-clamp-2">
-                  <strong className="text-slate-300">KWIN Angle:</strong> {trend.kwinAngle}
+                <p className="mt-2 text-[11px] text-slate-600 dark:text-slate-400 font-normal line-clamp-2">
+                  <strong className="text-slate-900 dark:text-slate-300 font-semibold">KWIN Angle:</strong> {trend.kwinAngle}
                 </p>
               </div>
             ))}
           </div>
 
           {/* Recent Published History Log */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-4 space-y-3">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-              <div className="text-xs font-bold text-slate-200 flex items-center gap-2">
-                <Clock className="h-3.5 w-3.5 text-indigo-400" />
+          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-4 space-y-3 shadow-sm dark:shadow-none">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+              <div className="text-xs font-bold text-slate-900 dark:text-slate-200 flex items-center gap-2">
+                <Clock className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
                 <span>Recent Auto-Published Updates</span>
               </div>
-              <span className="text-[10px] text-slate-400 font-mono">{publishedHistory.length} Posts</span>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono font-semibold">{publishedHistory.length} Posts</span>
             </div>
 
             <div className="space-y-2">
               {publishedHistory.map((pub) => (
-                <div key={pub.id} className="p-2.5 rounded-xl border border-slate-800 bg-slate-950 flex items-center justify-between gap-2">
+                <div key={pub.id} className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex items-center justify-between gap-2">
                   <div className="min-w-0 space-y-0.5">
-                    <div className="text-[11px] font-bold text-slate-200 truncate">{pub.trendTopic}</div>
-                    <div className="text-[10px] text-slate-400 flex items-center gap-1.5">
-                      <span className="text-emerald-400 font-semibold">{pub.handle}</span>
+                    <div className="text-[11px] font-bold text-slate-900 dark:text-slate-200 truncate">{pub.trendTopic}</div>
+                    <div className="text-[10px] text-slate-600 dark:text-slate-400 flex items-center gap-1.5 font-medium">
+                      <span className="text-emerald-700 dark:text-emerald-400 font-semibold">{pub.handle}</span>
                       <span>·</span>
                       <span>{pub.timestamp}</span>
                     </div>
@@ -557,7 +557,7 @@ export const SocialTrendStudio: React.FC = () => {
                     href={pub.postUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-1.5 rounded-lg border border-slate-700 bg-slate-800 text-slate-300 hover:text-white shrink-0"
+                    className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white shrink-0"
                   >
                     <ExternalLink className="h-3.5 w-3.5" />
                   </a>
@@ -567,35 +567,35 @@ export const SocialTrendStudio: React.FC = () => {
           </div>
 
           {/* Comment as Kwin City Card */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-4 space-y-3">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-              <div className="text-xs font-bold text-slate-200 flex items-center gap-2">
-                <MessageSquare className="h-3.5 w-3.5 text-pink-400" />
+          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-4 space-y-3 shadow-sm dark:shadow-none">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+              <div className="text-xs font-bold text-slate-900 dark:text-slate-200 flex items-center gap-2">
+                <MessageSquare className="h-3.5 w-3.5 text-pink-600 dark:text-pink-400" />
                 <span>Comment as Kwin City</span>
               </div>
-              <span className="text-[10px] text-pink-400 font-mono font-semibold bg-pink-950/60 px-2 py-0.5 rounded border border-pink-500/20">Facebook Page</span>
+              <span className="text-[10px] text-pink-800 dark:text-pink-400 font-mono font-bold bg-pink-100 dark:bg-pink-950/60 px-2 py-0.5 rounded border border-pink-200 dark:border-pink-500/20">Facebook Page</span>
             </div>
 
             <div className="space-y-3 text-xs">
               <div className="space-y-1">
-                <label className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Post ID</label>
+                <label className="text-[10px] uppercase font-bold text-slate-700 dark:text-slate-400 tracking-wider">Post ID</label>
                 <input
                   type="text"
                   placeholder="e.g. 1009101682296061_122117439933300107"
                   value={commentPostId}
                   onChange={(e) => setCommentPostId(e.target.value)}
-                  className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-pink-500/50"
+                  className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 p-2.5 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-pink-500/70"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Comment Message</label>
+                <label className="text-[10px] uppercase font-bold text-slate-700 dark:text-slate-400 tracking-wider">Comment Message</label>
                 <textarea
                   placeholder="Write your official response or comment as Kwin City..."
                   rows={2}
                   value={commentMessage}
                   onChange={(e) => setCommentMessage(e.target.value)}
-                  className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-pink-500/50 resize-none"
+                  className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 p-2.5 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-pink-500/70 resize-none"
                 />
               </div>
 
@@ -610,7 +610,7 @@ export const SocialTrendStudio: React.FC = () => {
               </button>
 
               {commentStatus && (
-                <p className={`text-[11px] font-semibold text-center mt-1 ${commentStatus.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                <p className={`text-[11px] font-semibold text-center mt-1 ${commentStatus.success ? 'text-emerald-700 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
                   {commentStatus.message}
                 </p>
               )}
@@ -622,17 +622,17 @@ export const SocialTrendStudio: React.FC = () => {
         <div className="lg:col-span-2 space-y-4">
           
           {/* Platform Tab Buttons */}
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-3">
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
               <button
                 onClick={() => setActivePlatform('instagram')}
                 className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all ${
                   activePlatform === 'instagram'
-                    ? 'border border-pink-500/40 bg-pink-500/20 text-pink-200'
-                    : 'border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200'
+                    ? 'border border-pink-300 dark:border-pink-500/40 bg-pink-100 dark:bg-pink-500/20 text-pink-900 dark:text-pink-200 font-bold shadow-xs'
+                    : 'border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-400 hover:text-slate-950 dark:hover:text-slate-200'
                 }`}
               >
-                <Instagram className="h-3.5 w-3.5 text-pink-400" />
+                <Instagram className="h-3.5 w-3.5 text-pink-600 dark:text-pink-400" />
                 <span>Instagram</span>
               </button>
 
@@ -640,11 +640,11 @@ export const SocialTrendStudio: React.FC = () => {
                 onClick={() => setActivePlatform('linkedin')}
                 className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all ${
                   activePlatform === 'linkedin'
-                    ? 'border border-cyan-500/40 bg-cyan-500/20 text-cyan-200'
-                    : 'border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200'
+                    ? 'border border-cyan-300 dark:border-cyan-500/40 bg-cyan-100 dark:bg-cyan-500/20 text-cyan-900 dark:text-cyan-200 font-bold shadow-xs'
+                    : 'border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-400 hover:text-slate-950 dark:hover:text-slate-200'
                 }`}
               >
-                <Linkedin className="h-3.5 w-3.5 text-cyan-400" />
+                <Linkedin className="h-3.5 w-3.5 text-cyan-600 dark:text-cyan-400" />
                 <span>LinkedIn</span>
               </button>
 
@@ -652,11 +652,11 @@ export const SocialTrendStudio: React.FC = () => {
                 onClick={() => setActivePlatform('facebook')}
                 className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all ${
                   activePlatform === 'facebook'
-                    ? 'border border-blue-500/40 bg-blue-500/20 text-blue-200'
-                    : 'border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200'
+                    ? 'border border-blue-300 dark:border-blue-500/40 bg-blue-100 dark:bg-blue-500/20 text-blue-900 dark:text-blue-200 font-bold shadow-xs'
+                    : 'border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-400 hover:text-slate-950 dark:hover:text-slate-200'
                 }`}
               >
-                <Facebook className="h-3.5 w-3.5 text-blue-400" />
+                <Facebook className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
                 <span>Facebook</span>
               </button>
 
@@ -664,11 +664,11 @@ export const SocialTrendStudio: React.FC = () => {
                 onClick={() => setActivePlatform('whatsapp')}
                 className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all ${
                   activePlatform === 'whatsapp'
-                    ? 'border border-emerald-500/40 bg-emerald-500/20 text-emerald-200 shadow-sm shadow-emerald-500/10'
-                    : 'border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200'
+                    ? 'border border-emerald-300 dark:border-emerald-500/40 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-900 dark:text-emerald-200 font-bold shadow-xs'
+                    : 'border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-400 hover:text-slate-950 dark:hover:text-slate-200'
                 }`}
               >
-                <MessageCircle className="h-3.5 w-3.5 text-emerald-400" />
+                <MessageCircle className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
                 <span>WhatsApp</span>
               </button>
 
@@ -676,11 +676,11 @@ export const SocialTrendStudio: React.FC = () => {
                 onClick={() => setActivePlatform('x')}
                 className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all ${
                   activePlatform === 'x'
-                    ? 'border border-slate-600 bg-slate-800 text-slate-100'
-                    : 'border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200'
+                    ? 'border border-slate-400 dark:border-slate-600 bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-bold shadow-xs'
+                    : 'border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-400 hover:text-slate-950 dark:hover:text-slate-200'
                 }`}
               >
-                <Twitter className="h-3.5 w-3.5 text-slate-300" />
+                <Twitter className="h-3.5 w-3.5 text-slate-700 dark:text-slate-300" />
                 <span>X / Twitter</span>
               </button>
 
@@ -688,34 +688,34 @@ export const SocialTrendStudio: React.FC = () => {
                 onClick={() => setActivePlatform('youtube')}
                 className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all ${
                   activePlatform === 'youtube'
-                    ? 'border border-red-500/40 bg-red-500/20 text-red-200'
-                    : 'border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200'
+                    ? 'border border-red-300 dark:border-red-500/40 bg-red-100 dark:bg-red-500/20 text-red-900 dark:text-red-200 font-bold shadow-xs'
+                    : 'border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-400 hover:text-slate-950 dark:hover:text-slate-200'
                 }`}
               >
-                <Youtube className="h-3.5 w-3.5 text-red-400" />
+                <Youtube className="h-3.5 w-3.5 text-red-600 dark:text-red-400" />
                 <span>YouTube</span>
               </button>
             </div>
 
             <button
               onClick={handleRegenerate}
-              className="inline-flex items-center gap-1 rounded-xl border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs text-slate-300 hover:text-white transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white transition-colors shadow-xs"
             >
-              <RefreshCw className={`h-3.5 w-3.5 ${isGenerating ? 'animate-spin text-indigo-400' : ''}`} />
+              <RefreshCw className={`h-3.5 w-3.5 ${isGenerating ? 'animate-spin text-indigo-600 dark:text-indigo-400' : ''}`} />
               <span>Regenerate Content</span>
             </button>
           </div>
 
           {/* Generated Post Box */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-6 space-y-4 backdrop-blur-sm">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-6 space-y-4 shadow-sm dark:shadow-none">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-3">
               <div>
-                <div className="text-xs font-bold text-slate-200 flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-amber-400" />
+                <div className="text-xs font-bold text-slate-900 dark:text-slate-200 flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-amber-500 dark:text-amber-400" />
                   <span>{currentContent.type}</span>
                 </div>
-                <div className="text-[11px] text-slate-400">
-                  Posting as: <strong className="text-emerald-400 font-mono">{officialAccounts.find(a => a.key === activePlatform)?.handle}</strong>
+                <div className="text-[11px] text-slate-600 dark:text-slate-400 font-medium">
+                  Posting as: <strong className="text-emerald-700 dark:text-emerald-400 font-mono font-bold">{officialAccounts.find(a => a.key === activePlatform)?.handle}</strong>
                 </div>
               </div>
 
@@ -723,7 +723,7 @@ export const SocialTrendStudio: React.FC = () => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleAutoPublish}
-                  className="inline-flex items-center gap-2 rounded-xl border border-pink-500/40 bg-gradient-to-r from-pink-600 via-rose-600 to-purple-600 px-4 py-2 text-xs font-bold text-white hover:brightness-110 transition-all shadow-lg shadow-pink-600/20"
+                  className="inline-flex items-center gap-2 rounded-xl border border-pink-500/40 bg-gradient-to-r from-pink-600 via-rose-600 to-purple-600 px-4 py-2 text-xs font-bold text-white hover:brightness-110 transition-all shadow-lg shadow-pink-600/20 cursor-pointer"
                 >
                   <Zap className="h-4 w-4 text-amber-300" />
                   <span>Publish Directly as KWIN City</span>
@@ -731,42 +731,42 @@ export const SocialTrendStudio: React.FC = () => {
 
                 <button
                   onClick={handleNativeShare}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-xs font-semibold text-slate-200 hover:text-white transition-all"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white transition-all shadow-xs"
                   title="Open native platform composer"
                 >
-                  <Share className="h-3.5 w-3.5 text-indigo-400" />
+                  <Share className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
                   <span>Share</span>
                 </button>
 
                 <button
                   onClick={() => handleCopy(currentContent.caption)}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-xs font-semibold text-slate-200 hover:text-white transition-all"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white transition-all shadow-xs"
                 >
-                  {copiedText === currentContent.caption ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5 text-slate-400" />}
+                  {copiedText === currentContent.caption ? <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" /> : <Copy className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400" />}
                 </button>
               </div>
             </div>
 
             {/* Caption Text Box */}
-            <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 text-xs sm:text-sm text-slate-200 whitespace-pre-wrap font-sans leading-relaxed">
+            <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 p-4 text-xs sm:text-sm text-slate-900 dark:text-slate-200 whitespace-pre-wrap font-sans leading-relaxed">
               {currentContent.caption}
             </div>
 
             {/* Visual Concept Idea Box */}
-            <div className="rounded-xl border border-indigo-500/20 bg-indigo-950/20 p-4 space-y-1">
-              <div className="text-xs font-semibold text-indigo-300 flex items-center gap-1.5">
-                <Hash className="h-3.5 w-3.5 text-indigo-400" />
+            <div className="rounded-xl border border-indigo-200 dark:border-indigo-500/20 bg-indigo-50/70 dark:bg-indigo-950/20 p-4 space-y-1">
+              <div className="text-xs font-bold text-indigo-900 dark:text-indigo-300 flex items-center gap-1.5">
+                <Hash className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
                 <span>Recommended Media & Visual Concept</span>
               </div>
-              <p className="text-xs text-slate-300 font-light">
+              <p className="text-xs text-slate-700 dark:text-slate-300 font-normal leading-relaxed">
                 {currentContent.visualConcept}
               </p>
             </div>
 
             {/* Quick Share Bar */}
-            <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-slate-800/80 text-xs text-slate-400">
+            <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-slate-200 dark:border-slate-800/80 text-xs text-slate-600 dark:text-slate-400">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                 <span>Fact-Checked with KIADB & OpenCity Gazette Records</span>
               </div>
 
@@ -775,7 +775,7 @@ export const SocialTrendStudio: React.FC = () => {
                   href={officialAccounts.find(a => a.key === activePlatform)?.url || 'https://instagram.com'}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-indigo-400 hover:underline font-semibold"
+                  className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 hover:underline font-semibold"
                 >
                   <span>Open {activePlatform.toUpperCase()} Portal</span>
                   <ExternalLink className="h-3 w-3" />

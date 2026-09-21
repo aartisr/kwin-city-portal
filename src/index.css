@@ -27,3 +27,354 @@
 .glow-amber {
   box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.25);
 }
+
+/* ========================================================
+   CENTRAL THEME ENGINE & CONTRAST MATRICES (WCAG AAA/AA)
+   ======================================================== */
+
+:root {
+  --font-serif: 'Newsreader', Georgia, Cambria, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --transition-theme: background-color 0.2s ease, border-color 0.2s ease, color 0.15s ease;
+}
+
+/* 1. ACADEMIC ARCHIVAL THEME (Default: Scholarly Warm Parchment) */
+html.theme-academic,
+.theme-academic {
+  --bg-canvas: #faf9f5;
+  --bg-card: #ffffff;
+  --bg-card-subtle: #f4f3ed;
+  --bg-card-hover: #fcfbf8;
+  --border-card: #e2dfd4;
+  --border-strong: #cbd5e1;
+  --ink-heading: #0f172a;
+  --ink-body: #1e293b;
+  --ink-muted: #475569;
+  background-color: #faf9f5 !important;
+  color: #1e293b !important;
+}
+
+/* 2. CRISP PAPER LIGHT THEME (Pure Editorial White) */
+html.theme-paper,
+.theme-paper {
+  --bg-canvas: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-subtle: #f8fafc;
+  --bg-card-hover: #f1f5f9;
+  --border-card: #e2e8f0;
+  --border-strong: #94a3b8;
+  --ink-heading: #020617;
+  --ink-body: #0f172a;
+  --ink-muted: #334155;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* 3. OBSIDIAN DARK THEME (Classic Dark Terminal) */
+html.theme-dark,
+.theme-dark {
+  --bg-canvas: #090d16;
+  --bg-card: #0f172a;
+  --bg-card-subtle: #1e293b;
+  --bg-card-hover: #1e293b;
+  --border-card: #1e293b;
+  --border-strong: #334155;
+  --ink-heading: #f8fafc;
+  --ink-body: #e2e8f0;
+  --ink-muted: #94a3b8;
+  background-color: #090d16 !important;
+  color: #e2e8f0 !important;
+}
+
+/* ========================================================
+   COMPREHENSIVE CONTRAST NORMALIZATIONS FOR LIGHT THEMES
+   ======================================================== */
+
+.theme-academic,
+.theme-paper {
+  /* Typography enhancements */
+  font-family: var(--font-sans);
+
+  .font-cinzel,
+  h1, h2, h3,
+  .font-serif {
+    font-family: var(--font-serif);
+    letter-spacing: -0.015em;
+  }
+
+  /* Root & Layout Containers */
+  .bg-slate-950:not([class*="text-white"]):not(button):not(a[class*="bg-"]):not([data-force-dark]),
+  .bg-slate-950\/95:not([data-force-dark]),
+  .bg-slate-950\/90:not([data-force-dark]),
+  .bg-slate-950\/80:not([data-force-dark]),
+  .bg-slate-900\/95:not([data-force-dark]) {
+    background-color: var(--bg-canvas);
+    color: var(--ink-body);
+  }
+
+  /* Structural Cards & Modals in light mode */
+  .bg-slate-900:not(button):not([class*="from-"]):not([data-force-dark]),
+  .bg-slate-900\/90:not([data-force-dark]),
+  .bg-slate-900\/80:not([data-force-dark]),
+  .bg-slate-900\/70:not([data-force-dark]),
+  .bg-slate-900\/60:not([data-force-dark]),
+  .bg-slate-900\/50:not([data-force-dark]),
+  .bg-slate-900\/40:not([data-force-dark]),
+  .bg-slate-900\/30:not([data-force-dark]) {
+    background-color: var(--bg-card);
+    border-color: var(--border-card);
+    color: var(--ink-body);
+    box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.06);
+  }
+
+  /* Secondary nested cards and subtle backgrounds in light mode */
+  .bg-slate-800:not(button):not([data-force-dark]),
+  .bg-slate-800\/90:not([data-force-dark]),
+  .bg-slate-800\/80:not([data-force-dark]),
+  .bg-slate-800\/70:not([data-force-dark]),
+  .bg-slate-800\/50:not([data-force-dark]),
+  .bg-slate-800\/40:not([data-force-dark]),
+  .bg-slate-800\/30:not([data-force-dark]) {
+    background-color: var(--bg-card-subtle);
+    border-color: var(--border-strong);
+    color: var(--ink-body);
+  }
+
+  /* Borders: elevate from faint dark borders to crisp slate definition */
+  .border-slate-800,
+  .border-slate-800\/80,
+  .border-slate-800\/70,
+  .border-slate-800\/60,
+  .border-slate-800\/50,
+  .border-slate-700,
+  .border-slate-700\/80,
+  .border-slate-700\/60,
+  .border-slate-700\/50 {
+    border-color: var(--border-card);
+  }
+
+  /* Text colors on light backgrounds */
+  p.text-slate-100,
+  p.text-slate-200,
+  p.text-slate-300,
+  p.text-slate-400,
+  span.text-slate-100,
+  span.text-slate-200,
+  span.text-slate-300,
+  span.text-slate-400,
+  div.text-slate-100,
+  div.text-slate-200,
+  div.text-slate-300,
+  div.text-slate-400,
+  label.text-slate-100,
+  label.text-slate-200,
+  label.text-slate-300,
+  label.text-slate-400 {
+    color: var(--ink-body);
+  }
+
+  h1.text-white,
+  h2.text-white,
+  h3.text-white,
+  h4.text-white,
+  h5.text-white,
+  h6.text-white,
+  h1.text-slate-100,
+  h2.text-slate-100,
+  h3.text-slate-100,
+  h4.text-slate-100,
+  h1.text-slate-200,
+  h2.text-slate-200,
+  h3.text-slate-200,
+  h4.text-slate-200 {
+    color: var(--ink-heading);
+  }
+
+  p.text-slate-500,
+  span.text-slate-500,
+  div.text-slate-500,
+  label.text-slate-500 {
+    color: var(--ink-muted);
+  }
+
+  /* Interactive States */
+  .hover\:bg-slate-900:hover,
+  .hover\:bg-slate-800:hover {
+    background-color: var(--bg-card-hover);
+    color: var(--ink-heading);
+  }
+
+  /* Header & Footer */
+  header {
+    background-color: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid var(--border-card);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  }
+
+  footer {
+    background-color: var(--bg-card-subtle);
+    border-top: 1px solid var(--border-card);
+  }
+
+  /* CRITICAL CONTRAST PROTECTIONS: Always preserve white text on solid/gradient colored buttons & badges */
+  button.bg-emerald-600,
+  button.bg-emerald-500,
+  button.bg-indigo-600,
+  button.bg-indigo-500,
+  button.bg-teal-600,
+  button.bg-teal-500,
+  button.bg-blue-600,
+  button.bg-rose-600,
+  button.bg-amber-600,
+  button.bg-purple-600,
+  button.bg-slate-900,
+  button.bg-slate-950,
+  button[class*="bg-gradient-"],
+  a[class*="bg-gradient-"],
+  [class*="bg-gradient-"].text-white,
+  [class*="bg-gradient-"] .text-white,
+  .btn-primary,
+  .btn-gradient {
+    color: #ffffff !important;
+  }
+
+  button.bg-emerald-600 *,
+  button.bg-indigo-600 *,
+  button.bg-teal-600 *,
+  button.bg-rose-600 *,
+  button.bg-blue-600 *,
+  button.bg-slate-900 *,
+  button.bg-slate-950 *,
+  button[class*="bg-gradient-"] *,
+  a[class*="bg-gradient-"] * {
+    color: inherit;
+  }
+
+  /* Form Controls */
+  input:not([type="checkbox"]):not([type="radio"]), 
+  select, 
+  textarea {
+    background-color: #ffffff;
+    border-color: #cbd5e1;
+    color: #0f172a;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: #64748b;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: #0d9488;
+    outline: 2px solid rgba(13, 148, 136, 0.25);
+  }
+}
+
+/* ========================================================
+   HIGH CONTRAST MODE (WCAG AAA Strict - 10:1+ Contrast)
+   ======================================================== */
+
+html.high-contrast,
+.high-contrast {
+  /* Emphasize outlines and borders */
+  * {
+    border-width: max(1px, inherit);
+  }
+
+  .border-slate-800,
+  .border-slate-700,
+  .border-card {
+    border-color: #475569 !important;
+  }
+
+  /* Stronger text contrast */
+  .text-slate-300,
+  .text-slate-400 {
+    color: #000000 !important;
+    font-weight: 500;
+  }
+
+  .text-slate-500 {
+    color: #1e293b !important;
+    font-weight: 500;
+  }
+
+  /* Buttons & focus rings */
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible {
+    outline: 3px solid #000000 !important;
+    outline-offset: 2px !important;
+  }
+}
+
+/* In Dark high contrast mode */
+html.high-contrast.theme-dark,
+.high-contrast.theme-dark {
+  .border-slate-800,
+  .border-slate-700 {
+    border-color: #64748b !important;
+  }
+  .text-slate-400,
+  .text-slate-300 {
+    color: #ffffff !important;
+  }
+  .text-slate-500 {
+    color: #cbd5e1 !important;
+  }
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible {
+    outline: 3px solid #38bdf8 !important;
+  }
+}
+
+/* ========================================================
+   ACCESSIBILITY: LARGE FONT MODE
+   ======================================================== */
+
+html.font-large body {
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+html.font-large .text-xs {
+  font-size: 0.85rem !important;
+  line-height: 1.25rem !important;
+}
+
+html.font-large .text-sm {
+  font-size: 0.975rem !important;
+  line-height: 1.45rem !important;
+}
+
+html.font-large .text-base {
+  font-size: 1.125rem !important;
+  line-height: 1.75rem !important;
+}
+
+/* ========================================================
+   RESPONSIVE UTILITIES & NO-BLOWOUT PREVENTIONS
+   ======================================================== */
+
+/* Prevent horizontal scroll leaks on mobile */
+body, html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Ensure tables are horizontally scrollable on mobile */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Minimum 44px touch targets on mobile for interactive elements */
+@media (max-width: 640px) {
+  button, 
+  a.touch-target,
+  [role="button"] {
+    min-height: 40px;
+  }
+}

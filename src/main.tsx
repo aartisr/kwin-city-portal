@@ -1,14 +1,17 @@
-import {StrictMode} from 'react';
-import {createRoot} from 'react-dom/client';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
+import { ThemeProvider } from './context/ThemeContext';
+import { UserProvider } from './context/UserContext';
 import './index.css';
-import { ErrorBoundary } from './components/ErrorBoundary.tsx';
-import { registerGlobalErrorHandlers } from './services/observability.ts';
-
-registerGlobalErrorHandlers();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ErrorBoundary><App /></ErrorBoundary>
+    <ThemeProvider>
+      <UserProvider>
+        <App />
+      </UserProvider>
+    </ThemeProvider>
   </StrictMode>,
 );
+
