@@ -34,6 +34,7 @@ import {
 } from 'lucide-react';
 import { useUser } from '../context/UserContext';
 import { usePWAInstall } from '../hooks/usePWAInstall';
+import { PWAInstallBadge } from './PWAInstallBadge';
 
 interface HeaderProps {
   activeTab: string;
@@ -456,6 +457,9 @@ export const Header: React.FC<HeaderProps> = ({
               <span>Audit PDF</span>
             </button>
           )}
+
+          {/* Progressive Web App Install & Cache Update Badge */}
+          <PWAInstallBadge variant="compact" />
 
           {/* ============================================================ */}
           {/* THE UNIFIED EXECUTIVE WORKSPACE / ACCOUNT CHIP (NO CLUTTER)   */}
