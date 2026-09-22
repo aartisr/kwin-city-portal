@@ -237,21 +237,21 @@ export const Header: React.FC<HeaderProps> = ({
             setActiveTab('overview');
             setMobileMenuOpen(false);
           }}
-          className="flex cursor-pointer items-center gap-2.5 transition-opacity hover:opacity-90 shrink-0"
+          className="flex cursor-pointer items-center gap-2 sm:gap-2.5 transition-opacity hover:opacity-90 shrink-0"
         >
           {/* Geometric Tech Emblem */}
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-emerald-600 via-teal-500 to-cyan-500 p-0.5 shadow-sm shadow-emerald-600/20">
+          <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-emerald-600 via-teal-500 to-cyan-500 p-0.5 shadow-sm shadow-emerald-600/20 shrink-0">
             <div className="flex h-full w-full items-center justify-center rounded-[9px] bg-slate-950">
-              <Cpu className="h-4.5 w-4.5 text-emerald-400" />
+              <Cpu className="h-4 w-4 sm:h-4.5 sm:w-4.5 text-emerald-400" />
             </div>
           </div>
 
-          <div>
-            <div className="flex items-center gap-1.5">
-              <span className="font-['Cinzel',serif] text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white leading-none">
+          <div className="shrink-0">
+            <div className="flex items-center gap-1.5 whitespace-nowrap">
+              <span className="font-['Cinzel',serif] text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white leading-none select-none">
                 KWIN<span className="text-emerald-700 dark:text-emerald-400 font-extrabold">·CITY</span>
               </span>
-              <span className="rounded-md border border-emerald-600/20 bg-emerald-50 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 px-1.5 py-0.2 text-[9px] font-mono font-bold tracking-wider uppercase">
+              <span className="rounded-md border border-emerald-600/20 bg-emerald-50 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 px-1.5 py-0.5 text-[9px] font-mono font-bold tracking-wider uppercase">
                 RESEARCH
               </span>
             </div>
@@ -430,16 +430,16 @@ export const Header: React.FC<HeaderProps> = ({
         {/* ============================================================ */}
         {/* ZONE 3: WORLD-CLASS UNIFIED WORKSPACE & COMMAND CONTROLS    */}
         {/* ============================================================ */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           
-          {/* Universal Search Trigger (Compact & Elegant) */}
+          {/* Universal Search Trigger (Compact & Responsive) */}
           <button
             id="global-search-trigger"
             onClick={onOpenSearch}
-            className="flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/80 hover:bg-slate-100 dark:bg-slate-900/80 dark:hover:bg-slate-900 px-2.5 py-1.5 text-xs text-slate-600 dark:text-slate-300 transition-colors shadow-2xs cursor-pointer"
+            className="flex h-8.5 w-8.5 sm:h-auto sm:w-auto items-center justify-center sm:justify-start gap-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/80 hover:bg-slate-100 dark:bg-slate-900/80 dark:hover:bg-slate-900 sm:px-2.5 sm:py-1.5 text-xs text-slate-600 dark:text-slate-300 transition-colors shadow-2xs cursor-pointer shrink-0"
             title="Search survey numbers, gazettes, or tools (⌘K)"
           >
-            <Search className="h-3.5 w-3.5 text-slate-400" />
+            <Search className="h-4 w-4 sm:h-3.5 sm:w-3.5 text-slate-400" />
             <span className="hidden sm:inline font-medium">Search...</span>
             <kbd className="hidden sm:inline-block rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-1 py-0.2 text-[9px] font-mono text-slate-500 dark:text-slate-400 font-bold">
               ⌘K
@@ -450,7 +450,7 @@ export const Header: React.FC<HeaderProps> = ({
           {onOpenDueDiligencePDF && (
             <button
               onClick={onOpenDueDiligencePDF}
-              className="hidden md:inline-flex items-center gap-1.5 rounded-lg border border-emerald-600/30 bg-emerald-50/80 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-950 text-emerald-900 dark:text-emerald-200 px-2.5 py-1.5 text-xs font-semibold transition shadow-2xs cursor-pointer"
+              className="hidden md:inline-flex items-center gap-1.5 rounded-lg border border-emerald-600/30 bg-emerald-50/80 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-950 text-emerald-900 dark:text-emerald-200 px-2.5 py-1.5 text-xs font-semibold transition shadow-2xs cursor-pointer shrink-0"
               title="Generate Instant Bank-Grade Due Diligence Dossier"
             >
               <FileText className="h-3.5 w-3.5 text-emerald-700 dark:text-emerald-400" />
@@ -458,21 +458,21 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           )}
 
-          {/* Progressive Web App Install & Cache Update Badge */}
+          {/* Progressive Web App Download Icon */}
           <PWAInstallBadge variant="compact" />
 
           {/* ============================================================ */}
           {/* THE UNIFIED EXECUTIVE WORKSPACE / ACCOUNT CHIP (NO CLUTTER)   */}
           {/* Replaces 3 disparate buttons with a single luxury popover     */}
           {/* ============================================================ */}
-          <div className="relative" ref={accountDropdownRef}>
+          <div className="relative shrink-0" ref={accountDropdownRef}>
             <button
               id="executive-workspace-trigger"
               onClick={() => {
                 setAccountDropdownOpen(!accountDropdownOpen);
                 setToolsDropdownOpen(false);
               }}
-              className="flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-700 p-1 sm:px-2 sm:py-1 transition-all shadow-2xs cursor-pointer group"
+              className="flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-700 p-1 sm:px-2 sm:py-1 transition-all shadow-2xs cursor-pointer group shrink-0"
               title="Executive Workspace: Watchlist, Plan & Profile"
               aria-expanded={accountDropdownOpen}
             >
@@ -653,7 +653,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             id="mobile-menu-btn"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white lg:hidden shadow-2xs cursor-pointer"
+            className="flex h-8.5 w-8.5 sm:h-9 sm:w-9 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white lg:hidden shadow-2xs cursor-pointer shrink-0"
             aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}

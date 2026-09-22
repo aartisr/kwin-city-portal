@@ -17,18 +17,14 @@ export const PWAInstallBadge: React.FC<PWAInstallBadgeProps> = ({
 
   // If already installed, show a subtle active PWA badge or null if compact
   if (isInstalled) {
-    if (variant === 'compact') {
-      return (
-        <div
-          title="Running in Standalone PWA Mode (Offline Enabled)"
-          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-[11px] font-medium text-emerald-400 select-none ${className}`}
-        >
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span>PWA Active</span>
-        </div>
-      );
-    }
-    return null;
+    return (
+      <div
+        title="Running in Standalone PWA Mode (Offline Enabled)"
+        className={`inline-flex items-center justify-center h-8.5 w-8.5 sm:h-9 sm:w-9 rounded-lg border border-emerald-500/30 bg-emerald-950/40 text-emerald-400 select-none ${className}`}
+      >
+        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+      </div>
+    );
   }
 
   const handleInstallClick = async () => {
@@ -48,24 +44,18 @@ export const PWAInstallBadge: React.FC<PWAInstallBadgeProps> = ({
 
   return (
     <>
-      {/* Subtle Install Trigger Badge */}
+      {/* Icon-Only Install Trigger Button (Mobile-Optimized) */}
       <button
         onClick={handleInstallClick}
         aria-label="Install KWIN City App"
-        title="Install KWIN City Portal as a Progressive Web App (Offline & Fast Access)"
-        className={`group relative inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900/80 hover:bg-slate-800 border border-slate-700/60 hover:border-emerald-500/40 text-[11px] font-medium text-slate-300 hover:text-emerald-300 transition-all duration-200 cursor-pointer shadow-sm ${className}`}
+        title="Install KWIN City App (Offline & Fast Access)"
+        className={`group relative inline-flex items-center justify-center h-8.5 w-8.5 sm:h-9 sm:w-9 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/90 dark:bg-slate-900/90 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:border-emerald-500/50 text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 transition-all duration-200 cursor-pointer shadow-2xs shrink-0 ${className}`}
       >
-        <span className="relative flex h-2 w-2">
+        <span className="relative flex h-2 w-2 absolute -top-0.5 -right-0.5">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 ring-2 ring-white dark:ring-slate-950" />
         </span>
-        <Download className="w-3 h-3 text-emerald-400 group-hover:translate-y-0.5 transition-transform" />
-        <span className="tracking-tight">
-          {variant === 'compact' ? 'Install App' : 'Install KWIN App'}
-        </span>
-        <span className="hidden sm:inline-block text-[9px] px-1 py-0.2 rounded bg-slate-800 text-slate-400 group-hover:text-emerald-400 border border-slate-700/50">
-          PWA
-        </span>
+        <Download className="w-4 h-4 text-emerald-600 dark:text-emerald-400 group-hover:translate-y-0.5 transition-transform" />
       </button>
 
       {/* iOS / General Install Guidance Modal */}
