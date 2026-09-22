@@ -247,12 +247,9 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           <div className="shrink-0">
-            <div className="flex items-center gap-1.5 whitespace-nowrap">
-              <span className="font-['Cinzel',serif] text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white leading-none select-none">
-                KWIN<span className="text-emerald-700 dark:text-emerald-400 font-extrabold">·CITY</span>
-              </span>
-              <span className="rounded-md border border-emerald-600/20 bg-emerald-50 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 px-1.5 py-0.5 text-[9px] font-mono font-bold tracking-wider uppercase">
-                RESEARCH
+            <div className="flex items-center whitespace-nowrap">
+              <span className="text-base sm:text-lg font-black tracking-tight text-slate-900 dark:text-white leading-none select-none">
+                KWIN<span className="text-emerald-600 dark:text-emerald-400 font-black">·CITY</span>
               </span>
             </div>
             <p className="text-[10px] font-medium tracking-wide text-slate-500 dark:text-slate-400 hidden xl:block leading-none mt-1">
