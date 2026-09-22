@@ -26,7 +26,6 @@ import {
 // Cloned Portal Components
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
-import { DiscoverabilityLayer } from './components/DiscoverabilityLayer';
 import { ViralTickerBar } from './components/ViralTickerBar';
 import { PowerPalette } from './components/PowerPalette';
 import { Footer } from './components/Footer';
@@ -244,9 +243,6 @@ Revamped Academic Enhancements:
 
           {/* Real-time Ticker Bar */}
           <ViralTickerBar />
-
-          {/* Discoverability Layer for SEO & LLM Discovery */}
-          <DiscoverabilityLayer activeTab={activeTab} />
 
           {/* Academic Hero Section */}
           <Hero onNavigateToTool={setActiveTab} />
